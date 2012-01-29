@@ -84,6 +84,7 @@ public class MidiWrapper
 	private void initPads()
 	{
 		padMap = new Hashtable<String, Integer>();
+		// Special mapping for AKAI MPD16 - move this out and build an adapter system for different instruments
 		padMap.put(PAD_01, 72);
 		padMap.put(PAD_02, 73);
 		padMap.put(PAD_03, 74);
@@ -101,6 +102,7 @@ public class MidiWrapper
 		padMap.put(PAD_15, 62);
 		padMap.put(PAD_16, 63);
 
+		// C2
 		padMap.put(NOTE_01, 48); 
 		padMap.put(NOTE_02, 49); 
 		padMap.put(NOTE_03, 50); 
@@ -118,6 +120,7 @@ public class MidiWrapper
 		padMap.put(NOTE_15, 62); 
 		padMap.put(NOTE_16, 63); 
 
+		// C0
 		padMap.put(PROGRAM_01, 24);
 		padMap.put(PROGRAM_02, 25);
 		padMap.put(PROGRAM_03, 26);
