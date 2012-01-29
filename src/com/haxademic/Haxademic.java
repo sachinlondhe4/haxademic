@@ -2,6 +2,9 @@ package com.haxademic;
 
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+
+import javax.sound.midi.InvalidMidiDataException;
 
 import krister.Ess.AudioInput;
 import oscP5.OscMessage;
@@ -18,8 +21,8 @@ import com.p5core.data.P5Properties;
 import com.p5core.hardware.kinect.KinectWrapper;
 import com.p5core.hardware.midi.MidiWrapper;
 import com.p5core.hardware.osc.OscWrapper;
+import com.p5core.render.MidiSequenceRenderer;
 import com.p5core.render.Renderer;
-import com.p5core.util.FontUtil;
 import com.p5core.util.OpenGLUtil;
 
 import fullscreen.FullScreen;
@@ -45,6 +48,7 @@ import fullscreen.FullScreen;
  * @TODO: create more complex uses of new Elements
  * @TODO: Refine existing elements
  * @TODO: Mesh traversal drawing
+ * @TODO: Add launchpad back in without a secondary AUdioInputWrapper
  * 
  * @author cacheflowe
  *
@@ -96,6 +100,7 @@ extends PApplet
 	 * Renderer object for saving frames and rendering movies.
 	 */
 	public Renderer _renderer;
+	public MidiSequenceRenderer _midiRenderer;
 	
 	/**
 	 * Wraps up MIDI functionality with theMIDIbus library.
@@ -219,6 +224,7 @@ extends PApplet
 	 */
 	protected void setAppletProps() {
 		if( _isRendering == true ) {
+			// prevents an error
 //			hint(DISABLE_OPENGL_2X_SMOOTH);
 			hint(ENABLE_OPENGL_4X_SMOOTH); 
 		} else {
@@ -281,14 +287,19 @@ extends PApplet
 		// analyze & init audio if stepping through a render
 		if( _isRendering == true ) {
 			if( p5.frameCount == 1 ) {
-				_renderer.startRendererForAudio( "wav/dumbo-gets-mad---plumy-tale.wav", _audioInput );
+				_renderer.startRendererForAudio( "wav/dumbo-gets-mad---plumy-tale.wav", _audioInput );	// cache-money.wav
+				try {
+					_midiRenderer = new MidiSequenceRenderer(p5);
+					_midiRenderer.loadMIDIFile( "data/bnc/plumy-tale-simple.mid", 98 );
+				} catch (InvalidMidiDataException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
 				_readyForProgramChangeInt = 0;
-				_audioInput.gainUp();
+//				_audioInput.gainUp();
 			}
-			if( p5.frameCount > 1 ) {
-				_renderer.analyzeAudio();
-				if( p5.frameCount > 1 ) _waveformData.updateWaveformDataForRender( _renderer, _audioInput.getAudioInput(), _audioInput._bufferSize );
-			}
+//			if( p5.frameCount > 1 ) {
+				// have renderer step through audio, then special call to update the single WaveformData storage object				
+				_renderer.analyzeAudio();				
+				_waveformData.updateWaveformDataForRender( _renderer, _audioInput.getAudioInput(), _audioInput._bufferSize );
+//			}
 		}
 		
 		// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
@@ -296,6 +307,12 @@ extends PApplet
 		
 		// handles overall keyboard commands
 		if( keyPressed ) handleKeyboardInput( false );		//  || _midi.midiPadIsOn( MidiWrapper.PAD_16 ) == 1
+		if( _midiRenderer != null ) {
+			int rendererNote = _midiRenderer.checkCurrentNoteEvent();
+			if( rendererNote != -1 ) {
+				noteOn( 0, rendererNote, 100 );
+			}
+		}
 		
 		// switch the program if we actually changed it
 		if( _readyForProgramChangeInt != _curModule )
@@ -319,7 +336,7 @@ extends PApplet
 		if( _launchpadViz != null ) _launchpadViz.update();
 		
 		// render frame if rendering
-		if( _isRendering == true && p5.frameCount > 1 ) _renderer.renderFrame();
+		if( _isRendering == true ) _renderer.renderFrame();
 		
 		// keep screensaver off - hit shift every 1000 frames
 		if( p5.frameCount % 1000 == 0 ) _robot.keyRelease(KeyEvent.VK_SHIFT);
