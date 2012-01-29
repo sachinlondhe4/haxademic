@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="data"/>
+	<classpathentry kind="lib" path="lib/core.jar"/>
+	<classpathentry kind="lib" path="lib/Ess/library/Ess.jar"/>
+	<classpathentry kind="lib" path="lib/p5sunflow/janino.jar"/>
+	<classpathentry kind="lib" path="lib/p5sunflow/p5sunflow.jar"/>
+	<classpathentry kind="lib" path="lib/p5sunflow/sunflow_trunk.jar"/>
+	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/toxiclibs_p5/library/toxiclibs_p5.jar"/>
+	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/toxiclibscore/library/toxiclibscore.jar"/>
+	<classpathentry kind="lib" path="lib/openkinect/library/openkinect.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/openkinect/library"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/openkinect/library/libKinect.jnilib"/>
+	<classpathentry kind="lib" path="lib/colorLib/library/colorLib.jar"/>
+	<classpathentry kind="lib" path="lib/opengl/jogl.dll"/>
+	<classpathentry kind="lib" path="lib/fullscreen/library/fullscreen.jar"/>
+	<classpathentry kind="lib" path="lib/oscP5/library/oscP5.jar"/>
+	<classpathentry kind="lib" path="lib/OBJLoader_023/library/OBJLoader.jar"/>
+	<classpathentry kind="lib" path="lib/launchpad/library/launchpad.jar"/>
+	<classpathentry kind="lib" path="lib/themidibus/themidibus.jar"/>
+	<classpathentry kind="lib" path="lib/GLGraphics/library/GLGraphics.jar"/>
+	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/volumeutils/library/volumeutils.jar"/>
+	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/colorutils/library/colorutils.jar"/>
+	<classpathentry kind="lib" path="lib/opengl/gluegen-rt.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/opengl"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/opengl/opengl.jar"/>
+	<classpathentry kind="lib" path="lib/opengl/jogl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/opengl"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/video.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+	<classpathentry kind="output" path="output"/>
+</classpath>
