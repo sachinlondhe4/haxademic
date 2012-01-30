@@ -174,6 +174,9 @@ public class MidiWrapper
 		// Receive a noteOff
 		_notesOn[ pitch ] = 0;
 	}
+	public void allOff() {
+		for( int i = 0; i < 128; i++ ) _notesOn[i] = 0;
+	}
 	public void controllerChange(int channel, int number, int value) {
 		// Receive a controllerChange
 //		p.println("Note CC:  Channel:"+channel+" | Number:"+number+" | Value:"+value);
