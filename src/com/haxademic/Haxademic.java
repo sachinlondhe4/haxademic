@@ -223,6 +223,7 @@ extends PApplet
 	 * Sets some initial Applet properties for OpenGL quality, FPS, and nocursor().
 	 */
 	protected void setAppletProps() {
+		_isRendering = _appConfig.getBooleanProperty("rendering", false);
 		if( _isRendering == true ) {
 			// prevents an error
 //			hint(DISABLE_OPENGL_2X_SMOOTH);
