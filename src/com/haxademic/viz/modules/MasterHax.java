@@ -252,24 +252,24 @@ implements IVizModule
 			curAmbientIndex = ( curAmbientIndex < _ambientElements.size() - 1 ) ? curAmbientIndex + 1 : 0;
 			_ambientElement = _ambientElements.get( curAmbientIndex );
 		}
-		_ambientElement = ( MathUtil.randBinary( p ) == true ) ? null : _ambientElement;
+		_ambientElement = ( MathUtil.randBoolean( p ) == true ) ? null : _ambientElement;
 		
 		// keep track of changes
 		_numBigChanges++;
 	}
 	
 	protected void newCamera() {
-		if( _outerElement != null && MathUtil.randBinary( p ) == true ) _outerElement.updateCamera();
-		if( _bgElement != null && MathUtil.randBinary( p ) == true ) _bgElement.updateCamera();
-		if( _fgElement != null && MathUtil.randBinary( p ) == true ) _fgElement.updateCamera();
-		if( _ambientElement != null && MathUtil.randBinary( p ) == true ) _ambientElement.updateCamera();
+		if( _outerElement != null && MathUtil.randBoolean( p ) == true ) _outerElement.updateCamera();
+		if( _bgElement != null && MathUtil.randBoolean( p ) == true ) _bgElement.updateCamera();
+		if( _fgElement != null && MathUtil.randBoolean( p ) == true ) _fgElement.updateCamera();
+		if( _ambientElement != null && MathUtil.randBoolean( p ) == true ) _ambientElement.updateCamera();
 	}
 	
 	protected void newLineMode() {
-		if( _outerElement != null && MathUtil.randBinary( p ) == true ) _outerElement.updateLineMode();
-		if( _bgElement != null && MathUtil.randBinary( p ) == true ) _bgElement.updateLineMode();
-		if( _fgElement != null && MathUtil.randBinary( p ) == true ) _fgElement.updateLineMode();
-		if( _ambientElement != null && MathUtil.randBinary( p ) == true ) _ambientElement.updateLineMode();
+		if( _outerElement != null && MathUtil.randBoolean( p ) == true ) _outerElement.updateLineMode();
+		if( _bgElement != null && MathUtil.randBoolean( p ) == true ) _bgElement.updateLineMode();
+		if( _fgElement != null && MathUtil.randBoolean( p ) == true ) _fgElement.updateLineMode();
+		if( _ambientElement != null && MathUtil.randBoolean( p ) == true ) _ambientElement.updateLineMode();
 	}
 	
 	protected void pickMode() {

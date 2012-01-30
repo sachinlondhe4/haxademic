@@ -104,8 +104,8 @@ implements IVizElement {
 	}
 	
 	public void updateLineMode() {
-		_isWireframe = ( MathUtil.randBinary( p ) == true ) ? false : true;
-		_isSphere = ( MathUtil.randBinary( p ) == true ) ? false : true;
+		_isWireframe = ( MathUtil.randBoolean( p ) == true ) ? false : true;
+		_isSphere = ( MathUtil.randBoolean( p ) == true ) ? false : true;
 		_meshResolution = (int) p.random( 10, 40 );
 		
 		// new sphere mesh flag - don't do it here since it's asynchronous apparently

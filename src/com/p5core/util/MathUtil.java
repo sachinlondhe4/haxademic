@@ -14,7 +14,7 @@ public class MathUtil {
 		return current -= ( ( current - target ) / easingFactor );
 	}
 	
-	public static boolean randBinary( PApplet p ) {
+	public static boolean randBoolean( PApplet p ) {
 		return ( p.round( p.random( 0, 1 ) ) == 1 ) ? true : false;
 	}
 }

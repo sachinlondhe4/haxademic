@@ -86,7 +86,7 @@ implements IVizElement {
 	}
 	
 	public void updateCamera() {
-		_baseRotZAdd = ( MathUtil.randBinary( p ) ) ? 0.8f : -0.8f;
+		_baseRotZAdd = ( MathUtil.randBoolean( p ) ) ? 0.8f : -0.8f;
 		_rotDir = p.random( -4, 4 )/ 1000;
 	}
 
