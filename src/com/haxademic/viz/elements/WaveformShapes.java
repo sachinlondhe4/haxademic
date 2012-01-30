@@ -8,6 +8,7 @@ import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
 import com.p5core.audio.AudioInputWrapper;
 import com.p5core.data.EasingFloat;
+import com.p5core.util.ColorGroup;
 import com.p5core.util.DrawUtil;
 import com.p5core.util.MathUtil;
 
@@ -15,9 +16,10 @@ public class WaveformShapes
 extends ElementBase 
 implements IVizElement {
 	
-	WaveformLine _wave;
-	WaveformCircle _waveCircle;
-	TColor _baseColor;
+	protected WaveformLine _wave;
+	protected WaveformCircle _waveCircle;
+	protected TColor _baseColor;
+	protected ColorGroup _curColors;
 	protected EasingFloat _baseWaveCircleRadius = new EasingFloat( 50f, 50f );
 	protected EasingFloat _baseWaveLineSpacing = new EasingFloat( 20f, 20f );
 	protected boolean _fgMode = true;
@@ -40,9 +42,10 @@ implements IVizElement {
 		reset();
 	}
 
-	public void updateColor( TColor color ) {
-		_baseColor = color.copy();
-		_baseColor.alpha = 0.75f;
+	public void updateColorSet( ColorGroup colors ) {
+		_baseColor = colors.getRandomColor().copy();
+		_baseColor.alpha = 0.85f;
+		_curColors = colors;
 	}
 
 	public void update() {
@@ -65,6 +68,8 @@ implements IVizElement {
 			float curRadius = _baseWaveCircleRadius.value();
 			float _strokeWidth = 1;
 			for(int i=0; i < 10; i++) {
+				p.stroke( _curColors.getColorFromIndex(i % 4).toARGB() );
+
 				_waveCircle.setDrawProps(_strokeWidth, curRadius, 25f);
 				curRadius += _baseWaveCircleRadius.value();
 				_strokeWidth += 0.5;
@@ -74,6 +79,8 @@ implements IVizElement {
 			float curSpacing = _baseWaveLineSpacing.value();
 			float _strokeWidth = 1;
 			for(int i=0; i < 10; i++) {
+				p.stroke( _curColors.getColorFromIndex(i % 4).toARGB() );
+
 				p.pushMatrix();
 				p.translate(0, -curSpacing, 0);
 				_wave.setDrawProps(_strokeWidth, p.width + zDepth, 20);
@@ -98,7 +105,8 @@ implements IVizElement {
 	public void reset() {
 		_baseWaveCircleRadius.setTarget( p.random( p.width/50, p.width/10 ) );
 		_baseWaveLineSpacing.setTarget( p.random( p.height/65, p.height/15 ) );
-		_drawMode = ( p.random( 0f, 4 ) > 3 ) ? 0 : 1;
+//		_drawMode = ( p.random( 0f, 4 ) > 3 ) ? 0 : 1;
+		_drawMode = ( MathUtil.randBoolean( p ) == true ) ? 0 : 1;
 	}
 	
 	public void dispose() {

@@ -7,6 +7,7 @@ import toxi.processing.ToxiclibsSupport;
 import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
 import com.p5core.audio.AudioInputWrapper;
+import com.p5core.util.ColorGroup;
 import com.p5core.util.DrawUtil;
 
 public class RotatorShapes 
@@ -27,9 +28,9 @@ implements IVizElement {
 		reset();
 	}
 
-	public void updateColor( TColor colorFG ) {
-		_rotator.updateColor( colorFG );
-		_rotatorBG.updateColor( colorFG.getComplement() );
+	public void updateColorSet( ColorGroup colors ) {
+		_rotator.updateColorSet( colors );
+		_rotatorBG.updateColorSet( colors );
 	}
 
 	public void update() {

@@ -1,5 +1,7 @@
 package com.haxademic.viz.elements;
 
+import java.util.Vector;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
 import toxi.color.TColor;
@@ -8,6 +10,7 @@ import toxi.processing.ToxiclibsSupport;
 import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
 import com.p5core.audio.AudioInputWrapper;
+import com.p5core.util.ColorGroup;
 import com.p5core.util.DrawUtil;
 
 public class BarsEQ
@@ -39,8 +42,8 @@ implements IVizElement {
 		_barHeight = height;
 	}
 
-	public void updateColor( TColor color ) {
-		_baseColor = color;
+	public void updateColorSet( ColorGroup colors ) {
+		_baseColor = colors.getRandomColor().copy();
 		_fillColor = _baseColor.copy();
 		_fillColor.alpha = 0.2f;
 	}

@@ -1,13 +1,13 @@
 package com.haxademic.viz.elements;
 
 import processing.core.PApplet;
-import toxi.color.TColor;
 import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
 import com.p5core.audio.AudioInputWrapper;
 import com.p5core.draw.cache.Shapes;
+import com.p5core.util.ColorGroup;
 
 public class SphereDraw
 extends ElementBase 
@@ -17,7 +17,7 @@ implements IVizElement {
 	protected float _baseRadius;
 	protected float _amp;
 	protected int _numCubes;
-	protected int _fillColor;
+	protected int _baseColor;
 	protected float startPhi = 0;
 //	protected PImage _image;
 
@@ -40,11 +40,11 @@ implements IVizElement {
 		_baseRadius = baseRadius;
 		_amp = amp;
 		_numCubes = numCubes;
-		_fillColor = fillColor;
+		_baseColor = fillColor;
 	}
 	
-	public void updateColor( TColor color ) {
-
+	public void updateColorSet( ColorGroup colors ) {
+//		_baseColor = colors.getRandomColor().copy();
 	}
 
 	public void update() {
@@ -80,7 +80,7 @@ implements IVizElement {
 //			p.image( _image, 0, 0, 30, 30 );
 //     		p.popMatrix();
      		
-     		p.fill( _fillColor, fillAlpha * 255 );//, fillAlpha * 127 );	// , fillAlpha
+     		p.fill( _baseColor, fillAlpha * 255 );//, fillAlpha * 127 );	// , fillAlpha
 //			toxi.box( new AABB(new Vec3D(pointX, pointY, pointZ),new Vec3D(size,size,size)) );
 			
      		

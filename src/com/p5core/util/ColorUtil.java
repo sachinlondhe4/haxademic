@@ -46,6 +46,5 @@ public class ColorUtil {
 		kuler.setMaxItems(20);
 		return kuler.search("tag", tag); 
 	}
-
 }
 

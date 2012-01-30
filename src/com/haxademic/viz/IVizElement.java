@@ -1,6 +1,6 @@
 package com.haxademic.viz;
 
-import toxi.color.TColor;
+import com.p5core.util.ColorGroup;
 
 public interface IVizElement {
 	public void init();
@@ -8,7 +8,7 @@ public interface IVizElement {
 	public void reset();
 	public void dispose();
 	
-	public void updateColor( TColor color );
+	public void updateColorSet( ColorGroup colors );
 	public void updateLineMode();
 	public void updateCamera();
 }

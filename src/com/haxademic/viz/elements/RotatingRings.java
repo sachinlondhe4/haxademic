@@ -10,6 +10,7 @@ import com.haxademic.viz.IVizElement;
 import com.p5core.audio.AudioInputWrapper;
 import com.p5core.data.Point3D;
 import com.p5core.draw.cache.Shapes;
+import com.p5core.util.ColorGroup;
 import com.p5core.util.DrawUtil;
 
 public class RotatingRings
@@ -52,9 +53,9 @@ implements IVizElement {
 		// set some defaults
 	}
 	
-	public void updateColor( TColor color ) {
-		_baseColor = color.copy();
-		_strokeColor = color.copy();
+	public void updateColorSet( ColorGroup colors ) {
+		_baseColor = colors.getRandomColor().copy();
+		_strokeColor = _baseColor.copy();
 		_strokeColor.lighten( 10 );
 	}
 

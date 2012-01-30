@@ -9,6 +9,7 @@ import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
 import com.p5core.audio.AudioInputWrapper;
 import com.p5core.data.Point3D;
+import com.p5core.util.ColorGroup;
 import com.p5core.util.DrawUtil;
 
 public class GridEQ
@@ -45,8 +46,8 @@ implements IVizElement {
 		_height = height;
 	}
 
-	public void updateColor( TColor color ) {
-		_baseColor = color;
+	public void updateColorSet( ColorGroup colors ) {
+		_baseColor = colors.getRandomColor().copy();
 	}
 
 	public void update() {

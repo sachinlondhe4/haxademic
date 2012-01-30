@@ -12,6 +12,7 @@ import com.haxademic.viz.IVizElement;
 import com.p5core.audio.AudioInputWrapper;
 import com.p5core.data.Point3D;
 import com.p5core.draw.cache.DrawMesh;
+import com.p5core.util.ColorGroup;
 import com.p5core.util.DrawUtil;
 import com.p5core.util.ThreeDeeUtil;
 
@@ -54,9 +55,9 @@ implements IVizElement {
 
 	}
 
-	public void updateColor( TColor color ) {
-		_baseColor = color.copy().lighten( 20 );
-		_strokeColor = color.copy().lighten( 20 );
+	public void updateColorSet( ColorGroup colors ) {
+		_baseColor = colors.getRandomColor().copy().lighten( 20 );
+		_strokeColor = _baseColor.copy().lighten( 20 );
 	}
 	
 	public void update() {

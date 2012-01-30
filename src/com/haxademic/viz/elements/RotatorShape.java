@@ -12,6 +12,7 @@ import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
 import com.p5core.audio.AudioInputWrapper;
 import com.p5core.draw.color.ColorRGBA;
+import com.p5core.util.ColorGroup;
 import com.p5core.util.MathUtil;
 
 public class RotatorShape 
@@ -49,8 +50,8 @@ implements IVizElement {
 		_curPointGroup.reset();
 	}
 
-	public void updateColor( TColor color ) {
-		_baseColor = color;
+	public void updateColorSet( ColorGroup colors ) {
+		_baseColor = colors.getRandomColor().copy();
 	}
 
 	public void update() {

@@ -13,6 +13,7 @@ import com.haxademic.viz.IVizElement;
 import com.p5core.audio.AudioInputWrapper;
 import com.p5core.draw.cache.DrawMesh;
 import com.p5core.hardware.kinect.KinectWrapper;
+import com.p5core.util.ColorGroup;
 import com.p5core.util.ThreeDeeUtil;
 
 public class KinectMesh
@@ -70,8 +71,8 @@ implements IVizElement {
 		_drawScale = 10000;
 	}
 	
-	public void updateColor( TColor color ) {
-		_baseColor = color;
+	public void updateColorSet( ColorGroup colors ) {
+		_baseColor = colors.getRandomColor().copy();
 		_fillColor = _baseColor.copy().lighten( 15 );
 		_strokeColor = _baseColor.copy().lighten( 30 );
 	}
