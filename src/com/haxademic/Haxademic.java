@@ -316,7 +316,6 @@ extends PApplet
 			while( doneCheckingForMidi == false ) {
 				int rendererNote = _midiRenderer.checkCurrentNoteEvent();
 				if( rendererNote != -1 ) {
-					p5.println("MIDI NOTE: "+rendererNote);
 					noteOn( 0, rendererNote, 100 );
 					triggered = true;
 				} else {
