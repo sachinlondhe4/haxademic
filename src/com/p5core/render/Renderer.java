@@ -127,8 +127,9 @@ public class Renderer
 		// don't do anything if renderer hasn't been inited
 		if( _isRendering == true ) {
 			// print a message every 100 frames
-//			if ((_frameNumber%100) == 0) 
-			p.println( "Working on frame number " + _frameNumber );
+			if ((_frameNumber%100) == 0) {
+				p.println( "Working on frame number " + _frameNumber );
+			}
 			
 			// if movie, add frame to MovieMaker file
 			if ( _outputType == OUTPUT_TYPE_MOVIE ) 
@@ -155,11 +156,11 @@ public class Renderer
 		// get position in wav file
 		int pos = (int)( _frameNumber * _chn.sampleRate / _framesPerSecond );
 		float seconds = _frameNumber / _framesPerSecond;
-//		_chn.pause();
 		_chn.cue(pos);
-//		_chn.play();
-//		_chn.pause();
-		p.println( "Audio position: " + pos + " fps: " + _framesPerSecond + " seconds: " + seconds + " _chn.sampleRate = " + _chn.sampleRate + "  position in file: " + pos + " / " + _chn.samples.length );
+		if ((_frameNumber%100) == 0) {
+//			p.println( "Audio position: " + pos + " fps: " + _framesPerSecond + " seconds: " + seconds + " _chn.sampleRate = " + _chn.sampleRate + "  position in file: " + pos + " / " + _chn.samples.length );
+			p.println( "Audio seconds: " + seconds + "  Progress: " + Math.round(100f*((float)pos/(float)_chn.samples.length)) + "%" );
+		}
 		
 		// make sure we're still in bounds - kept getting data run-out errors
 		if (pos >= _chn.size - 4000) {
