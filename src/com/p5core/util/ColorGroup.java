@@ -57,6 +57,8 @@ public class ColorGroup {
 		_colorSets.add( createGroupWithHexes( "5b1f37", "f469f3", "f4a4f3", "f3d9f3", "0d0d0d" ) );
 		_colorSets.add( createGroupWithHexes( "cfd9d6", "beb5b5", "f6d68b", "edc3b8", "faf3e3" ) );
 		_colorSets.add( createGroupWithHexes( "2d2e47", "cdf200", "d9eabe", "e1efff", "d74400" ) );
+		_colorSets.add( createGroupWithHexes( "624b33", "fff8e2", "ffe86c", "a4fef9", "ffcebb" ) );
+		_colorSets.add( createGroupWithHexes( "232522", "d27f83", "dd9b8a", "d8e1bc", "e8fffb" ) );
 	}
 	
 }
