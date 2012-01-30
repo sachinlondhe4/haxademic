@@ -7,6 +7,7 @@ import toxi.processing.ToxiclibsSupport;
 import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
 import com.p5core.audio.AudioInputWrapper;
+import com.p5core.data.EasingFloat;
 import com.p5core.util.DrawUtil;
 import com.p5core.util.MathUtil;
 
@@ -17,9 +18,16 @@ implements IVizElement {
 	WaveformLine _wave;
 	WaveformCircle _waveCircle;
 	TColor _baseColor;
-	protected float _baseWaveCircleRadius = 0;
-	protected float _targetBaseWaveCircleRadius = 0;
+	protected EasingFloat _baseWaveCircleRadius = new EasingFloat( 50f, 50f );
+	protected EasingFloat _baseWaveLineSpacing = new EasingFloat( 20f, 20f );
 	protected boolean _fgMode = true;
+	protected float _rotation = 0;
+	protected float _rotationTarget = 0;
+	
+	protected final int MODE_CIRCLES = 0;
+	protected final int MODE_LINES = 1;
+	protected float _drawMode = MODE_CIRCLES;
+
 
 	public WaveformShapes( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
 		super( p, toxi, audioData );
@@ -41,7 +49,8 @@ implements IVizElement {
 		DrawUtil.resetGlobalProps( p );
 		DrawUtil.setCenter( p );
 		
-		_baseWaveCircleRadius = MathUtil.easeTo(_baseWaveCircleRadius, _targetBaseWaveCircleRadius, 10);
+		_baseWaveCircleRadius.update();
+		_baseWaveLineSpacing.update();
 		
 		float zDepth = 400;
 		p.translate(0, 0, -zDepth);
@@ -50,29 +59,46 @@ implements IVizElement {
 		p.noFill();
 		p.pushMatrix();
 //		p.rotateX(10);
-		_waveCircle.setDrawProps(40, _baseWaveCircleRadius + 400f, 25f);
-		_waveCircle.update();
-		_waveCircle.setDrawProps(30, _baseWaveCircleRadius + 300f, 25f);
-		_waveCircle.update();
-		_waveCircle.setDrawProps(20, _baseWaveCircleRadius + 200f, 25f);
-		_waveCircle.update();
-		_waveCircle.setDrawProps(10, _baseWaveCircleRadius + 100f, 25f);
-		_waveCircle.update();
 		
+		if( _drawMode == MODE_CIRCLES ) {
+			// draw circles
+			float curRadius = _baseWaveCircleRadius.value();
+			float _strokeWidth = 1;
+			for(int i=0; i < 10; i++) {
+				_waveCircle.setDrawProps(_strokeWidth, curRadius, 25f);
+				curRadius += _baseWaveCircleRadius.value();
+				_strokeWidth += 0.5;
+				_waveCircle.update();
+			}
+		} else if( _drawMode == MODE_LINES ) {
+			float curSpacing = _baseWaveLineSpacing.value();
+			float _strokeWidth = 1;
+			for(int i=0; i < 10; i++) {
+				p.pushMatrix();
+				p.translate(0, -curSpacing, 0);
+				_wave.setDrawProps(_strokeWidth, p.width + zDepth, 20);
+				_wave.update();
+				p.translate(0, curSpacing * 2, 0);
+				_wave.setDrawProps(_strokeWidth, p.width + zDepth, 20);
+				_wave.update();
+				_strokeWidth += 0.5;
+				curSpacing += _baseWaveLineSpacing.value();
+				p.popMatrix();
+			}
+		}
+		
+		// draw lines
+
 //		p.rotateZ((float)(Math.PI*2f)/4f);
-		_wave.setDrawProps(10, p.width + zDepth, 20);
-		_wave.update();
-		p.translate(0, -40, 0);
-		_wave.setDrawProps(40, p.width + zDepth, 40);
-		_wave.update();
-		p.translate(0, 80, 0);
-		_wave.update();
+		
 		
 		p.popMatrix();
 	}
 	
 	public void reset() {
-		_targetBaseWaveCircleRadius = p.random( 0, p.width/4 );
+		_baseWaveCircleRadius.setTarget( p.random( p.width/50, p.width/10 ) );
+		_baseWaveLineSpacing.setTarget( p.random( p.height/65, p.height/15 ) );
+		_drawMode = ( p.random( 0f, 4 ) > 3 ) ? 0 : 1;
 	}
 	
 	public void dispose() {
