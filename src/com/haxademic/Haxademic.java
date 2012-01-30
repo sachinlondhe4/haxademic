@@ -308,9 +308,14 @@ extends PApplet
 		// handles overall keyboard commands
 		if( keyPressed ) handleKeyboardInput( false );		//  || _midi.midiPadIsOn( MidiWrapper.PAD_16 ) == 1
 		if( _midiRenderer != null ) {
-			int rendererNote = _midiRenderer.checkCurrentNoteEvent();
-			if( rendererNote != -1 ) {
-				noteOn( 0, rendererNote, 100 );
+			boolean doneCheckingForMidi = false;
+			while( doneCheckingForMidi == false ) {
+				int rendererNote = _midiRenderer.checkCurrentNoteEvent();
+				if( rendererNote != -1 ) {
+					noteOn( 0, rendererNote, 100 );
+				} else {
+					doneCheckingForMidi = true;
+				}
 			}
 		}
 		
