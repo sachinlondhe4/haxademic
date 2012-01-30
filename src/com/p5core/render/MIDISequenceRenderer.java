@@ -31,11 +31,15 @@ public class MidiSequenceRenderer {
     protected float _ticksPerSecond = 0;
     protected float _tickInMilliseconds = 0;
     
+    // helps align audio and midi render timing
+    protected float _frameOffset = 0;
+    protected float _renderFPS = 30;
+    
     public MidiSequenceRenderer( PApplet p5 ) {
     	p = p5;
     } 
     
-    public void loadMIDIFile( String midiFile, float bpm ) throws InvalidMidiDataException, IOException {
+    public void loadMIDIFile( String midiFile, float midiBpm, float renderFPS, float frameOffset ) throws InvalidMidiDataException, IOException {
     	// load file
         Sequence sequence = MidiSystem.getSequence(new File(midiFile));
         p.println("sequence.getMicrosecondLength() = " + sequence.getMicrosecondLength());
@@ -44,7 +48,9 @@ public class MidiSequenceRenderer {
         p.println("sequence.getDivisionType() = " + sequence.getDivisionType());
         
         // calculate midi event timing
-        _bpm = bpm;
+        _frameOffset = frameOffset;
+        _renderFPS = renderFPS;
+        _bpm = midiBpm;
     	_ticksPerMin = _bpm * sequence.getResolution();
     	_ticksPerSecond = _ticksPerMin / 60f;
     	_tickInMilliseconds = _ticksPerSecond / 1000.f;
@@ -96,15 +102,22 @@ public class MidiSequenceRenderer {
     
     // return current midi pitch of it's an NOTE_ON message. shift the event off the from of the vector to get ready for the next event
     public int checkCurrentNoteEvent() {
-    	float curAppletSeconds = p.frameCount / 30f;
-    	MidiSequenceEvent curEvent = _messages.firstElement();
-    	if( curEvent != null ) {
-        	if( curEvent.getSeconds() < curAppletSeconds ) {
-        		_messages.remove( 0 );
-        		if( curEvent.getMidiCommand() == NOTE_ON )
-        			return curEvent.getMidiNotePitch();
-        	}
-    	} 
+    	// get current time and add offset
+    	float curAppletSeconds = (float)p.frameCount / _renderFPS;
+    	p.println("curAppletSeconds [b] = "+curAppletSeconds);
+    	curAppletSeconds += (_frameOffset * 1f/_renderFPS);
+    	p.println("curAppletSeconds [a] = "+curAppletSeconds);
+
+    	if( _messages.size() > 0 ) {
+    		MidiSequenceEvent curEvent = _messages.firstElement();
+    		if( curEvent != null ) {
+    			if( curEvent.getSeconds() < curAppletSeconds ) {
+    				_messages.remove( 0 );
+    				if( curEvent.getMidiCommand() == NOTE_ON )
+    					return curEvent.getMidiNotePitch();
+    			}
+    		} 
+    	}
     	return( -1 );
     }
     

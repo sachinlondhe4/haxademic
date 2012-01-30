@@ -286,20 +286,20 @@ extends PApplet
 	public void draw() {
 		// analyze & init audio if stepping through a render
 		if( _isRendering == true ) {
-			if( p5.frameCount == 1 ) {
+			if( p5.frameCount == 2 ) {
 				_renderer.startRendererForAudio( "wav/dumbo-gets-mad---plumy-tale.wav", _audioInput );	// cache-money.wav
 				try {
 					_midiRenderer = new MidiSequenceRenderer(p5);
-					_midiRenderer.loadMIDIFile( "data/bnc/plumy-tale-simple.mid", 98 );
+					_midiRenderer.loadMIDIFile( "data/bnc/plumy-tale-simple.mid", 98, 30, -8f );
 				} catch (InvalidMidiDataException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
 				_readyForProgramChangeInt = 0;
 //				_audioInput.gainUp();
 			}
-//			if( p5.frameCount > 1 ) {
+			if( p5.frameCount > 1 ) {
 				// have renderer step through audio, then special call to update the single WaveformData storage object				
 				_renderer.analyzeAudio();				
 				_waveformData.updateWaveformDataForRender( _renderer, _audioInput.getAudioInput(), _audioInput._bufferSize );
-//			}
+			}
 		}
 		
 		// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
