@@ -104,9 +104,7 @@ public class MidiSequenceRenderer {
     public int checkCurrentNoteEvent() {
     	// get current time and add offset
     	float curAppletSeconds = (float)p.frameCount / _renderFPS;
-    	p.println("curAppletSeconds [b] = "+curAppletSeconds);
     	curAppletSeconds += (_frameOffset * 1f/_renderFPS);
-    	p.println("curAppletSeconds [a] = "+curAppletSeconds);
 
     	if( _messages.size() > 0 ) {
     		MidiSequenceEvent curEvent = _messages.firstElement();
