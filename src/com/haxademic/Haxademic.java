@@ -49,6 +49,8 @@ import fullscreen.FullScreen;
  * @TODO: Refine existing elements
  * @TODO: Mesh traversal drawing
  * @TODO: Add launchpad back in without a secondary AUdioInputWrapper
+ * @TODO: Allow more than just note_on messages from Haxademix base. should be able to respond to any midi data
+ * @TODO: Port .js MathUtil methods in MathUtil
  * 
  * @author cacheflowe
  *
