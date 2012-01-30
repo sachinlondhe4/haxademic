@@ -115,6 +115,7 @@ public class Renderer
 		// load & play audio
 		_chn = new AudioChannel( p.dataPath( audioFile ) );
 		_chn.play();
+		_chn.volume( 0 );
 	}
 
 	/**
@@ -124,8 +125,7 @@ public class Renderer
 	public void renderFrame() 
 	{
 		// don't do anything if renderer hasn't been inited
-		if( _isRendering == true )
-		{
+		if( _isRendering == true ) {
 			// print a message every 100 frames
 //			if ((_frameNumber%100) == 0) 
 			p.println( "Working on frame number " + _frameNumber );
@@ -149,23 +149,30 @@ public class Renderer
 	/**
 	 * Called at the beginning of PApplet.draw() to prepare the audio data 
 	 */
-	public void analyzeAudio()
-	{
+	public void analyzeAudio() {
+//		
+
 		// get position in wav file
 		int pos = (int)( _frameNumber * _chn.sampleRate / _framesPerSecond );
-//		p.println( "Audio position: " + pos );
+		float seconds = _frameNumber / _framesPerSecond;
+//		_chn.pause();
+		_chn.cue(pos);
+//		_chn.play();
+//		_chn.pause();
+		p.println( "Audio position: " + pos + " fps: " + _framesPerSecond + " seconds: " + seconds + " _chn.sampleRate = " + _chn.sampleRate + "  position in file: " + pos + " / " + _chn.samples.length );
 		
 		// make sure we're still in bounds - kept getting data run-out errors
-		if (pos >= _chn.size - 5000) {
+		if (pos >= _chn.size - 4000) {
 			if (_outputType==OUTPUT_TYPE_MOVIE)
 				_mm.finish();
 			stop();  
 			p.exit();
 			return;
+		} else {
+			// if still running & in-bounds, grab next data
+			_audioData.getFFT().getSpectrum( _chn.samples, pos );
 		}
 		
-		// if still running & in-bounds, grab next data
-		_audioData.getFFT().getSpectrum( _chn.samples, pos );
 	}
 	
 	public AudioChannel getChannel () {
