@@ -309,14 +309,18 @@ extends PApplet
 		if( keyPressed ) handleKeyboardInput( false );		//  || _midi.midiPadIsOn( MidiWrapper.PAD_16 ) == 1
 		if( _midiRenderer != null ) {
 			boolean doneCheckingForMidi = false;
+			boolean triggered = false;
 			while( doneCheckingForMidi == false ) {
 				int rendererNote = _midiRenderer.checkCurrentNoteEvent();
 				if( rendererNote != -1 ) {
+					p5.println("MIDI NOTE: "+rendererNote);
 					noteOn( 0, rendererNote, 100 );
+					triggered = true;
 				} else {
 					doneCheckingForMidi = true;
 				}
 			}
+			if( triggered == false ) _midi.allOff();
 		}
 		
 		// switch the program if we actually changed it
