@@ -29,6 +29,7 @@ import com.haxademic.viz.elements.SphericalHarmonicsOscillator;
 import com.haxademic.viz.elements.WaveformShapes;
 import com.p5core.cameras.CameraBasic;
 import com.p5core.hardware.midi.MidiWrapper;
+import com.p5core.util.ColorGroup;
 import com.p5core.util.DrawUtil;
 import com.p5core.util.MathUtil;
 
@@ -68,6 +69,8 @@ implements IVizModule
 	protected Vector<IVizElement> _ambientElements;
 	protected Vector<IVizElement> _outerElements;
 	
+	protected ColorGroup _balletColors;
+	
 	protected int _numBigChanges = 0;
 	
 	protected float _curCameraZ = 0;
@@ -91,8 +94,8 @@ implements IVizModule
 		_bgElements.add( new GridEQ( p, toxi, _audioData ) );
 		
 		_fgElements = new Vector<IVizElement>();
-		_fgElements.add( new WaveformShapes( p, toxi, _audioData ) );
 		_fgElements.add( new RotatorShapes( p, toxi, _audioData ) );
+		_fgElements.add( new WaveformShapes( p, toxi, _audioData ) );
 		_fgElements.add( new ObjMesh( p, toxi, _audioData ) );
 		_fgElements.add( new CacheLogo( p, toxi, _audioData ) );
 		_fgElements.add( new SphericalHarmonicsOscillator( p, toxi, _audioData ) );
@@ -169,21 +172,33 @@ implements IVizModule
 	}
 	
 	protected void pickNewColors() {
-		// get a single strategy
-		TColor color = ColorRange.LIGHT.getColor();
-		ColorTheoryStrategy strategy = new CompoundTheoryStrategy ();
+		if( 1 == 2 ) {
+			// get a single strategy
+			TColor color = ColorRange.LIGHT.getColor();
+			ColorTheoryStrategy strategy = new CompoundTheoryStrategy ();
 //		TColor color = ColorRange.BRIGHT.getColor();
 //		ColorTheoryStrategy strategy = new RightSplitComplementaryStrategy();
-		_colorList = ColorList.createUsingStrategy(strategy, color);
-
-		// store a few random colors
+			_colorList = ColorList.createUsingStrategy(strategy, color);
+			
+			// store a few random colors
 //		TColor color1 = _colorList.getRandom();
 //		color1.lighten(0.3f);
-		_colorFG1 = _colorList.get( 0 );
-		_colorFG2 = _colorList.get( 1 );//_colorFG1.getAnalog(45,1);//_colorList.get( 1 );//.getRandom();	// color1.complement().toARGB()
-		_colorAmbient = _colorList.get( 2 );//_colorFG2.getAnalog(45,1);//_colorList.get( 2 );
-		_colorBG1 = _colorList.get( 3 );//_colorAmbient.getAnalog(45,1);//_colorList.get( 3 );
-		_colorBG2 = _colorList.get( 4 );//_colorBG1.getAnalog(45,1);//_colorList.get( 4 );
+			_colorFG1 = _colorList.get( 0 );
+			_colorFG2 = _colorList.get( 1 );//_colorFG1.getAnalog(45,1);//_colorList.get( 1 );//.getRandom();	// color1.complement().toARGB()
+			_colorAmbient = _colorList.get( 2 );//_colorFG2.getAnalog(45,1);//_colorList.get( 2 );
+			_colorBG1 = _colorList.get( 3 );//_colorAmbient.getAnalog(45,1);//_colorList.get( 3 );
+			_colorBG2 = _colorList.get( 4 );//_colorBG1.getAnalog(45,1);//_colorList.get( 4 );
+		} else {
+			if( _balletColors == null ) {
+				_balletColors = new ColorGroup( ColorGroup.BALLET );
+			}
+			_balletColors.setRandomGroup();
+			_colorFG1 = _balletColors.getColorFromIndex( 0 );
+			_colorFG2 = _balletColors.getColorFromIndex( 1 );//_colorFG1.getAnalog(45,1);//_colorList.get( 1 );//.getRandom();	// color1.complement().toARGB()
+			_colorAmbient = _balletColors.getColorFromIndex( 2 );//_colorFG2.getAnalog(45,1);//_colorList.get( 2 );
+			_colorBG1 = _balletColors.getColorFromIndex( 3 );//_colorAmbient.getAnalog(45,1);//_colorList.get( 3 );
+			_colorBG2 = _balletColors.getColorFromIndex( 4 );//_colorBG1.getAnalog(45,1);//_colorList.get( 4 );
+		}
 		
 		float lighten = 0.03f;
 		_colorFG1.lighten( lighten );
@@ -196,10 +211,10 @@ implements IVizModule
 	}
 	
 	protected void storeCurColors() {
-		if( _outerElement != null ) _outerElement.updateColor( _colorBG1 );
-		if( _bgElement != null ) _bgElement.updateColor( _colorBG2 );
-		if( _fgElement != null ) _fgElement.updateColor( _colorFG1 );
-		if( _ambientElement != null ) _ambientElement.updateColor( _colorAmbient );		
+		if( _outerElement != null ) _outerElement.updateColorSet( _balletColors );
+		if( _bgElement != null ) _bgElement.updateColorSet( _balletColors );
+		if( _fgElement != null ) _fgElement.updateColorSet( _balletColors );
+		if( _ambientElement != null ) _ambientElement.updateColorSet( _balletColors );		
 	}
 	
 	public void handleKeyboardInput() {
