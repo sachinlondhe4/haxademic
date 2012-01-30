@@ -43,6 +43,7 @@ implements IVizElement {
 	protected boolean _isWireframe = false;
 	protected TColor _baseColor;
 	protected TColor _strokeColor;
+	protected ColorGroup _curColors;
 
 	public RotatingRings( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
 		super( p, toxi, audioData );
@@ -57,6 +58,7 @@ implements IVizElement {
 		_baseColor = colors.getRandomColor().copy();
 		_strokeColor = _baseColor.copy();
 		_strokeColor.lighten( 10 );
+		_curColors = colors;
 	}
 
 	public void update() {
@@ -84,15 +86,20 @@ implements IVizElement {
 			_baseColor.alpha = ( _isWireframe == true ) ? 0 : ringEQVal * alphaMultiplier;
 			_strokeColor.alpha = ( _isWireframe == true ) ? ringEQVal * alphaMultiplier : 0;
 
-			p.fill( _baseColor.toARGB() );
-			p.stroke( _strokeColor.toARGB() );
+			
+			_curColors.getColorFromIndex(i % 4).alpha = ( _isWireframe == true ) ? ringEQVal * alphaMultiplier : 0;
+			p.stroke( _curColors.getColorFromIndex(i % 4).toARGB() );
+			_curColors.getColorFromIndex(i % 4).alpha = ( _isWireframe == true ) ? 0 : ringEQVal * alphaMultiplier;
+			p.fill( _curColors.getColorFromIndex(i % 4).toARGB() );
+//			p.fill( _baseColor.toARGB() );
+//			p.stroke( _strokeColor.toARGB() );
 			p.strokeWeight( 2 );
 			
 			// draw disc, with thickness based on eq 
 			float eqThickness = ( ringEQVal * 6 ) * ( 2000 + 1000 * i );	// (i/NUM_RINGS)
 			float innerRadius = outerDiscStartRadius + discSpacing * ringSpacingIndex;
 			p.pushMatrix();			
-			p.rotateY( i * (2*p.PI)/NUM_RINGS );
+			p.rotateY( (i * p.PI)/NUM_RINGS );
 			Shapes.drawDisc3D( p, innerRadius * scale, ( innerRadius + outerDiscRadius ) * scale, eqThickness, discPrecision, _baseColor.toARGB(), _baseColor.toARGB() );//_ringColors[i].colorIntWithAlpha(ringAlpha, 0), _ringColors[i].colorIntWithAlpha(ringAlpha, wallOffset) );
 			p.popMatrix();
 			
