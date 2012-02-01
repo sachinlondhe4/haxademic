@@ -94,8 +94,8 @@ implements IVizModule
 		_bgElements.add( new GridEQ( p, toxi, _audioData ) );
 		
 		_fgElements = new Vector<IVizElement>();
-		_fgElements.add( new RotatorShapes( p, toxi, _audioData ) );
 		_fgElements.add( new WaveformShapes( p, toxi, _audioData ) );
+		_fgElements.add( new RotatorShapes( p, toxi, _audioData ) );
 		_fgElements.add( new ObjMesh( p, toxi, _audioData ) );
 		_fgElements.add( new CacheLogo( p, toxi, _audioData ) );
 		_fgElements.add( new SphericalHarmonicsOscillator( p, toxi, _audioData ) );
