@@ -66,9 +66,12 @@ extends PApplet
 	void loadObj() {
 //		_model = new OBJModel( p, "./models/THEDISCOVERYMULTIPLIED.obj" );
 //		_model = new OBJModel( p, "./models/ducky.obj" );
-		_model = new OBJModel( p, "./models/teapot.obj" );
-//		_model = new OBJModel( p, "./models/pumpkin_tall_10k.obj" );
-		_model.scale(2);
+//		_model = new OBJModel( p, "./models/teapot.obj" );
+//		_model = new OBJModel( p, "./models/skull.obj" );
+//		_model = new OBJModel( p, "./models/Lego_Man.obj" );
+//		_model = new OBJModel( p, "./models/pointer_cursor.obj" );
+		_model = new OBJModel( p, "./models/invader.obj" );
+		_model.scale(20);
 		_model.disableMaterial();
 		_model.disableTexture();
 		
@@ -86,7 +89,7 @@ extends PApplet
 		p.rotateY(_rot);
 		
 		// set color
-		p.fill(255, 30);
+		p.fill(255, 80);
 		p.stroke(255, 50f);
 		p.strokeWeight(3);
 		p.noStroke();
