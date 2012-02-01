@@ -51,6 +51,8 @@ import fullscreen.FullScreen;
  * @TODO: Add launchpad back in without a secondary AUdioInputWrapper
  * @TODO: Allow more than just note_on messages from Haxademix base. should be able to respond to any midi data
  * @TODO: Port .js MathUtil methods in MathUtil
+ * @TODO: Fix stepping through audio for WaveformData - this was hacked for BNC video rendering but shouldn't have to play & cue() the audio to capture the data
+ * @TODO: Figure out why publish/output directory weirdness is happening, and why generated .class files need to be there...
  * 
  * @author cacheflowe
  *
