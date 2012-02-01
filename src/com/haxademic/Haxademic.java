@@ -290,11 +290,13 @@ extends PApplet
 		// analyze & init audio if stepping through a render
 		if( _isRendering == true ) {
 			if( p5.frameCount == 2 ) {
-				_renderer.startRendererForAudio( "wav/dumbo-gets-mad---plumy-tale.wav", _audioInput );	// cache-money.wav
-				try {
-					_midiRenderer = new MidiSequenceRenderer(p5);
-					_midiRenderer.loadMIDIFile( "data/bnc/plumy-tale-simple.mid", 98, 30, -8f );
-				} catch (InvalidMidiDataException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
+				_renderer.startRendererForAudio( "wav/JackSplash.wav", _audioInput );	// cache-money.wav	// dumbo-gets-mad---plumy-tale.wav
+				if( _appConfig.getBooleanProperty("render_midi", false) == true ) {
+					try {
+						_midiRenderer = new MidiSequenceRenderer(p5);
+						_midiRenderer.loadMIDIFile( "data/bnc/plumy-tale-complex.mid", 98, 30, -8f );
+					} catch (InvalidMidiDataException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
+				}
 				_readyForProgramChangeInt = 0;
 //				_audioInput.gainUp();
 			}
