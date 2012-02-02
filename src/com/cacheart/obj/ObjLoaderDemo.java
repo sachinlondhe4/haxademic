@@ -34,6 +34,7 @@ extends PApplet
 		// set up stage and drawing properties
 //		p.size( 800, 600, "hipstersinc.P5Sunflow" );				//size(screen.width,screen.height,P3D);
 		p.size( 800, 600, PConstants.OPENGL );				//size(screen.width,screen.height,P3D);
+		OpenGLUtil.SetQuality( p, OpenGLUtil.MEDIUM );
 		p.frameRate( 30 );
 //		p.colorMode( PConstants.RGB, 255, 255, 255, 255 );
 		p.background( 0 );
@@ -43,7 +44,6 @@ extends PApplet
 		//p.noLoop();
 //		p.smooth();
 		
-		OpenGLUtil.SetQuality( p, OpenGLUtil.MEDIUM );
 		
 		p.rectMode(PConstants.CENTER);
 		p.noStroke();
@@ -60,7 +60,7 @@ extends PApplet
 		loadObj();
 		
 		_mesh = ThreeDeeUtil.ConvertObjModelToToxiMesh( p, _model );
-		ThreeDeeUtil.SmoothToxiMesh( p, _mesh, 2 );
+//		ThreeDeeUtil.SmoothToxiMesh( p, _mesh, 2 );
 	}
 	
 	void loadObj() {
@@ -71,11 +71,12 @@ extends PApplet
 //		_model = new OBJModel( p, "./models/Lego_Man.obj" );
 //		_model = new OBJModel( p, "./models/pointer_cursor.obj" );
 		_model = new OBJModel( p, "./models/invader.obj" );
-		_model.scale(20);
+//		_model = new OBJModel( p, "./models/pointer_cursor_2_hollow.obj" );
+		_model.scale(1);
 		_model.disableMaterial();
 		_model.disableTexture();
 		
-		p.println("_model: "+_model.getFaceCount() );
+		p.println("_model faces: "+_model.getFaceCount() );
 	}
 
 	public void draw() 
