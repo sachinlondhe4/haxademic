@@ -3,6 +3,7 @@ package com.haxademic;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.sound.midi.InvalidMidiDataException;
 
@@ -164,7 +165,7 @@ extends PApplet
 	/**
 	 * The current IVizModule object that receives commands in the main Haxademic draw() loop.
 	 */
-	protected IVizModule[] _modules;
+	protected ArrayList<IVizModule> _modules;
 	
 	/**
 	 * The current index for _modules, which is changed to switch programs.
@@ -261,20 +262,21 @@ extends PApplet
 	 * @TODO: externalize this for different people's implementations
 	 */
 	protected void initVizModules() {
-		_modules = new IVizModule[ _numModules ];
-		_modules[0] = new MasterHax();
-//		_modules[1] = new Boxen3D();
-//		_modules[2] = new Toxi();
-//		_modules[3] = new Spheres();
-//		_modules[4] = new BlobSheet();
-//		_modules[5] = new GridAndLinesEQ();
-//		_modules[6] = new CacheRings();
-//		_modules[7] = new PlusRing();
-//		_modules[8] = new HorizLines();
-//		_modules[9] = new AudioTubes();
-//		_modules[10] = new MaxCache();
-		
-		_modules[ _curModule ].focus();
+		_modules = new ArrayList<IVizModule>();
+		_modules.add( new MasterHax() );
+//		_modules.add( new Boxen3D() );
+//		_modules.add( new Toxi() );
+//		_modules.add( new Spheres() );
+//		_modules.add( new BlobSheet() );
+//		_modules.add( new GridAndLinesEQ() );
+//		_modules.add( new CacheRings() );
+//		_modules.add( new PlusRing() );
+//		_modules.add( new HorizLines() );
+//		_modules.add( new AudioTubes() );
+//		_modules.add( new MaxCache() );
+
+		_modules.trimToSize();
+		_modules.get( _curModule ).focus();
 	}
 
 	/**
@@ -342,15 +344,15 @@ extends PApplet
 			_curModule = _readyForProgramChangeInt;
 			camera();
 			background(0);
-			_modules[ _curModule ].focus(); 
+			_modules.get( _curModule ).focus(); 
 		}
 		
 		// detect beats and pass through to current visual module
 		int[] beatDetectArr = _audioInput.getBeatDetection();
-		_modules[ _curModule ].beatDetect( beatDetectArr[0], beatDetectArr[1], beatDetectArr[2], beatDetectArr[3] );
+		_modules.get( _curModule ).beatDetect( beatDetectArr[0], beatDetectArr[1], beatDetectArr[2], beatDetectArr[3] );
 		
 		// update current visual module
-		try{ _modules[ _curModule ].update(); }
+		try{ _modules.get( _curModule ).update(); }
 		catch( ArrayIndexOutOfBoundsException e ){println("draw() broke: ArrayIndexOutOfBoundsException");}
 		
 		// update launchpad hardware if it's around
@@ -439,7 +441,7 @@ extends PApplet
 	 * This makes sure only the active IVizModule receives keyboard input
 	 */
 	public void keyPressed() {
-		_modules[ _curModule ].handleKeyboardInput();
+		_modules.get( _curModule ).handleKeyboardInput();
 	}
 
 	/**
@@ -460,7 +462,7 @@ extends PApplet
 			_midi.noteOn( channel, pitch, velocity );
 			try{ 
 				handleKeyboardInput( true );
-				_modules[ _curModule ].handleKeyboardInput();
+				_modules.get( _curModule ).handleKeyboardInput();
 			}
 			catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
 		}
@@ -501,7 +503,7 @@ extends PApplet
 		try { 
 			if( oscValue == 1 ) {
 				handleKeyboardInput( true );
-				_modules[ _curModule ].handleKeyboardInput();
+				_modules.get( _curModule ).handleKeyboardInput();
 			}
 		}
 		catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
