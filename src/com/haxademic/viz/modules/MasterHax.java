@@ -137,9 +137,9 @@ implements IVizModule
 		if( _ambientElement != null ) _ambientElement.update();		
 
 		// set camera
-//		_curCameraZ = MathUtil.easeTo(_curCameraZ, 0, 10);
-//		_curCamera.setPosition(0, 0, (int)_curCameraZ);
-//		_curCamera.update();
+		_curCameraZ = MathUtil.easeTo(_curCameraZ, 0, 10);
+		_curCamera.setPosition(0, 0, (int)_curCameraZ);
+		_curCamera.update();
 
 //		debugDrawColorList();
 		// lets us use the keyboard to funk it up
