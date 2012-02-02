@@ -69,7 +69,11 @@ public class MidiWrapper
 		MidiBus.list();
 		if(in_device_name != "") {
 			p.println("MIDI connection:");
-			myBus = new MidiBus( p, in_device_name, out_device_name);
+			if( in_device_name != "" || out_device_name != "" ) {
+				myBus = new MidiBus( p, in_device_name, out_device_name);
+			} else {
+				myBus = new MidiBus( p );
+			}
 		} else {
 			p.println("No MIDI connected");
 		}
