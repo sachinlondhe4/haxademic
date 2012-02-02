@@ -35,24 +35,26 @@ import fullscreen.FullScreen;
  * Haxademic instantiates any number of persistent objects that deal with hardware, 
  * user input, stage setup and callbacks that require definition in the PApplet.
  * 
- * @TODO: Improve color selecting - use test sketch to figure out how to deal with color-traversing
  * @TODO: Address garbage collection - memory heap keeps growing like crazy
  * @TODO: optimize the kinectMesh element - shit is slow
  * @TODO: add 3d objects loader and mesh-returner - use them as backgrounds
- * @TODO: New elements: trails, supershapes, GEARS, particles
- * @TODO: add foreground/background modes to elements that could use them. 
+ * @TODO: Mesh traversal drawing: more configurable. generative options
  * @TODO: Finish converting old modules into new Elements: AudioTubes, Blobsheet, cacheRings outer rings, GridEQ w/lines, MaxCache outer rings, PlusRing, more spheres
- * @TODO: Create good input system for building up MasterHax module over time & manage flow of Elements.
  * @TODO: Create more abstract user/hardware input system that routes different inputs into certain types of commands.
- * @TODO: Improve launchpad visuals
- * @TODO: create more complex uses of new Elements
- * @TODO: Refine existing elements
- * @TODO: Mesh traversal drawing
- * @TODO: Add launchpad back in without a secondary AUdioInputWrapper
  * @TODO: Allow more than just note_on messages from Haxademix base. should be able to respond to any midi data
  * @TODO: Port .js MathUtil methods in MathUtil
  * @TODO: Fix stepping through audio for WaveformData - this was hacked for BNC video rendering but shouldn't have to play & cue() the audio to capture the data
  * @TODO: Figure out why publish/output directory weirdness is happening, and why generated .class files need to be there...
+ * @TODO: Don't initialize MIDI object if not defined in run.properties. Will need to prevent attempting to detect MIDI input on handleKeyboardInput() methods
+ * @TODO: Figure out camera perspective stretching issues in MasterHax
+ * @TODO: Improve launchpad visuals
+ * @TODO: Add launchpad back in without a secondary AUdioInputWrapper
+ * @TODO: Improve color selecting - use test sketch to figure out how to deal with color-traversing
+ * @TODO: New elements: trails, supershapes, GEARS, particles
+ * @TODO: add foreground/background modes to elements that could use them. 
+ * @TODO: Create good input system for building up MasterHax module over time & manage flow of Elements.
+ * @TODO: create more complex uses of new Elements
+ * @TODO: Refine existing elements
  * 
  * @author cacheflowe
  *
