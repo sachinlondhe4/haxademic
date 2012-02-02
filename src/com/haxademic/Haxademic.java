@@ -312,7 +312,11 @@ extends PApplet
 		}
 		
 		// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
-		if( _midi == null ) _midi = new MidiWrapper( p5, _appConfig.getStringProperty("midi_device_in", "UA-25"), _appConfig.getStringProperty("midi_device_out", "UA-25") );
+		if( _midi == null ) {
+//			if( _appConfig.getStringProperty("midi_device_in", "") != "" ) {
+				_midi = new MidiWrapper( p5, _appConfig.getStringProperty("midi_device_in", ""), _appConfig.getStringProperty("midi_device_out", "") );
+//			}
+		}
 		
 		// handles overall keyboard commands
 		if( keyPressed ) handleKeyboardInput( false );		//  || _midi.midiPadIsOn( MidiWrapper.PAD_16 ) == 1
