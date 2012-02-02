@@ -10,7 +10,6 @@ import toxi.color.TColor;
 import toxi.color.theory.ColorTheoryRegistry;
 import toxi.color.theory.ColorTheoryStrategy;
 import toxi.color.theory.CompoundTheoryStrategy;
-import toxi.color.theory.RightSplitComplementaryStrategy;
 
 import com.haxademic.viz.IVizElement;
 import com.haxademic.viz.IVizModule;
@@ -46,18 +45,6 @@ implements IVizModule
 	protected TColor _colorAmbient;
 	protected TColor _colorBG1;
 	protected TColor _colorBG2;
-	
-//	protected RotatorShapes _rotatorShapes;
-//	protected WaveformShapes _waveformShapes;
-//	protected SphereClouds _sphereClouds;
-//	protected LinesEQ _linesEQ;
-//	protected GridEQ _gridEQ;
-//	protected BarsEQ _barsEQ;
-//	protected SphericalHarmonicsOscillator _sphericalHarmonics;
-//	protected KinectMesh _kinectMesh;
-//	protected CacheLogo _cacheLogo;
-//	protected OuterSphere _outerMeshSphere;
-	
 	
 	protected IVizElement _outerElement = null;
 	protected IVizElement _bgElement = null;
