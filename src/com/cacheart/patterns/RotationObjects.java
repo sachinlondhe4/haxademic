@@ -7,6 +7,7 @@ import toxi.processing.ToxiclibsSupport;
 import com.haxademic.viz.elements.RotatorShape;
 import com.p5core.draw.color.ColorRGBA;
 import com.p5core.render.Renderer;
+import com.p5core.util.ColorGroup;
 
 public class RotationObjects 
 extends PApplet
@@ -52,6 +53,9 @@ extends PApplet
 			_fakeAudioData[ i ] = p.random(255);
 		}
 
+		_rotator.updateColorSet( new ColorGroup( ColorGroup.BALLET ) );
+		_rotatorBG.updateColorSet( new ColorGroup( ColorGroup.BALLET ) );
+
 		// set up renderer
 //		_render = new Renderer( this, 30, Renderer.OUTPUT_TYPE_MOVIE );
 //		_render.startRenderer();
@@ -59,6 +63,7 @@ extends PApplet
 
 	public void draw() 
 	{
+		
 		p.rectMode(PConstants.CENTER);
 		p.noStroke();
 		p.background(0,0,0,255);
