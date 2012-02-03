@@ -15,6 +15,7 @@ import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.launchpad.LaunchpadViz;
+import com.haxademic.viz.modules.KacheOut;
 import com.haxademic.viz.modules.MasterHax;
 import com.p5core.audio.AudioInputWrapper;
 import com.p5core.audio.WaveformData;
@@ -263,7 +264,8 @@ extends PApplet
 	 */
 	protected void initVizModules() {
 		_modules = new ArrayList<IVizModule>();
-		_modules.add( new MasterHax() );
+		_modules.add( new KacheOut() );
+//		_modules.add( new MasterHax() );
 //		_modules.add( new Boxen3D() );
 //		_modules.add( new Toxi() );
 //		_modules.add( new Spheres() );
