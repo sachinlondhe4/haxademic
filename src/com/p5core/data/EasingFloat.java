@@ -18,6 +18,10 @@ public class EasingFloat {
 		_target = value;
 	}
 	
+	public void setEaseFactor( float value ) {
+		_easeFactor = value;
+	}
+	
 	public void update() {
 		_val -= ( ( _val - _target ) / _easeFactor );
 	}
