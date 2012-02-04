@@ -5,6 +5,8 @@ import processing.core.PConstants;
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.ModuleBase;
 import com.p5core.cameras.CameraBasic;
+import com.p5core.data.EasingFloat;
+import com.p5core.hardware.midi.MidiWrapper;
 import com.p5core.util.MathUtil;
 
 public class KacheOut
@@ -25,7 +27,7 @@ implements IVizModule
 	
 	// should be an array of balls
 	Ball _ball;
-	protected float BALL_SIZE = 20;
+	Paddle _paddle;
 	
 	// game state
 	protected int _gameState;
@@ -63,8 +65,12 @@ implements IVizModule
 			}
 		}
 		
-		// create ball
+		// create game objects
 		_ball = new Ball();
+		_paddle = new Paddle();
+		
+		// init game state
+		_gameState = GAME_READY;
 	}
 
 	public void initAudio()
@@ -94,14 +100,20 @@ implements IVizModule
 			}
 		}
 		
-		// draw balls
+		// draw objects
+		_paddle.moveTowardsX( MathUtil.getPercentWithinRange( 0, _stageWidth, p.mouseX ) );
+		_paddle.display();
 		_ball.display();
 		
 //		_curCamera.setPosition( 0, 0, -_stageWidth / 2 + p.mouseX );
 //		p.println(-_stageWidth / 2 + p.mouseX);
 	}
 
-	public void handleKeyboardInput(){
+	public void handleKeyboardInput()
+	{
+		if ( p.key == 'm' || p.key == 'M' ) {
+//			 launchBall();
+		}
 	}
 
 	void newCamera() {
@@ -112,7 +124,6 @@ implements IVizModule
 	public void beatDetect( int isKickCount, int isSnareCount, int isHatCount, int isOnsetCount ) {
 	}
 
-	// A Cell object
 	public class Block {
 		// A cell object knows about its location in the grid as well as its size with the variables x,y,w,h.
 		public float x,y,z;
@@ -137,35 +148,58 @@ implements IVizModule
 
 		void display() {
 			// adjust cell z per brightness
-			float zAdd = 10 * _audioData.getFFT().spectrum[index % 512];
+			float zAdd = 40 * _audioData.getFFT().spectrum[index % 512];
 			p.pushMatrix();
-			p.translate( x + w/2, y + h/2, 0 + zAdd );
+			p.translate( x + w/2, y + h/2, 0 );
 			
 			//p.rotateZ( _audioData.getFFT().averages[1] * .01f );
 			p.fill( r, g, b );
 			p.noStroke();
-			p.box(w,h,h); 
+			p.box( w, h, h + zAdd ); 
 			
 			p.popMatrix();
 		}
 	}
 
 
-	// A Cell object
 	class Ball {
 
+		protected float BALL_SIZE = 20;
 		float x, y, speedX, speedY;
 
-		// Cell Constructor
 		Ball() {
 			// convert speed to use radians
 			speedX = ( MathUtil.randBoolean( p ) == true ) ? 4 : -4;
 			speedY = -4;
 			x = p.random( 0, _stageWidth );
 			y = p.random( _stageHeight / 2, _stageHeight );
-		} 
+		}
 		
-		void detectWalls() {
+		public float x() { return x; }
+		public float y() { return y; }
+		public float paddleTop() { return _paddle.top() - BALL_SIZE; }
+		
+		public void display() {
+			if( _gameState == GAME_READY ) {
+				x = _paddle.x();
+				y = paddleTop();
+			} else {
+				x += speedX;
+				y += speedY;
+			}
+			
+			detectWalls();
+			detectBlocks();
+			detectPaddle();
+			
+			p.fill( 255 );
+			p.pushMatrix();
+			p.translate( x, y, 0 );
+			p.sphere( BALL_SIZE );
+			p.popMatrix();
+		}
+		
+		protected void detectWalls() {
 			if( x < 0 ) {
 				x -= speedX;
 				speedX *= -1;
@@ -184,24 +218,63 @@ implements IVizModule
 			}
 		}
 		
-		void detectBlocks() {
+		protected void detectBlocks() {
 			
 		}
 
-		void display() {
-			x += speedX;
-			y += speedY;
-			
-			detectWalls();
-			detectBlocks();
-			
-			p.fill( 255 );
-			p.pushMatrix();
-			p.translate( x, y, 0 );
-			p.sphere( BALL_SIZE );
-			p.popMatrix();
+		protected void detectPaddle() {
+			if( y > paddleTop() ) {
+				if( x > _paddle.left() && x < _paddle.right() ) {
+					p.println("bounce!");
+					speedY *= -1;
+				}
+			}
+		}
+
+	}
+	
+	// A Cell object
+	class Paddle {
+
+		EasingFloat x, y;
+		protected int STAGE_H_PADDING = 40;
+		protected float HEIGHT = 20;
+		protected float _width = 250;
+		protected float _easing = 5f;
+		protected float _center;
+
+		Paddle() {
+			_center = ( _stageWidth + _width) / 2;
+			x = new EasingFloat( _center, _easing );
+			y = new EasingFloat( _stageHeight - STAGE_H_PADDING, _easing );
+		} 
+		
+		public float x() { return x.value(); }
+		public float y() { return y.value(); }
+		public float height() { return HEIGHT; }
+		public float top() { return y.value() - HEIGHT / 2f ; }
+		public float left() { return x.value() - _width / 2f ; }
+		public float right() { return x.value() + _width / 2f ; }
+		
+		public void moveTowardsX( float percent ) {
+			x.setTarget( percent * _stageWidth );
 		}
 		
+		void display() {
+			x.update();
+			y.update();
+			
+			p.pushMatrix();
+			p.translate( x.value(), y.value(), 0f );
+			p.rotateX( p.frameCount / 30f );
+			
+			p.fill( 255, 255 * _audioData.getFFT().averages[1], 255 );
+			p.noStroke();
+			p.box( _width, HEIGHT, HEIGHT ); 
+			
+			p.popMatrix();
+		}
+
 	}
 
 }
