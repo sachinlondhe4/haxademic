@@ -25,6 +25,23 @@ public class MathUtil {
 	public static float randRangeDecimel( float min, float max ) {	
 		return (float) Math.random() * ( max - min ) + min;
 	}
+	
+	public static float getPercentWithinRange( float bottomRange,  float topRange, float valueInRange ) {
+		// normalize values to work off zero
+		if( bottomRange < 0 ) {
+			float addToAll = Math.abs( bottomRange );
+			bottomRange += addToAll;
+			topRange += addToAll;
+			valueInRange += addToAll;
+		} else if( bottomRange > 0 ) {
+			float subFromAll = Math.abs( bottomRange );
+			bottomRange -= subFromAll;
+			topRange -= subFromAll;
+			valueInRange -= subFromAll;
+		}
+		// simple calc to get percentage 
+		return ( valueInRange / ( topRange - bottomRange ) );
+	}
 
 }
 
