@@ -144,14 +144,13 @@ implements IVizModule
 	public void detectBlockCollisions() {
 		for (int i = 0; i < _cols; i++) {
 			for (int j = 0; j < _rows; j++) {
-				if( _blockGrid[i][j].active() == true && _blockGrid[i][j].detectBall( ) == true ) {
+				if( _blockGrid[i][j].active() == true && _blockGrid[i][j].detectBall() == true ) {
 					String bounceSide = _blockGrid[i][j].bounceCloserSide();
 					// @TODO: ball can hit multiple balls on one frame - need to find the closest and work from that. or, if we hit inside a corner, how to deal with that?
-//					if( bounceSide == Block.SIDE_BOTH ) {
-//						_ball.bounceX();
-//						_ball.bounceY();
-//					} else 
-					if( bounceSide == Block.SIDE_H ) {
+					if( bounceSide == Block.SIDE_BOTH ) {
+						_ball.bounceX();
+						_ball.bounceY();
+					} else if( bounceSide == Block.SIDE_H ) {
 						_ball.bounceX();
 					} else {
 						_ball.bounceY();
@@ -230,9 +229,9 @@ implements IVizModule
 			float overlapTop = ( ballY < y ) ? y - h/2 - ballSize + ballY : 0;
 			float overlapBottom = ( ballY > y ) ? y + h/2 + ballSize - ballY : 0;
 			
-//			if( ( overlapLeft > 0 || overlapRight > 0 ) && ( overlapTop > 0 || overlapBottom > 0 ) ) {
-//				return SIDE_BOTH;
-//			}
+			if( ( overlapLeft > 0 || overlapRight > 0 ) && ( overlapTop > 0 || overlapBottom > 0 ) ) {
+				return SIDE_BOTH;
+			}
 			if( ( overlapTop > overlapLeft && overlapTop > overlapRight ) || ( overlapBottom > overlapLeft && overlapBottom > overlapRight ) ) {
 				return SIDE_V;
 			} else {
@@ -337,6 +336,7 @@ implements IVizModule
 			if( _y > paddleTop() ) {
 				if( _x > _paddle.left() && _x < _paddle.right() ) {
 					p.println("bounce!");
+					_speedX = ( _x - _paddle.x() ) / 10;
 					bounceY();
 				}
 			}
