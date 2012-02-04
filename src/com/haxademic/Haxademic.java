@@ -200,11 +200,12 @@ extends PApplet
 			// load external properties and set flag
 			_appConfig = new P5Properties(p5);
 			_is_setup = true;
-			// set screen size
+			// set screen size and renderer
+			String renderer = ( _appConfig.getBooleanProperty("sunflow", true ) == true ) ? "hipstersinc.P5Sunflow" : p5.OPENGL;
 			if(_appConfig.getBooleanProperty("fills_screen", false)) {
-				size(screen.width,screen.height,OPENGL);
+				size(screen.width,screen.height,renderer);
 			} else {
-				size(_appConfig.getIntProperty("width", 800),_appConfig.getIntProperty("height", 600),OPENGL);
+				size(_appConfig.getIntProperty("width", 800),_appConfig.getIntProperty("height", 600),renderer);
 			}
 		}
 		
@@ -237,7 +238,9 @@ extends PApplet
 //			hint(DISABLE_OPENGL_2X_SMOOTH);
 			hint(ENABLE_OPENGL_4X_SMOOTH); 
 		} else {
-			OpenGLUtil.SetQuality(p5, OpenGLUtil.MEDIUM);
+			if( _appConfig.getBooleanProperty("sunflow", true ) == false ) { 
+				OpenGLUtil.SetQuality(p5, OpenGLUtil.MEDIUM);
+			}
 		}
 
 		_fps = _appConfig.getIntProperty("fps", 30);
