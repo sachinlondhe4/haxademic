@@ -265,8 +265,8 @@ extends PApplet
 	 */
 	protected void initVizModules() {
 		_modules = new ArrayList<IVizModule>();
-		_modules.add( new KacheOut() );
-//		_modules.add( new MasterHax() );
+//		_modules.add( new KacheOut() );
+		_modules.add( new MasterHax() );
 //		_modules.add( new Boxen3D() );
 //		_modules.add( new Toxi() );
 //		_modules.add( new Spheres() );
@@ -303,7 +303,7 @@ extends PApplet
 				if( _appConfig.getBooleanProperty("render_midi", false) == true ) {
 					try {
 						_midiRenderer = new MidiSequenceRenderer(p5);
-						_midiRenderer.loadMIDIFile( "data/bnc/plumy-tale-complex.mid", 98, 30, -8f );
+						_midiRenderer.loadMIDIFile( "data/midi/jack-splash.mid", 124, 30, -8f );	// bnc: 98  jack-splash: 
 					} catch (InvalidMidiDataException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
 				}
 				_readyForProgramChangeInt = 0;
