@@ -20,6 +20,7 @@ import com.haxademic.viz.modules.MasterHax;
 import com.p5core.audio.AudioInputWrapper;
 import com.p5core.audio.WaveformData;
 import com.p5core.data.P5Properties;
+import com.p5core.draw.text.DebugText;
 import com.p5core.hardware.kinect.KinectWrapper;
 import com.p5core.hardware.midi.MidiWrapper;
 import com.p5core.hardware.osc.OscWrapper;
@@ -131,6 +132,12 @@ extends PApplet
 	public OscWrapper _oscWrapper = null;
 	
 	/**
+	 * Helps us draw text to the screen when needed.
+	 */
+	protected DebugText _debugText;
+	
+	
+	/**
 	 * Native Java object that simulates occasional keystrokes to prevent the system's screensaver from starting.
 	 */
 	protected Robot _robot;
@@ -157,12 +164,6 @@ extends PApplet
 	 */
 	protected Boolean _isRendering = true;
 	
-	/**
-	 * Load a font for debug help at the moment. 
-	 * @TODO: Should be refactored. 
-	 */
-	protected PFont _debugFont;	
-
 	/**
 	 * The current IVizModule object that receives commands in the main Haxademic draw() loop.
 	 */
@@ -222,10 +223,6 @@ extends PApplet
 		if(_appConfig.getBooleanProperty("fullscreen", false)) {
 			launchFullScreen();
 		}
-
-		// testing font
-//		_debugFont = FontUtil.FontLoad(this, "helvetica_95_black-webfont.svg", 24);
-//		textMode(SCREEN);
 	}
 	
 	/**
@@ -258,6 +255,7 @@ extends PApplet
 		_kinectWrapper = new KinectWrapper( p5 );
 //		_launchpadViz = new LaunchpadViz( p5 );
 		_oscWrapper = new OscWrapper( p5 );
+		_debugText = new DebugText( p5 );
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
 	}
 	
@@ -369,10 +367,8 @@ extends PApplet
 		// keep screensaver off - hit shift every 1000 frames
 		if( p5.frameCount % 1000 == 0 ) _robot.keyRelease(KeyEvent.VK_SHIFT);
 
-		// test text
-//		textFont(metaBold);
-//		fill(1,1);
-//		text("Debug :: FPS:" + _fps, 10, 40);
+		// display some info
+//		_debugText.draw( "Debug :: FPS:" + _fps );
 		
 	}
 
