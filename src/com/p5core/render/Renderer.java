@@ -4,6 +4,7 @@ import krister.Ess.AudioChannel;
 import processing.core.PApplet;
 import processing.video.MovieMaker;
 import com.p5core.audio.AudioInputWrapper;
+import com.p5core.util.SystemUtil;
 
 public class Renderer 
 {
@@ -86,7 +87,7 @@ public class Renderer
 	public void startRenderer() 
 	{
 		// create timestamp for file output
-		_timestamp = "" + String.valueOf( p.year() ) + "-" + String.valueOf( p.month() ) + "-" + String.valueOf( p.day() ) + "-" + String.valueOf(p.hour()) + "-" + String.valueOf(p.minute()) + "-" + String.valueOf(p.second());
+		_timestamp = SystemUtil.getTimestamp( p );
 
 		// initialize movie renderer
 		if( _outputType == OUTPUT_TYPE_MOVIE ) {
@@ -191,16 +192,4 @@ public class Renderer
 		_isRendering = false;
 	}
 	
-	public static void renderScreenToJPG( PApplet p ) 
-	{
-		String timestamp = "" 
-			+ String.valueOf(p.year()) + "-"
-			+ String.valueOf(p.month()) + "-" 
-			+ String.valueOf(p.day()) + "-" 
-			+ String.valueOf(p.hour()) + "-"
-			+ String.valueOf(p.minute()) + "-" 
-			+ String.valueOf(p.second());
-		p.saveFrame("output/img_" + timestamp + p.nf(p.frameCount, 8) + ".jpg");
-
-	}
 }
