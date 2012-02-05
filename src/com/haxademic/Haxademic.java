@@ -10,12 +10,12 @@ import javax.sound.midi.InvalidMidiDataException;
 import krister.Ess.AudioInput;
 import oscP5.OscMessage;
 import processing.core.PApplet;
-import processing.core.PFont;
+import processing.core.PGraphics;
+import processing.core.PImage;
 import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.launchpad.LaunchpadViz;
-import com.haxademic.viz.modules.KacheOut;
 import com.haxademic.viz.modules.MasterHax;
 import com.p5core.audio.AudioInputWrapper;
 import com.p5core.audio.WaveformData;
@@ -27,6 +27,7 @@ import com.p5core.hardware.osc.OscWrapper;
 import com.p5core.render.MidiSequenceRenderer;
 import com.p5core.render.Renderer;
 import com.p5core.util.OpenGLUtil;
+import com.p5core.util.ScreenUtil;
 
 import fullscreen.FullScreen;
 
@@ -429,6 +430,12 @@ extends PApplet
 			if ( key == '.' || _midi.midiPadIsOn( MidiWrapper.PAD_14 ) == 1 ) _audioInput.gainUp(); 
 			if ( key == ',' || _midi.midiPadIsOn( MidiWrapper.PAD_13 ) == 1 ) _audioInput.gainDown(); 
 			
+			// big screenshot
+			if ( key == '\\' ) { 
+				ScreenUtil.screenshotHiRes( p5, 3, p5.P3D, "output/saved_img/" );
+			}
+			
+
 			// toggle autopilot
 	//		if( key == 'A' )
 	//		{
