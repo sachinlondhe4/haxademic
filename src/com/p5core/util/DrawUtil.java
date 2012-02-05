@@ -39,5 +39,5 @@ public class DrawUtil {
 		p.ambientLight(0.2f,0.2f,0.2f, 0, 0, 6000);
 		p.ambientLight(0.2f,0.2f,0.2f, 0, 0, -6000);
 	}
-
+	
 }
