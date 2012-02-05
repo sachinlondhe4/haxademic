@@ -197,6 +197,7 @@ extends PApplet
 	 */
 	public void setup () {
 		p5 = this;
+		frame.setBackground(new java.awt.Color(0,0,0));
 		if ( !_is_setup ) { 
 			// load external properties and set flag
 			_appConfig = new P5Properties(p5);
