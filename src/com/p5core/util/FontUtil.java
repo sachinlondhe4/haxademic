@@ -33,7 +33,7 @@ public class FontUtil {
 		return p.createFont(fontName, fontSize, true, mCharset);
 	}
 	
-	public static void listfonts(PApplet p) {
+	public static void listfonts( PApplet p ) {
 		p.println( PFont.list() );
 	}
 	
