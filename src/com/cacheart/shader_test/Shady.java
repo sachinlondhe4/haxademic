@@ -32,8 +32,8 @@ extends PApplet {
 	  rectMode(CORNERS);
 	 
 	  glsl = new GLSL();
-	  glsl.loadVertexShader("shaders/MyShader.vs");
-	  glsl.loadFragmentShader("shaders/MyShader.fs");
+	  glsl.loadVertexShader("shaders/toon.vs");
+	  glsl.loadFragmentShader("shaders/toon.fs");
 	  glsl.useShaders();
 	 
 	  coordsloc = glsl.getAttribLocation("compBox");
