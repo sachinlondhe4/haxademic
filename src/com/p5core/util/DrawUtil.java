@@ -8,8 +8,7 @@ public class DrawUtil {
 	 * Clears all drawing properties so we may always have the same starting
 	 * point when drawing across classes.
 	 * 
-	 * @param p
-	 *            Processing Applet for reference to p5 core
+	 * @param p		Processing Applet for reference to p5 core
 	 */
 	public static void resetGlobalProps(PApplet p) {
 		p.resetMatrix();
