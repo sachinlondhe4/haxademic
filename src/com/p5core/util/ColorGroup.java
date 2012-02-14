@@ -8,6 +8,7 @@ public class ColorGroup {
 	public Vector<Vector<TColor>> _colorSets;
 	protected int _curSet = 0;
 	public static int BALLET = 0;
+	public static int KACHE_OUT = 1;
 
 	public ColorGroup( int set ) {
 		getColors( set );
@@ -16,6 +17,7 @@ public class ColorGroup {
 	public void getColors( int set ) {
 		_colorSets = new Vector<Vector<TColor>>();
 		if( set == BALLET ) getBallet();
+		if( set == KACHE_OUT ) getKacheOut();
 		setRandomGroup();
 	}
 	
@@ -59,6 +61,13 @@ public class ColorGroup {
 		_colorSets.add( createGroupWithHexes( "2d2e47", "cdf200", "d9eabe", "e1efff", "d74400" ) );
 		_colorSets.add( createGroupWithHexes( "624b33", "fff8e2", "ffe86c", "a4fef9", "ffcebb" ) );
 		_colorSets.add( createGroupWithHexes( "232522", "d27f83", "dd9b8a", "d8e1bc", "e8fffb" ) );
+	}
+	
+	public void getKacheOut() {
+		_colorSets = new Vector<Vector<TColor>>();
+		_colorSets.add( createGroupWithHexes( "9c2c63", "d073a2", "e5a8ff", "fffde2", "cebf6d" ) );
+		_colorSets.add( createGroupWithHexes( "c67dff", "807bbf", "4e6c7f", "40a293", "ab322a" ) );
+		_colorSets.add( createGroupWithHexes( "f2f2f2", "f4d88b", "dcb88e", "c3844c", "ab322a" ) );
 	}
 	
 }
