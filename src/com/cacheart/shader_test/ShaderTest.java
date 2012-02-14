@@ -13,7 +13,7 @@ import processing.opengl.PGraphicsOpenGL;
 import com.sun.opengl.util.BufferUtil;
 import com.sun.opengl.util.GLUT;
 
-
+// from: http://stackoverflow.com/questions/1847940/how-to-change-a-glsl-shader-parameter-in-processing
 
 public class ShaderTest 
 extends PApplet {
@@ -75,6 +75,9 @@ extends PApplet {
 		glsl.endShader();
 
 		pgl.endGL();
+		
+//		box(10);
+
 	}
 
 	void glutSolid(){
