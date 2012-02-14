@@ -5,6 +5,6 @@ public interface ICamera
 	public void init();
 	public void update();
 	public void reset();  
-	public void setPosition( int offsetX, int offsetY, int offsetZ );
-	public void setTarget( int targetX, int targetY, int targetZ );
+	public void setPosition( float offsetX, float offsetY, float offsetZ );
+	public void setTarget( float targetX, float targetY, float targetZ );
 }

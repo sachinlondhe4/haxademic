@@ -26,8 +26,7 @@ implements ICamera
 	public float _tempTargetZ = 0;
 
 
-	public CameraBase( PApplet p5, int offsetX, int offsetY, int offsetZ )
-	{
+	public CameraBase( PApplet p5, float offsetX, float offsetY, float offsetZ ) {
 		p = p5;
 		
 		setPosition( offsetX, offsetY, offsetZ );
@@ -38,8 +37,8 @@ implements ICamera
 		_curZ = 0;
 
 		// default target
-		_targetX = p.width/2.0f;
-		_targetY = p.height/2.0f;
+		_targetX = (float)p.width/2.0f;
+		_targetY = (float)p.height/2.0f;
 		_targetZ = 0;
 
 		init();
@@ -67,7 +66,7 @@ implements ICamera
 	}
 
 	// moves the camera
-	public void setPosition( int offsetX, int offsetY, int offsetZ )
+	public void setPosition( float offsetX, float offsetY, float offsetZ )
 	{
 		_offsetX = offsetX;
 		_offsetY = offsetY;
@@ -75,7 +74,7 @@ implements ICamera
 	}
 
 	// points the camera
-	public void setTarget( int targetX, int targetY, int targetZ )
+	public void setTarget( float targetX, float targetY, float targetZ )
 	{
 		
 		_tempTargetX = targetX;
