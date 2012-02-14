@@ -44,11 +44,14 @@ implements IVizElement {
 	}
 	
 	protected void buildModel() {
-		OBJModel model = new OBJModel( p, "./models/THEDISCOVERYMULTIPLIED.obj" );
+//		OBJModel model = new OBJModel( p, "./models/THEDISCOVERYMULTIPLIED.obj" );
+//		OBJModel model = new OBJModel( p, "./models/car65.obj" );
+		OBJModel model = new OBJModel( p, "./models/lego-man.obj" );
 		model.disableMaterial();
 		model.disableTexture();
 		_objMesh = ThreeDeeUtil.ConvertObjModelToToxiMesh( p, model );
-		_objMesh.scale( 2000 );
+//		_objMesh.scale( 2000 );
+		_objMesh.scale( 50 );
 	}
 	
 	public void setDrawProps() {

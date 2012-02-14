@@ -70,7 +70,7 @@ extends PApplet
 //		_model = new OBJModel( p, "./models/skull.obj" );
 //		_model = new OBJModel( p, "./models/Lego_Man.obj" );
 //		_model = new OBJModel( p, "./models/pointer_cursor.obj" );
-		_model = new OBJModel( p, "./models/invader.obj" );
+		_model = new OBJModel( p, "./models/banana.obj" );
 //		_model = new OBJModel( p, "./models/pointer_cursor_2_hollow.obj" );
 		_model.scale(1);
 		_model.disableMaterial();
@@ -86,8 +86,8 @@ extends PApplet
 		
 		// rotate
 		_rot += p.TWO_PI / 360f;
-		p.rotateZ(_rot);
-		p.rotateY(_rot);
+		p.rotateZ(p.mouseX/100f);
+		p.rotateY(p.mouseY/100f);
 		
 		// set color
 		p.fill(255, 80);
@@ -144,7 +144,7 @@ extends PApplet
 		p.fill(255,0,255,255);
 		
 		
-		toxi.mesh( _mesh, true, 0 );
+//		toxi.mesh( _mesh, true, 0 );
 		
 		
 		
