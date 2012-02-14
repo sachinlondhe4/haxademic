@@ -31,8 +31,6 @@ import com.p5core.hardware.midi.MidiWrapper;
 import com.p5core.util.ColorGroup;
 import com.p5core.util.DrawUtil;
 import com.p5core.util.MathUtil;
-import com.p5core.util.ScreenUtil;
-import com.p5core.util.SystemUtil;
 
 public class MasterHax 
 extends ModuleBase
