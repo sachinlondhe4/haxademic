@@ -63,7 +63,7 @@ implements ICamera
 //		p.frustum(-p.width/2, p.width, 0, p.height, -100, 200);
 		
 //		p.perspective(1.0f,1.5f,1f,2000000f);
-		p.perspective( (float)Math.PI/3f, p.width / p.height, 1f, 2000000f );
+		p.perspective( (float)Math.PI/3f, (float)p.width / (float)p.height, 1f, 2000000f );
 	}
 
 	// moves the camera
