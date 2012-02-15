@@ -23,7 +23,9 @@ implements IVizModule
 	 * - Level completion should bring back to game default
 	 * - Detect when nobody is in the gameplay area
 	 * - Transitions between game states
-	 * - Spruce up graphics
+	 * - Spruce up graphics - more background graphics
+	 * - Implement a soundtrack audio player - hook up to AudioInputWrapper
+	 * - Improve color scheme
 	 */
 	
 	// input
@@ -57,8 +59,6 @@ implements IVizModule
 	protected final int GAME_READY = 2;
 	protected final int GAME_ON = 3;
 	
-//	protected final float CAMERA_Z_DEFAULT = 414;	// 720x480
-//	protected final float CAMERA_Z_DEFAULT = 640;	// 1280x720
 	protected final float CAMERA_Z_WIDTH_MULTIPLIER = 0.888888f;	// 1280x720
 	protected float _cameraZFromHeight = 0;
 	
