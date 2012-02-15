@@ -8,6 +8,7 @@ import com.haxademic.viz.ModuleBase;
 import com.haxademic.viz.elements.GridEQ;
 import com.p5core.cameras.CameraDefault;
 import com.p5core.data.EasingFloat;
+import com.p5core.hardware.kinect.KinectWrapper;
 import com.p5core.util.ColorGroup;
 import com.p5core.util.DrawUtil;
 import com.p5core.util.MathUtil;
@@ -16,6 +17,22 @@ public class KacheOut
 extends ModuleBase 
 implements IVizModule
 {
+	/**
+	 * TODO:
+	 * - Break into 2 split-screen games - should the gameplay be an IVizElement?
+	 * - Level completion should bring back to game default
+	 * - Detect when nobody is in the gameplay area
+	 * - Transitions between game states
+	 * - Spruce up graphics
+	 */
+	
+	// input
+	protected KinectWrapper _kinectInterface;
+	protected float KINECT_MIN_DIST = 0.5f;
+	protected float KINECT_MAX_DIST = 1.0f;
+	protected float K_PIXEL_SKIP = 7;
+	
+
 	// dimensions and stuff
 	protected int _stageWidth;
 	protected int _stageHeight;	
@@ -40,7 +57,10 @@ implements IVizModule
 	protected final int GAME_READY = 2;
 	protected final int GAME_ON = 3;
 	
-	protected final float CAMERA_Z_DEFAULT = 414;
+//	protected final float CAMERA_Z_DEFAULT = 414;	// 720x480
+//	protected final float CAMERA_Z_DEFAULT = 640;	// 1280x720
+	protected final float CAMERA_Z_WIDTH_MULTIPLIER = 0.888888f;	// 1280x720
+	protected float _cameraZFromHeight = 0;
 	
 	public KacheOut() {
 		super();
@@ -56,8 +76,11 @@ implements IVizModule
 		p.noStroke();
 		newCamera();
 
+		_kinectInterface = p._kinectWrapper;
+		
 		_stageWidth = p.width;
 		_stageHeight = p.height;
+		_cameraZFromHeight = (float)_stageHeight * CAMERA_Z_WIDTH_MULTIPLIER;
 
 		initGame();
 	}
@@ -82,12 +105,65 @@ implements IVizModule
 
 	void newCamera() {
 		_curCamera = new CameraDefault( p, 0, 0, 0 );
-		_curCamera.setPosition( _stageWidth/2f, _stageHeight/2f, CAMERA_Z_DEFAULT );
+		_curCamera.setPosition( _stageWidth/2f, _stageHeight/2f, _cameraZFromHeight );
 		_curCamera.setTarget( _stageWidth/2f, _stageHeight/2f, 0 );
 		_curCamera.reset();
 	}
+	
+	protected void debugCameraPos() {
+		p.println(-_stageWidth + p.mouseX*2);
+		_curCamera.setPosition( _stageWidth/2, _stageHeight/2, -_stageWidth + p.mouseX*2 );
+	}
 
 	public void beatDetect( int isKickCount, int isSnareCount, int isHatCount, int isOnsetCount ) {
+	}
+	
+	public int findKinectCenterX() {
+		// sample several rows, finding the extents of objects within range
+		int[] depthArray = _kinectInterface.getDepthData();
+		float centerX = KinectWrapper.KWIDTH / 2;
+		float minX = -1f;
+		float maxX = -1f;
+		int offset = 0;
+		int depthRaw = 0;
+		float depthInMeters = 0;
+		
+		String depths = "";
+		
+		// loop through point grid and skip over pixels on an interval, finding the horizonal extents of an object in the appropriate range
+		for ( int x = 0; x < KinectWrapper.KWIDTH; x += K_PIXEL_SKIP ) {
+			for ( int y = 0; y < KinectWrapper.KHEIGHT; y += K_PIXEL_SKIP ) {
+				if( y > 120 || y < 360 ) { // only use the middle portion of the kinect mesh
+					offset = x + y * KinectWrapper.KWIDTH;
+					depthRaw = depthArray[offset];
+					depthInMeters = _kinectInterface.rawDepthToMeters( depthRaw );
+					if( depthInMeters > KINECT_MIN_DIST && depthInMeters < KINECT_MAX_DIST ) {
+						if( minX == -1 || x < minX ) {
+							minX = x;
+						}
+						if( maxX == -1 || x > maxX ) {
+							maxX = x;
+						}
+					}
+					if( depthInMeters > 0 ) {
+					}
+				}
+			}
+		}
+//		p.println("minX = "+minX+"  maxX = "+maxX);
+		
+		// calculate blob middle X if we've registered depths in the view
+		if( minX != -1 || maxX != -1 ) {
+			if( minX == -1 ) minX = 0;
+			if( maxX == -1 ) maxX = KinectWrapper.KWIDTH - 1;
+			int blobMiddleX = p.round( minX + ( maxX - minX ) / 2 );
+			// reverse it
+			return KinectWrapper.KWIDTH - blobMiddleX;
+		} else {
+			return -1;
+		}
+		
+//		return centerX;
 	}
 	
 	public void update() {
@@ -97,11 +173,9 @@ implements IVizModule
 		p.shininess(1000f); 
 		p.lights();
 		p.background(0);
-//		p.camera();
 		
 		_curCamera.update();
-//		p.println(-_stageWidth + p.mouseX*2);
-//		_curCamera.setPosition( _stageWidth/2, _stageHeight/2, -_stageWidth + p.mouseX*2 );
+//		debugCameraPos();
 
 		updateGame();
 	}
@@ -143,6 +217,7 @@ implements IVizModule
 		_background.update();
 		p.popMatrix();
 		
+		
 		// debug bg
 //		p.pushMatrix();
 //		p.noStroke();
@@ -157,8 +232,21 @@ implements IVizModule
 			}
 		}
 		
+		// update inputs
+		float paddleX = _stageWidth / 2;
+		_kinectInterface.update();
+		if( _kinectInterface.getIsActive() == true ) {
+			int kinectCenterX = findKinectCenterX();
+			if( kinectCenterX != -1 ) {
+				paddleX = MathUtil.getPercentWithinRange( 0, KinectWrapper.KWIDTH, kinectCenterX );
+				_paddle.moveTowardsX( paddleX );
+			}
+		} else {
+			paddleX = MathUtil.getPercentWithinRange( 0, _stageWidth, p.mouseX );
+			_paddle.moveTowardsX( paddleX );
+		}
+		
 		// draw other objects
-		_paddle.moveTowardsX( MathUtil.getPercentWithinRange( 0, _stageWidth, p.mouseX ) );
 		_paddle.display();
 		_ball.display();
 		detectBlockCollisions();
@@ -174,7 +262,7 @@ implements IVizModule
 			for (int j = 0; j < _rows; j++) {
 				if( _blockGrid[i][j].active() == true && _blockGrid[i][j].detectBall() == true ) {
 					String bounceSide = _blockGrid[i][j].bounceCloserSide();
-					// @TODO: ball can hit multiple balls on one frame - need to find the closest and work from that. or, if we hit inside a corner, how to deal with that?
+					// @TODO: ball can hit multiple walls on one frame - need to find the closest and work from that. or, if we hit inside a corner, how to deal with that?
 					if( bounceSide == Block.SIDE_BOTH ) {
 						_ball.bounceX();
 						_ball.bounceY();
@@ -190,6 +278,8 @@ implements IVizModule
 			}
 		}
 	}
+	
+	
 
 	// Visual fun
 	
@@ -395,13 +485,14 @@ implements IVizModule
 		EasingFloat x, y;
 		protected int STAGE_H_PADDING = 40;
 		protected float HEIGHT = 20;
-		protected float _width = 200;
-		protected float _easing = 5f;
+		protected float _width = 0;
+		protected float _easing = 2.5f;
 		protected float _center;
 		protected TColor _color;
 
 		Paddle() {
 			_center = ( _stageWidth + _width) / 2;
+			_width = (float)_stageWidth / 5f;
 			x = new EasingFloat( _center, _easing );
 			y = new EasingFloat( _stageHeight - STAGE_H_PADDING, _easing );
 			_color = _gameColors.getRandomColor().copy();
