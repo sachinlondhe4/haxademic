@@ -16,8 +16,8 @@ public class KinectWrapper {
 
 	protected int _hardwareTilt = 0;
 
-	public static int _kinectWidth = 640;
-	public static int _kinectHeight = 480;
+	public static int KWIDTH = 640;
+	public static int KHEIGHT = 480;
 
 	PVector _loc; 		// Raw location
 	PVector _lerpedLoc;	// Interpolated location
@@ -51,7 +51,7 @@ public class KinectWrapper {
 			_depthLookUp[i] = rawDepthToMeters(i);
 		}		
 	
-		_display = p.createImage(_kinectWidth, _kinectHeight, PConstants.RGB);
+		_display = p.createImage(KWIDTH, KHEIGHT, PConstants.RGB);
 	
 		_loc = new PVector(0, 0);
 		_lerpedLoc = new PVector(0, 0);
@@ -72,6 +72,10 @@ public class KinectWrapper {
 	
 	public int[] getDepthData() {
 		return _depthArray;
+	}
+	
+	public boolean getIsActive() {
+		return _kinectActive;
 	}
 	
 	public void tiltUp() {
@@ -100,10 +104,10 @@ public class KinectWrapper {
 		float sumY = 0;
 		float count = 0;
 
-		for (int x = 0; x < _kinectWidth; x++) {
-			for (int y = 0; y < _kinectHeight; y++) {
+		for (int x = 0; x < KWIDTH; x++) {
+			for (int y = 0; y < KHEIGHT; y++) {
 				// Mirroring the image
-				int offset = _kinectWidth - x - 1 + y * _kinectWidth;
+				int offset = KWIDTH - x - 1 + y * KWIDTH;
 				// Grabbing the raw depth
 				int rawDepth = _depthArray[offset];
 	
@@ -136,7 +140,7 @@ public class KinectWrapper {
 	
 	// These functions come from:
 	// http://graphics.stanford.edu/~mdfisher/Kinect.html
-	float rawDepthToMeters(int depthValue) {
+	public float rawDepthToMeters(int depthValue) {
 		if (depthValue < 2047) {
 			return (float) (1.0 / ((double) (depthValue) * -0.0030711016 + 3.3309495161));
 		}
