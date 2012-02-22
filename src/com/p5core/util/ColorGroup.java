@@ -7,6 +7,7 @@ import toxi.color.TColor;
 public class ColorGroup {
 	public Vector<Vector<TColor>> _colorSets;
 	protected int _curSet = 0;
+	public static int NONE = -1;
 	public static int BALLET = 0;
 	public static int KACHE_OUT = 1;
 
@@ -18,17 +19,18 @@ public class ColorGroup {
 		_colorSets = new Vector<Vector<TColor>>();
 		if( set == BALLET ) getBallet();
 		if( set == KACHE_OUT ) getKacheOut();
-		setRandomGroup();
+		if( set != NONE ) setRandomGroup();
 	}
 	
-	public Vector<TColor> createGroupWithHexes( String hex1, String hex2, String hex3, String hex4, String hex5 ) {
+	public void createGroupWithTColors( TColor tColor1, TColor tColor2, TColor tColor3, TColor tColor4, TColor tColor5 ) {
 		Vector<TColor> group = new Vector<TColor>() ;
-		group.addElement( TColor.newHex( hex1 ) );
-		group.addElement( TColor.newHex( hex2 ) );
-		group.addElement( TColor.newHex( hex3 ) );
-		group.addElement( TColor.newHex( hex4 ) );
-		group.addElement( TColor.newHex( hex5 ) );
-		return group;
+		group.addElement( tColor1 );
+		group.addElement( tColor2 );
+		group.addElement( tColor3 );
+		group.addElement( tColor4 );
+		group.addElement( tColor5 );
+		_colorSets.add(  group );
+		setRandomGroup();
 	}
 	
 	public void setRandomGroup() {
@@ -51,6 +53,16 @@ public class ColorGroup {
 		return _colorSets.get( index );
 	}
 
+	public Vector<TColor> createGroupWithHexes( String hex1, String hex2, String hex3, String hex4, String hex5 ) {
+		Vector<TColor> group = new Vector<TColor>() ;
+		group.addElement( TColor.newHex( hex1 ) );
+		group.addElement( TColor.newHex( hex2 ) );
+		group.addElement( TColor.newHex( hex3 ) );
+		group.addElement( TColor.newHex( hex4 ) );
+		group.addElement( TColor.newHex( hex5 ) );
+		return group;
+	}
+	
 	public void getBallet() {
 		_colorSets = new Vector<Vector<TColor>>();
 		_colorSets.add( createGroupWithHexes( "9c2c63", "d073a2", "e5a8ff", "fffde2", "cebf6d" ) );
