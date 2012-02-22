@@ -77,7 +77,7 @@ implements IVizElement {
 			}
 		} else if( _drawMode == MODE_LINES ) {
 			float curSpacing = _baseWaveLineSpacing.value();
-			float _strokeWidth = 1;
+			float _strokeWidth = 10;
 			for(int i=0; i < 10; i++) {
 				p.stroke( _curColors.getColorFromIndex(i % 4).toARGB() );
 
