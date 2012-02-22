@@ -62,5 +62,9 @@ implements IVizElement {
 	public void dispose() {
 		_waveformData = null;
 	}
+	
+	public void setWaveform( WaveformData waveformData ) {
+		_waveformData = waveformData;
+	}
 
 }
