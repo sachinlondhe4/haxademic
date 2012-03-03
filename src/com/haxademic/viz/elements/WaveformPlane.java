@@ -102,7 +102,7 @@ implements IVizElement {
 				_wave.setWaveform( _waveformDataHistory.get(NUM_LINES - i - 1) );
 				
 				// set stroke width and color
-				float strokeWidth = 5f * (float)(NUM_LINES - i)/(float)NUM_LINES;
+				float strokeWidth = 5f * ((float)NUM_LINES - (float)i)/(float)NUM_LINES;
 				_strokeWidth = strokeWidth;
 				
 				float alpha = ((float)NUM_LINES - (float)i)/(float)NUM_LINES;
@@ -119,7 +119,7 @@ implements IVizElement {
 				p.popMatrix();
 				p.pushMatrix();
 				
-				p.translate(0, curSpacing * 2, 0);
+				p.translate(0, curSpacing * 2f, 0);
 				p.rotateX(_ninteyDeg);
 				_wave.setDrawProps(_strokeWidth, p.width/2 + p.width * (i+1)/20, 20f * (NUM_LINES - i)/NUM_LINES);
 				_wave.update();
