@@ -10,7 +10,6 @@ public class WaveformData {
 	
 	protected PApplet p;
 	public float[] _waveform;
-
 	
 	public WaveformData( PApplet p5, int bufferSize ) {
 		p = p5;
@@ -39,5 +38,10 @@ public class WaveformData {
 				_waveform[i] = channel.buffer2[i+interp];
 			}
 		}
+	}
+	
+	public void copyFromOtherWaveformData( WaveformData other, int bufferSize ) {
+		_waveform = new float[bufferSize];
+		for( int i = 0; i < bufferSize; i++ ) _waveform[i] = other._waveform[i];
 	}
 }
