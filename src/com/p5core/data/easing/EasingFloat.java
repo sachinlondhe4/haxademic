@@ -1,7 +1,9 @@
-package com.p5core.data;
+package com.p5core.data.easing;
 
 
-public class EasingFloat {
+public class EasingFloat
+implements IEasingValue {
+	
 	public float _val, _target, _easeFactor;
 		   
 	public EasingFloat( float value, float easeFactor ) {

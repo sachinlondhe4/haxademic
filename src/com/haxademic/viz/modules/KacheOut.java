@@ -7,7 +7,7 @@ import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.ModuleBase;
 import com.haxademic.viz.elements.GridEQ;
 import com.p5core.cameras.CameraDefault;
-import com.p5core.data.EasingFloat;
+import com.p5core.data.easing.EasingFloat;
 import com.p5core.hardware.kinect.KinectWrapper;
 import com.p5core.util.ColorGroup;
 import com.p5core.util.DrawUtil;
