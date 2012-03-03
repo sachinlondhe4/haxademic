@@ -13,7 +13,7 @@ import com.p5core.cameras.CameraBasic;
 import com.p5core.cameras.CameraOscillate;
 import com.p5core.cameras.CameraSpotter;
 import com.p5core.cameras.common.ICamera;
-import com.p5core.draw.cache.Shapes;
+import com.p5core.draw.shapes.Shapes;
 import com.p5core.hardware.kinect.KinectWrapper;
 import com.p5core.hardware.midi.MidiWrapper;
 import com.p5core.render.Renderer;

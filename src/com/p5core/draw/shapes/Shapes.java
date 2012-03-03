@@ -1,4 +1,4 @@
-package com.p5core.draw.cache;
+package com.p5core.draw.shapes;
 
 import processing.core.PApplet;
 

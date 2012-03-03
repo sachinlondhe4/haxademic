@@ -11,7 +11,7 @@ import hipstersinc.sunflow.SunflowCamera;
 
 import com.p5core.audio.AudioInputWrapper;
 import com.p5core.cameras.CameraOscillate;
-import com.p5core.draw.cache.Shapes;
+import com.p5core.draw.shapes.Shapes;
 import com.p5core.render.Renderer;
 
 public class JukeBoxBackground

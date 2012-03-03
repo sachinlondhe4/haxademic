@@ -6,9 +6,9 @@ import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.ModuleBase;
 import com.p5core.cameras.CameraOscillate;
 import com.p5core.cameras.common.ICamera;
-import com.p5core.draw.cache.CacheFloweLogo;
-import com.p5core.draw.cache.Shapes;
 import com.p5core.draw.color.ColorRGBA;
+import com.p5core.draw.shapes.CacheFloweLogo;
+import com.p5core.draw.shapes.Shapes;
 import com.p5core.hardware.midi.MidiWrapper;
 
 public class CacheRings

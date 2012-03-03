@@ -6,7 +6,7 @@ import toxi.processing.ToxiclibsSupport;
 import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
 import com.p5core.audio.AudioInputWrapper;
-import com.p5core.draw.cache.Shapes;
+import com.p5core.draw.shapes.Shapes;
 import com.p5core.util.ColorGroup;
 
 public class SphereDraw
