@@ -25,6 +25,7 @@ import com.haxademic.viz.elements.RotatingRings;
 import com.haxademic.viz.elements.RotatorShapes;
 import com.haxademic.viz.elements.SphereClouds;
 import com.haxademic.viz.elements.SphericalHarmonicsOscillator;
+import com.haxademic.viz.elements.WaveformPlane;
 import com.haxademic.viz.elements.WaveformShapes;
 import com.p5core.cameras.CameraBasic;
 import com.p5core.hardware.midi.MidiWrapper;
@@ -81,6 +82,7 @@ implements IVizModule
 		_bgElements.add( new GridEQ( p, toxi, _audioData ) );
 		
 		_fgElements = new Vector<IVizElement>();
+		_fgElements.add( new WaveformPlane( p, toxi, _audioData ) );
 		_fgElements.add( new WaveformShapes( p, toxi, _audioData ) );
 		_fgElements.add( new RotatorShapes( p, toxi, _audioData ) );
 		_fgElements.add( new ObjMesh( p, toxi, _audioData ) );
