@@ -12,9 +12,9 @@ import com.haxademic.viz.IVizElement;
 import com.p5core.audio.AudioInputWrapper;
 import com.p5core.data.Point3D;
 import com.p5core.draw.shapes.DrawMesh;
+import com.p5core.draw.shapes.ThreeDeeUtil;
 import com.p5core.util.ColorGroup;
 import com.p5core.util.DrawUtil;
-import com.p5core.util.ThreeDeeUtil;
 
 public class ObjMesh 
 extends ElementBase 
