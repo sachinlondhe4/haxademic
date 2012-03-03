@@ -15,6 +15,5 @@ public class Point3D {
 		x = MathUtil.easeTo( x, targetPoint.x, easeFactor );
 		y = MathUtil.easeTo( y, targetPoint.y, easeFactor );
 		z = MathUtil.easeTo( z, targetPoint.z, easeFactor );
-
 	}
 }
