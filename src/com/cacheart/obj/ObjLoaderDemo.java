@@ -27,14 +27,19 @@ extends PApplet
 	OBJModel _model;
 	WETriangleMesh _mesh;
 	float _rot;
+	
+	boolean isSunflow = false;
 
 	public void setup ()
 	{
 		p = this;
 		// set up stage and drawing properties
-//		p.size( 800, 600, "hipstersinc.P5Sunflow" );				//size(screen.width,screen.height,P3D);
-		p.size( 800, 600, PConstants.OPENGL );				//size(screen.width,screen.height,P3D);
-		OpenGLUtil.SetQuality( p, OpenGLUtil.MEDIUM );
+		if( isSunflow == true ) {
+			p.size( 1200, 800, "hipstersinc.P5Sunflow" );				//size(screen.width,screen.height,P3D);
+		} else {
+			p.size( 1200, 800, PConstants.OPENGL );				//size(screen.width,screen.height,P3D);
+			OpenGLUtil.SetQuality( p, OpenGLUtil.MEDIUM );
+		}
 		p.frameRate( 30 );
 //		p.colorMode( PConstants.RGB, 255, 255, 255, 255 );
 		p.background( 0 );
@@ -70,9 +75,11 @@ extends PApplet
 //		_model = new OBJModel( p, "./models/skull.obj" );
 //		_model = new OBJModel( p, "./models/Lego_Man.obj" );
 //		_model = new OBJModel( p, "./models/pointer_cursor.obj" );
-		_model = new OBJModel( p, "./models/banana.obj" );
+//		_model = new OBJModel( p, "./models/submish-horiz-rotated.obj" );
+		_model = new OBJModel( p, "./models/submish-rotated.obj" );
+//		_model = new OBJModel( p, "./models/banana.obj" );
 //		_model = new OBJModel( p, "./models/pointer_cursor_2_hollow.obj" );
-		_model.scale(1);
+		_model.scale(200);
 		_model.disableMaterial();
 		_model.disableTexture();
 		
@@ -81,13 +88,14 @@ extends PApplet
 
 	public void draw() 
 	{
-		p.background(0,0,0,255);
+		if( isSunflow == false ) p.background(0,0,0,255);
 		p.translate(p.width/2, p.height/2, 0);
 		
 		// rotate
 		_rot += p.TWO_PI / 360f;
 		p.rotateZ(p.mouseX/100f);
 		p.rotateY(p.mouseY/100f);
+//		p.rotateX(p.PI/8f);
 		
 		// set color
 		p.fill(255, 80);
