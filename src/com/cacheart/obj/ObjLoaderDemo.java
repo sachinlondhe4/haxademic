@@ -12,7 +12,7 @@ import toxi.geom.mesh.subdiv.DualDisplacementSubdivision;
 import toxi.geom.mesh.subdiv.SubdivisionStrategy;
 import toxi.processing.ToxiclibsSupport;
 
-import com.p5core.draw.shapes.ThreeDeeUtil;
+import com.p5core.draw.util.ThreeDeeUtil;
 import com.p5core.render.Renderer;
 import com.p5core.util.OpenGLUtil;
 

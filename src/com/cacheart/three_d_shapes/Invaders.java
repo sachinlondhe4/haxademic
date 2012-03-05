@@ -7,8 +7,8 @@ import toxi.color.TColor;
 import toxi.geom.mesh.WETriangleMesh;
 
 import com.p5core.audio.AudioInputWrapper;
-import com.p5core.draw.shapes.DrawMesh;
 import com.p5core.draw.shapes.Meshes;
+import com.p5core.draw.util.DrawMesh;
 
 public class Invaders
 	extends PApplet

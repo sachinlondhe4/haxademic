@@ -1,4 +1,4 @@
-package com.p5core.draw.shapes;
+package com.p5core.draw.util;
 
 import processing.core.PApplet;
 import processing.core.PVector;
