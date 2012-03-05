@@ -13,14 +13,14 @@ import com.p5core.draw.shapes.Meshes;
 public class Invaders
 	extends PApplet
 {
-	protected WETriangleMesh _invaderMesh_01;
+	protected WETriangleMesh _invaderMesh_01, _invaderMesh_01_alt;
 	protected AudioInputWrapper _audioInput;
 	protected TColor _stroke, _fill;
 
 	public void setup () {
 		// set up stage and drawing properties
-		size( 800, 800, "hipstersinc.P5Sunflow" );
-//		size( 800, 800, PConstants.OPENGL );				//size(screen.width,screen.height,P3D);
+//		size( 800, 800, "hipstersinc.P5Sunflow" );
+		size( 800, 800, PConstants.OPENGL );				//size(screen.width,screen.height,P3D);
 		frameRate( 30 );
 		colorMode( PConstants.RGB, 255, 255, 255, 255 );
 		background( 0 );
@@ -30,8 +30,10 @@ public class Invaders
 		
 		
 		
-		_invaderMesh_01 = Meshes.invader1();
-		_invaderMesh_01.scale( 120 );
+		_invaderMesh_01 = Meshes.invader1( 1 );
+		_invaderMesh_01_alt = Meshes.invader1( 2 );
+		_invaderMesh_01.scale( 70 );
+		_invaderMesh_01_alt.scale( 70 );
 		
 		// set up audio input
 		_audioInput = new AudioInputWrapper( this, false );
@@ -50,8 +52,8 @@ public class Invaders
 		rotateX(this.PI/8f);
 		rotateY(0.5f + frameCount/100f);
 		
-		
-		DrawMesh.drawMeshWithAudio( (PApplet)this, _invaderMesh_01, _audioInput, 3f, false, _fill, _stroke, 0.25f );
+		WETriangleMesh curMesh = ( this.round( this.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_01 : _invaderMesh_01_alt;
+		DrawMesh.drawMeshWithAudio( (PApplet)this, curMesh, _audioInput, 3f, false, _fill, _stroke, 0.25f );
 	}
 	
 	// PApp-level listener for audio input data ------------------------ 
