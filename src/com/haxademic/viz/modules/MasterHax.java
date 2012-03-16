@@ -17,6 +17,7 @@ import com.haxademic.viz.ModuleBase;
 import com.haxademic.viz.elements.BarsEQ;
 import com.haxademic.viz.elements.CacheLogo;
 import com.haxademic.viz.elements.GridEQ;
+import com.haxademic.viz.elements.Invaders;
 import com.haxademic.viz.elements.KinectMesh;
 import com.haxademic.viz.elements.LinesEQ;
 import com.haxademic.viz.elements.ObjMesh;
@@ -82,13 +83,14 @@ implements IVizModule
 		_bgElements.add( new GridEQ( p, toxi, _audioData ) );
 		
 		_fgElements = new Vector<IVizElement>();
+		_fgElements.add( new Invaders( p, toxi, _audioData ) );
 		_fgElements.add( new WaveformPlane( p, toxi, _audioData ) );
 		_fgElements.add( new WaveformShapes( p, toxi, _audioData ) );
 		_fgElements.add( new RotatorShapes( p, toxi, _audioData ) );
 		_fgElements.add( new ObjMesh( p, toxi, _audioData ) );
-		_fgElements.add( new CacheLogo( p, toxi, _audioData ) );
+//		_fgElements.add( new CacheLogo( p, toxi, _audioData ) );
 		_fgElements.add( new SphericalHarmonicsOscillator( p, toxi, _audioData ) );
-		_fgElements.add( new KinectMesh( p, toxi, _audioData, p._kinectWrapper ) );
+//		_fgElements.add( new KinectMesh( p, toxi, _audioData, p._kinectWrapper ) );
 		
 		_ambientElements = new Vector<IVizElement>();
 		_ambientElements.add( new SphereClouds( p, toxi, _audioData ) );
@@ -128,6 +130,7 @@ implements IVizModule
 		// set camera
 		_curCameraZ = MathUtil.easeTo(_curCameraZ, 0, 10);
 		_curCamera.setPosition(0, 0, (int)_curCameraZ);
+		_curCamera.setTarget( 0, 0, -100 );
 		_curCamera.update();
 
 //		debugDrawColorList();
@@ -161,7 +164,9 @@ implements IVizModule
 	}
 	
 	protected void pickNewColors() {
-		if( 1 == 2 ) {
+		float lighten = 2000f;
+
+		if( 1 == 1 ) {
 			// get a single strategy
 			TColor color = ColorRange.LIGHT.getColor();
 			ColorTheoryStrategy strategy = new CompoundTheoryStrategy ();
@@ -172,11 +177,16 @@ implements IVizModule
 			// store a few random colors
 //		TColor color1 = _colorList.getRandom();
 //		color1.lighten(0.3f);
-			_colorFG1 = _colorList.get( 0 );
-			_colorFG2 = _colorList.get( 1 );//_colorFG1.getAnalog(45,1);//_colorList.get( 1 );//.getRandom();	// color1.complement().toARGB()
-			_colorAmbient = _colorList.get( 2 );//_colorFG2.getAnalog(45,1);//_colorList.get( 2 );
-			_colorBG1 = _colorList.get( 3 );//_colorAmbient.getAnalog(45,1);//_colorList.get( 3 );
-			_colorBG2 = _colorList.get( 4 );//_colorBG1.getAnalog(45,1);//_colorList.get( 4 );
+			_colorFG1 = _colorList.get( 0 ).getLightened( lighten );
+			_colorFG2 = _colorList.get( 1 ).getLightened( lighten );//_colorFG1.getAnalog(45,1);//_colorList.get( 1 );//.getRandom();	// color1.complement().toARGB()
+			_colorAmbient = _colorList.get( 2 ).getLightened( lighten );//_colorFG2.getAnalog(45,1);//_colorList.get( 2 );
+			_colorBG1 = _colorList.get( 3 ).getLightened( lighten );//_colorAmbient.getAnalog(45,1);//_colorList.get( 3 );
+			_colorBG2 = _colorList.get( 4 ).getLightened( lighten );//_colorBG1.getAnalog(45,1);//_colorList.get( 4 );
+			
+//			if( _balletColors == null ) {
+				_balletColors = new ColorGroup( -1 );
+				_balletColors.createGroupWithTColors( _colorFG1, _colorFG2, _colorAmbient, _colorBG1, _colorBG2 );
+//			}
 		} else {
 			if( _balletColors == null ) {
 				_balletColors = new ColorGroup( ColorGroup.BALLET );
@@ -189,12 +199,11 @@ implements IVizModule
 			_colorBG2 = _balletColors.getColorFromIndex( 4 );//_colorBG1.getAnalog(45,1);//_colorList.get( 4 );
 		}
 		
-		float lighten = 0.03f;
-		_colorFG1.lighten( lighten );
-		_colorFG2.lighten( lighten );
-		_colorBG1.lighten( lighten );
-		_colorBG2.lighten( lighten );
-		_colorAmbient.lighten( lighten );
+		_colorFG1.setBrightness( lighten ).lighten( lighten );
+		_colorFG2.setBrightness( lighten ).lighten( lighten );
+		_colorBG1.setBrightness( lighten ).lighten( lighten );
+		_colorBG2.setBrightness( lighten ).lighten( lighten );
+		_colorAmbient.setBrightness( lighten ).lighten( lighten );
 		
 		storeCurColors();
 	}
