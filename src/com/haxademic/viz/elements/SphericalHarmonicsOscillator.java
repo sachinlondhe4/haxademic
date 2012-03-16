@@ -121,7 +121,7 @@ implements IVizElement {
 	}
 	
 	public void updateLineMode() {
-		int linesMode = p.round( p.random( 0, 2 ) );
+		int linesMode = p.round( p.random( 0, 1 ) );
 		if( linesMode == 0 ) {
 			_isWireframe = true;
 			_isPoints = false;
