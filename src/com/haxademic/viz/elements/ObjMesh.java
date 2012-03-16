@@ -28,7 +28,7 @@ implements IVizElement {
 	protected TColor _baseColor = null;
 	protected TColor _strokeColor = null;
 	protected boolean _isWireframe = true;
-	protected boolean _isPoints = true;
+	protected boolean _isPoints = false;
 	
 	protected Point3D _rotSpeed = new Point3D( 0, 0, 0 );
 	protected Point3D _rotation = new Point3D( 0, 0, 0 );
@@ -113,7 +113,7 @@ implements IVizElement {
 	}
 	
 	public void updateLineMode() {
-		int linesMode = p.round( p.random( 0, 2 ) );
+		int linesMode = p.round( p.random( 0, 1 ) );
 		if( linesMode == 0 ) {
 			_isWireframe = true;
 			_isPoints = false;
