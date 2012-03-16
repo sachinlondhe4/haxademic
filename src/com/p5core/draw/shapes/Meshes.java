@@ -1,8 +1,6 @@
 package com.p5core.draw.shapes;
 
 import toxi.geom.AABB;
-import toxi.geom.Vec3D;
-import toxi.geom.mesh.Mesh3D;
 import toxi.geom.mesh.WETriangleMesh;
 
 
