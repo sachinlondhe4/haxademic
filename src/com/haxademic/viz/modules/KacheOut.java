@@ -2,6 +2,9 @@ package com.haxademic.viz.modules;
 
 import processing.core.PConstants;
 import toxi.color.TColor;
+import toxi.geom.AABB;
+import toxi.geom.Sphere;
+import toxi.geom.Vec3D;
 
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.ModuleBase;
@@ -296,6 +299,7 @@ implements IVizModule
 	
 	public class Block {
 		// A cell object knows about its location in the grid as well as its size with the variables x,y,w,h.
+		protected AABB _box;
 		public float x,y,z;
 		float w,h;
 		float r,g,b;
@@ -308,12 +312,16 @@ implements IVizModule
 		public static final String SIDE_BOTH = "B";
 
 		// Cell Constructor
-		Block(float x, float y, float w, float h, int index ){
-			this.w = w;
-			this.h = h;
+		Block(float x, float y, float w, float h, int index ) {
+			this.w = w/2;
+			this.h = h/2;
 			this.x = x + w/2;
 			this.y = y + h/2;
 			
+			_box = new AABB( w );
+			_box.set( x, y, 0 );
+			_box.setExtent( new Vec3D( this.w, this.h, 10 ) );
+
 			this.index = index;
 			
 			// random colors for now
@@ -329,8 +337,13 @@ implements IVizModule
 		public boolean active() {
 			return _active;
 		}
-				
+		
 		public boolean detectBall() {
+			if( _box.intersectsSphere( _ball._sphere ) ) return true;
+			return false;
+		}
+				
+		public boolean detectBallOLD() {
 			float ballX = _ball.x();
 			float ballY = _ball.y();
 			float ballSize = _ball.radius();
@@ -350,6 +363,7 @@ implements IVizModule
 		}
 		
 		public String bounceCloserSide() {
+			// TODO: FIX THIS		
 			float ballX = _ball.x();
 			float ballY = _ball.y();
 			float ballSize = _ball.radius();
@@ -375,19 +389,16 @@ implements IVizModule
 		
 		public void display() {
 			if( _active == true ) {
+				_box.set( x, y, 0 );
+
 				// adjust cell z per brightness
 				float zAdd = 40 * _audioData.getFFT().spectrum[index % 512];
-				p.pushMatrix();
-				p.translate( x, y, 0 );
 				
 				//p.rotateZ( _audioData.getFFT().averages[1] * .01f );
 				_color.alpha = p.constrain( 0.5f + zAdd, 0, 1 );
 				p.fill( _color.toARGB() );
 				p.noStroke();
-				p.box( w, h, h + zAdd*4 ); 
-//				p.rect( 0, 0, w + zAdd, h + zAdd ); 
-				
-				p.popMatrix();
+				toxi.box( _box );
 			}
 		}
 	}
@@ -397,15 +408,18 @@ implements IVizModule
 	class Ball {
 
 		protected float BALL_SIZE = 20;
+		protected int BALL_RESOLUTION = 20;
 		float _x, _y, _speedX, _speedY;
 		protected TColor _color;
+		protected Sphere _sphere;
 
-		Ball() {
+		public Ball() {
 			// convert speed to use radians
 			_speedX = ( MathUtil.randBoolean( p ) == true ) ? 4 : -4;
 			_x = p.random( 0, _stageWidth );
 			_y = p.random( _stageHeight / 2, _stageHeight );
 			_color = _gameColors.getRandomColor().copy();
+			_sphere = new Sphere( BALL_SIZE );
 		}
 		
 		public float x() { return _x; }
@@ -442,8 +456,9 @@ implements IVizModule
 			
 			p.fill( _color.toARGB() );
 			p.pushMatrix();
-			p.translate( _x, _y, 0 );
-			p.sphere( BALL_SIZE );
+			_sphere.x = _x;
+			_sphere.y = _y;
+			toxi.sphere( _sphere, BALL_RESOLUTION );
 			p.popMatrix();
 		}
 		
