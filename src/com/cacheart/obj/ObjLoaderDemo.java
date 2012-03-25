@@ -1,18 +1,15 @@
 package com.cacheart.obj;
 
+import java.util.ArrayList;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
-import processing.core.PVector;
 import saito.objloader.OBJModel;
-import toxi.geom.Triangle3D;
-import toxi.geom.Vec3D;
-import toxi.geom.mesh.LaplacianSmooth;
 import toxi.geom.mesh.WETriangleMesh;
-import toxi.geom.mesh.subdiv.DualDisplacementSubdivision;
-import toxi.geom.mesh.subdiv.SubdivisionStrategy;
 import toxi.processing.ToxiclibsSupport;
 
-import com.p5core.draw.util.ThreeDeeUtil;
+import com.p5core.draw.model.ObjPool;
+import com.p5core.draw.util.DrawMesh;
 import com.p5core.render.Renderer;
 import com.p5core.util.OpenGLUtil;
 
@@ -25,13 +22,15 @@ extends PApplet
 	Renderer _render;
 	
 	OBJModel _model;
+	ObjPool _objPool;
 	WETriangleMesh _mesh;
 	float _rot;
+	int _meshIndex;
+	ArrayList<String> _modelIds;
 	
 	boolean isSunflow = false;
 
-	public void setup ()
-	{
+	public void setup () {
 		p = this;
 		// set up stage and drawing properties
 		if( isSunflow == true ) {
@@ -41,122 +40,74 @@ extends PApplet
 			OpenGLUtil.SetQuality( p, OpenGLUtil.MEDIUM );
 		}
 		p.frameRate( 30 );
-//		p.colorMode( PConstants.RGB, 255, 255, 255, 255 );
+		p.colorMode( PConstants.RGB, 255, 255, 255, 255 );
 		p.background( 0 );
-		//p.shininess(1000); 
-//		p.lights();
-//		p.noStroke();
-		//p.noLoop();
-//		p.smooth();
-		
-		
+		p.shininess(1000); 
+		p.lights();
+		p.smooth();
 		p.rectMode(PConstants.CENTER);
 		p.noStroke();
 		toxi = new ToxiclibsSupport( p );
 		
-//		p.colorMode( PConstants.RGB, 1, 1, 1, 1 );
-
 		// set up renderer
 //		_render = new Renderer( this, 30, Renderer.OUTPUT_TYPE_MOVIE );
 //		_render.startRenderer();
 		
+		// set up 3d objects pool
+		_objPool = new ObjPool( p );
+		_objPool.loadObj( "SUBMISH_HORIZ", 		200, 	"./models/submish-rotated.obj" );
+		_objPool.loadObj( "POINTER", 			1.5f, 	"./models/pointer_cursor_2_hollow.obj" );
+		_objPool.loadObj( "DIAMOND", 			1.2f, 	"./models/diamond.obj" );
+//		_objPool.loadObj( "CAR_65", 			100, 	"./models/car65.obj" );
+//		_objPool.loadObj( "BANANA", 			0.5f, 	"./models/banana.obj" );
+		_objPool.loadObj( "INVADER", 			45, 	"./models/invader.obj" );
+		_objPool.loadObj( "LEGO_MAN", 			30, 	"./models/lego-man.obj" );
+		_objPool.loadObj( "DISCOVERY", 			900, 	"./models/the-discovery-multiplied-seied.obj" );
+		_objPool.loadObj( "SOCCER_BALL", 		100, 	"./models/soccer_ball.obj" );
+		_objPool.loadObj( "TOPSECRET", 			400, 	"./models/topsecret-seied.obj" );
 		
-		
-		loadObj();
-		
-		_mesh = ThreeDeeUtil.ConvertObjModelToToxiMesh( p, _model );
+		_modelIds = _objPool.getIds();
+		_model = _objPool.getModel( _modelIds.get( 0 ) );
+		_mesh = _objPool.getMesh( _modelIds.get( 0 ) );
+
 //		ThreeDeeUtil.SmoothToxiMesh( p, _mesh, 2 );
 	}
 	
-	void loadObj() {
-//		_model = new OBJModel( p, "./models/THEDISCOVERYMULTIPLIED.obj" );
-//		_model = new OBJModel( p, "./models/ducky.obj" );
-//		_model = new OBJModel( p, "./models/teapot.obj" );
-//		_model = new OBJModel( p, "./models/skull.obj" );
-//		_model = new OBJModel( p, "./models/Lego_Man.obj" );
-//		_model = new OBJModel( p, "./models/pointer_cursor.obj" );
-//		_model = new OBJModel( p, "./models/submish-horiz-rotated.obj" );
-		_model = new OBJModel( p, "./models/submish-rotated.obj" );
-//		_model = new OBJModel( p, "./models/banana.obj" );
-//		_model = new OBJModel( p, "./models/pointer_cursor_2_hollow.obj" );
-		_model.scale(200);
-		_model.disableMaterial();
-		_model.disableTexture();
-		
-		p.println("_model faces: "+_model.getFaceCount() );
+	public void keyPressed() {
+		// cycle through images
+		if( key == ' ' ) {
+			_meshIndex++;
+			if( _meshIndex >= _modelIds.size() ) _meshIndex = 0;
+			
+			_model = _objPool.getModel( _modelIds.get( _meshIndex ) );
+			_mesh = _objPool.getMesh( _modelIds.get( _meshIndex ) );
+		}
 	}
 
-	public void draw() 
-	{
+	public void draw() {
+		// draw backgournd and set to center
 		if( isSunflow == false ) p.background(0,0,0,255);
 		p.translate(p.width/2, p.height/2, 0);
 		
-		// rotate
+		// rotate with mouse
 		_rot += p.TWO_PI / 360f;
 		p.rotateZ(p.mouseX/100f);
 		p.rotateY(p.mouseY/100f);
-//		p.rotateX(p.PI/8f);
 		
-		// set color
+		// draw OBJModel
+		p.translate(0,0,-150);
 		p.fill(255, 80);
-		p.stroke(255, 50f);
-		p.strokeWeight(3);
 		p.noStroke();
+		DrawMesh.drawObjModel( p, toxi, _model );
 		
-		// loop through and set vertices
-		Triangle3D tri;
-		
-		// loop through model's vertices
-		for( int i = 0; i < _model.getFaceCount(); i++ ) {
-//		for( int i = 2; i < _model.getFaceCount(); i+=3 ) {
-			// get vertex
-//			vert = _model.getVertex( i );
-			PVector[] facePoints = _model.getFaceVertices( i );
-			p.fill(20 * (p.TWO_PI / 360f)*i, 255);
-//			p.fill( 255, 100);
-		
-//			mesh.addFace( 
-//					new Vec3D( facePoints[0].x, facePoints[0].y, facePoints[0].z ), 
-//					new Vec3D( facePoints[1].x, facePoints[1].y, facePoints[1].z ), 
-//					new Vec3D( facePoints[2].x, facePoints[2].y, facePoints[2].z )
-//				);
-
-			tri = new Triangle3D( 
-					new Vec3D( facePoints[0].x, facePoints[0].y, facePoints[0].z ), 
-					new Vec3D( facePoints[1].x, facePoints[1].y, facePoints[1].z ), 
-					new Vec3D( facePoints[2].x, facePoints[2].y, facePoints[2].z )
-				);
-			toxi.triangle( tri );
-
-				// from 3rd point on, start connecting triangles
-//				if( i >= 2 ) {
-//					mesh.addFace( 
-//							new Vec3D( _model.getVertex( i ).x, _model.getVertex( i ).y, _model.getVertex( i ).z ), 
-//							new Vec3D( _model.getVertex( i-1 ).x, _model.getVertex( i-1 ).y, _model.getVertex( i-1 ).z ), 
-//							new Vec3D( _model.getVertex( i-2 ).x, _model.getVertex( i-2 ).y, _model.getVertex( i-2 ).z ) 
-//							);
-//				}
-//			}
-
-		}		
-//	    toxi.mesh( mesh, true, 0 );
-
-
-		//_model.draw();
-//		p.println("frame: "+p.frameCount);
-		
-		
-		
-		
+		// draw WETriangleMesh
 		p.translate(0,0,300);
-		p.fill(255,0,255,255);
+		p.stroke(255, 100f);
+		p.strokeWeight(2);
+		p.noFill();
+		toxi.mesh( _mesh, true, 0 );
 		
-		
-//		toxi.mesh( _mesh, true, 0 );
-		
-		
-		
-		 // render movie
+		// render movie
 		if( _render != null ) {
 			_render.renderFrame();
 			if( p.frameCount == 300 ) {
