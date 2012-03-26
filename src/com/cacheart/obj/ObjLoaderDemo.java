@@ -58,13 +58,19 @@ extends PApplet
 		_objPool.loadObj( "SUBMISH_HORIZ", 		200, 	"./models/submish-rotated.obj" );
 		_objPool.loadObj( "POINTER", 			1.5f, 	"./models/pointer_cursor_2_hollow.obj" );
 		_objPool.loadObj( "DIAMOND", 			1.2f, 	"./models/diamond.obj" );
-//		_objPool.loadObj( "CAR_65", 			100, 	"./models/car65.obj" );
-//		_objPool.loadObj( "BANANA", 			0.5f, 	"./models/banana.obj" );
 		_objPool.loadObj( "INVADER", 			45, 	"./models/invader.obj" );
 		_objPool.loadObj( "LEGO_MAN", 			30, 	"./models/lego-man.obj" );
 		_objPool.loadObj( "DISCOVERY", 			900, 	"./models/the-discovery-multiplied-seied.obj" );
 		_objPool.loadObj( "SOCCER_BALL", 		100, 	"./models/soccer_ball.obj" );
 		_objPool.loadObj( "TOPSECRET", 			400, 	"./models/topsecret-seied.obj" );
+		_objPool.loadObj( "SHUTTLE", 			30, 	"./models/Space Shuttle.obj" );
+		_objPool.loadObj( "SPEAKER", 			200, 	"./models/speaker.obj" );
+		_objPool.loadObj( "HOUSE", 				150, 	"./models/monopoly-house.obj" );
+		_objPool.loadObj( "MODE_SET", 			150, 	"./models/mode-set-3.obj" );
+		
+//		_objPool.loadObj( "CAR_65", 			100, 	"./models/car65.obj" );
+//		_objPool.loadObj( "BANANA", 			0.5f, 	"./models/banana.obj" );
+		
 		
 		_modelIds = _objPool.getIds();
 		_model = _objPool.getModel( _modelIds.get( 0 ) );
@@ -96,7 +102,8 @@ extends PApplet
 		
 		// draw OBJModel
 		p.translate(0,0,-150);
-		p.fill(255, 80);
+		p.fill(0,200,234, 255);
+		p.fill(255, 255);
 		p.noStroke();
 		DrawMesh.drawObjModel( p, toxi, _model );
 		
@@ -105,7 +112,7 @@ extends PApplet
 		p.stroke(255, 100f);
 		p.strokeWeight(2);
 		p.noFill();
-		toxi.mesh( _mesh, true, 0 );
+		if( !isSunflow ) toxi.mesh( _mesh, true, 0 );
 		
 		// render movie
 		if( _render != null ) {
