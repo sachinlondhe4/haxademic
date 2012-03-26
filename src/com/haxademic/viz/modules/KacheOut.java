@@ -23,12 +23,19 @@ implements IVizModule
 	/**
 	 * TODO:
 	 * - Break into 2 split-screen games - should the gameplay be an IVizElement?
+	 * - Switch blocks to invaders
+	 * - Hyper speed mode for fun?
+	 * - Instead of bouncing off blocks, they should just explode 
 	 * - Level completion should bring back to game default
 	 * - Detect when nobody is in the gameplay area
 	 * - Transitions between game states
 	 * - Spruce up graphics - more background graphics
 	 * - Implement a soundtrack audio player - hook up to AudioInputWrapper
 	 * - Improve color scheme
+	 * - Win/lose screen
+	 * - invader explosions could bounce off existing game objects
+	 * - Bonus points for hitting UFO
+	 * - Moon trails orbiting the game ball
 	 */
 	
 	// input
