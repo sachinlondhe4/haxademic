@@ -11,6 +11,8 @@ import toxi.processing.ToxiclibsSupport;
 import com.p5core.draw.model.ObjPool;
 import com.p5core.draw.util.DrawMesh;
 import com.p5core.render.Renderer;
+import com.p5core.util.DebugUtil;
+import com.p5core.util.DrawUtil;
 import com.p5core.util.OpenGLUtil;
 
 public class ObjLoaderDemo 
@@ -76,6 +78,9 @@ extends PApplet
 		_mesh = _objPool.getMesh( _modelIds.get( 0 ) );
 
 //		ThreeDeeUtil.SmoothToxiMesh( p, _mesh, 2 );
+		
+		DebugUtil.showMemoryUsage();
+		OpenGLUtil.SetQuality( p, OpenGLUtil.HIGH );
 	}
 	
 	public void keyPressed() {
@@ -90,8 +95,7 @@ extends PApplet
 	}
 
 	public void draw() {
-		p.shininess(1000); 
-		p.lights();
+		DrawUtil.setBasicLights( p );
 		// draw backgournd and set to center
 		if( isSunflow == false ) p.background(0,0,0,255);
 		p.translate(p.width/2, p.height/2, 0);
