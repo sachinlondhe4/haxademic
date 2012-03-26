@@ -21,7 +21,6 @@
 	<classpathentry kind="lib" path="lib/oscP5/library/oscP5.jar"/>
 	<classpathentry kind="lib" path="lib/launchpad/library/launchpad.jar"/>
 	<classpathentry kind="lib" path="lib/themidibus/themidibus.jar"/>
-	<classpathentry kind="lib" path="lib/GLGraphics/library/GLGraphics.jar"/>
 	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/volumeutils/library/volumeutils.jar"/>
 	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/colorutils/library/colorutils.jar"/>
 	<classpathentry kind="lib" path="lib/opengl/gluegen-rt.jar">
@@ -37,6 +36,7 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/video.jar"/>
 	<classpathentry kind="lib" path="lib/OBJLoader/library/OBJLoader.jar"/>
+	<classpathentry kind="lib" path="lib/GLGraphics/library/GLGraphics.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
