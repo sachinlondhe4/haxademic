@@ -42,8 +42,6 @@ extends PApplet
 		p.frameRate( 30 );
 		p.colorMode( PConstants.RGB, 255, 255, 255, 255 );
 		p.background( 0 );
-		p.shininess(1000); 
-		p.lights();
 		p.smooth();
 		p.rectMode(PConstants.CENTER);
 		p.noStroke();
@@ -92,6 +90,8 @@ extends PApplet
 	}
 
 	public void draw() {
+		p.shininess(1000); 
+		p.lights();
 		// draw backgournd and set to center
 		if( isSunflow == false ) p.background(0,0,0,255);
 		p.translate(p.width/2, p.height/2, 0);
