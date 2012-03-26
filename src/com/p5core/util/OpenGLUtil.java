@@ -18,10 +18,14 @@ public class OpenGLUtil {
 			case MEDIUM :
 				p.hint(p.ENABLE_OPENGL_2X_SMOOTH);
 				gl.glHint (gl.GL_LINE_SMOOTH_HINT, gl.GL_FASTEST);
+				gl.glHint (gl.GL_POINT_SMOOTH_HINT, gl.GL_FASTEST);
+				gl.glHint (gl.GL_POLYGON_SMOOTH_HINT, gl.GL_FASTEST);
 				break;
 			case HIGH :
 				p.hint(p.ENABLE_OPENGL_4X_SMOOTH);
 				gl.glHint (gl.GL_LINE_SMOOTH_HINT, gl.GL_NICEST);
+				gl.glHint (gl.GL_POINT_SMOOTH_HINT, gl.GL_NICEST);
+				gl.glHint (gl.GL_POLYGON_SMOOTH_HINT, gl.GL_NICEST);
 				gl.glEnable (gl.GL_LINE_SMOOTH);
 				break;
 		}
