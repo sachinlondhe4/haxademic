@@ -1,5 +1,7 @@
 package com.p5core.draw.util;
 
+import javax.media.opengl.GL;
+
 import processing.core.PApplet;
 import processing.core.PVector;
 import saito.objloader.OBJModel;
@@ -7,6 +9,8 @@ import toxi.geom.Vec3D;
 import toxi.geom.mesh.LaplacianSmooth;
 import toxi.geom.mesh.TriangleMesh;
 import toxi.geom.mesh.WETriangleMesh;
+import codeanticode.glgraphics.GLGraphics;
+import codeanticode.glgraphics.GLModel;
 
 public class ThreeDeeUtil {
 
@@ -35,5 +39,40 @@ public class ThreeDeeUtil {
 		weMesh.addMesh(mesh);
 		return weMesh;
 	}
-
+	
+	/**
+	 * Returns a GLModel, suitable to load into a fragment shader
+	 * From: http://codeanticode.wordpress.com/2011/03/28/integrating-toxilibs-and-glgraphics/
+	 * @param p
+	 * @param mesh
+	 * @return
+	 */
+	public static GLModel GetGLModelFromToxiMesh( PApplet p, WETriangleMesh mesh ){
+		mesh.computeVertexNormals();
+		float[] verts = mesh.getMeshAsVertexArray();
+		int numV = verts.length / 4; // The vertices array from the mesh object has a spacing of 4.
+		float[] norms = mesh.getVertexNormalsAsArray();
+		
+		GLModel glmesh = new GLModel(p, numV, p.TRIANGLES, GLModel.STATIC);
+		glmesh.beginUpdateVertices();
+		for (int i = 0; i < numV; i++) glmesh.updateVertex(i, verts[4 * i], verts[4 * i + 1], verts[4 * i + 2]);
+		glmesh.endUpdateVertices(); 
+		
+		glmesh.initNormals();
+		glmesh.beginUpdateNormals();
+		for (int i = 0; i < numV; i++) glmesh.updateNormal(i, norms[4 * i], norms[4 * i + 1], norms[4 * i + 2]);
+		glmesh.endUpdateNormals();
+		  
+		return glmesh;
+	}
+	
+	public static void setGLProps( GLGraphics renderer ) {
+		renderer.gl.glEnable(GL.GL_LIGHTING);
+		renderer.gl.glDisable(GL.GL_COLOR_MATERIAL);
+		renderer.gl.glEnable(GL.GL_LIGHT0);
+		renderer.gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, new float[]{0.1f,0.1f,0.1f,1}, 0);
+		renderer.gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, new float[]{1,0,0,1}, 0);
+		renderer.gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, new float[] {-1000, 600, 2000, 0 }, 0);
+		renderer.gl.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, new float[] { 1, 1, 1, 1 }, 0);
+	}
 }
