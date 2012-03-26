@@ -273,14 +273,14 @@ implements IVizModule
 				if( _blockGrid[i][j].active() == true && _blockGrid[i][j].detectBall() == true ) {
 					String bounceSide = _blockGrid[i][j].bounceCloserSide();
 					// @TODO: ball can hit multiple walls on one frame - need to find the closest and work from that. or, if we hit inside a corner, how to deal with that?
-					if( bounceSide == Block.SIDE_BOTH ) {
-						_ball.bounceX();
-						_ball.bounceY();
-					} else if( bounceSide == Block.SIDE_H ) {
-						_ball.bounceX();
-					} else {
-						_ball.bounceY();
-					}
+//					if( bounceSide == Block.SIDE_BOTH ) {
+//						_ball.bounceX();
+//						_ball.bounceY();
+//					} else if( bounceSide == Block.SIDE_H ) {
+//						_ball.bounceX();
+//					} else {
+//						_ball.bounceY();
+//					}
 					
 					_blockGrid[i][j].die();
 //					break;
