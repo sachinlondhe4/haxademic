@@ -211,7 +211,7 @@ implements IVizModule
 	}
 	
 	protected void handleUserInput() {
-		// update inputs
+		// update keyboard or Kinect, and pass the value to the paddle
 		float paddleX = _stageWidth / 2;
 		_kinectInterface.update();
 		if( _kinectInterface.getIsActive() == true ) {
@@ -312,9 +312,9 @@ implements IVizModule
 			}
 		}
 		// draw other objects
+		detectCollisions();
 		_paddle.display();
 		_ball.display();
-		detectBlockCollisions();
 	}
 	
 	protected void launchBall() {
@@ -322,23 +322,15 @@ implements IVizModule
 		_ball.launch();
 	}
 	
-	public void detectBlockCollisions() {
+	public void detectCollisions() {
+		if( _paddle.detectSphere( _ball.sphere() ) == true ) {
+			_ball.bounceOffPaddle();
+		}
 		for (int i = 0; i < _cols; i++) {
 			for (int j = 0; j < _rows; j++) {
 				if( _blockGrid[i][j].active() == true && _blockGrid[i][j].detectBall() == true ) {
-					String bounceSide = _blockGrid[i][j].bounceCloserSide();
-					// @TODO: ball can hit multiple walls on one frame - need to find the closest and work from that. or, if we hit inside a corner, how to deal with that?
-//					if( bounceSide == Block.SIDE_BOTH ) {
-//						_ball.bounceX();
-//						_ball.bounceY();
-//					} else if( bounceSide == Block.SIDE_H ) {
-//						_ball.bounceX();
-//					} else {
-//						_ball.bounceY();
-//					}
-					
+					String bounceSide = _blockGrid[i][j].bounceCloserSide();					
 					_blockGrid[i][j].die();
-//					break;
 				}
 			}
 		}
@@ -373,7 +365,7 @@ implements IVizModule
 		public static final String SIDE_V = "V";
 		public static final String SIDE_BOTH = "B";
 
-		// Cell Constructor
+		
 		Block(float x, float y, float w, float h, int index ) {
 			this.w = w/2;
 			this.h = h/2;
@@ -460,10 +452,10 @@ implements IVizModule
 				_color.alpha = p.constrain( 0.5f + zAdd, 0, 1 );
 				p.fill( _color.toARGB() );
 				p.noStroke();
-//				toxi.box( _box );
+				toxi.box( _box );
 				
-				WETriangleMesh mesh1 = ( p.round( p.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_01 : _invaderMesh_01_alt;
-				DrawMesh.drawMeshWithAudio( p, mesh1, p.getAudio(), 3f, false, _color, _color, 0.25f );
+//				WETriangleMesh mesh1 = ( p.round( p.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_01 : _invaderMesh_01_alt;
+//				DrawMesh.drawMeshWithAudio( p, mesh1, p.getAudio(), 3f, false, _color, _color, 0.25f );
 
 			}
 		}
@@ -491,6 +483,7 @@ implements IVizModule
 		
 		public float x() { return _x; }
 		public float y() { return _y; }
+		public Sphere sphere() { return _sphere; }
 		public float radius() { return BALL_SIZE; }
 		public float paddleTop() { return _paddle.top() - BALL_SIZE; }
 		
@@ -512,21 +505,19 @@ implements IVizModule
 		public void display() {
 			if( _gameState == GAME_READY ) {
 				_x = _paddle.x();
-				_y = paddleTop();
+				_y = _paddle.y() - _paddle.height() - BALL_SIZE - 10;
 			} else {
 				_x += _speedX;
 				_y += _speedY;
 			}
 			
 			detectWalls();
-			detectPaddle();
+//			detectPaddle();
 			
 			p.fill( _color.toARGB() );
-			p.pushMatrix();
 			_sphere.x = _x;
 			_sphere.y = _y;
 			toxi.sphere( _sphere, BALL_RESOLUTION );
-			p.popMatrix();
 		}
 		
 		protected void detectWalls() {
@@ -548,13 +539,11 @@ implements IVizModule
 			}
 		}
 
-		protected void detectPaddle() {
-			if( _y > paddleTop() ) {
-				if( _x > _paddle.left() && _x < _paddle.right() ) {
-					p.println("bounce!");
-					_speedX = ( _x - _paddle.x() ) / 10;
-					bounceY();
-				}
+		protected void bounceOffPaddle() {
+			if( _x > _paddle.left() && _x < _paddle.right() ) {
+				p.println("bounce!");
+				_speedX = ( _x - _paddle.x() ) / 10;
+				bounceY();
 			}
 		}
 
@@ -564,7 +553,7 @@ implements IVizModule
 
 	class Paddle {
 
-		EasingFloat x, y;
+		protected EasingFloat _x, _y, _z;
 		protected int STAGE_H_PADDING = 40;
 		protected float HEIGHT = 20;
 		protected float _width = 0;
@@ -576,29 +565,34 @@ implements IVizModule
 		Paddle() {
 			_center = ( _stageWidth + _width) / 2;
 			_width = (float)_stageWidth / 5f;
-			x = new EasingFloat( _center, _easing );
-			y = new EasingFloat( _stageHeight - STAGE_H_PADDING, _easing );
+			_x = new EasingFloat( _center, _easing );
+			_y = new EasingFloat( _stageHeight - STAGE_H_PADDING, _easing );
 			_color = _gameColors.getRandomColor().copy();
 			_box = new AABB( 1 );
 			_box.setExtent( new Vec3D( _width, HEIGHT, HEIGHT ) );
 		} 
 		
-		public float x() { return x.value(); }
-		public float y() { return y.value(); }
+		public float x() { return _x.value(); }
+		public float y() { return _y.value(); }
 		public float height() { return HEIGHT; }
-		public float top() { return y.value() - HEIGHT / 2f ; }
-		public float left() { return x.value() - _width / 2f ; }
-		public float right() { return x.value() + _width / 2f ; }
+		public float top() { return _y.value() - HEIGHT / 2f ; }
+		public float left() { return _x.value() - _width / 2f ; }
+		public float right() { return _x.value() + _width / 2f ; }
 		
 		public void moveTowardsX( float percent ) {
-			x.setTarget( percent * _stageWidth );
+			_x.setTarget( percent * _stageWidth );
 		}
-		
+
+		public boolean detectSphere( Sphere sphere ) {
+			if( _box.intersectsSphere( sphere ) ) return true;
+			return false;
+		}
+
 		void display() {
-			x.update();
-			y.update();
+			_x.update();
+			_y.update();
 			
-			_box.set( x.value(), y.value(), 0 );
+			_box.set( _x.value(), _y.value(), 0 );
 			_box.rotateX( p.frameCount / 30f );
 			_color.alpha = 0.5f + _audioData.getFFT().averages[1];
 			p.fill( _color.toARGB() );
