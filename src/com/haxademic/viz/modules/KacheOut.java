@@ -11,9 +11,9 @@ import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.ModuleBase;
 import com.haxademic.viz.elements.GridEQ;
 import com.p5core.cameras.CameraDefault;
+import com.p5core.data.FloatRange;
 import com.p5core.data.easing.EasingFloat;
 import com.p5core.draw.shapes.Meshes;
-import com.p5core.draw.util.DrawMesh;
 import com.p5core.hardware.kinect.KinectWrapper;
 import com.p5core.util.ColorGroup;
 import com.p5core.util.DebugUtil;
@@ -30,9 +30,7 @@ implements IVizModule
 	 * - Break into 2 split-screen games - should the gameplay be an IVizElement?
 	 * - Instead of bouncing off blocks, they should just explode 
 	 * - Bonus points for hitting UFO?
-	 * - use toxiclibs objects for all objects for collision-detection capabilities
 	 * - speed gameplay up as number of blocks decreases
-	 * - paddle should explode when the ball passes
 	 * SCORING
 	 * - keep track of wins of either dies
 	 * - keep track of score, based on number of blocks smashed
@@ -50,6 +48,7 @@ implements IVizModule
 	 * - tilt game boards with player movement
 	 * - Improve color scheme
 	 * - Spruce up graphics - more background graphics
+	 * - paddle should explode when the ball passes
 	 * GAME FLOW
 	 * - Detect when nobody is in the gameplay area
 	 * - Transitions between game states
@@ -73,7 +72,7 @@ implements IVizModule
 	protected float KINECT_MIN_DIST = 0.5f;
 	protected float KINECT_MAX_DIST = 1.0f;
 	protected float K_PIXEL_SKIP = 7;
-	
+	protected FloatRange _kinectPosition;
 
 	// dimensions and stuff
 	protected int _stageWidth;
@@ -83,6 +82,7 @@ implements IVizModule
 	// game state
 	protected int _curMode;
 	protected ColorGroup _gameColors;
+	protected int _numPlayers = 2;
 
 	// blocks
 	protected int _cols = 10;
@@ -176,31 +176,29 @@ implements IVizModule
 		
 		// loop through point grid and skip over pixels on an interval, finding the horizonal extents of an object in the appropriate range
 		for ( int x = 0; x < KinectWrapper.KWIDTH; x += K_PIXEL_SKIP ) {
-			for ( int y = 0; y < KinectWrapper.KHEIGHT; y += K_PIXEL_SKIP ) {
-				if( y > 120 || y < 360 ) { // only use the middle portion of the kinect mesh
-					offset = x + y * KinectWrapper.KWIDTH;
-					depthRaw = depthArray[offset];
-					depthInMeters = _kinectInterface.rawDepthToMeters( depthRaw );
-					if( depthInMeters > KINECT_MIN_DIST && depthInMeters < KINECT_MAX_DIST ) {
-						if( minX == -1 || x < minX ) {
-							minX = x;
-						}
-						if( maxX == -1 || x > maxX ) {
-							maxX = x;
-						}
+			for ( int y = 120; y < 360; y += K_PIXEL_SKIP ) { // only use the vertical middle portion of the kinect data
+				offset = x + y * KinectWrapper.KWIDTH;
+				depthRaw = depthArray[offset];
+				depthInMeters = _kinectInterface.rawDepthToMeters( depthRaw );
+				if( depthInMeters > KINECT_MIN_DIST && depthInMeters < KINECT_MAX_DIST ) {
+					if( minX == -1 || x < minX ) {
+						minX = x;
 					}
-					if( depthInMeters > 0 ) {
+					if( maxX == -1 || x > maxX ) {
+						maxX = x;
 					}
+				}
+				if( depthInMeters > 0 ) {
 				}
 			}
 		}
-//		p.println("minX = "+minX+"  maxX = "+maxX);
-		
+		_kinectPosition.set( minX, maxX );
+				
 		// calculate blob middle X if we've registered depths in the view
 		if( minX != -1 || maxX != -1 ) {
 			if( minX == -1 ) minX = 0;
 			if( maxX == -1 ) maxX = KinectWrapper.KWIDTH - 1;
-			int blobMiddleX = p.round( minX + ( maxX - minX ) / 2 );
+			int blobMiddleX = p.round( _kinectPosition.center() );
 			// reverse it
 			return KinectWrapper.KWIDTH - blobMiddleX;
 		} else {
@@ -248,6 +246,8 @@ implements IVizModule
 	public void initGame() {
 		pickNewColors();
 		
+		_kinectPosition = new FloatRange( 0, 0 );
+
 		
 		// create grid
 		float boxW = _stageWidth / _cols;
@@ -287,8 +287,8 @@ implements IVizModule
 //		p.rect( _stageWidth/2, _stageHeight/2, _stageWidth, _stageHeight );
 //		p.popMatrix();
 		
-		handleUserInput();
 		drawBackground();
+		handleUserInput();
 		drawGameObjects();
 		
 		if( p.frameCount % (30 * 10) == 0 ) {
@@ -343,7 +343,6 @@ implements IVizModule
 	
 
 	// Visual fun
-	
 	protected void pickNewColors() {
 		// get themed colors
 		if( _gameColors == null ) {
