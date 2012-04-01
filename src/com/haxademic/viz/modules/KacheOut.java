@@ -5,14 +5,18 @@ import toxi.color.TColor;
 import toxi.geom.AABB;
 import toxi.geom.Sphere;
 import toxi.geom.Vec3D;
+import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.ModuleBase;
 import com.haxademic.viz.elements.GridEQ;
 import com.p5core.cameras.CameraDefault;
 import com.p5core.data.easing.EasingFloat;
+import com.p5core.draw.shapes.Meshes;
+import com.p5core.draw.util.DrawMesh;
 import com.p5core.hardware.kinect.KinectWrapper;
 import com.p5core.util.ColorGroup;
+import com.p5core.util.DebugUtil;
 import com.p5core.util.DrawUtil;
 import com.p5core.util.MathUtil;
 
@@ -84,6 +88,7 @@ implements IVizModule
 	protected int _cols = 10;
 	protected int _rows = 7;
 	protected Block[][] _blockGrid;
+	protected WETriangleMesh _invaderMesh_01, _invaderMesh_01_alt;
 	
 	// should be an array of balls
 	protected Ball _ball;
@@ -133,11 +138,6 @@ implements IVizModule
 		newCamera();
 	}
 	
-	public void handleKeyboardInput() {
-		if ( p.key == 'm' || p.key == 'M' ) {
-			 launchBall();
-		}
-	}
 
 	void newCamera() {
 		_curCamera = new CameraDefault( p, 0, 0, 0 );
@@ -154,6 +154,14 @@ implements IVizModule
 	public void beatDetect( int isKickCount, int isSnareCount, int isHatCount, int isOnsetCount ) {
 	}
 	
+	// INPUT --------------------------------------------------------------------------------------
+
+	public void handleKeyboardInput() {
+		if ( p.key == 'm' || p.key == 'M' ) {
+			 launchBall();
+		}
+	}
+
 	public int findKinectCenterX() {
 		// sample several rows, finding the extents of objects within range
 		int[] depthArray = _kinectInterface.getDepthData();
@@ -202,6 +210,25 @@ implements IVizModule
 //		return centerX;
 	}
 	
+	protected void handleUserInput() {
+		// update inputs
+		float paddleX = _stageWidth / 2;
+		_kinectInterface.update();
+		if( _kinectInterface.getIsActive() == true ) {
+			int kinectCenterX = findKinectCenterX();
+			if( kinectCenterX != -1 ) {
+				paddleX = MathUtil.getPercentWithinRange( 0, KinectWrapper.KWIDTH, kinectCenterX );
+				_paddle.moveTowardsX( paddleX );
+			}
+		} else {
+			paddleX = MathUtil.getPercentWithinRange( 0, _stageWidth, p.mouseX );
+			_paddle.moveTowardsX( paddleX );
+		}
+	}
+	
+
+	// FRAME LOOP --------------------------------------------------------------------------------------
+	
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
 		DrawUtil.setCenter( p );
@@ -235,6 +262,12 @@ implements IVizModule
 			}
 		}
 		
+		_invaderMesh_01 = Meshes.invader1( 1 );
+		_invaderMesh_01_alt = Meshes.invader1( 2 );
+		_invaderMesh_01.scale( 70 );
+		_invaderMesh_01_alt.scale( 70 );
+
+		
 		// create game objects
 		_background = new GridEQ( p, toxi, _audioData );
 		_background.updateColorSet( _gameColors );
@@ -247,13 +280,6 @@ implements IVizModule
 	}
 	
 	protected void updateGame() {
-		// draw bg
-		p.pushMatrix();
-		p.translate( 0, 0, -1000 );
-		_background.update();
-		p.popMatrix();
-		
-		
 		// debug bg
 //		p.pushMatrix();
 //		p.noStroke();
@@ -261,34 +287,37 @@ implements IVizModule
 //		p.rect( _stageWidth/2, _stageHeight/2, _stageWidth, _stageHeight );
 //		p.popMatrix();
 		
+		handleUserInput();
+		drawBackground();
+		drawGameObjects();
+		
+		if( p.frameCount % (30 * 10) == 0 ) {
+			DebugUtil.showMemoryUsage();
+		}
+	}
+	
+	protected void drawBackground(){
+		// draw bg
+		p.pushMatrix();
+		p.translate( 0, 0, -1000 );
+		_background.update();
+		p.popMatrix();
+	}
+	
+	protected void drawGameObjects() {
 		// draw the blocks
 		for (int i = 0; i < _cols; i++) {
 			for (int j = 0; j < _rows; j++) {
 				_blockGrid[i][j].display();
 			}
 		}
-		
-		// update inputs
-		float paddleX = _stageWidth / 2;
-		_kinectInterface.update();
-		if( _kinectInterface.getIsActive() == true ) {
-			int kinectCenterX = findKinectCenterX();
-			if( kinectCenterX != -1 ) {
-				paddleX = MathUtil.getPercentWithinRange( 0, KinectWrapper.KWIDTH, kinectCenterX );
-				_paddle.moveTowardsX( paddleX );
-			}
-		} else {
-			paddleX = MathUtil.getPercentWithinRange( 0, _stageWidth, p.mouseX );
-			_paddle.moveTowardsX( paddleX );
-		}
-		
 		// draw other objects
 		_paddle.display();
 		_ball.display();
 		detectBlockCollisions();
 	}
 	
-	public void launchBall() {
+	protected void launchBall() {
 		_gameState = GAME_ON;
 		_ball.launch();
 	}
@@ -431,7 +460,11 @@ implements IVizModule
 				_color.alpha = p.constrain( 0.5f + zAdd, 0, 1 );
 				p.fill( _color.toARGB() );
 				p.noStroke();
-				toxi.box( _box );
+//				toxi.box( _box );
+				
+				WETriangleMesh mesh1 = ( p.round( p.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_01 : _invaderMesh_01_alt;
+				DrawMesh.drawMeshWithAudio( p, mesh1, p.getAudio(), 3f, false, _color, _color, 0.25f );
+
 			}
 		}
 	}
@@ -445,10 +478,11 @@ implements IVizModule
 		float _x, _y, _speedX, _speedY;
 		protected TColor _color;
 		protected Sphere _sphere;
-
+		protected float SPEED = 30f;
+		
 		public Ball() {
 			// convert speed to use radians
-			_speedX = ( MathUtil.randBoolean( p ) == true ) ? 4 : -4;
+			_speedX = ( MathUtil.randBoolean( p ) == true ) ? SPEED : -SPEED;
 			_x = p.random( 0, _stageWidth );
 			_y = p.random( _stageHeight / 2, _stageHeight );
 			_color = _gameColors.getRandomColor().copy();
@@ -461,8 +495,8 @@ implements IVizModule
 		public float paddleTop() { return _paddle.top() - BALL_SIZE; }
 		
 		public void launch() {
-			_speedX = ( MathUtil.randBoolean( p ) == true ) ? 8 : -8;
-			_speedY = -8;
+			_speedX = ( MathUtil.randBoolean( p ) == true ) ? SPEED : -SPEED;
+			_speedY = -SPEED;
 		}
 		
 		public void bounceX() {
@@ -534,9 +568,10 @@ implements IVizModule
 		protected int STAGE_H_PADDING = 40;
 		protected float HEIGHT = 20;
 		protected float _width = 0;
-		protected float _easing = 2.5f;
+		protected float _easing = 1.5f;
 		protected float _center;
 		protected TColor _color;
+		protected AABB _box;
 
 		Paddle() {
 			_center = ( _stageWidth + _width) / 2;
@@ -544,6 +579,8 @@ implements IVizModule
 			x = new EasingFloat( _center, _easing );
 			y = new EasingFloat( _stageHeight - STAGE_H_PADDING, _easing );
 			_color = _gameColors.getRandomColor().copy();
+			_box = new AABB( 1 );
+			_box.setExtent( new Vec3D( _width, HEIGHT, HEIGHT ) );
 		} 
 		
 		public float x() { return x.value(); }
@@ -561,16 +598,12 @@ implements IVizModule
 			x.update();
 			y.update();
 			
-			p.pushMatrix();
-			p.translate( x.value(), y.value(), 0f );
-			p.rotateX( p.frameCount / 30f );
-			
+			_box.set( x.value(), y.value(), 0 );
+			_box.rotateX( p.frameCount / 30f );
 			_color.alpha = 0.5f + _audioData.getFFT().averages[1];
 			p.fill( _color.toARGB() );
 			p.noStroke();
-			p.box( _width, HEIGHT, HEIGHT ); 
-			
-			p.popMatrix();
+			toxi.box( _box ); 
 		}
 
 	}
