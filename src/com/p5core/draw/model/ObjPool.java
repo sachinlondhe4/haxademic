@@ -67,7 +67,7 @@ public class ObjPool {
 		public ObjItem( PApplet p, float scale, String file ) {
 			_file = file;
 			_scale = scale;
-			_obj = new OBJModel( p, file );
+			_obj = new OBJModel( p, file, OBJModel.RELATIVE );
 			_obj.scale( _scale );
 			_mesh = ThreeDeeUtil.ConvertObjModelToToxiMesh( p, _obj );
 		}
