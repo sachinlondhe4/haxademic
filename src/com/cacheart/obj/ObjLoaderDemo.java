@@ -66,7 +66,7 @@ extends PApplet
 //		_objPool.loadObj( "SHUTTLE", 			30, 	"./models/Space Shuttle.obj" );
 //		_objPool.loadObj( "SPEAKER", 			200, 	"./models/speaker.obj" );
 //		_objPool.loadObj( "HOUSE", 				150, 	"./models/monopoly-house.obj" );
-//		_objPool.loadObj( "MODE_SET", 			150, 	"./models/mode-set-3.obj" );
+		_objPool.loadObj( "MODE_SET", 			150, 	"../data/models/mode-set.obj" );
 		_objPool.loadObj( "SPIROGRAPH",			150, 	"../data/models/spirograph-seied.obj" );
 		
 //		_objPool.loadObj( "CAR_65", 			100, 	"./models/car65.obj" );
