@@ -79,7 +79,7 @@ extends PApplet
 	/**
 	 * Global/static ref to PApplet - any audio-reactive object should be passed this reference, or grabbed from this static ref.
 	 */
-	private static Haxademic p5;
+	private static Haxademic p;
 	
 	/**
 	 * Loads the project .properties file to configure several app properties externally.
@@ -197,14 +197,14 @@ extends PApplet
 	 * Called by PApplet to run before the first draw() command.
 	 */
 	public void setup () {
-		p5 = this;
+		p = this;
 		frame.setBackground(new java.awt.Color(0,0,0));
 		if ( !_is_setup ) { 
 			// load external properties and set flag
-			_appConfig = new P5Properties(p5);
+			_appConfig = new P5Properties(p);
 			_is_setup = true;
 			// set screen size and renderer
-			String renderer = ( _appConfig.getBooleanProperty("sunflow", true ) == true ) ? "hipstersinc.P5Sunflow" : p5.OPENGL;
+			String renderer = ( _appConfig.getBooleanProperty("sunflow", true ) == true ) ? "hipstersinc.P5Sunflow" : p.OPENGL;
 			if(_appConfig.getBooleanProperty("fills_screen", false)) {
 				size(screen.width,screen.height,renderer);
 			} else {
@@ -215,7 +215,7 @@ extends PApplet
 		setAppletProps();
 		
 		// save toxi reference for any other classes
-		toxi = new ToxiclibsSupport(p5);
+		toxi = new ToxiclibsSupport(p);
 		
 		// init our IVizModules and supporting app-wide objects
 		initHaxademicObjects();
@@ -238,7 +238,7 @@ extends PApplet
 			hint(ENABLE_OPENGL_4X_SMOOTH); 
 		} else {
 			if( _appConfig.getBooleanProperty("sunflow", true ) == false ) { 
-				OpenGLUtil.SetQuality(p5, OpenGLUtil.MEDIUM);
+				OpenGLUtil.SetQuality(p, OpenGLUtil.MEDIUM);
 			}
 		}
 
@@ -251,13 +251,14 @@ extends PApplet
 	 * Initializes app-wide support objects for hardware interaction and rendering purposes.
 	 */
 	protected void initHaxademicObjects() {
-		_audioInput = new AudioInputWrapper( p5, _isRendering );
-		_waveformData = new WaveformData( p5, _audioInput._bufferSize );
-		_renderer = new Renderer( p5, _fps, Renderer.OUTPUT_TYPE_MOVIE );
-		_kinectWrapper = new KinectWrapper( p5 );
+		_audioInput = new AudioInputWrapper( p, _isRendering );
+		_waveformData = new WaveformData( p, _audioInput._bufferSize );
+//		_objPool = new ObjPool( p );
+		_renderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE );
+		_kinectWrapper = new KinectWrapper( p );
 //		_launchpadViz = new LaunchpadViz( p5 );
-		_oscWrapper = new OscWrapper( p5 );
-		_debugText = new DebugText( p5 );
+		_oscWrapper = new OscWrapper( p );
+		_debugText = new DebugText( p );
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
 	}
 	
@@ -300,19 +301,19 @@ extends PApplet
 	public void draw() {
 		// analyze & init audio if stepping through a render
 		if( _isRendering == true ) {
-			if( p5.frameCount == 2 ) {
+			if( p.frameCount == 2 ) {
 				
 				_renderer.startRendererForAudio( _appConfig.getStringProperty("render_audio_file", ""), _audioInput );	// cache-money.wav	// dumbo-gets-mad---plumy-tale.wav
 				if( _appConfig.getBooleanProperty("render_midi", false) == true ) {
 					try {
-						_midiRenderer = new MidiSequenceRenderer(p5);
+						_midiRenderer = new MidiSequenceRenderer(p);
 						_midiRenderer.loadMIDIFile( _appConfig.getStringProperty("render_midi_file", ""), 124, 30, -8f );	// bnc: 98  jack-splash: 
 					} catch (InvalidMidiDataException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
 				}
 				_readyForProgramChangeInt = 0;
 //				_audioInput.gainUp();
 			}
-			if( p5.frameCount > 1 ) {
+			if( p.frameCount > 1 ) {
 				// have renderer step through audio, then special call to update the single WaveformData storage object				
 				_renderer.analyzeAudio();				
 				_waveformData.updateWaveformDataForRender( _renderer, _audioInput.getAudioInput(), _audioInput._bufferSize );
@@ -322,7 +323,7 @@ extends PApplet
 		// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
 		if( _midi == null ) {
 //			if( _appConfig.getStringProperty("midi_device_in", "") != "" ) {
-				_midi = new MidiWrapper( p5, _appConfig.getStringProperty("midi_device_in", ""), _appConfig.getStringProperty("midi_device_out", "") );
+				_midi = new MidiWrapper( p, _appConfig.getStringProperty("midi_device_in", ""), _appConfig.getStringProperty("midi_device_out", "") );
 //			}
 		}
 		
@@ -348,8 +349,8 @@ extends PApplet
 		{
 			_readyForProgramChange = false;
 			_curModule = _readyForProgramChangeInt;
-			camera();
-			background(0);
+			p.camera();
+			p.background(0);
 			_modules.get( _curModule ).focus(); 
 		}
 		
@@ -368,16 +369,76 @@ extends PApplet
 		if( _isRendering == true ) _renderer.renderFrame();
 		
 		// keep screensaver off - hit shift every 1000 frames
-		if( p5.frameCount % 1000 == 0 ) _robot.keyRelease(KeyEvent.VK_SHIFT);
+		if( p.frameCount % 1000 == 0 ) _robot.keyRelease(KeyEvent.VK_SHIFT);
 
 		// display some info
 //		_debugText.draw( "Debug :: FPS:" + _fps );
 		
+		
+		if(frameCount == -1) {
+			p.camera();
+			PGraphics screenshot = createGraphics(width, height, P3D );
+			p.beginRecord(screenshot);
+			p.camera();
+			_modules.get( _curModule ).update();
+			p.endRecord();
+			PImage newImg = screenshot.get();
+			
+			println("screeshotting!");
+//			filter(THRESHOLD);
+			
+	//		PImage newImg = createImage(1000, 1000, RGB);
+//			PImage newImg = ScreenUtil.getScreenAsPImage( p5 );
+	//		println(newImg.width+"x"+newImg.height);
+			p.noStroke();
+	//		newImg.save( "output/saved_img/test.png" );
+			p.tint(255, 0, 255, 200f);
+	//		image( screenshot, 20, 20 );
+	//		image( screenshot, 40, 40 );
+	//		image( screenshot, 60, 60 );
+//			translate(0,0,-100);
+//			rotateX(TWO_PI/10);
+//			rotateZ(TWO_PI/10);
+			
+			
+//			textureMode(IMAGE);
+//			imageMode(CORNERS);
+//			resetMatrix();
+//			beginShape(QUADS);
+//			texture(newImg);
+//			vertex(0, 0, 0, 0);
+//			vertex(width, 0, width, 0);
+//			vertex(width, height, width, height);
+//			vertex(0, 0, 0, height);
+//			endShape();
+//			
+//			translate(10,10,0);
+//			beginShape(QUADS);
+//			texture(newImg);
+//			vertex(0, 0, 0, 0);
+//			vertex(width, 0, width, 0);
+//			vertex(width, height, width, height);
+//			vertex(0, 0, 0, height);
+//			endShape();
+//
+//			translate(10,10,0);
+//			translate(0,0,-200);
+//			beginShape(QUADS);
+//			texture(newImg);
+//			vertex(0, 0, 0, 0);
+//			vertex(width, 0, width, 0);
+//			vertex(width, height, width, height);
+//			vertex(0, 0, 0, height);
+//			endShape();
+
+			imageMode(CORNER);
+//			translate(100,100,0);
+			image(newImg, 0, 0, width, height);
+		}
 	}
 
 	// switch between modules
 	public void handleKeyboardInput( Boolean isMidi ) {
-		
 		int prevModule = _curModule;
 		
 		// change programs with midi pads
@@ -433,7 +494,7 @@ extends PApplet
 			
 			// big screenshot
 			if ( key == '\\' ) { 
-				ScreenUtil.screenshotHiRes( p5, 3, p5.P3D, "output/saved_img/" );
+				ScreenUtil.screenshotHiRes( p, 3, p.P3D, "output/saved_img/" );
 			}
 			
 
@@ -524,7 +585,7 @@ extends PApplet
 	 * Getters / Setters
 	 */
 	// instance of this -------------------------------------------------
-	public static Haxademic getInstance(){ return p5; }
+	public static Haxademic getInstance(){ return p; }
 	// instance of toxiclibs -------------------------------------------------
 	public ToxiclibsSupport getToxi(){ return toxi; }
 	// instance of audio wrapper -------------------------------------------------
