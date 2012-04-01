@@ -311,7 +311,9 @@ extends PApplet
 					} catch (InvalidMidiDataException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
 				}
 				_readyForProgramChangeInt = 0;
-//				_audioInput.gainUp();
+				_audioInput.gainDown();
+				_audioInput.gainDown();
+				_audioInput.gainDown();
 			}
 			if( p.frameCount > 1 ) {
 				// have renderer step through audio, then special call to update the single WaveformData storage object				
