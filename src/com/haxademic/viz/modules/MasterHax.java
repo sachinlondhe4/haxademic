@@ -164,7 +164,7 @@ implements IVizModule
 	}
 	
 	protected void pickNewColors() {
-		float lighten = 2000f;
+		float lighten = 0.4f;
 
 		if( 1 == 1 ) {
 			// get a single strategy
