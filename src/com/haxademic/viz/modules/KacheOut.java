@@ -323,9 +323,13 @@ implements IVizModule
 	}
 	
 	public void detectCollisions() {
+		// paddle
 		if( _paddle.detectSphere( _ball.sphere() ) == true ) {
 			_ball.bounceOffPaddle();
 		}
+		// walls
+		_ball.detectWalls();
+		// blocks
 		for (int i = 0; i < _cols; i++) {
 			for (int j = 0; j < _rows; j++) {
 				if( _blockGrid[i][j].active() == true && _blockGrid[i][j].detectBall() == true ) {
@@ -510,10 +514,7 @@ implements IVizModule
 				_x += _speedX;
 				_y += _speedY;
 			}
-			
-			detectWalls();
-//			detectPaddle();
-			
+						
 			p.fill( _color.toARGB() );
 			_sphere.x = _x;
 			_sphere.y = _y;
