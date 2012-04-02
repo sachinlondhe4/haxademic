@@ -537,11 +537,11 @@ implements IVizModule
 		}
 
 		protected void bounceOffPaddle() {
-			if( _x > _paddle.left() && _x < _paddle.right() ) {
+//			if( _x > _paddle.left() && _x < _paddle.right() ) {
 				p.println("bounce!");
 				_speedX = ( _x - _paddle.x() ) / 10;
 				bounceY();
-			}
+//			}
 		}
 
 	}
