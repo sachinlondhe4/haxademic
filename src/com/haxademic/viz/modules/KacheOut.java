@@ -45,7 +45,6 @@ implements IVizModule
 	 * --- only the blocks you hit will go away
 	 * - blocks should explode in a sphere when hit
 	 * --- glowing center of explosion
-	 * - walls should light up when hit 
 	 * - tilt game boards with player movement
 	 * - Improve color scheme
 	 * - Spruce up graphics - more background graphics
@@ -277,6 +276,10 @@ implements IVizModule
 		
 		p.pushMatrix();
 		handleUserInput();
+		
+//		p.translate( 0,0,-400 );
+//		p.rotateX( p.PI / 16f );
+		
 		for( int i=0; i < _numPlayers; i++ ) {
 			p.translate( i * ( _stageWidth / _numPlayers), 0 );
 			_gamePlays.get( i ).update();
@@ -620,25 +623,26 @@ implements IVizModule
 		protected AABB _wallLeft, _wallTop, _wallRight;
 		protected boolean _wallLeftHit, _wallTopHit, _wallRightHit;
 		protected TColor _color;
-		protected float _wallLeftAlpha = 0f;
-		protected float _wallTopAlpha = 0f;
-		protected float _wallRightAlpha = 0f;
+		protected float BASE_ALPHA = 0.2f;
+		protected float _wallLeftAlpha = BASE_ALPHA;
+		protected float _wallTopAlpha = BASE_ALPHA;
+		protected float _wallRightAlpha = BASE_ALPHA;
 		public final int WALL_WIDTH = 20;
 
 		public Walls() {
 			_color = new TColor( TColor.WHITE );
 			
 			_wallLeft = new AABB( 1 );
-			_wallLeft.set( 0, 0, 0 );
-			_wallLeft.setExtent( new Vec3D( WALL_WIDTH, _stageHeight, WALL_WIDTH ) );
+			_wallLeft.set( 0, _stageHeight / 2f, 0 );
+			_wallLeft.setExtent( new Vec3D( WALL_WIDTH, _stageHeight / 2f, WALL_WIDTH ) );
 
 			_wallTop = new AABB( 1 );
 			_wallTop.set( _gameWidth / 2f, 0, 0 );
 			_wallTop.setExtent( new Vec3D( _gameWidth / 2, WALL_WIDTH, WALL_WIDTH ) );
 
 			_wallRight = new AABB( 1 );
-			_wallRight.set( _gameWidth, 0, 0 );
-			_wallRight.setExtent( new Vec3D( WALL_WIDTH, _stageHeight, WALL_WIDTH ) );
+			_wallRight.set( _gameWidth, _stageHeight / 2f, 0 );
+			_wallRight.setExtent( new Vec3D( WALL_WIDTH, _stageHeight / 2f, WALL_WIDTH ) );
 
 		} 
 		
@@ -666,9 +670,9 @@ implements IVizModule
 		}
 
 		void display() {
-			if( _wallLeftAlpha > 0.2f ) _wallLeftAlpha -= 0.05f;
-			if( _wallTopAlpha > 0.2f ) _wallTopAlpha -= 0.05f;
-			if( _wallRightAlpha > 0.2f ) _wallRightAlpha -= 0.05f;
+			if( _wallLeftAlpha > BASE_ALPHA ) _wallLeftAlpha -= 0.1f;
+			if( _wallTopAlpha > BASE_ALPHA ) _wallTopAlpha -= 0.1f;
+			if( _wallRightAlpha > BASE_ALPHA ) _wallRightAlpha -= 0.1f;
 			p.noStroke();
 			_color.alpha = _wallLeftAlpha;
 			p.fill( _color.toARGB() );
