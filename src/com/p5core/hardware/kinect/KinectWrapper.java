@@ -74,7 +74,7 @@ public class KinectWrapper {
 		return _depthArray;
 	}
 	
-	public boolean getIsActive() {
+	public boolean isActive() {
 		return _kinectActive;
 	}
 	
