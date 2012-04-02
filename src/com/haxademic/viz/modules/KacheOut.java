@@ -29,7 +29,6 @@ implements IVizModule
 	/**
 	 * TODO:
 	 * BASIC GAME LOGIC
-	 * - Break into 2 split-screen games - should the gameplay be an IVizElement?
 	 * - Instead of bouncing off blocks, they should just explode 
 	 * - Bonus points for hitting UFO?
 	 * - speed gameplay up as number of blocks decreases
@@ -77,7 +76,7 @@ implements IVizModule
 	protected boolean _isKinectReversed = true;
 	protected FloatRange _kinectPosition;
 	protected ArrayList<FloatRange> _kinectPositions;
-	protected boolean _isDebuggingKinect = true;
+	protected boolean _isDebuggingKinect = false;
 
 	// dimensions and stuff
 	protected int _stageWidth;
@@ -88,7 +87,7 @@ implements IVizModule
 	// game state
 	protected int _curMode;
 	protected ColorGroup _gameColors;
-	protected int _numPlayers = 1;
+	protected int _numPlayers = 2;
 	protected ArrayList<GamePlay> _gamePlays;
 	
 	// game state
@@ -158,10 +157,9 @@ implements IVizModule
 		}
 	}
 
-	public int findKinectCenterX() {
+	public void findKinectCenterX() {
 		// sample several rows, finding the extents of objects within range
 		int[] depthArray = _kinectInterface.getDepthData();
-		float centerX = KinectWrapper.KWIDTH / 2;
 		int offset = 0;
 		int depthRaw = 0;
 		float depthInMeters = 0;
@@ -207,10 +205,8 @@ implements IVizModule
 				}
 			}
 //			p.println("min/max "+i+": "+minX+" "+ maxX);
-			
-			_kinectPositions.get( i ).set( minX, maxX ); // ( _numPlayers - 1 ) - i
+			_kinectPositions.get( i ).set( minX, maxX );
 		}
-		return -1;
 	}
 	
 	protected void handleUserInput() {
@@ -227,14 +223,10 @@ implements IVizModule
 					paddleX = MathUtil.getPercentWithinRange( kinectSegmentWidth * i, kinectSegmentWidth + i * kinectSegmentWidth, playerKinectRange.center() );
 					_gamePlays.get( i ).updatePaddle( 1f - paddleX );
 //					p.println(i+": "+playerKinectRange.min()+", "+playerKinectRange.max()+", "+playerKinectRange.center()+", "+paddleX);
-//					AABB box = new AABB( playerKinectRange._max - playerKinectRange._min );
-//					box.set( playerKinectRange.center(), _stageHeight / 2, 0 );
-//					toxi.box( box );
 				}
 			}
 		} else {
 			paddleX = MathUtil.getPercentWithinRange( 0, _stageWidth, p.mouseX );
-//			_paddle.moveTowardsX( paddleX );
 		}
 	}
 	
@@ -398,13 +390,12 @@ implements IVizModule
 			for (int i = 0; i < _cols; i++) {
 				for (int j = 0; j < _rows; j++) {
 					if( _blockGrid[i][j].active() == true && _ball.detectBox( _blockGrid[i][j].box() ) == true ) {
-//						String bounceSide = _blockGrid[i][j].bounceCloserSide();					
 						_blockGrid[i][j].die();
 					}
 				}
 			}
 		}
-			}
+	}
 
 	// BLOCK OBJECT --------------------------------------------------------------------------------------
 	
@@ -452,32 +443,6 @@ implements IVizModule
 		public AABB box() {
 			return _box;
 		}
-		
-//		public boolean detectBall() {
-//			if( _box.intersectsSphere( _ball._sphere ) ) return true;
-//			return false;
-//		}
-						
-//		public String bounceCloserSide() {
-//			// TODO: FIX THIS		
-//			float ballX = _ball.x();
-//			float ballY = _ball.y();
-//			float ballSize = _ball.radius();
-//
-//			float overlapLeft = ( ballX < x ) ? x - w/2 - ballSize + ballX : 0;
-//			float overlapRight = ( ballX > x ) ? x + w/2 + ballSize - ballX : 0;
-//			float overlapTop = ( ballY < y ) ? y - h/2 - ballSize + ballY : 0;
-//			float overlapBottom = ( ballY > y ) ? y + h/2 + ballSize - ballY : 0;
-//			
-//			if( ( overlapLeft > 0 || overlapRight > 0 ) && ( overlapTop > 0 || overlapBottom > 0 ) ) {
-//				return SIDE_BOTH;
-//			}
-//			if( ( overlapTop > overlapLeft && overlapTop > overlapRight ) || ( overlapBottom > overlapLeft && overlapBottom > overlapRight ) ) {
-//				return SIDE_V;
-//			} else {
-//				return SIDE_H;
-//			}
-//		}
 		
 		public void die() {
 			_active = false;
@@ -583,11 +548,9 @@ implements IVizModule
 		}
 		
 		protected void bounceOffPaddle( Paddle paddle ) {
-//			if( _x > _paddle.left() && _x < _paddle.right() ) {
-				p.println("bounce!");
-				_speedX = ( _x - paddle.x() ) / 10;
-				bounceY();
-//			}
+			p.println("bounce!");
+			_speedX = ( _x - paddle.x() ) / 10;
+			bounceY();
 		}
 
 	}
@@ -618,9 +581,6 @@ implements IVizModule
 		public float x() { return _x.value(); }
 		public float y() { return _y.value(); }
 		public float height() { return HEIGHT; }
-		public float top() { return _y.value() - HEIGHT / 2f ; }
-		public float left() { return _x.value() - _width / 2f ; }
-		public float right() { return _x.value() + _width / 2f ; }
 		
 		public void moveTowardsX( float percent ) {
 			_x.setTarget( _gameWidth - percent * _gameWidth );
