@@ -73,30 +73,23 @@ implements IVizModule
 	protected KinectWrapper _kinectInterface;
 	protected float KINECT_MIN_DIST = 0.5f;
 	protected float KINECT_MAX_DIST = 1.0f;
-	protected float K_PIXEL_SKIP = 7;
+	protected float K_PIXEL_SKIP = 6;
+	protected boolean _isKinectReversed = true;
 	protected FloatRange _kinectPosition;
 	protected ArrayList<FloatRange> _kinectPositions;
+	protected boolean _isDebuggingKinect = false;
 
 	// dimensions and stuff
 	protected int _stageWidth;
 	protected int _stageHeight;	
+	protected int _gameWidth;
 	protected int _numAverages = 32;
 
 	// game state
 	protected int _curMode;
 	protected ColorGroup _gameColors;
 	protected int _numPlayers = 2;
-
-	// blocks
-	protected int _cols = 10;
-	protected int _rows = 7;
-	protected Block[][] _blockGrid;
-	protected WETriangleMesh _invaderMesh_01, _invaderMesh_01_alt;
-	
-	// should be an array of balls
-	protected Ball _ball;
-	protected Paddle _paddle;
-	protected GridEQ _background;
+	protected ArrayList<GamePlay> _gamePlays;
 	
 	// game state
 	protected int _gameState;
@@ -161,7 +154,7 @@ implements IVizModule
 
 	public void handleKeyboardInput() {
 		if ( p.key == 'm' || p.key == 'M' ) {
-			 launchBall();
+			for( int i=0; i < _numPlayers; i++ ) _gamePlays.get( i ).launchBall();
 		}
 	}
 
@@ -169,36 +162,53 @@ implements IVizModule
 		// sample several rows, finding the extents of objects within range
 		int[] depthArray = _kinectInterface.getDepthData();
 		float centerX = KinectWrapper.KWIDTH / 2;
-		float minX = -1f;
-		float maxX = -1f;
 		int offset = 0;
 		int depthRaw = 0;
 		float depthInMeters = 0;
 		
-		String depths = "";
-		
 		// loop through point grid and skip over pixels on an interval, finding the horizonal extents of an object in the appropriate range
 		float kinectSegmentWidth = KinectWrapper.KWIDTH / _numPlayers;
 		for( int i = 0; i < _numPlayers; i++ ) {
+			float minX = -1f;
+			float maxX = -1f;
 			for ( int x = (int)( kinectSegmentWidth * i ); x <  kinectSegmentWidth + kinectSegmentWidth * i; x += K_PIXEL_SKIP ) {
 				for ( int y = 120; y < 360; y += K_PIXEL_SKIP ) { // only use the vertical middle portion of the kinect data
-					offset = x + y * KinectWrapper.KWIDTH;
+					int xOffset = ( _isKinectReversed == true ) ? KinectWrapper.KWIDTH - x : x;
+					offset = xOffset + y * KinectWrapper.KWIDTH;
 					depthRaw = depthArray[offset];
 					depthInMeters = _kinectInterface.rawDepthToMeters( depthRaw );
 					if( depthInMeters > KINECT_MIN_DIST && depthInMeters < KINECT_MAX_DIST ) {
+						if( _isDebuggingKinect == true ) {
+							p.fill( 255, 255, i*100 );
+							p.noStroke();
+							AABB box = new AABB( 4 );
+							box.set( x, -5, 0 );
+							toxi.box( box );
+						}
+
+						// keep track of kinect range
 						if( minX == -1 || x < minX ) {
 							minX = x;
 						}
 						if( maxX == -1 || x > maxX ) {
 							maxX = x;
 						}
+					} else {
+						if( _isDebuggingKinect == true ) {
+							p.fill( i*100, i*100, 255 );
+							p.noStroke();
+							AABB box = new AABB( 4 );
+							box.set( x, -5, 0 );
+							toxi.box( box );
+						}
 					}
 					if( depthInMeters > 0 ) {
 					}
 				}
 			}
-			p.println(i+": "+minX+" "+ maxX);
-			_kinectPositions.get( i ).set( minX, maxX );
+//			p.println("min/max "+i+": "+minX+" "+ maxX);
+			
+			_kinectPositions.get( i ).set( minX, maxX ); // ( _numPlayers - 1 ) - i
 		}
 		return -1;
 	}
@@ -209,13 +219,22 @@ implements IVizModule
 		if( _kinectInterface.isActive() == true ) {
 			_kinectInterface.update();
 			findKinectCenterX();
-			if( _kinectPositions.get( 0 ).center() != -1 ) {
-				paddleX = MathUtil.getPercentWithinRange( 0, KinectWrapper.KWIDTH, _kinectPositions.get( 0 ).center() );
-				_paddle.moveTowardsX( paddleX );
+			float kinectSegmentWidth = KinectWrapper.KWIDTH / _numPlayers;
+			// send kinect data to games - calculate based off number of games vs. kinect width
+			for( int i=0; i < _numPlayers; i++ ) {
+				FloatRange playerKinectRange = _kinectPositions.get( i );	// _numPlayers - 1 - 
+				if( playerKinectRange.center() != -1 ) {
+					paddleX = MathUtil.getPercentWithinRange( kinectSegmentWidth * i, kinectSegmentWidth + i * kinectSegmentWidth, playerKinectRange.center() );
+					_gamePlays.get( i ).updatePaddle( 1f - paddleX );
+//					p.println(i+": "+playerKinectRange.min()+", "+playerKinectRange.max()+", "+playerKinectRange.center()+", "+paddleX);
+//					AABB box = new AABB( playerKinectRange._max - playerKinectRange._min );
+//					box.set( playerKinectRange.center(), _stageHeight / 2, 0 );
+//					toxi.box( box );
+				}
 			}
 		} else {
 			paddleX = MathUtil.getPercentWithinRange( 0, _stageWidth, p.mouseX );
-			_paddle.moveTowardsX( paddleX );
+//			_paddle.moveTowardsX( paddleX );
 		}
 	}
 	
@@ -246,31 +265,11 @@ implements IVizModule
 			_kinectPositions.add( new FloatRange( -1, -1 ) );
 		}
 		
-		// create grid
-		float boxW = _stageWidth / _cols;
-		float boxH = _stageHeight / 2 / _rows;
-		_blockGrid = new Block[_cols][_rows];
-		int index = 0;
-		for (int i = 0; i < _cols; i++) {
-			for (int j = 0; j < _rows; j++) {
-				// Initialize each object
-				_blockGrid[i][j] = new Block( i*boxW, j*boxH, boxW, boxH, index );
-				index++;
-			}
+		_gamePlays = new ArrayList<GamePlay>();
+		_gameWidth = _stageWidth / _numPlayers;
+		for( int i=0; i < _numPlayers; i++ ) {
+			_gamePlays.add( new GamePlay( _gameWidth * i , _gameWidth + _gameWidth * i ) );
 		}
-		
-		_invaderMesh_01 = Meshes.invader1( 1 );
-		_invaderMesh_01_alt = Meshes.invader1( 2 );
-		_invaderMesh_01.scale( 70 );
-		_invaderMesh_01_alt.scale( 70 );
-
-		
-		// create game objects
-		_background = new GridEQ( p, toxi, _audioData );
-		_background.updateColorSet( _gameColors );
-
-		_ball = new Ball();
-		_paddle = new Paddle();
 		
 		// init game state
 		_gameState = GAME_READY;
@@ -284,59 +283,18 @@ implements IVizModule
 //		p.rect( _stageWidth/2, _stageHeight/2, _stageWidth, _stageHeight );
 //		p.popMatrix();
 		
-		drawBackground();
 		handleUserInput();
-		drawGameObjects();
+		for( int i=0; i < _numPlayers; i++ ) {
+			p.translate( i * ( _stageWidth / _numPlayers), 0 );
+			_gamePlays.get( i ).update();
+		}
 		
 		if( p.frameCount % (30 * 10) == 0 ) {
 			DebugUtil.showMemoryUsage();
 		}
 	}
 	
-	protected void drawBackground(){
-		// draw bg
-		p.pushMatrix();
-		p.translate( 0, 0, -1000 );
-		_background.update();
-		p.popMatrix();
-	}
-	
-	protected void drawGameObjects() {
-		// draw the blocks
-		for (int i = 0; i < _cols; i++) {
-			for (int j = 0; j < _rows; j++) {
-				_blockGrid[i][j].display();
-			}
-		}
-		// draw other objects
-		detectCollisions();
-		_paddle.display();
-		_ball.display();
-	}
-	
-	protected void launchBall() {
-		_gameState = GAME_ON;
-		_ball.launch();
-	}
-	
-	public void detectCollisions() {
-		// paddle
-		if( _paddle.detectSphere( _ball.sphere() ) == true ) {
-			_ball.bounceOffPaddle();
-		}
-		// walls
-		_ball.detectWalls();
-		// blocks
-		for (int i = 0; i < _cols; i++) {
-			for (int j = 0; j < _rows; j++) {
-				if( _blockGrid[i][j].active() == true && _blockGrid[i][j].detectBall() == true ) {
-					String bounceSide = _blockGrid[i][j].bounceCloserSide();					
-					_blockGrid[i][j].die();
-				}
-			}
-		}
-	}
-	
+
 	
 
 	// Visual fun
@@ -348,6 +306,105 @@ implements IVizModule
 		_gameColors.setRandomGroup();
 	}
 
+	// GAMEPLAY OBJECT --------------------------------------------------------------------------------------
+	public class GamePlay {
+		// blocks
+		protected int _gameLeft, _gameRight, _gameWidth;
+		protected int _cols = 10;
+		protected int _rows = 7;
+		protected Block[][] _blockGrid;
+		protected WETriangleMesh _invaderMesh_01, _invaderMesh_01_alt;
+		
+		// should be an array of balls
+		protected Ball _ball;
+		protected Paddle _paddle;
+		protected GridEQ _background;
+		
+		public GamePlay( int gameLeft, int gameRight ) {
+			_gameLeft = gameLeft;
+			_gameRight = gameRight;
+			_gameWidth = gameRight - gameLeft;
+			// create grid
+			float boxW = _gameWidth / _cols;
+			float boxH = _stageHeight / 2 / _rows;
+			_blockGrid = new Block[_cols][_rows];
+			int index = 0;
+			for (int i = 0; i < _cols; i++) {
+				for (int j = 0; j < _rows; j++) {
+					// Initialize each object
+					_blockGrid[i][j] = new Block( i*boxW, j*boxH, boxW, boxH, index );
+					index++;
+				}
+			}
+			
+			_invaderMesh_01 = Meshes.invader1( 1 );
+			_invaderMesh_01_alt = Meshes.invader1( 2 );
+			_invaderMesh_01.scale( 70 );
+			_invaderMesh_01_alt.scale( 70 );
+			
+			// create game objects
+			_background = new GridEQ( p, toxi, _audioData );
+			_background.updateColorSet( _gameColors );
+
+			_ball = new Ball();
+			_paddle = new Paddle();
+			
+			
+		}
+		
+		public void update() {
+			drawBackground();
+			drawGameObjects();
+		}
+		
+		public void updatePaddle( float paddleX ) {
+			_paddle.moveTowardsX( paddleX );
+		}
+		
+		protected void drawBackground(){
+			// draw bg
+			p.pushMatrix();
+			p.translate( 0, 0, -1000 );
+			_background.update();
+			p.popMatrix();
+		}
+		
+		protected void drawGameObjects() {
+			detectCollisions();
+			// draw the blocks
+			for (int i = 0; i < _cols; i++) {
+				for (int j = 0; j < _rows; j++) {
+					_blockGrid[i][j].display();
+				}
+			}
+			// draw other objects
+			_paddle.display();
+			_ball.display( _paddle );
+		}
+		
+		public void launchBall() {
+			_gameState = GAME_ON;
+			_ball.launch();
+		}
+		
+		public void detectCollisions() {
+			// paddle
+			if( _paddle.detectSphere( _ball.sphere() ) == true ) {
+				_ball.bounceOffPaddle( _paddle );
+			}
+			// walls
+			_ball.detectWalls();
+			// blocks
+			for (int i = 0; i < _cols; i++) {
+				for (int j = 0; j < _rows; j++) {
+					if( _blockGrid[i][j].active() == true && _ball.detectBox( _blockGrid[i][j].box() ) == true ) {
+//						String bounceSide = _blockGrid[i][j].bounceCloserSide();					
+						_blockGrid[i][j].die();
+					}
+				}
+			}
+		}
+			}
 
 	// BLOCK OBJECT --------------------------------------------------------------------------------------
 	
@@ -392,50 +449,35 @@ implements IVizModule
 			return _active;
 		}
 		
-		public boolean detectBall() {
-			if( _box.intersectsSphere( _ball._sphere ) ) return true;
-			return false;
-		}
-				
-		public boolean detectBallOLD() {
-			float ballX = _ball.x();
-			float ballY = _ball.y();
-			float ballSize = _ball.radius();
-			 
-			// form: http://stackoverflow.com/a/402010
-		    float circleDistance_x = Math.abs(ballX - x - w/2);
-		    float circleDistance_y = Math.abs(ballY - y - h/2);
-
-		    if (circleDistance_x > (w/2 + ballSize)) { return false; }
-		    if (circleDistance_y > (h/2 + ballSize)) { return false; }
-		    if (circleDistance_x <= (w/2)) { return true; } 
-		    if (circleDistance_y <= (h/2)) { return true; }
-		    
-		    float cornerDistance_sq = (float) Math.pow( circleDistance_x - w/2, 2 ) + (float) Math.pow( circleDistance_y - h/2, 2 );
-
-		    return (cornerDistance_sq <= (float) Math.pow( ballSize, 2 ) );
+		public AABB box() {
+			return _box;
 		}
 		
-		public String bounceCloserSide() {
-			// TODO: FIX THIS		
-			float ballX = _ball.x();
-			float ballY = _ball.y();
-			float ballSize = _ball.radius();
-
-			float overlapLeft = ( ballX < x ) ? x - w/2 - ballSize + ballX : 0;
-			float overlapRight = ( ballX > x ) ? x + w/2 + ballSize - ballX : 0;
-			float overlapTop = ( ballY < y ) ? y - h/2 - ballSize + ballY : 0;
-			float overlapBottom = ( ballY > y ) ? y + h/2 + ballSize - ballY : 0;
-			
-			if( ( overlapLeft > 0 || overlapRight > 0 ) && ( overlapTop > 0 || overlapBottom > 0 ) ) {
-				return SIDE_BOTH;
-			}
-			if( ( overlapTop > overlapLeft && overlapTop > overlapRight ) || ( overlapBottom > overlapLeft && overlapBottom > overlapRight ) ) {
-				return SIDE_V;
-			} else {
-				return SIDE_H;
-			}
-		}
+//		public boolean detectBall() {
+//			if( _box.intersectsSphere( _ball._sphere ) ) return true;
+//			return false;
+//		}
+						
+//		public String bounceCloserSide() {
+//			// TODO: FIX THIS		
+//			float ballX = _ball.x();
+//			float ballY = _ball.y();
+//			float ballSize = _ball.radius();
+//
+//			float overlapLeft = ( ballX < x ) ? x - w/2 - ballSize + ballX : 0;
+//			float overlapRight = ( ballX > x ) ? x + w/2 + ballSize - ballX : 0;
+//			float overlapTop = ( ballY < y ) ? y - h/2 - ballSize + ballY : 0;
+//			float overlapBottom = ( ballY > y ) ? y + h/2 + ballSize - ballY : 0;
+//			
+//			if( ( overlapLeft > 0 || overlapRight > 0 ) && ( overlapTop > 0 || overlapBottom > 0 ) ) {
+//				return SIDE_BOTH;
+//			}
+//			if( ( overlapTop > overlapLeft && overlapTop > overlapRight ) || ( overlapBottom > overlapLeft && overlapBottom > overlapRight ) ) {
+//				return SIDE_V;
+//			} else {
+//				return SIDE_H;
+//			}
+//		}
 		
 		public void die() {
 			_active = false;
@@ -475,7 +517,7 @@ implements IVizModule
 		public Ball() {
 			// convert speed to use radians
 			_speedX = ( MathUtil.randBoolean( p ) == true ) ? SPEED : -SPEED;
-			_x = p.random( 0, _stageWidth );
+			_x = p.random( 0, _gameWidth );
 			_y = p.random( _stageHeight / 2, _stageHeight );
 			_color = _gameColors.getRandomColor().copy();
 			_sphere = new Sphere( BALL_SIZE );
@@ -485,7 +527,6 @@ implements IVizModule
 		public float y() { return _y; }
 		public Sphere sphere() { return _sphere; }
 		public float radius() { return BALL_SIZE; }
-		public float paddleTop() { return _paddle.top() - BALL_SIZE; }
 		
 		public void launch() {
 			_speedX = ( MathUtil.randBoolean( p ) == true ) ? SPEED : -SPEED;
@@ -502,10 +543,10 @@ implements IVizModule
 			_y += _speedY;
 		}
 		
-		public void display() {
+		public void display( Paddle paddle ) {
 			if( _gameState == GAME_READY ) {
-				_x = _paddle.x();
-				_y = _paddle.y() - _paddle.height() - BALL_SIZE - 10;
+				_x = paddle.x();
+				_y = paddle.y() - paddle.height() - BALL_SIZE - 10;
 			} else {
 				_x += _speedX;
 				_y += _speedY;
@@ -522,7 +563,7 @@ implements IVizModule
 				_x -= _speedX;
 				_speedX *= -1;
 			}
-			if( _x > _stageWidth ) {
+			if( _x > _gameWidth ) {
 				_x -= _speedX;
 				_speedX *= -1;
 			}
@@ -536,10 +577,15 @@ implements IVizModule
 			}
 		}
 
-		protected void bounceOffPaddle() {
+		public boolean detectBox( AABB box ) {
+			if( box.intersectsSphere( _sphere ) ) return true;
+			return false;
+		}
+		
+		protected void bounceOffPaddle( Paddle paddle ) {
 //			if( _x > _paddle.left() && _x < _paddle.right() ) {
 				p.println("bounce!");
-				_speedX = ( _x - _paddle.x() ) / 10;
+				_speedX = ( _x - paddle.x() ) / 10;
 				bounceY();
 //			}
 		}
@@ -560,8 +606,8 @@ implements IVizModule
 		protected AABB _box;
 
 		public Paddle() {
-			_center = ( _stageWidth + _width) / 2;
-			_width = (float)_stageWidth / 5f;
+			_center = ( _gameWidth + _width) / 2;
+			_width = (float)_gameWidth / 5f;
 			_x = new EasingFloat( _center, _easing );
 			_y = new EasingFloat( _stageHeight - STAGE_H_PADDING, _easing );
 			_color = _gameColors.getRandomColor().copy();
@@ -577,7 +623,7 @@ implements IVizModule
 		public float right() { return _x.value() + _width / 2f ; }
 		
 		public void moveTowardsX( float percent ) {
-			_x.setTarget( percent * _stageWidth );
+			_x.setTarget( _gameWidth - percent * _gameWidth );
 		}
 
 		public boolean detectSphere( Sphere sphere ) {
