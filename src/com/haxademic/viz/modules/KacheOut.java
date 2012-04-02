@@ -383,11 +383,14 @@ implements IVizModule
 		
 		public void detectCollisions() {
 			// paddle
-			if( _paddle.detectSphere( _ball.sphere() ) == true ) {
+			if( _ball.detectBox( _paddle.box() ) == true ) {
 				_ball.bounceOffPaddle( _paddle );
 			}
 			// walls
-			_ball.detectWalls();
+			if( _walls.detectSphere( _ball.sphere() ) == true ) {
+				_ball.detectWalls( _walls.leftHit(), _walls.topHit(), _walls.rightHit() );
+				_walls.resetCollisions();
+			}
 			// blocks
 			for (int i = 0; i < _blocks.size(); i++) {
 				if( _blocks.get( i ).active() == true && _ball.detectBox( _blocks.get( i ).box() ) == true ) {
@@ -523,23 +526,23 @@ implements IVizModule
 			toxi.sphere( _sphere, BALL_RESOLUTION );
 		}
 		
-		protected void detectWalls() {
-			if( _x < 0 ) {
+		protected void detectWalls( boolean leftHit, boolean topHit, boolean rightHit ) {
+			if( leftHit == true ) {
 				_x -= _speedX;
 				_speedX *= -1;
 			}
-			if( _x > _gameWidth ) {
+			if( rightHit == true ) {
 				_x -= _speedX;
 				_speedX *= -1;
 			}
-			if( _y < 0 ) {
+			if( topHit == true ) {
 				_y -= _speedY;
 				_speedY *= -1;
 			}
-			if( _y > _stageHeight ) {
-				_y -= _speedY;
-				_speedY *= -1;
-			}
+//			if( _y > _stageHeight ) {
+//				_y -= _speedY;
+//				_speedY *= -1;
+//			}
 		}
 
 		public boolean detectBox( AABB box ) {
@@ -581,7 +584,11 @@ implements IVizModule
 		public float x() { return _x.value(); }
 		public float y() { return _y.value(); }
 		public float height() { return HEIGHT; }
-		
+
+		public AABB box() {
+			return _box;
+		}
+
 		public void moveTowardsX( float percent ) {
 			_x.setTarget( _gameWidth - percent * _gameWidth );
 		}
@@ -609,40 +616,67 @@ implements IVizModule
 
 	class Walls {
 		
-		
 		protected AABB _wallLeft, _wallTop, _wallRight;
+		protected boolean _wallLeftHit, _wallTopHit, _wallRightHit;
 		protected TColor _color;
+		protected float _wallLeftAlpha = 0f;
+		protected float _wallTopAlpha = 0f;
+		protected float _wallRightAlpha = 0f;
+		public final int WALL_WIDTH = 20;
 
 		public Walls() {
-			_color = _gameColors.getRandomColor().copy();
+			_color = new TColor( TColor.WHITE );
 			
 			_wallLeft = new AABB( 1 );
-			_wallLeft.set( -1f * _gameWidth, 0, 0 );
-			_wallLeft.setExtent( new Vec3D( 10, _stageHeight, 10 ) );
+			_wallLeft.set( 0, 0, 0 );
+			_wallLeft.setExtent( new Vec3D( WALL_WIDTH, _stageHeight, WALL_WIDTH ) );
 
 			_wallTop = new AABB( 1 );
-			_wallTop.set( 0, -0.5f * _stageHeight, 0 );
-			_wallTop.setExtent( new Vec3D( _stageWidth, 10, 10 ) );
+			_wallTop.set( _gameWidth / 2f, 0, 0 );
+			_wallTop.setExtent( new Vec3D( _gameWidth / 2, WALL_WIDTH, WALL_WIDTH ) );
 
 			_wallRight = new AABB( 1 );
-			_wallRight.set( 1f * _gameWidth, 0, 0 );
-			_wallRight.setExtent( new Vec3D( 10, _stageHeight, 10 ) );
+			_wallRight.set( _gameWidth, 0, 0 );
+			_wallRight.setExtent( new Vec3D( WALL_WIDTH, _stageHeight, WALL_WIDTH ) );
 
 		} 
 		
+		public boolean leftHit(){ return _wallLeftHit; }
+		public boolean topHit(){ return _wallTopHit; }
+		public boolean rightHit(){ return _wallRightHit; }
+		
 		public boolean detectSphere( Sphere sphere ) {
-			if( _wallLeft.intersectsSphere( sphere ) ) return true;
-			if( _wallTop.intersectsSphere( sphere ) ) return true;
-			if( _wallRight.intersectsSphere( sphere ) ) return true;
+			_wallLeftHit = ( _wallLeft.intersectsSphere( sphere ) ) ? true : false;
+			_wallTopHit = ( _wallTop.intersectsSphere( sphere ) ) ? true : false;
+			_wallRightHit = ( _wallRight.intersectsSphere( sphere ) ) ? true : false;
+			if( _wallLeftHit == true || _wallTopHit == true || _wallRightHit == true ) {
+				if( _wallLeftHit == true ) _wallLeftAlpha = 1;
+				if( _wallTopHit == true ) _wallTopAlpha = 1;
+				if( _wallRightHit == true ) _wallRightAlpha = 1;
+				return true;
+			}
 			return false;
+		}
+		
+		public void resetCollisions() {
+			_wallLeftHit = false;
+			_wallTopHit = false;
+			_wallRightHit = false;
 		}
 
 		void display() {
-			_color.alpha = 0.5f + _audioData.getFFT().averages[1];
-			p.fill( _color.toARGB() );
+			if( _wallLeftAlpha > 0.2f ) _wallLeftAlpha -= 0.05f;
+			if( _wallTopAlpha > 0.2f ) _wallTopAlpha -= 0.05f;
+			if( _wallRightAlpha > 0.2f ) _wallRightAlpha -= 0.05f;
 			p.noStroke();
+			_color.alpha = _wallLeftAlpha;
+			p.fill( _color.toARGB() );
 			toxi.box( _wallLeft ); 
+			_color.alpha = _wallTopAlpha;
+			p.fill( _color.toARGB() );
 			toxi.box( _wallTop ); 
+			_color.alpha = _wallRightAlpha;
+			p.fill( _color.toARGB() );
 			toxi.box( _wallRight ); 
 		}
 
