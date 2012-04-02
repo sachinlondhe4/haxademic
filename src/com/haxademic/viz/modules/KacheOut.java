@@ -590,7 +590,8 @@ implements IVizModule
 		}
 
 		public void moveTowardsX( float percent ) {
-			_x.setTarget( _gameWidth - percent * _gameWidth );
+			percent = 1 - percent;
+			_x.setTarget( _width + percent * (_gameWidth - _width*2f) );
 		}
 
 		public boolean detectSphere( Sphere sphere ) {
