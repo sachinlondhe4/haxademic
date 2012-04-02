@@ -29,7 +29,6 @@ implements IVizModule
 	/**
 	 * TODO:
 	 * BASIC GAME LOGIC
-	 * - Instead of bouncing off blocks, they should just explode 
 	 * - Bonus points for hitting UFO?
 	 * - speed gameplay up as number of blocks decreases
 	 * SCORING
@@ -42,6 +41,7 @@ implements IVizModule
 	 * - find backing beat loops - ideally have synthesized audio on top of that
 	 * DESIGN
 	 * - Switch blocks to large invaders
+	 * - Blocks should explode 
 	 * --- only the blocks you hit will go away
 	 * - blocks should explode in a sphere when hit
 	 * --- glowing center of explosion
@@ -275,11 +275,13 @@ implements IVizModule
 //		p.rect( _stageWidth/2, _stageHeight/2, _stageWidth, _stageHeight );
 //		p.popMatrix();
 		
+		p.pushMatrix();
 		handleUserInput();
 		for( int i=0; i < _numPlayers; i++ ) {
 			p.translate( i * ( _stageWidth / _numPlayers), 0 );
 			_gamePlays.get( i ).update();
 		}
+		p.popMatrix();
 		
 		if( p.frameCount % (30 * 10) == 0 ) {
 			DebugUtil.showMemoryUsage();
@@ -310,6 +312,7 @@ implements IVizModule
 		// should be an array of balls
 		protected Ball _ball;
 		protected Paddle _paddle;
+		protected Walls _walls;
 		protected GridEQ _background;
 		
 		public GamePlay( int gameLeft, int gameRight ) {
@@ -340,7 +343,7 @@ implements IVizModule
 
 			_ball = new Ball();
 			_paddle = new Paddle();
-			
+			_walls = new Walls();
 			
 		}
 		
@@ -369,6 +372,7 @@ implements IVizModule
 			}
 			// draw other objects
 			_paddle.display();
+			_walls.display();
 			_ball.display( _paddle );
 		}
 		
@@ -597,6 +601,49 @@ implements IVizModule
 			p.fill( _color.toARGB() );
 			p.noStroke();
 			toxi.box( _box ); 
+		}
+
+	}
+
+	// WALLS BOUNDARY OBJECT --------------------------------------------------------------------------------------
+
+	class Walls {
+		
+		
+		protected AABB _wallLeft, _wallTop, _wallRight;
+		protected TColor _color;
+
+		public Walls() {
+			_color = _gameColors.getRandomColor().copy();
+			
+			_wallLeft = new AABB( 1 );
+			_wallLeft.set( -1f * _gameWidth, 0, 0 );
+			_wallLeft.setExtent( new Vec3D( 10, _stageHeight, 10 ) );
+
+			_wallTop = new AABB( 1 );
+			_wallTop.set( 0, -0.5f * _stageHeight, 0 );
+			_wallTop.setExtent( new Vec3D( _stageWidth, 10, 10 ) );
+
+			_wallRight = new AABB( 1 );
+			_wallRight.set( 1f * _gameWidth, 0, 0 );
+			_wallRight.setExtent( new Vec3D( 10, _stageHeight, 10 ) );
+
+		} 
+		
+		public boolean detectSphere( Sphere sphere ) {
+			if( _wallLeft.intersectsSphere( sphere ) ) return true;
+			if( _wallTop.intersectsSphere( sphere ) ) return true;
+			if( _wallRight.intersectsSphere( sphere ) ) return true;
+			return false;
+		}
+
+		void display() {
+			_color.alpha = 0.5f + _audioData.getFFT().averages[1];
+			p.fill( _color.toARGB() );
+			p.noStroke();
+			toxi.box( _wallLeft ); 
+			toxi.box( _wallTop ); 
+			toxi.box( _wallRight ); 
 		}
 
 	}
