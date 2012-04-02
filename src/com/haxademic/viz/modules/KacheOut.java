@@ -304,7 +304,7 @@ implements IVizModule
 		protected int _gameLeft, _gameRight, _gameWidth;
 		protected int _cols = 10;
 		protected int _rows = 7;
-		protected Block[][] _blockGrid;
+		protected ArrayList<Block> _blocks;
 		protected WETriangleMesh _invaderMesh_01, _invaderMesh_01_alt;
 		
 		// should be an array of balls
@@ -319,12 +319,12 @@ implements IVizModule
 			// create grid
 			float boxW = _gameWidth / _cols;
 			float boxH = _stageHeight / 2 / _rows;
-			_blockGrid = new Block[_cols][_rows];
+			_blocks = new ArrayList<Block>();
 			int index = 0;
 			for (int i = 0; i < _cols; i++) {
 				for (int j = 0; j < _rows; j++) {
 					// Initialize each object
-					_blockGrid[i][j] = new Block( i*boxW, j*boxH, boxW, boxH, index );
+					_blocks.add( new Block( i*boxW, j*boxH, boxW, boxH, index ) );
 					index++;
 				}
 			}
@@ -364,10 +364,8 @@ implements IVizModule
 		protected void drawGameObjects() {
 			detectCollisions();
 			// draw the blocks
-			for (int i = 0; i < _cols; i++) {
-				for (int j = 0; j < _rows; j++) {
-					_blockGrid[i][j].display();
-				}
+			for (int i = 0; i < _blocks.size(); i++) {
+				_blocks.get( i ).display();
 			}
 			// draw other objects
 			_paddle.display();
@@ -387,11 +385,9 @@ implements IVizModule
 			// walls
 			_ball.detectWalls();
 			// blocks
-			for (int i = 0; i < _cols; i++) {
-				for (int j = 0; j < _rows; j++) {
-					if( _blockGrid[i][j].active() == true && _ball.detectBox( _blockGrid[i][j].box() ) == true ) {
-						_blockGrid[i][j].die();
-					}
+			for (int i = 0; i < _blocks.size(); i++) {
+				if( _blocks.get( i ).active() == true && _ball.detectBox( _blocks.get( i ).box() ) == true ) {
+					_blocks.get( i ).die();
 				}
 			}
 		}
