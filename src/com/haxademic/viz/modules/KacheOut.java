@@ -77,7 +77,7 @@ implements IVizModule
 	protected boolean _isKinectReversed = true;
 	protected FloatRange _kinectPosition;
 	protected ArrayList<FloatRange> _kinectPositions;
-	protected boolean _isDebuggingKinect = false;
+	protected boolean _isDebuggingKinect = true;
 
 	// dimensions and stuff
 	protected int _stageWidth;
@@ -88,7 +88,7 @@ implements IVizModule
 	// game state
 	protected int _curMode;
 	protected ColorGroup _gameColors;
-	protected int _numPlayers = 2;
+	protected int _numPlayers = 1;
 	protected ArrayList<GamePlay> _gamePlays;
 	
 	// game state
@@ -173,7 +173,7 @@ implements IVizModule
 			float maxX = -1f;
 			for ( int x = (int)( kinectSegmentWidth * i ); x <  kinectSegmentWidth + kinectSegmentWidth * i; x += K_PIXEL_SKIP ) {
 				for ( int y = 120; y < 360; y += K_PIXEL_SKIP ) { // only use the vertical middle portion of the kinect data
-					int xOffset = ( _isKinectReversed == true ) ? KinectWrapper.KWIDTH - x : x;
+					int xOffset = ( _isKinectReversed == true ) ? KinectWrapper.KWIDTH - 1 - x : x;
 					offset = xOffset + y * KinectWrapper.KWIDTH;
 					depthRaw = depthArray[offset];
 					depthInMeters = _kinectInterface.rawDepthToMeters( depthRaw );
