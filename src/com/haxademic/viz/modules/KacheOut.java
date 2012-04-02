@@ -366,7 +366,7 @@ implements IVizModule
 		public static final String SIDE_BOTH = "B";
 
 		
-		Block(float x, float y, float w, float h, int index ) {
+		public Block(float x, float y, float w, float h, int index ) {
 			this.w = w/2;
 			this.h = h/2;
 			this.x = x + w/2;
@@ -559,7 +559,7 @@ implements IVizModule
 		protected TColor _color;
 		protected AABB _box;
 
-		Paddle() {
+		public Paddle() {
 			_center = ( _stageWidth + _width) / 2;
 			_width = (float)_stageWidth / 5f;
 			_x = new EasingFloat( _center, _easing );
