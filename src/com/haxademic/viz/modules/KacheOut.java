@@ -1,5 +1,7 @@
 package com.haxademic.viz.modules;
 
+import java.util.ArrayList;
+
 import processing.core.PConstants;
 import toxi.color.TColor;
 import toxi.geom.AABB;
@@ -73,6 +75,7 @@ implements IVizModule
 	protected float KINECT_MAX_DIST = 1.0f;
 	protected float K_PIXEL_SKIP = 7;
 	protected FloatRange _kinectPosition;
+	protected ArrayList<FloatRange> _kinectPositions;
 
 	// dimensions and stuff
 	protected int _stageWidth;
@@ -175,47 +178,39 @@ implements IVizModule
 		String depths = "";
 		
 		// loop through point grid and skip over pixels on an interval, finding the horizonal extents of an object in the appropriate range
-		for ( int x = 0; x < KinectWrapper.KWIDTH; x += K_PIXEL_SKIP ) {
-			for ( int y = 120; y < 360; y += K_PIXEL_SKIP ) { // only use the vertical middle portion of the kinect data
-				offset = x + y * KinectWrapper.KWIDTH;
-				depthRaw = depthArray[offset];
-				depthInMeters = _kinectInterface.rawDepthToMeters( depthRaw );
-				if( depthInMeters > KINECT_MIN_DIST && depthInMeters < KINECT_MAX_DIST ) {
-					if( minX == -1 || x < minX ) {
-						minX = x;
+		float kinectSegmentWidth = KinectWrapper.KWIDTH / _numPlayers;
+		for( int i = 0; i < _numPlayers; i++ ) {
+			for ( int x = (int)( kinectSegmentWidth * i ); x <  kinectSegmentWidth + kinectSegmentWidth * i; x += K_PIXEL_SKIP ) {
+				for ( int y = 120; y < 360; y += K_PIXEL_SKIP ) { // only use the vertical middle portion of the kinect data
+					offset = x + y * KinectWrapper.KWIDTH;
+					depthRaw = depthArray[offset];
+					depthInMeters = _kinectInterface.rawDepthToMeters( depthRaw );
+					if( depthInMeters > KINECT_MIN_DIST && depthInMeters < KINECT_MAX_DIST ) {
+						if( minX == -1 || x < minX ) {
+							minX = x;
+						}
+						if( maxX == -1 || x > maxX ) {
+							maxX = x;
+						}
 					}
-					if( maxX == -1 || x > maxX ) {
-						maxX = x;
+					if( depthInMeters > 0 ) {
 					}
-				}
-				if( depthInMeters > 0 ) {
 				}
 			}
+			p.println(i+": "+minX+" "+ maxX);
+			_kinectPositions.get( i ).set( minX, maxX );
 		}
-		_kinectPosition.set( minX, maxX );
-				
-		// calculate blob middle X if we've registered depths in the view
-		if( minX != -1 || maxX != -1 ) {
-			if( minX == -1 ) minX = 0;
-			if( maxX == -1 ) maxX = KinectWrapper.KWIDTH - 1;
-			int blobMiddleX = p.round( _kinectPosition.center() );
-			// reverse it
-			return KinectWrapper.KWIDTH - blobMiddleX;
-		} else {
-			return -1;
-		}
-		
-//		return centerX;
+		return -1;
 	}
 	
 	protected void handleUserInput() {
 		// update keyboard or Kinect, and pass the value to the paddle
 		float paddleX = _stageWidth / 2;
-		_kinectInterface.update();
-		if( _kinectInterface.getIsActive() == true ) {
-			int kinectCenterX = findKinectCenterX();
-			if( kinectCenterX != -1 ) {
-				paddleX = MathUtil.getPercentWithinRange( 0, KinectWrapper.KWIDTH, kinectCenterX );
+		if( _kinectInterface.isActive() == true ) {
+			_kinectInterface.update();
+			findKinectCenterX();
+			if( _kinectPositions.get( 0 ).center() != -1 ) {
+				paddleX = MathUtil.getPercentWithinRange( 0, KinectWrapper.KWIDTH, _kinectPositions.get( 0 ).center() );
 				_paddle.moveTowardsX( paddleX );
 			}
 		} else {
@@ -246,8 +241,10 @@ implements IVizModule
 	public void initGame() {
 		pickNewColors();
 		
-		_kinectPosition = new FloatRange( 0, 0 );
-
+		_kinectPositions = new ArrayList<FloatRange>();
+		for( int i=0; i < _numPlayers; i++ ) {
+			_kinectPositions.add( new FloatRange( -1, -1 ) );
+		}
 		
 		// create grid
 		float boxW = _stageWidth / _cols;
