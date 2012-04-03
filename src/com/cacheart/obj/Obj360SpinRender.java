@@ -11,6 +11,7 @@ import toxi.processing.ToxiclibsSupport;
 
 import com.p5core.draw.model.ObjPool;
 import com.p5core.draw.util.DrawMesh;
+import com.p5core.draw.util.ThreeDeeUtil;
 import com.p5core.render.Renderer;
 import com.p5core.util.DrawUtil;
 import com.p5core.util.OpenGLUtil;
@@ -30,17 +31,17 @@ extends PApplet
 	int _meshIndex;
 	ArrayList<String> _modelIds;
 	
-	boolean _isSunflow = true;
-	boolean _isRendering = true;
+	boolean _isSunflow = false;
+	boolean _isRendering = false;
 
 	public void setup () {
 		p = this;
 		
 		// set up stage and drawing properties
 		if( _isSunflow == true ) {
-			p.size( 1280, 720, "hipstersinc.P5Sunflow" );				//size(screen.width,screen.height,P3D);
+			p.size( 1280, 720, "hipstersinc.P5Sunflow" );
 		} else {
-			p.size( 1280, 720, PConstants.OPENGL );				//size(screen.width,screen.height,P3D);
+			p.size( 1280, 720, PConstants.OPENGL );
 			OpenGLUtil.SetQuality( p, OpenGLUtil.HIGH );
 		}
 		
@@ -67,7 +68,7 @@ extends PApplet
 		_model = _objPool.getModel( _modelIds.get( 0 ) );
 		_mesh = _objPool.getMesh( _modelIds.get( 0 ) );
 
-//		ThreeDeeUtil.SmoothToxiMesh( p, _mesh, 2 );
+//		ThreeDeeUtil.SmoothToxiMesh( p, _mesh, 1 );
 		
 	}
 
@@ -87,16 +88,9 @@ extends PApplet
 		
 		// draw OBJModel
 		p.fill(0,200,234, 255);
-//		p.fill(255, 255);
 		p.noStroke();
 		DrawMesh.drawObjModel( p, toxi, _model );
-		
-		// draw WETriangleMesh
-//		p.translate(0,0,300);
-//		p.stroke(255, 100f);
-//		p.strokeWeight(2);
-//		p.noFill();
-//		if( !isSunflow ) toxi.mesh( _mesh, true, 0 );
+//		toxi.mesh( _mesh, true, 0 );
 		
 		// render movie
 		if( _isRendering == true && _render != null ) {
