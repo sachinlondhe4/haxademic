@@ -390,7 +390,7 @@ implements IVizModule
 		
 		public void launchBall() {
 			_gameState = GAME_ON;
-			_ball.launch();
+			_ball.launch( _paddle );
 		}
 		
 		public void detectCollisions() {
@@ -508,7 +508,9 @@ implements IVizModule
 		public Sphere sphere() { return _sphere; }
 		public float radius() { return BALL_SIZE; }
 		
-		public void launch() {
+		public void launch( Paddle paddle ) {
+			_x = paddle.x(); 
+			_y = paddle.y() - paddle.height() - BALL_SIZE - 10;
 			_speedX = ( MathUtil.randBoolean( p ) == true ) ? SPEED : -SPEED;
 			_speedY = -SPEED;
 		}
