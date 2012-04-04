@@ -286,8 +286,8 @@ implements IVizModule
 		p.pushMatrix();
 		handleUserInput();
 		
-//		p.translate( 0,0,-400 );
-//		p.rotateX( p.PI / 16f );
+		p.translate( 0,0,-400 );
+		p.rotateX( p.PI / 16f );
 		
 		for( int i=0; i < _numPlayers; i++ ) {
 			p.translate( i * ( _stageWidth / _numPlayers), 0 );
