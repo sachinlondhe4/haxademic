@@ -91,7 +91,7 @@ public class Renderer
 
 		// initialize movie renderer
 		if( _outputType == OUTPUT_TYPE_MOVIE ) {
-			_mm = new MovieMaker( p, p.width, p.height, "output/render-"+_timestamp+".mov", _framesPerSecond, MovieMaker.ANIMATION, MovieMaker.HIGH );
+			_mm = new MovieMaker( p, p.width, p.height, "bin/output/render-"+_timestamp+".mov", _framesPerSecond, MovieMaker.ANIMATION, MovieMaker.HIGH );
 //			_mm = new MovieMaker( p, p.width, p.height, "output/render-"+_timestamp+".mov", _framesPerSecond, MovieMaker.H263, MovieMaker.HIGH );
 			p.println("new MovieMaker success :: "+_timestamp);
 		}
