@@ -166,6 +166,16 @@ extends PApplet
 	protected Boolean _isRendering = true;
 	
 	/**
+	 * Helps the Renderer object work without trying to read an audio file
+	 */
+	protected Boolean _isRenderingAudio = true;
+	
+	/**
+	 * Helps the Renderer object work without trying to read a MIDI file
+	 */
+	protected Boolean _isRenderingMidi = true;
+	
+	/**
 	 * The current IVizModule object that receives commands in the main Haxademic draw() loop.
 	 */
 	protected ArrayList<IVizModule> _modules;
@@ -232,6 +242,8 @@ extends PApplet
 	 */
 	protected void setAppletProps() {
 		_isRendering = _appConfig.getBooleanProperty("rendering", false);
+		_isRenderingAudio = _appConfig.getBooleanProperty("render_audio", false);
+		_isRenderingMidi = _appConfig.getBooleanProperty("render_midi", false);
 		if( _isRendering == true ) {
 			// prevents an error
 //			hint(DISABLE_OPENGL_2X_SMOOTH);
@@ -251,7 +263,7 @@ extends PApplet
 	 * Initializes app-wide support objects for hardware interaction and rendering purposes.
 	 */
 	protected void initHaxademicObjects() {
-		_audioInput = new AudioInputWrapper( p, _isRendering );
+		_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
 		_waveformData = new WaveformData( p, _audioInput._bufferSize );
 //		_objPool = new ObjPool( p );
 		_renderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE );
@@ -302,23 +314,30 @@ extends PApplet
 		// analyze & init audio if stepping through a render
 		if( _isRendering == true ) {
 			if( p.frameCount == 2 ) {
-				
-				_renderer.startRendererForAudio( _appConfig.getStringProperty("render_audio_file", ""), _audioInput );	// cache-money.wav	// dumbo-gets-mad---plumy-tale.wav
-				if( _appConfig.getBooleanProperty("render_midi", false) == true ) {
+				if( _isRenderingAudio == true ) {
+					String audioFile = _appConfig.getStringProperty("render_audio_file", "");
+					_renderer.startRendererForAudio( audioFile, _audioInput );
+					_audioInput.gainDown();
+					_audioInput.gainDown();
+					_audioInput.gainDown();
+				} else {
+					_renderer.startRenderer();
+				}
+				if( _isRenderingMidi == true ) {
 					try {
 						_midiRenderer = new MidiSequenceRenderer(p);
-						_midiRenderer.loadMIDIFile( _appConfig.getStringProperty("render_midi_file", ""), 124, 30, -8f );	// bnc: 98  jack-splash: 
+						String midiFile = _appConfig.getStringProperty("render_midi_file", "");
+						_midiRenderer.loadMIDIFile( midiFile, 124, 30, -8f );	// bnc: 98  jack-splash: 
 					} catch (InvalidMidiDataException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
 				}
 				_readyForProgramChangeInt = 0;
-				_audioInput.gainDown();
-				_audioInput.gainDown();
-				_audioInput.gainDown();
 			}
 			if( p.frameCount > 1 ) {
 				// have renderer step through audio, then special call to update the single WaveformData storage object				
-				_renderer.analyzeAudio();				
-				_waveformData.updateWaveformDataForRender( _renderer, _audioInput.getAudioInput(), _audioInput._bufferSize );
+				if( _isRenderingAudio == true ) {
+					_renderer.analyzeAudio();				
+					_waveformData.updateWaveformDataForRender( _renderer, _audioInput.getAudioInput(), _audioInput._bufferSize );
+				}
 			}
 		}
 		
