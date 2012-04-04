@@ -45,10 +45,14 @@ implements IVizModule
 	 * --- only the blocks you hit will go away
 	 * - blocks should explode in a sphere when hit
 	 * --- glowing center of explosion
+	 * - losing side's left over pieces and paddle and ball turn to particles and fall down with gravity
 	 * - tilt game boards with player movement
 	 * - Improve color scheme
 	 * - Spruce up graphics - more background graphics
 	 * - paddle should explode when the ball passes
+	 * - improved color schemes
+	 * - invaders animate until you knock any of their blocks off
+	 * - wireframe mode
 	 * GAME FLOW
 	 * - Detect when nobody is in the gameplay area
 	 * - Transitions between game states
@@ -60,11 +64,16 @@ implements IVizModule
 	 * - Win/Lose w/team score
 	 * - Credits
 	 * NICE IDEAS
+	 * - Instructions should make players move the paddles all the way across to start
 	 * - UFO would be the final boss when the board is cleared
 	 * - invader explosions could bounce off existing game objects
 	 * - Moon trails orbiting the game ball
 	 * - Hyper speed mode for fun?
 	 * - Pong head-to-head mode
+	 * PHYSICAL SETUP
+	 * - dancing feet in player box
+	 * - bright tape to make off playing area
+	 * - some instructions on ground
 	 */
 	
 	// input
