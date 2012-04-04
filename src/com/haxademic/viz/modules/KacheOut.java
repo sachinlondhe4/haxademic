@@ -492,7 +492,7 @@ implements IVizModule
 		float _x, _y, _speedX, _speedY;
 		protected TColor _color;
 		protected Sphere _sphere;
-		protected float SPEED = 30f;
+		protected float SPEED = 15f;
 		
 		public Ball() {
 			// convert speed to use radians
