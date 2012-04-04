@@ -76,7 +76,7 @@ extends PApplet
 		DrawUtil.setCenter( p );
 		DrawUtil.setBasicLights( p );
 		
-		// draw backgournd and set to center
+		// draw background and set to center
 		if( _isSunflow == false ) p.background(0,0,0,255);
 		
 		if(_isSunflow) p.translate(0,0,-150);
