@@ -47,7 +47,7 @@ public class ImageTest
 		}
 		
 		// set up renderer
-		_render = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE );
+		_render = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
 		_render.startRenderer();
 	}
 

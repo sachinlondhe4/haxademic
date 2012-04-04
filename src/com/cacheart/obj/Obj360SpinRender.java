@@ -56,7 +56,7 @@ extends PApplet
 		
 		// set up renderer
 		if( _isRendering == true ) {
-			_render = new Renderer( this, 30, Renderer.OUTPUT_TYPE_MOVIE );
+			_render = new Renderer( this, 30, Renderer.OUTPUT_TYPE_MOVIE, "bin/output/" );
 			_render.startRenderer();
 		}
 		

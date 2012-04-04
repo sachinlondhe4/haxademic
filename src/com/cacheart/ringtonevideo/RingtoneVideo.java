@@ -77,13 +77,13 @@ public class RingtoneVideo
 		_audioInputs[5] = _audioInput6;
 		
 		// set up renders
-		_render1 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE );
-		_render2 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE );
-		_render3 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE );
-		_render4 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE );
-		_render5 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE );
-		_render6 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE );
-		_renderFinal = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_MOVIE );
+		_render1 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
+		_render2 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
+		_render3 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
+		_render4 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
+		_render5 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
+		_render6 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
+		_renderFinal = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_MOVIE, "bin/output/" );
 		_renderFinal.startRendererForAudio( "wav/ringtones/ringtone-01.wav", new AudioInputWrapper( this, false ) );
 		
 		// store renderers for cycling 

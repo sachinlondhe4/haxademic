@@ -266,7 +266,7 @@ extends PApplet
 		_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
 		_waveformData = new WaveformData( p, _audioInput._bufferSize );
 //		_objPool = new ObjPool( p );
-		_renderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE );
+		_renderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE, _appConfig.getStringProperty( "render_output_dir", "bin/output/" ) );
 		_kinectWrapper = new KinectWrapper( p );
 //		_launchpadViz = new LaunchpadViz( p5 );
 		_oscWrapper = new OscWrapper( p );

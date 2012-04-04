@@ -38,6 +38,8 @@ public class Renderer
 	 */
 	protected String _timestamp;
 	
+	protected String _outputDir;
+	
 	/**
 	 * Flag for whether we're currently rendering
 	 */
@@ -69,7 +71,7 @@ public class Renderer
 	 * @param framesPerSecond
 	 * @param outputType
 	 */
-	public Renderer( PApplet p5, int framesPerSecond, int outputType )
+	public Renderer( PApplet p5, int framesPerSecond, int outputType, String outputDir )
 	{
 		// store ref to PApplet
 		p = p5;
@@ -79,6 +81,9 @@ public class Renderer
 		
 		// store output type - image or movie
 		_outputType = outputType;
+		
+		// store render directory
+		_outputDir = outputDir;
 	}
 	
 	/**
@@ -91,7 +96,7 @@ public class Renderer
 
 		// initialize movie renderer
 		if( _outputType == OUTPUT_TYPE_MOVIE ) {
-			_mm = new MovieMaker( p, p.width, p.height, "bin/output/render-"+_timestamp+".mov", _framesPerSecond, MovieMaker.ANIMATION, MovieMaker.HIGH );
+			_mm = new MovieMaker( p, p.width, p.height, _outputDir+"render-"+_timestamp+".mov", _framesPerSecond, MovieMaker.ANIMATION, MovieMaker.HIGH );
 //			_mm = new MovieMaker( p, p.width, p.height, "output/render-"+_timestamp+".mov", _framesPerSecond, MovieMaker.H263, MovieMaker.HIGH );
 			p.println("new MovieMaker success :: "+_timestamp);
 		}
