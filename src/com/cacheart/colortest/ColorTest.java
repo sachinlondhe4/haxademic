@@ -2,11 +2,8 @@ package com.cacheart.colortest;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
-import processing.core.PImage;
-
 import colorLib.webServices.KulerTheme;
 
-import com.p5core.render.Renderer;
 import com.p5core.util.ColorUtil;
 
 /**
