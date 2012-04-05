@@ -37,6 +37,13 @@
 	<classpathentry kind="lib" path="lib/video.jar"/>
 	<classpathentry kind="lib" path="lib/OBJLoader/library/OBJLoader.jar"/>
 	<classpathentry kind="lib" path="lib/GLGraphics/library/GLGraphics.jar"/>
+	<classpathentry kind="lib" path="lib/minim/library/minim.jar"/>
+	<classpathentry kind="lib" path="lib/minim/library/minim-spi.jar"/>
+	<classpathentry kind="lib" path="lib/minim/library/jsminim.jar"/>
+	<classpathentry kind="lib" path="lib/minim/library/jl1.0.jar"/>
+	<classpathentry kind="lib" path="lib/minim/library/mp3spi1.9.4.jar"/>
+	<classpathentry kind="lib" path="lib/minim/library/tritonus_aos.jar"/>
+	<classpathentry kind="lib" path="lib/minim/library/tritonus_share.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
