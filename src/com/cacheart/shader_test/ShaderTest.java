@@ -9,7 +9,11 @@ import javax.media.opengl.glu.GLU;
 
 import processing.core.PApplet;
 import processing.opengl.PGraphicsOpenGL;
+import saito.objloader.OBJModel;
+import codeanticode.glgraphics.GLModel;
 
+import com.p5core.draw.model.ObjPool;
+import com.p5core.draw.util.ThreeDeeUtil;
 import com.sun.opengl.util.BufferUtil;
 import com.sun.opengl.util.GLUT;
 
@@ -24,6 +28,8 @@ extends PApplet {
 	GLUT glut;
 	boolean glInit;
 	int glutSolidIndex = 7;
+	GLModel glmesh;
+	OBJModel objModel;
 
 	public ShaderTest() {
 
@@ -37,6 +43,17 @@ extends PApplet {
 
 		pgl = (PGraphicsOpenGL) g;
 		gl = pgl.gl;
+		
+		
+		ObjPool _objPool = new ObjPool( this );
+		_objPool.loadObj( "DISCOVERY", 900, "../data/models/pointer_cursor_2.obj" );
+		glmesh = ThreeDeeUtil.GetGLModelFromToxiMesh( this, _objPool.getMesh( "DISCOVERY" ) );
+		objModel = _objPool.getModel( "DISCOVERY" );
+//		objModel.disableMaterial();
+//		objModel.disableTexture();
+		objModel.enableMaterial();
+		objModel.setDrawMode( TRIANGLES );
+		objModel.setupGL();
 	}
 
 	public void draw()
@@ -55,6 +72,8 @@ extends PApplet {
 			gl.glDepthFunc(GL.GL_LESS);
 			gl.glShadeModel(GL.GL_SMOOTH);
 			glInit = true;
+			
+
 		}
 
 		gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT);
@@ -70,13 +89,30 @@ extends PApplet {
 		gl.glColor3f(1.0f, 0.5f, 0.0f);
 		gl.glFrontFace(gl.GL_CW);
 		glsl.uniform3f(glsl.getUniformLocation("LightPosition"), 10.0f, 10.0f, 20.0f);
-		glutSolid();
+//		glutSolid();
+		objModel.drawGL();
 		gl.glFrontFace(gl.GL_CCW);
 		glsl.endShader();
 
+		
+		
 		pgl.endGL();
 		
-//		box(10);
+		
+		// normal p5 drawing
+		translate(width/2, height/2);
+		rotateX(0.01f*frameCount);
+		stroke(255);
+		noFill();
+		box(500);
+		
+		
+		// custom object drawing
+//		GLGraphics renderer = (GLGraphics)g;
+//		renderer.beginGL();
+//		ThreeDeeUtil.setGLProps( renderer );
+//		renderer.model(glmesh);
+//		renderer.endGL();
 
 	}
 
@@ -205,4 +241,6 @@ extends PApplet {
 			gl.glUniform3fARB(location, v0, v1, v2);
 		}
 	}
+	
+	
 }
