@@ -12,6 +12,7 @@ import toxi.geom.mesh.WETriangleMesh;
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.ModuleBase;
 import com.haxademic.viz.elements.GridEQ;
+import com.p5core.audio.AudioLoopPlayer;
 import com.p5core.cameras.CameraDefault;
 import com.p5core.data.FloatRange;
 import com.p5core.data.easing.EasingFloat;
@@ -37,6 +38,11 @@ implements IVizModule
 	protected ArrayList<FloatRange> _kinectPositions;
 	protected boolean _isDebuggingKinect = false;
 
+	// audio
+	protected AudioLoopPlayer _audio;
+	
+	// debug 
+	
 	// dimensions and stuff
 	protected int _stageWidth;
 	protected int _stageHeight;	
@@ -224,6 +230,10 @@ implements IVizModule
 		
 		// init game state
 		_gameState = GAME_READY;
+		
+		
+		
+		_audio = new AudioLoopPlayer( p );
 	}
 	
 	protected void updateGame() {
@@ -313,6 +323,9 @@ implements IVizModule
 		public void update() {
 			drawBackground();
 			drawGameObjects();
+			
+//			DrawUtil.setCenter( p );
+//			_audio.drawSynthOut();
 		}
 		
 		public void updatePaddle( float paddleX ) {
