@@ -3,7 +3,7 @@ package com.haxademic.viz.modules;
 import processing.core.PApplet;
 import processing.core.PConstants;
 
-import com.haxademic.Haxademic;
+import com.haxademic.app.PAppletHax;
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.ModuleBase;
 import com.p5core.cameras.CameraDefault;
@@ -151,17 +151,17 @@ implements IVizModule
 
 	public void beatDetect( int isKickCount, int isSnareCount, int isHatCount, int isOnsetCount )
 	{
-		if( p.getIsAutopilot() == true )
-		{
-			if( (int)(isKickCount % 30) == 0 && isKickCount != 0 ) newDirection();
-			if( (int)(isKickCount % 120) == 0 && isKickCount != 0 ) newBgMode();
-			if( (int)(isSnareCount % 10) == 0 && isSnareCount != 0 ) pickNewColors();
-		}
+//		if( p.getIsAutopilot() == true )
+//		{
+//			if( (int)(isKickCount % 30) == 0 && isKickCount != 0 ) newDirection();
+//			if( (int)(isKickCount % 120) == 0 && isKickCount != 0 ) newBgMode();
+//			if( (int)(isSnareCount % 10) == 0 && isSnareCount != 0 ) pickNewColors();
+//		}
 	}
 
 	public class Tube {
 		// A cell object knows about its location in the grid as well as its size with the variables x,y,w,h.
-		public Haxademic p;
+		public PAppletHax p;
 		public int grassIndex;
 		public float x;
 		public float y;
@@ -182,7 +182,7 @@ implements IVizModule
 
 		// Cell Constructor
 		Tube( int index ) {
-			p = Haxademic.getInstance();
+			p = PAppletHax.getInstance();
 			grassIndex = index;
 
 			reset();

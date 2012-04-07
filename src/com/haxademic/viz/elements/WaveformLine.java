@@ -3,7 +3,7 @@ package com.haxademic.viz.elements;
 import processing.core.PApplet;
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.Haxademic;
+import com.haxademic.app.PAppletHax;
 import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
 import com.p5core.audio.AudioInputWrapper;
@@ -26,7 +26,7 @@ implements IVizElement {
 
 	public void init() {
 		// grab reference to Haxademic waveform data array object and split circle up into number of segments
-		_waveformData = ( (Haxademic)p )._waveformData;
+		_waveformData = ( (PAppletHax)p )._waveformData;
 		
 		// set some defaults
 		_width = 800;

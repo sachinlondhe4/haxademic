@@ -6,7 +6,7 @@ import processing.core.PApplet;
 import toxi.color.TColor;
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.Haxademic;
+import com.haxademic.app.PAppletHax;
 import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
 import com.p5core.audio.AudioInputWrapper;
@@ -44,7 +44,7 @@ implements IVizElement {
 	public void init() {
 		_wave = new WaveformLine( p, toxi, _audioData );
 		_waveformDataHistory = new ArrayList<WaveformData>();
-		_waveformData = ( (Haxademic)p )._waveformData;
+		_waveformData = ( (PAppletHax)p )._waveformData;
 		for(int i = 0; i < NUM_LINES; i++) {
 			_waveformDataHistory.add( new WaveformData( p, _waveformData._waveform.length ) );
 		}

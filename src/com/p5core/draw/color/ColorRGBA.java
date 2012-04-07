@@ -1,6 +1,7 @@
 package com.p5core.draw.color;
 
 import com.haxademic.Haxademic;
+import com.haxademic.app.PAppletHax;
 
 public class ColorRGBA {
 	public float r;
@@ -18,11 +19,11 @@ public class ColorRGBA {
 	
 	public int colorInt()
 	{
-		return Haxademic.getInstance().color(r, g, b, a);
+		return PAppletHax.getInstance().color(r, g, b, a);
 	}
 	
 	public int colorIntWithAlpha( float alpha, float offset )
 	{
-		return Haxademic.getInstance().color(r + offset, g + offset, b + offset, alpha);
+		return PAppletHax.getInstance().color(r + offset, g + offset, b + offset, alpha);
 	}
 }
