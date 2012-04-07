@@ -10,6 +10,7 @@ import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
 
 import com.p5core.util.DrawUtil;
+import com.p5core.util.ImageUtil;
 import com.p5core.util.OpenGLUtil;
 
 public class WebCamTest extends PApplet {
@@ -79,27 +80,26 @@ public class WebCamTest extends PApplet {
 	}
 	
 	void drawDepthImage(){
-		int columns = _camW;
-		int rows = _camH;
 		int cellsize = 3;
 		PImage img = _webCam.get();
 		
 		p.noStroke();
 		
-		for ( int i = 0; i < columns; i++) {
-			for ( int j = 0; j < rows; j++) {
-				float x = i;
-				float y = j;
-				float loc = x + y * img.width;  //  p.PIxel array location
-				int c = img.pixels[(int)loc];  // Grab the color
-				float z = p.brightness(c) / 10f;
+		int x, y, color;
+		for ( int i = 0; i < _camW; i++) {
+			for ( int j = 0; j < _camH; j++) {
+				x = i;
+				y = j;
+				color = ImageUtil.getPixelColor( img, x, y );
+
+				float z = p.brightness( color ) / 10f;
 
 				// Translate to the location, set fill and stroke, and draw the rect
 				p.pushMatrix();
 				p.translate(-img.width/2 + x, -img.height/2 + y, z);
-				p.fill(c, 255);
+				p.fill( color, 255 );
 
-				p.rect(0, 0, cellsize, cellsize);
+				p.rect( 0, 0, cellsize, cellsize );
 				p.popMatrix();
 			}
 		}
@@ -149,7 +149,7 @@ public class WebCamTest extends PApplet {
 				float y = j - _camH/2;
 				// create 2 faces and their UV texture coordinates
 				_mesh.addFace( new Vec3D( x, y, 0 ), new Vec3D( x+1, y, 0 ), new Vec3D( x+1, y+1, 0 ), new Vec2D( i, j ), new Vec2D( i+1, j ), new Vec2D( i+1, j+1 ) );
-				_mesh.addFace( new Vec3D( x, y, 0 ), new Vec3D( x, y+1, 0 ), new Vec3D( x+1, y+1, 0 ), new Vec2D( i, j ), new Vec2D( i, j+1 ), new Vec2D( i+1, j+1 )  );
+				_mesh.addFace( new Vec3D( x, y, 0 ), new Vec3D( x+1, y+1, 0 ), new Vec3D( x, y+1, 0 ), new Vec2D( i, j ), new Vec2D( i+1, j+1 ), new Vec2D( i, j+1 )  );
 			}
 		}
 
@@ -159,20 +159,18 @@ public class WebCamTest extends PApplet {
 	 * Good old-fashioned Processing mesh
 	 */
 	void drawNativeMesh() {
-		int cols = _camW;
-		int rows = _camH;
 		PImage img = _webCam.get();
-
+		int x, y, color;
 		p.beginShape(p.TRIANGLES);
-		for ( int i = 0; i < cols - 1; i++) {
-			for ( int j = 0; j < rows - 1; j++) {
-				float x = i;  // x position
-				float y = j;  // y position
-				float loc = x + y * img.width;  //  p.PIxel array location
-				int c = img.pixels[(int)loc];  // Grab the color
-				float z = p.brightness(c) / 10f;
+		for ( int i = 0; i < _camW - 1; i++) {
+			for ( int j = 0; j < _camH - 1; j++) {
+				x = i;  // x position
+				y = j;  // y position
+				color = ImageUtil.getPixelColor( img, x, y );
+
+				float z = p.brightness(color) / 10f;
 				
-				p.fill(c);
+				p.fill(color);
 				p.stroke(0);
 				p.strokeWeight(1);
 
