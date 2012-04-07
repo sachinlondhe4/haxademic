@@ -1,6 +1,5 @@
 package com.p5core.draw.color;
 
-import com.haxademic.Haxademic;
 import com.haxademic.app.PAppletHax;
 
 public class ColorRGBA {

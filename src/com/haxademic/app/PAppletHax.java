@@ -262,16 +262,16 @@ extends PApplet
 //		_debugText.draw( "Debug :: FPS:" + _fps );
 	}
 	
-	public void setupApp() {
+	protected void setupApp() {
 		p.println("YOU MUST OVERRIDE setupApp()");
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.println("YOU MUST OVERRIDE drawApp()");
 	}
 	
 	// switch between modules
-	public void handleInput( Boolean isMidi ) {
+	protected void handleInput( Boolean isMidi ) {
 		
 	}
 

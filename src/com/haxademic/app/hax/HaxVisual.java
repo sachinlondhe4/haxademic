@@ -6,7 +6,7 @@ import processing.core.PApplet;
 
 import com.haxademic.app.PAppletHax;
 import com.haxademic.viz.IVizModule;
-import com.haxademic.viz.modules.KacheOut;
+import com.haxademic.viz.modules.MasterHax;
 import com.p5core.draw.text.DebugText;
 import com.p5core.hardware.midi.MidiWrapper;
 import com.p5core.util.ScreenUtil;
@@ -20,8 +20,8 @@ extends PAppletHax
 	 * @param args
 	 */
 	public static void main(String args[]) {
-//		PApplet.main(new String[] { "--present", "--hide-stop", "--bgcolor=000000", "com.haxademic.Haxademic" });
-		PApplet.main(new String[] {              "--hide-stop", "--bgcolor=000000", "com.haxademic.app.hax.HaxVisual" });
+		// "--present", 
+		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.hax.HaxVisual" });
 	}
 
 	/**
@@ -68,8 +68,8 @@ extends PAppletHax
 	 */
 	protected void initVizModules() {
 		_modules = new ArrayList<IVizModule>();
-		_modules.add( new KacheOut() );
-//		_modules.add( new MasterHax() );
+//		_modules.add( new KacheOut() );
+		_modules.add( new MasterHax() );
 //		_modules.add( new Boxen3D() );
 //		_modules.add( new Toxi() );
 //		_modules.add( new Spheres() );
