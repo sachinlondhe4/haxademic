@@ -12,14 +12,17 @@ import oscP5.OscMessage;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
+//import processing.video.Capture;
+import processing.video.*;
 import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.launchpad.LaunchpadViz;
-import com.haxademic.viz.modules.MasterHax;
+import com.haxademic.viz.modules.KacheOut;
 import com.p5core.audio.AudioInputWrapper;
 import com.p5core.audio.WaveformData;
 import com.p5core.data.P5Properties;
+import com.p5core.draw.model.ObjPool;
 import com.p5core.draw.text.DebugText;
 import com.p5core.hardware.kinect.KinectWrapper;
 import com.p5core.hardware.midi.MidiWrapper;
@@ -41,8 +44,7 @@ import fullscreen.FullScreen;
  * 
  * @TODO: Address garbage collection - memory heap keeps growing like crazy
  * @TODO: optimize the kinectMesh element - shit is slow
- * @TODO: add 3d objects loader and mesh-returner - use them as backgrounds
- * @TODO: Mesh traversal drawing: more configurable. generative options
+ * @TODO: Mesh traversal drawing: more configurable. generative options - implement mesh drawing strategy pattern
  * @TODO: Finish converting old modules into new Elements: AudioTubes, Blobsheet, cacheRings outer rings, GridEQ w/lines, MaxCache outer rings, PlusRing, more spheres
  * @TODO: Create more abstract user/hardware input system that routes different inputs into certain types of commands.
  * @TODO: Allow more than just note_on messages from Haxademix base. should be able to respond to any midi data
@@ -116,6 +118,11 @@ extends PApplet
 	 * Wraps up MIDI functionality with theMIDIbus library.
 	 */
 	public MidiWrapper _midi = null;
+	
+	/**
+	 * Loads and stores a pool of .obj models.
+	 */
+	public ObjPool _objPool = null;
 	
 	/**
 	 * Wraps up Kinect functionality with openkinect library.
@@ -272,6 +279,7 @@ extends PApplet
 		_oscWrapper = new OscWrapper( p );
 		_debugText = new DebugText( p );
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
+		
 	}
 	
 	/**
@@ -280,8 +288,8 @@ extends PApplet
 	 */
 	protected void initVizModules() {
 		_modules = new ArrayList<IVizModule>();
-//		_modules.add( new KacheOut() );
-		_modules.add( new MasterHax() );
+		_modules.add( new KacheOut() );
+//		_modules.add( new MasterHax() );
 //		_modules.add( new Boxen3D() );
 //		_modules.add( new Toxi() );
 //		_modules.add( new Spheres() );
@@ -600,7 +608,6 @@ extends PApplet
 		}
 		catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
 	}
-
 
 	/**
 	 * Getters / Setters
