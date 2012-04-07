@@ -26,55 +26,6 @@ public class KacheOut
 extends ModuleBase 
 implements IVizModule
 {
-	/**
-	 * TODO:
-	 * BASIC GAME LOGIC
-	 * - Bonus points for hitting UFO?
-	 * - speed gameplay up as number of blocks decreases
-	 * SCORING
-	 * - keep track of wins of either dies
-	 * - keep track of score, based on number of blocks smashed
-	 * AUDIO
-	 * - Implement a soundtrack audio player - hook up to AudioInputWrapper
-	 * - SFX when different objects are hit - synthesized?
-	 * - increment through SFX per hit? or different tones if it's synthesized?
-	 * - find backing beat loops - ideally have synthesized audio on top of that
-	 * DESIGN
-	 * - Switch blocks to large invaders
-	 * - Blocks should explode 
-	 * --- only the blocks you hit will go away
-	 * - blocks should explode in a sphere when hit
-	 * --- glowing center of explosion
-	 * - losing side's left over pieces and paddle and ball turn to particles and fall down with gravity
-	 * - tilt game boards with player movement
-	 * - Improve color scheme
-	 * - Spruce up graphics - more background graphics
-	 * - paddle should explode when the ball passes
-	 * - improved color schemes
-	 * - invaders animate until you knock any of their blocks off
-	 * - wireframe mode
-	 * GAME FLOW
-	 * - Detect when nobody is in the gameplay area
-	 * - Transitions between game states
-	 * GAME SCREENS
-	 * - Logo / instructions
-	 * - Countdown (3,2,1)
-	 * --- game board animates tilt into position
-	 * - Gameplay
-	 * - Win/Lose w/team score
-	 * - Credits
-	 * NICE IDEAS
-	 * - Instructions should make players move the paddles all the way across to start
-	 * - UFO would be the final boss when the board is cleared
-	 * - invader explosions could bounce off existing game objects
-	 * - Moon trails orbiting the game ball
-	 * - Hyper speed mode for fun?
-	 * - Pong head-to-head mode
-	 * PHYSICAL SETUP
-	 * - dancing feet in player box
-	 * - bright tape to make off playing area
-	 * - some instructions on ground
-	 */
 	
 	// input
 	protected KinectWrapper _kinectInterface;
