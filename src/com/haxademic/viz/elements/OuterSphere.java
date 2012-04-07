@@ -50,7 +50,7 @@ implements IVizElement {
 	}
 	
 	protected void buildModel() {
-		OBJModel model = new OBJModel( p, "./models/THEDISCOVERYMULTIPLIED.obj" );
+		OBJModel model = new OBJModel( p, "./models/the-discovery-multiplied-seied.obj" );
 		model.disableMaterial();
 		model.disableTexture();
 		_objMesh = ThreeDeeUtil.ConvertObjModelToToxiMesh( p, model );
