@@ -3,7 +3,6 @@ package com.haxademic.app.kacheout;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
-import toxi.geom.AABB;
 
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.game.GamePlay;
@@ -15,7 +14,6 @@ import com.p5core.hardware.kinect.KinectWrapper;
 import com.p5core.util.ColorGroup;
 import com.p5core.util.DebugUtil;
 import com.p5core.util.DrawUtil;
-import com.p5core.util.MathUtil;
 
 public class KacheOut
 extends PAppletHax  
@@ -36,8 +34,6 @@ extends PAppletHax
 	public static int KINECT_TOP = 200;
 	public static int KINECT_BOTTOM = 440;
 	public static float KINECT_GAP_PERCENT = 0.75f;
-	protected FloatRange _kinectPosition;
-	protected ArrayList<FloatRange> _kinectPositions;
 	protected boolean _isDebuggingKinect = false;
 
 	// audio
@@ -69,8 +65,6 @@ extends PAppletHax
 	
 	protected final float CAMERA_Z_WIDTH_MULTIPLIER = 0.888888f;	// 1280x720
 	protected float _cameraZFromHeight = 0;
-
-//	protected PAppletHax p;
 
 	public void setup() {
 		super.setup();
@@ -172,11 +166,6 @@ extends PAppletHax
 		// init game objects
 		_audio = new AudioLoopPlayer( p );
 
-		
-		_kinectPositions = new ArrayList<FloatRange>();
-		for( int i=0; i < NUM_PLAYERS; i++ ) {
-			_kinectPositions.add( new FloatRange( -1, -1 ) );
-		}
 		
 		_gameWidth = _stageWidth / NUM_PLAYERS;
 		float kinectRangeWidth = KinectWrapper.KWIDTH / 2f * KINECT_GAP_PERCENT;
