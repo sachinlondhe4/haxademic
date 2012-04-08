@@ -8,25 +8,65 @@ import javax.sound.midi.InvalidMidiDataException;
 
 import krister.Ess.AudioInput;
 import oscP5.OscMessage;
+import processing.core.PApplet;
+import toxi.processing.ToxiclibsSupport;
 
-//import com.haxademic.Haxademic;
 import com.haxademic.viz.launchpad.LaunchpadViz;
 import com.p5core.audio.AudioInputWrapper;
 import com.p5core.audio.WaveformData;
 import com.p5core.data.P5Properties;
 import com.p5core.draw.model.ObjPool;
-import com.p5core.draw.text.DebugText;
 import com.p5core.hardware.kinect.KinectWrapper;
 import com.p5core.hardware.midi.MidiWrapper;
 import com.p5core.hardware.osc.OscWrapper;
 import com.p5core.render.MidiSequenceRenderer;
 import com.p5core.render.Renderer;
 import com.p5core.util.OpenGLUtil;
-import com.p5core.util.ScreenUtil;
 
 import fullscreen.FullScreen;
-import processing.core.PApplet;
-import toxi.processing.ToxiclibsSupport;
+
+/**
+ * PAppletHax is a starting point for interactive visuals, giving you a unified
+ * environment for both realtime and rendering modes. It loads several Java
+ * libraries and wraps them up to play nicely with each other, all within the
+ * context of Haxademic. For now, you need the following libraries:
+ * 
+ * Processing
+ * Krister.ESS
+ * Openkinect
+ * Toxiclibs
+ * p5sunflow
+ * OBJLoader
+ * themidibus
+ * oscP5
+ * fullscreen
+ * launchpad
+ * He_Mesh
+ * minim 
+ * 
+ * @TODO: Address garbage collection - memory heap keeps growing like crazy
+ * @TODO: optimize the kinectMesh element - shit is slow
+ * @TODO: Mesh traversal drawing: more configurable. generative options - implement mesh drawing strategy pattern
+ * @TODO: Finish converting old modules into new Elements: AudioTubes, Blobsheet, cacheRings outer rings, GridEQ w/lines, MaxCache outer rings, PlusRing, more spheres
+ * @TODO: Create more abstract user/hardware input system that routes different inputs into certain types of commands.
+ * @TODO: Allow more than just note_on messages from Haxademix base. should be able to respond to any midi data
+ * @TODO: Port .js MathUtil methods in MathUtil
+ * @TODO: Fix stepping through audio for WaveformData - this was hacked for BNC video rendering but shouldn't have to play & cue() the audio to capture the data
+ * @TODO: Figure out why publish/output directory weirdness is happening, and why generated .class files need to be there...
+ * @TODO: Don't initialize MIDI object if not defined in run.properties. Will need to prevent attempting to detect MIDI input on handleKeyboardInput() methods
+ * @TODO: Figure out camera perspective stretching issues in MasterHax
+ * @TODO: Improve launchpad visuals
+ * @TODO: Add launchpad back in without a secondary AUdioInputWrapper
+ * @TODO: Improve color selecting - use test sketch to figure out how to deal with color-traversing
+ * @TODO: New elements: trails, supershapes, GEARS, particles
+ * @TODO: add foreground/background modes to elements that could use them. 
+ * @TODO: Create good input system for building up MasterHax module over time & manage flow of Elements.
+ * @TODO: create more complex uses of new Elements
+ * @TODO: Refine existing elements
+ * 
+ * @author cacheflowe
+ *
+ */
 
 public class PAppletHax
 extends PApplet 
