@@ -40,12 +40,6 @@ extends PAppletHax
 	protected int _curModule = 0;
 	
 	/**
-	 * No comment...
-	 * TODO: refactor this.
-	 */
-	protected int _numModules = 11;
-	
-	/**
 	 * Lets us use a sequence of pad presses to change programs via the Akai MPD.
 	 * @TODO: refactor this.
 	 */
