@@ -31,10 +31,11 @@ extends PAppletHax
 	}
 
 	// input
-	protected float KINECT_MIN_DIST = 1.0f;
-	protected float KINECT_MAX_DIST = 1.5f;
-	protected float K_PIXEL_SKIP = 6;
-	protected boolean _isKinectReversed = true;
+	public static float KINECT_MIN_DIST = 1.5f;
+	public static float KINECT_MAX_DIST = 2.0f;
+	public static int KINECT_TOP = 200;
+	public static int KINECT_BOTTOM = 440;
+	public static float KINECT_GAP_PERCENT = 0.75f;
 	protected FloatRange _kinectPosition;
 	protected ArrayList<FloatRange> _kinectPositions;
 	protected boolean _isDebuggingKinect = false;
@@ -56,8 +57,10 @@ extends PAppletHax
 	// game state
 	protected int _curMode;
 	protected ColorGroup _gameColors;
-	protected int _numPlayers = 2;
+	protected final int NUM_PLAYERS = 2;
 	protected ArrayList<GamePlay> _gamePlays;
+	protected GamePlay _player1;
+	protected GamePlay _player2;
 	
 	// game state
 	protected int _gameState;
@@ -107,7 +110,9 @@ extends PAppletHax
 	protected void handleInput( boolean isMidi ) {
 		super.handleInput( isMidi );
 		if ( p.key == 'm' || p.key == 'M' ) {
-			for( int i=0; i < _numPlayers; i++ ) _gamePlays.get( i ).launchBall();
+//			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).launchBall();
+			_player1.launchBall();
+			_player2.launchBall();
 			_gameState = GAME_ON;
 		}
 		if ( p.key == 'd' || p.key == 'D' ) {
@@ -116,90 +121,13 @@ extends PAppletHax
 			_kinectWrapper.enableDepthImage( !_isDebugging );
 		}
 	}
-
-	public void findKinectCenterX() {
-		// sample several rows, finding the extents of objects within range
-		int[] depthArray = _kinectWrapper.getDepthData();
-		int offset = 0;
-		int depthRaw = 0;
-		float depthInMeters = 0;
-		
-		// loop through point grid and skip over pixels on an interval, finding the horizonal extents of an object in the appropriate range
-		float kinectSegmentWidth = KinectWrapper.KWIDTH / _numPlayers;
-		for( int i = 0; i < _numPlayers; i++ ) {
-			float minX = -1f;
-			float maxX = -1f;
-			for ( int x = (int)( kinectSegmentWidth * i ); x <  kinectSegmentWidth + kinectSegmentWidth * i; x += K_PIXEL_SKIP ) {
-				for ( int y = 120; y < 360; y += K_PIXEL_SKIP ) { // only use the vertical middle portion of the kinect data
-					int xOffset = ( _isKinectReversed == true ) ? KinectWrapper.KWIDTH - 1 - x : x;
-					offset = xOffset + y * KinectWrapper.KWIDTH;
-					depthRaw = depthArray[offset];
-					depthInMeters = _kinectWrapper.rawDepthToMeters( depthRaw );
-					if( depthInMeters > KINECT_MIN_DIST && depthInMeters < KINECT_MAX_DIST ) {
-						if( _isDebuggingKinect == true ) {
-							p.fill( 255, 255, i*100 );
-							p.noStroke();
-							AABB box = new AABB( 4 );
-							box.set( x, -5, 0 );
-							_toxi.box( box );
-						}
-
-						// keep track of kinect range
-						if( minX == -1 || x < minX ) {
-							minX = x;
-						}
-						if( maxX == -1 || x > maxX ) {
-							maxX = x;
-						}
-					} else {
-						if( _isDebuggingKinect == true ) {
-							p.fill( i*100, i*100, 255 );
-							p.noStroke();
-							AABB box = new AABB( 4 );
-							box.set( x, -5, 0 );
-							_toxi.box( box );
-						}
-					}
-					if( depthInMeters > 0 ) {
-					}
-				}
-			}
-//			p.println("min/max "+i+": "+minX+" "+ maxX);
-			_kinectPositions.get( i ).set( minX, maxX );
-		}
-	}
-	
-	protected void handleUserInput() {
-		// update keyboard or Kinect, and pass the value to the paddle
-		float paddleX = _stageWidth / 2;
-		if( _kinectWrapper.isActive() == true ) {
-			_kinectWrapper.update();
-			findKinectCenterX();
-			float kinectSegmentWidth = KinectWrapper.KWIDTH / _numPlayers;
-			// send kinect data to games - calculate based off number of games vs. kinect width
-			for( int i=0; i < _numPlayers; i++ ) {
-				FloatRange playerKinectRange = _kinectPositions.get( i );	// _numPlayers - 1 - 
-				if( playerKinectRange.center() != -1 ) {
-					paddleX = MathUtil.getPercentWithinRange( kinectSegmentWidth * i, kinectSegmentWidth + i * kinectSegmentWidth, playerKinectRange.center() );
-					_gamePlays.get( i ).updatePaddle( 1f - paddleX );
-//					p.println(i+": "+playerKinectRange.min()+", "+playerKinectRange.max()+", "+playerKinectRange.center()+", "+paddleX);
-				}
-			}
-		} else {
-			for( int i=0; i < _numPlayers; i++ ) {
-				FloatRange playerKinectRange = _kinectPositions.get( i );	// _numPlayers - 1 - 
-				_gamePlays.get( i ).updatePaddle( 1f - MathUtil.getPercentWithinRange( 0, _stageWidth, p.mouseX ) );
-//				paddleX = MathUtil.getPercentWithinRange( 0, _stageWidth, p.mouseX );
-			}
-
-		}
-	}
 	
 	// PUBLIC ACCESSORS FOR GAME OBJECTS --------------------------------------------------------------------------------------
 	public int gameWidth() { return _gameWidth; }
 	public int stageHeight() { return _stageHeight; }
 	public int gameState() { return _gameState; }
 	public ColorGroup gameColors() { return _gameColors; }
+	public boolean isDebugging() { return _isDebugging; }
 	
 	// FRAME LOOP --------------------------------------------------------------------------------------
 	
@@ -232,10 +160,6 @@ extends PAppletHax
 ////		p.image( _kinectWrapper.getDepthImage(), 0, 0, _kinectWrapper.KWIDTH, _kinectWrapper.KHEIGHT );
 //		p.image( _kinectWrapper.getDepthImage(), 0, 0, _stageWidth, _stageHeight );
 		
-		// draw point cloud
-		DrawUtil.setCenter( p );
-		p.translate( 0, 0, -1000 );
-		_kinectWrapper.drawPointCloudForRect( p, true, KINECT_MIN_DIST, KINECT_MAX_DIST, 0, KinectWrapper.KWIDTH, KinectWrapper.KHEIGHT, 0 );
 	}
 	
 	// GAME LOGIC --------------------------------------------------------------------------------------
@@ -247,13 +171,20 @@ extends PAppletHax
 		
 		// init game objects
 		_audio = new AudioLoopPlayer( p );
+
+		
 		_kinectPositions = new ArrayList<FloatRange>();
-		_gamePlays = new ArrayList<GamePlay>();
-		_gameWidth = _stageWidth / _numPlayers;
-		for( int i=0; i < _numPlayers; i++ ) {
+		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			_kinectPositions.add( new FloatRange( -1, -1 ) );
-			_gamePlays.add( new GamePlay( _gameWidth * i , _gameWidth + _gameWidth * i ) );
 		}
+		
+		_gameWidth = _stageWidth / NUM_PLAYERS;
+		float kinectRangeWidth = KinectWrapper.KWIDTH / 2f * KINECT_GAP_PERCENT;
+		_player1 = new GamePlay( _gameWidth, _gameWidth * 2, new FloatRange( 0, kinectRangeWidth ) );
+		_player2 = new GamePlay( _gameWidth * 2, _gameWidth * 3, new FloatRange( KinectWrapper.KWIDTH - kinectRangeWidth, KinectWrapper.KWIDTH ) );
+		_gamePlays = new ArrayList<GamePlay>();
+		_gamePlays.add( _player1 );
+		_gamePlays.add( _player2 );
 	}
 	
 	protected void updateGame() {
@@ -265,7 +196,7 @@ extends PAppletHax
 //		p.popMatrix();
 		
 		p.pushMatrix();
-		handleUserInput();
+//		handleUserInput();
 		updateGames();
 		logDebugInfo();
 		p.popMatrix();
@@ -275,8 +206,8 @@ extends PAppletHax
 //		p.translate( 0,0,-400 );
 //		p.rotateX( p.PI / 16f );
 
-		for( int i=0; i < _numPlayers; i++ ) {
-			p.translate( i * ( _stageWidth / _numPlayers), 0 );
+		for( int i=0; i < NUM_PLAYERS; i++ ) {
+			p.translate( i * ( _stageWidth / NUM_PLAYERS), 0 );
 			_gamePlays.get( i ).update();
 		}
 	}

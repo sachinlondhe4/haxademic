@@ -7,7 +7,11 @@ import toxi.geom.mesh.WETriangleMesh;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.viz.elements.GridEQ;
+import com.p5core.data.FloatRange;
 import com.p5core.draw.shapes.Meshes;
+import com.p5core.hardware.kinect.KinectWrapper;
+import com.p5core.util.DrawUtil;
+import com.p5core.util.MathUtil;
 
 public class GamePlay {
 	protected KacheOut p;
@@ -24,11 +28,19 @@ public class GamePlay {
 	protected Walls _walls;
 	protected GridEQ _background;
 	
-	public GamePlay( int gameLeft, int gameRight ) {
+	// controls
+	protected float K_PIXEL_SKIP = 6;
+	protected FloatRange _kinectRange;
+	protected FloatRange _kinectCurrent;
+	protected boolean _isKinectReversed = true;
+	
+	public GamePlay( int gameLeft, int gameRight, FloatRange kinectRange ) {
 		p = (KacheOut)PAppletHax.getInstance();
 		_gameLeft = gameLeft;
 		_gameRight = gameRight;
 		_gameWidth = gameRight - gameLeft;
+		_kinectRange = kinectRange;
+		_kinectCurrent = new FloatRange( -1, -1 );
 		// create grid
 		float boxW = _gameWidth / _cols;
 		float boxH = p.stageHeight() / 2 / _rows;
@@ -59,26 +71,63 @@ public class GamePlay {
 	
 	public void update() {
 		drawBackground();
+		updateControls();
+		detectCollisions();
 		drawGameObjects();
-		
-//		DrawUtil.setCenter( p );
-//		_audio.drawSynthOut();
-	}
-	
-	public void updatePaddle( float paddleX ) {
-		_paddle.moveTowardsX( paddleX );
 	}
 	
 	protected void drawBackground(){
 		// draw bg
 		p.pushMatrix();
-		p.translate( 0, 0, -1000 );
+		p.translate( 0, 0, -2000 );
 		_background.update();
 		p.popMatrix();
 	}
 	
+	protected void findKinectCenterX() {
+		// loop through point grid and skip over pixels on an interval, finding the horizonal extents of an object in the appropriate range
+		float depthInMeters = 0;
+		float minX = -1f;
+		float maxX = -1f;
+		
+		// loop through kinect data within player's control range
+		for ( int x = (int)_kinectRange.min(); x < (int)_kinectRange.max(); x += K_PIXEL_SKIP ) {
+			for ( int y = p.KINECT_TOP; y < p.KINECT_BOTTOM; y += K_PIXEL_SKIP ) { // only use the vertical middle portion of the kinect data
+				depthInMeters = p._kinectWrapper.getDepthMetersForKinectPixel( x, y, true );
+				if( depthInMeters > p.KINECT_MIN_DIST && depthInMeters < p.KINECT_MAX_DIST ) {
+					// keep track of kinect range
+					if( minX == -1 || x < minX ) {
+						minX = x;
+					}
+					if( maxX == -1 || x > maxX ) {
+						maxX = x;
+					}
+				}
+				if( depthInMeters > 0 ) {
+				}
+			}
+
+//			p.println("min/max : "+minX+" "+ maxX);
+			_kinectCurrent.set( minX, maxX );
+		}
+	}
+	
+	protected void updateControls() {
+		// update keyboard or Kinect, and pass the value to the paddle
+		float paddleX = 0;// = _stageWidth / 2;
+		if( p._kinectWrapper.isActive() == true ) {
+			findKinectCenterX();
+			// send kinect data to games - calculate based off number of games vs. kinect width
+			if( _kinectCurrent.center() != -1 ) {
+				paddleX = MathUtil.getPercentWithinRange( _kinectRange.min(), _kinectRange.max(), _kinectCurrent.center() );
+				_paddle.setTargetXByPercent( 1f - paddleX );
+			}
+		} else {
+			_paddle.setTargetXByPercent( 1f - MathUtil.getPercentWithinRange( 0, p.gameWidth(), p.mouseX ) );
+		}
+	}
+	
 	protected void drawGameObjects() {
-		detectCollisions();
 		// draw the blocks
 		for (int i = 0; i < _blocks.size(); i++) {
 			_blocks.get( i ).display();
@@ -87,6 +136,29 @@ public class GamePlay {
 		_paddle.display();
 		_walls.display();
 		_ball.display( _paddle );
+		
+		if( p.isDebugging() == true ) {
+			// draw point cloud
+			p.pushMatrix();
+			DrawUtil.setCenter( p );
+			p.translate( 0, 0, -600 );
+			p._kinectWrapper.drawPointCloudForRect( p, true, 0.5f, p.KINECT_MIN_DIST, p.KINECT_MAX_DIST, p.KINECT_TOP, (int)_kinectRange.max(), p.KINECT_BOTTOM, (int)_kinectRange.min() );
+			
+			// draw debug positioning vertical lines
+			p.pushMatrix();
+			DrawUtil.setCenter( p );
+			p.translate( -KinectWrapper.KWIDTH/2, 0, -700 );
+			p.rect(_kinectRange.min(), 0, 2, p.stageHeight());
+			p.rect(_kinectRange.max(), 0, 2, p.stageHeight());
+			p.fill( 255, 0, 0 );
+			p.rect(_kinectCurrent.min(), 0, 2, p.stageHeight());
+			p.rect(_kinectCurrent.max(), 0, 2, p.stageHeight());
+			p.fill( 0, 255, 0 );
+			p.rect(_kinectCurrent.center(), 0, 2, p.stageHeight());
+			p.popMatrix();
+	
+			p.popMatrix();
+		}
 	}
 	
 	public void launchBall() {

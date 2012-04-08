@@ -39,7 +39,7 @@ public class Paddle {
 		return _box;
 	}
 
-	public void moveTowardsX( float percent ) {
+	public void setTargetXByPercent( float percent ) {
 		percent = 1 - percent;
 		_x.setTarget( _width + percent * (p.gameWidth() - _width*2f) );
 	}
