@@ -121,14 +121,59 @@ public class KinectWrapper {
 	
 	public void tiltUp() {
 		_hardwareTilt += 5;
-		_hardwareTilt = p.constrain(_hardwareTilt, 0, 30);
+		_hardwareTilt = p.constrain(_hardwareTilt, -20, 30);
 		_kinect.tilt(_hardwareTilt);
 	}
 	
 	public void tiltDown() {
 		_hardwareTilt -= 5;
-		_hardwareTilt = p.constrain(_hardwareTilt, 0, 30);
+		_hardwareTilt = p.constrain(_hardwareTilt, -20, 30);
 		_kinect.tilt(_hardwareTilt);
+	}
+	
+	public void drawPointCloudForRect( PApplet p, boolean mirrored, float depthClose, float depthFar, int top, int right, int bottom, int left ) {
+		// We're just going to calculate and draw every 4th pixel
+		int skip = 4;
+
+		// Translate and rotate
+		PVector v;
+		float depthMeters;
+		int rawDepth = 0, 
+			offset = 0;
+		
+		// Scale up by 200
+		float factor = 200;
+		float factorM = ( mirrored == true ) ? -factor : factor;
+		
+		p.pushMatrix();
+//		if( mirrored ) p.rotateY( (float)Math.PI );
+		
+		p.noStroke();
+		p.fill( 255 );
+		
+		for (int x = 0; x < KWIDTH; x += skip) {
+			for (int y = 0; y < KHEIGHT; y += skip) {
+				if( x >= left && x <= right && y >= top && y <= bottom ) {
+					offset = x + y * KWIDTH;
+	
+					// Convert kinect data to world xyz coordinate
+					rawDepth = _depthArray[offset];
+					depthMeters = rawDepthToMeters( rawDepth );
+					v = depthToWorld(x, y, rawDepth);
+	
+					// draw a point within the specified depth range
+					if( depthMeters > depthClose && depthMeters < depthFar ) {
+						p.pushMatrix();
+						p.translate( v.x * factorM, v.y * factor, factor - v.z * factorM );
+						// Draw a point
+						p.point(0, 0);
+						p.rect(0, 0, 2, 2);
+						p.popMatrix();
+					}
+				}
+			}
+		}
+		p.popMatrix();
 	}
 	
 	/**
@@ -146,7 +191,7 @@ public class KinectWrapper {
 	 * @return	raw depth to meters
 	 */
 	public float rawDepthToMeters(int depthValue) {
-		if (depthValue < 2047) {
+		if(depthValue < 2047) {
 			return (float) (1.0 / ((double) (depthValue) * -0.0030711016 + 3.3309495161));
 		}
 		return 0.0f;

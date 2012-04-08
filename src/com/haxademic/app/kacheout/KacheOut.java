@@ -31,8 +31,8 @@ extends PAppletHax
 	}
 
 	// input
-	protected float KINECT_MIN_DIST = 0.5f;
-	protected float KINECT_MAX_DIST = 1.0f;
+	protected float KINECT_MIN_DIST = 1.0f;
+	protected float KINECT_MAX_DIST = 1.5f;
 	protected float K_PIXEL_SKIP = 6;
 	protected boolean _isKinectReversed = true;
 	protected FloatRange _kinectPosition;
@@ -43,6 +43,7 @@ extends PAppletHax
 	protected AudioLoopPlayer _audio;
 	
 	// debug 
+	protected boolean _isDebugging = false;
 	
 	// dimensions and stuff
 	protected int _stageWidth;
@@ -80,6 +81,8 @@ extends PAppletHax
 		_audioInput.setNumAverages( _numAverages );
 		_audioInput.setDampening( .13f );
 		
+		_kinectWrapper.enableDepth( true );
+		
 		initGame();
 	}
 
@@ -106,6 +109,11 @@ extends PAppletHax
 		if ( p.key == 'm' || p.key == 'M' ) {
 			for( int i=0; i < _numPlayers; i++ ) _gamePlays.get( i ).launchBall();
 			_gameState = GAME_ON;
+		}
+		if ( p.key == 'd' || p.key == 'D' ) {
+			_isDebugging = !_isDebugging;
+			_kinectWrapper.enableRGB( !_isDebugging );
+			_kinectWrapper.enableDepthImage( !_isDebugging );
 		}
 	}
 
@@ -204,9 +212,30 @@ extends PAppletHax
 		p.background(0);
 		
 		_curCamera.update();
-//		debugCameraPos();
 
 		updateGame();
+	
+		if( _isDebugging == true ) displayDebug();
+	}
+	
+	protected void displayDebug() {
+//		debugCameraPos();
+		
+		// draw depth image
+//		DrawUtil.setCenter( p );
+//		p.translate( 0, 0, -1350 );
+//		p.fill(255, 255);
+//		p.noStroke();
+//		p.rect(0, 0, _kinectWrapper.KWIDTH*1.1f, _kinectWrapper.KHEIGHT*1.1f);
+//		p.translate( 0, 0, 100 );
+//		p.rotateY( (float)Math.PI );
+////		p.image( _kinectWrapper.getDepthImage(), 0, 0, _kinectWrapper.KWIDTH, _kinectWrapper.KHEIGHT );
+//		p.image( _kinectWrapper.getDepthImage(), 0, 0, _stageWidth, _stageHeight );
+		
+		// draw point cloud
+		DrawUtil.setCenter( p );
+		p.translate( 0, 0, -1000 );
+		_kinectWrapper.drawPointCloudForRect( p, true, KINECT_MIN_DIST, KINECT_MAX_DIST, 0, KinectWrapper.KWIDTH, KinectWrapper.KHEIGHT, 0 );
 	}
 	
 	// GAME LOGIC --------------------------------------------------------------------------------------
@@ -235,14 +264,16 @@ extends PAppletHax
 //		p.rect( _stageWidth/2, _stageHeight/2, _stageWidth, _stageHeight );
 //		p.popMatrix();
 		
+		p.pushMatrix();
 		handleUserInput();
 		updateGames();
 		logDebugInfo();
+		p.popMatrix();
 	}
 	
 	protected void updateGames(){
-		p.translate( 0,0,-400 );
-		p.rotateX( p.PI / 16f );
+//		p.translate( 0,0,-400 );
+//		p.rotateX( p.PI / 16f );
 
 		for( int i=0; i < _numPlayers; i++ ) {
 			p.translate( i * ( _stageWidth / _numPlayers), 0 );
