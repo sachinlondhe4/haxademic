@@ -1,4 +1,3 @@
-package com.haxademic;
 //package com.haxademic;
 //
 //import java.awt.Robot;
@@ -66,7 +65,7 @@ package com.haxademic;
 // * @author cacheflowe
 // *
 // */
-//public class Haxademic
+//public class HaxV1
 //extends PApplet 
 //{
 //
