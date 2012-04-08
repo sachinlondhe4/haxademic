@@ -31,7 +31,7 @@ extends PApplet
 	int _meshIndex;
 	ArrayList<String> _modelIds;
 	
-	boolean _isSunflow = true;
+	boolean _isSunflow = false;
 	boolean _isRendering = true;
 
 	public void setup () {
