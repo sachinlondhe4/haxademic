@@ -142,7 +142,7 @@ public class GamePlay {
 			p.pushMatrix();
 			DrawUtil.setCenter( p );
 			p.translate( 0, 0, -600 );
-			p._kinectWrapper.drawPointCloudForRect( p, true, 0.5f, p.KINECT_MIN_DIST, p.KINECT_MAX_DIST, p.KINECT_TOP, (int)_kinectRange.max(), p.KINECT_BOTTOM, (int)_kinectRange.min() );
+			p._kinectWrapper.drawPointCloudForRect( p, true, 8, 0.5f, p.KINECT_MIN_DIST, p.KINECT_MAX_DIST, p.KINECT_TOP, (int)_kinectRange.max(), p.KINECT_BOTTOM, (int)_kinectRange.min() );
 			
 			// draw debug positioning vertical lines
 			p.pushMatrix();

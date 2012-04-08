@@ -131,43 +131,36 @@ public class KinectWrapper {
 		_kinect.tilt(_hardwareTilt);
 	}
 	
-	public void drawPointCloudForRect( PApplet p, boolean mirrored, float alpha, float depthClose, float depthFar, int top, int right, int bottom, int left ) {
+	public void drawPointCloudForRect( PApplet p, boolean mirrored, int pixelSkip, float alpha, float depthClose, float depthFar, int top, int right, int bottom, int left ) {
 		p.pushMatrix();
-		// We're just going to calculate and draw every 4th pixel
-		int skip = 4;
 
 		// Translate and rotate
 		PVector v;
 		float depthMeters;
-		int rawDepth = 0, 
-			offset = 0;
+		int rawDepth = 0;
 		
 		// Scale up by 200
 		float scaleFactor = 200;
-		float factorM = ( mirrored == true ) ? -scaleFactor : scaleFactor;
+		float factorM = scaleFactor;//( mirrored == true ) ? -scaleFactor : scaleFactor;
 		
 		p.noStroke();
 		p.fill( 255, alpha * 255f );
 		
-		for (int x = 0; x < KWIDTH; x += skip) {
-			for (int y = 0; y < KHEIGHT; y += skip) {
-				if( x >= left && x <= right && y >= top && y <= bottom ) {
-					offset = x + y * KWIDTH;
-	
-					// Convert kinect data to world xyz coordinate
-					rawDepth = _depthArray[offset];
-					depthMeters = rawDepthToMeters( rawDepth );
-					v = depthToWorld(x, y, rawDepth);
-	
-					// draw a point within the specified depth range
-					if( depthMeters > depthClose && depthMeters < depthFar ) {
-						p.pushMatrix();
-						p.translate( v.x * factorM, v.y * scaleFactor, scaleFactor - v.z * factorM/4f );
-						// Draw a point
-						p.point(0, 0);
-						p.rect(0, 0, 2, 2);
-						p.popMatrix();
-					}
+		for (int x = left; x < right; x += pixelSkip) {
+			for (int y = top; y < bottom; y += pixelSkip) {
+				// Convert kinect data to world xyz coordinate
+				rawDepth = getRawDepthForKinectPixel( x, y, mirrored );
+				depthMeters = rawDepthToMeters( rawDepth );
+				v = depthToWorld(x, y, rawDepth );
+
+				// draw a point within the specified depth range
+				if( depthMeters > depthClose && depthMeters < depthFar ) {
+					p.pushMatrix();
+					p.translate( v.x * scaleFactor, v.y * scaleFactor, scaleFactor - v.z * factorM/4f );
+					// Draw a point
+					p.point(0, 0);
+					p.rect(0, 0, 4, 4);
+					p.popMatrix();
 				}
 			}
 		}
@@ -182,9 +175,12 @@ public class KinectWrapper {
 	}
 	
 	public float getDepthMetersForKinectPixel( int x, int y, boolean mirrored ) {
+		return rawDepthToMeters( getRawDepthForKinectPixel( x, y, mirrored ) );
+	}
+	
+	public int getRawDepthForKinectPixel( int x, int y, boolean mirrored ) {
 		int xOffset = ( mirrored == true ) ? KinectWrapper.KWIDTH - 1 - x : x;
-		return rawDepthToMeters( _depthArray[xOffset + y * KinectWrapper.KWIDTH] );
-
+		return _depthArray[xOffset + y * KinectWrapper.KWIDTH];
 	}
 	
 	/**
