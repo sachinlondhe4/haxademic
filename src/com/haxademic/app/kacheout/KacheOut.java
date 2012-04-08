@@ -38,7 +38,6 @@ extends PAppletHax
 	}
 
 	// input
-	protected KinectWrapper _kinectInterface;
 	protected float KINECT_MIN_DIST = 0.5f;
 	protected float KINECT_MAX_DIST = 1.0f;
 	protected float K_PIXEL_SKIP = 6;
@@ -74,25 +73,20 @@ extends PAppletHax
 	protected final float CAMERA_Z_WIDTH_MULTIPLIER = 0.888888f;	// 1280x720
 	protected float _cameraZFromHeight = 0;
 
+//	protected PAppletHax p;
 
-	protected void setupApp() {
-		// store and init audio engine
-		initAudio();
-		// init viz
-		init();
-	}
-
-	public void init() {
-		colorMode( PConstants.RGB, 255, 255, 255, 1 );
-		noStroke();
-		newCamera();
-
-		_kinectInterface = _kinectWrapper;
+	public void setup() {
+		super.setup();
 		
 		_stageWidth = width;
 		_stageHeight = height;
 		_cameraZFromHeight = (float)_stageHeight * CAMERA_Z_WIDTH_MULTIPLIER;
 
+		newCamera();
+		
+		_audioInput.setNumAverages( _numAverages );
+		_audioInput.setDampening( .13f );
+		
 		initGame();
 	}
 
@@ -100,12 +94,6 @@ extends PAppletHax
 
 	public void initAudio()
 	{
-		_audioInput.setNumAverages( _numAverages );
-		_audioInput.setDampening( .13f );
-	}
-	
-	public void focus() {
-		newCamera();
 	}
 	
 
@@ -126,7 +114,8 @@ extends PAppletHax
 	
 	// INPUT --------------------------------------------------------------------------------------
 
-	public void handleKeyboardInput() {
+	protected void handleInput( boolean isMidi ) {
+		super.handleInput( isMidi );
 		if ( p.key == 'm' || p.key == 'M' ) {
 			for( int i=0; i < _numPlayers; i++ ) _gamePlays.get( i ).launchBall();
 		}
@@ -134,7 +123,7 @@ extends PAppletHax
 
 	public void findKinectCenterX() {
 		// sample several rows, finding the extents of objects within range
-		int[] depthArray = _kinectInterface.getDepthData();
+		int[] depthArray = _kinectWrapper.getDepthData();
 		int offset = 0;
 		int depthRaw = 0;
 		float depthInMeters = 0;
@@ -149,14 +138,14 @@ extends PAppletHax
 					int xOffset = ( _isKinectReversed == true ) ? KinectWrapper.KWIDTH - 1 - x : x;
 					offset = xOffset + y * KinectWrapper.KWIDTH;
 					depthRaw = depthArray[offset];
-					depthInMeters = _kinectInterface.rawDepthToMeters( depthRaw );
+					depthInMeters = _kinectWrapper.rawDepthToMeters( depthRaw );
 					if( depthInMeters > KINECT_MIN_DIST && depthInMeters < KINECT_MAX_DIST ) {
 						if( _isDebuggingKinect == true ) {
 							p.fill( 255, 255, i*100 );
 							p.noStroke();
 							AABB box = new AABB( 4 );
 							box.set( x, -5, 0 );
-							toxi.box( box );
+							_toxi.box( box );
 						}
 
 						// keep track of kinect range
@@ -172,7 +161,7 @@ extends PAppletHax
 							p.noStroke();
 							AABB box = new AABB( 4 );
 							box.set( x, -5, 0 );
-							toxi.box( box );
+							_toxi.box( box );
 						}
 					}
 					if( depthInMeters > 0 ) {
@@ -187,8 +176,8 @@ extends PAppletHax
 	protected void handleUserInput() {
 		// update keyboard or Kinect, and pass the value to the paddle
 		float paddleX = _stageWidth / 2;
-		if( _kinectInterface.isActive() == true ) {
-			_kinectInterface.update();
+		if( _kinectWrapper.isActive() == true ) {
+			_kinectWrapper.update();
 			findKinectCenterX();
 			float kinectSegmentWidth = KinectWrapper.KWIDTH / _numPlayers;
 			// send kinect data to games - calculate based off number of games vs. kinect width
@@ -208,7 +197,7 @@ extends PAppletHax
 
 	// FRAME LOOP --------------------------------------------------------------------------------------
 	
-	public void update() {
+	public void drawApp() {
 		DrawUtil.resetGlobalProps( p );
 		DrawUtil.setCenter( p );
 
@@ -299,6 +288,7 @@ extends PAppletHax
 		protected GridEQ _background;
 		
 		public GamePlay( int gameLeft, int gameRight ) {
+			p.println(gameLeft+ ","+gameRight);
 			_gameLeft = gameLeft;
 			_gameRight = gameRight;
 			_gameWidth = gameRight - gameLeft;
@@ -321,7 +311,7 @@ extends PAppletHax
 			_invaderMesh_01_alt.scale( 70 );
 			
 			// create game objects
-			_background = new GridEQ( p, toxi, _audioInput );
+			_background = new GridEQ( p, _toxi, _audioInput );
 			_background.updateColorSet( _gameColors );
 
 			_ball = new Ball();
@@ -448,7 +438,7 @@ extends PAppletHax
 				_color.alpha = p.constrain( 0.5f + zAdd, 0, 1 );
 				p.fill( _color.toARGB() );
 				p.noStroke();
-				toxi.box( _box );
+				_toxi.box( _box );
 				
 //				WETriangleMesh mesh1 = ( p.round( p.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_01 : _invaderMesh_01_alt;
 //				DrawMesh.drawMeshWithAudio( p, mesh1, p.getAudio(), 3f, false, _color, _color, 0.25f );
@@ -511,7 +501,7 @@ extends PAppletHax
 			p.fill( _color.toARGB() );
 			_sphere.x = _x;
 			_sphere.y = _y;
-			toxi.sphere( _sphere, BALL_RESOLUTION );
+			_toxi.sphere( _sphere, BALL_RESOLUTION );
 		}
 		
 		protected void detectWalls( boolean leftHit, boolean topHit, boolean rightHit ) {
@@ -596,7 +586,7 @@ extends PAppletHax
 			_color.alpha = 0.5f + _audioInput.getFFT().averages[1];
 			p.fill( _color.toARGB() );
 			p.noStroke();
-			toxi.box( _box ); 
+			_toxi.box( _box ); 
 		}
 
 	}
@@ -661,13 +651,13 @@ extends PAppletHax
 			p.noStroke();
 			_color.alpha = _wallLeftAlpha;
 			p.fill( _color.toARGB() );
-			toxi.box( _wallLeft ); 
+			_toxi.box( _wallLeft ); 
 			_color.alpha = _wallTopAlpha;
 			p.fill( _color.toARGB() );
-			toxi.box( _wallTop ); 
+			_toxi.box( _wallTop ); 
 			_color.alpha = _wallRightAlpha;
 			p.fill( _color.toARGB() );
-			toxi.box( _wallRight ); 
+			_toxi.box( _wallRight ); 
 		}
 
 	}
