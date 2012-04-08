@@ -44,7 +44,8 @@ import fullscreen.FullScreen;
  * He_Mesh
  * minim 
  * 
- * @TODO: Address garbage collection - memory heap keeps growing like crazy
+ * @TODO: Address garbage collection
+ * @TODO: Come up with a single solution to be an IVizModule or an extension of PAppletHax. 
  * @TODO: optimize the kinectMesh element - shit is slow
  * @TODO: Mesh traversal drawing: more configurable. generative options - implement mesh drawing strategy pattern
  * @TODO: Finish converting old modules into new Elements: AudioTubes, Blobsheet, cacheRings outer rings, GridEQ w/lines, MaxCache outer rings, PlusRing, more spheres
