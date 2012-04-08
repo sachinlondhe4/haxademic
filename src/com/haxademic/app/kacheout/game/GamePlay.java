@@ -96,17 +96,10 @@ public class GamePlay {
 				depthInMeters = p._kinectWrapper.getDepthMetersForKinectPixel( x, y, true );
 				if( depthInMeters > p.KINECT_MIN_DIST && depthInMeters < p.KINECT_MAX_DIST ) {
 					// keep track of kinect range
-					if( minX == -1 || x < minX ) {
-						minX = x;
-					}
-					if( maxX == -1 || x > maxX ) {
-						maxX = x;
-					}
-				}
-				if( depthInMeters > 0 ) {
+					if( minX == -1 || x < minX ) minX = x;
+					if( maxX == -1 || x > maxX ) maxX = x;
 				}
 			}
-
 //			p.println("min/max : "+minX+" "+ maxX);
 			_kinectCurrent.set( minX, maxX );
 		}
