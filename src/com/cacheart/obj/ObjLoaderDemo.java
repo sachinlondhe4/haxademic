@@ -68,6 +68,7 @@ extends PApplet
 //		_objPool.loadObj( "HOUSE", 				150, 	"./models/monopoly-house.obj" );
 		_objPool.loadObj( "MODE_SET", 			150, 	"../data/models/mode-set.obj" );
 		_objPool.loadObj( "SPIROGRAPH",			150, 	"../data/models/spirograph-seied.obj" );
+		_objPool.loadObj( "CACHEFLOWE",			150, 	"../data/models/cacheflowe-3d.obj" );
 		
 //		_objPool.loadObj( "CAR_65", 			100, 	"./models/car65.obj" );
 //		_objPool.loadObj( "BANANA", 			0.5f, 	"./models/banana.obj" );
@@ -107,8 +108,9 @@ extends PApplet
 		
 		// draw OBJModel
 		p.translate(0,0,-150);
-		p.fill(0,200,234, 255);
-		p.fill(255, 255);
+		p.fill(255, 255);		// white
+		p.fill(0,200,234, 255);	// mode set blue
+		p.fill(255,249,0, 255);	// cacheflowe yellow
 		p.noStroke();
 		DrawMesh.drawObjModel( p, toxi, _model );
 		

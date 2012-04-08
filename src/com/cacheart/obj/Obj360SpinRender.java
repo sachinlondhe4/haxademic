@@ -31,8 +31,8 @@ extends PApplet
 	int _meshIndex;
 	ArrayList<String> _modelIds;
 	
-	boolean _isSunflow = false;
-	boolean _isRendering = false;
+	boolean _isSunflow = true;
+	boolean _isRendering = true;
 
 	public void setup () {
 		p = this;
@@ -62,7 +62,8 @@ extends PApplet
 		
 		// set up 3d objects pool
 		_objPool = new ObjPool( p );
-		_objPool.loadObj( "MODE_SET", 150, "../data/models/mode-set.obj" );		
+//		_objPool.loadObj( "MODE_SET", 150, "../data/models/mode-set.obj" );		
+		_objPool.loadObj( "CACHEFLOWE", 100, "../data/models/cacheflowe-3d.obj" );		
 		
 		_modelIds = _objPool.getIds();
 		_model = _objPool.getModel( _modelIds.get( 0 ) );
@@ -85,10 +86,13 @@ extends PApplet
 		// rotate with time, in a full circle
 		_rot -= p.TWO_PI / 360f;
 		p.rotateY( _rot );
+		p.rotateX( p.TWO_PI / 16f );
 		
 		// draw OBJModel
-		p.fill(0,200,234, 255);
+		p.fill(0,200,234, 255);	// mode set blue
+		p.fill(255,249,0, 255);	// cacheflowe yellow
 		p.noStroke();
+//		p.rect( 0, 0, 2500, 1500 );
 		DrawMesh.drawObjModel( p, toxi, _model );
 //		toxi.mesh( _mesh, true, 0 );
 		
