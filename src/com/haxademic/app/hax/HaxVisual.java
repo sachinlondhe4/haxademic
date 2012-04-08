@@ -88,7 +88,8 @@ extends PAppletHax
 	/**
 	 * Called by PApplet to run before the first draw() command.
 	 */
-	public void setupApp () {
+	public void setup () {
+		super.setup();
 		// init our IVizModules and supporting app-wide objects
 		initVizModules();
 	}

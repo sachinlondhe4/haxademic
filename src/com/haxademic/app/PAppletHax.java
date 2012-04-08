@@ -124,6 +124,7 @@ extends PApplet
 	 */
 	protected Boolean _isRenderingMidi = true;
 
+	// OVERRIDE THE FOLLOWING METHODS 
 	/**
 	 * Called by PApplet to run before the first draw() command.
 	 */
@@ -149,8 +150,14 @@ extends PApplet
 		toxi = new ToxiclibsSupport(p);
 		
 		initHaxademicObjects();
-
-		setupApp();
+	}
+	
+	protected void drawApp() {
+		p.println("YOU MUST OVERRIDE drawApp()");
+	}
+	
+	protected void handleInput( boolean isMidi ) {
+		p.println("YOU MUST OVERRIDE KEYPRESSED");
 	}
 	
 	/**
@@ -262,19 +269,8 @@ extends PApplet
 //		_debugText.draw( "Debug :: FPS:" + _fps );
 	}
 	
-	protected void setupApp() {
-		p.println("YOU MUST OVERRIDE setupApp()");
 	}
 	
-	protected void drawApp() {
-		p.println("YOU MUST OVERRIDE drawApp()");
-	}
-	
-	// switch between modules
-	protected void handleInput( Boolean isMidi ) {
-		
-	}
-
 	/**
 	 * Called by PApplet as the keyboard input listener.
 	 * This makes sure only the active IVizModule receives keyboard input
