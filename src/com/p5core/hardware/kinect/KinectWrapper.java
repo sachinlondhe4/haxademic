@@ -25,9 +25,6 @@ public class KinectWrapper {
 	public int[] _depthArray;
 	public float[] _depthLookUp = new float[2048];
 
-	public PImage _display;
-	public PImage _img;
-	
 	public KinectWrapper(PApplet pApp) {
 		p = pApp;
 
@@ -51,48 +48,11 @@ public class KinectWrapper {
 			_depthLookUp[i] = rawDepthToMeters(i);
 		}		
 	
-		_display = p.createImage(KWIDTH, KHEIGHT, PConstants.RGB);
-	
 		_loc = new PVector(0, 0);
 		_lerpedLoc = new PVector(0, 0);
-
 	}
 	
 	public void update() {
-		track();
-	}
-	
-	public PImage getDepthImage() {
-		return _kinect.getDepthImage();
-	}
-	
-	public PImage getVideoImage() {
-		return _kinect.getVideoImage();
-	}
-	
-	public int[] getDepthData() {
-		return _depthArray;
-	}
-	
-	public boolean isActive() {
-		return _kinectActive;
-	}
-	
-	public void tiltUp() {
-		_hardwareTilt += 5;
-		_hardwareTilt = p.constrain(_hardwareTilt, 0, 30);
-		_kinect.tilt(_hardwareTilt);
-	}
-	
-	public void tiltDown() {
-		_hardwareTilt -= 5;
-		_hardwareTilt = p.constrain(_hardwareTilt, 0, 30);
-		_kinect.tilt(_hardwareTilt);
-	}
-	
-	
-	void track() {
-	
 		// Get the raw depth as array of integers
 		_depthArray = _kinect.getRawDepth();
 	
@@ -127,6 +87,34 @@ public class KinectWrapper {
 		// Interpolating the location, doing it arbitrarily for now
 		_lerpedLoc.x = PApplet.lerp(_lerpedLoc.x, _loc.x, 0.3f);
 		_lerpedLoc.y = PApplet.lerp(_lerpedLoc.y, _loc.y, 0.3f);
+	}
+	
+	public PImage getDepthImage() {
+		return _kinect.getDepthImage();
+	}
+	
+	public PImage getVideoImage() {
+		return _kinect.getVideoImage();
+	}
+	
+	public int[] getDepthData() {
+		return _depthArray;
+	}
+	
+	public boolean isActive() {
+		return _kinectActive;
+	}
+	
+	public void tiltUp() {
+		_hardwareTilt += 5;
+		_hardwareTilt = p.constrain(_hardwareTilt, 0, 30);
+		_kinect.tilt(_hardwareTilt);
+	}
+	
+	public void tiltDown() {
+		_hardwareTilt -= 5;
+		_hardwareTilt = p.constrain(_hardwareTilt, 0, 30);
+		_kinect.tilt(_hardwareTilt);
 	}
 	
 	PVector getLerpedPos() {
