@@ -131,7 +131,8 @@ public class KinectWrapper {
 		_kinect.tilt(_hardwareTilt);
 	}
 	
-	public void drawPointCloudForRect( PApplet p, boolean mirrored, float depthClose, float depthFar, int top, int right, int bottom, int left ) {
+	public void drawPointCloudForRect( PApplet p, boolean mirrored, float alpha, float depthClose, float depthFar, int top, int right, int bottom, int left ) {
+		p.pushMatrix();
 		// We're just going to calculate and draw every 4th pixel
 		int skip = 4;
 
@@ -142,14 +143,11 @@ public class KinectWrapper {
 			offset = 0;
 		
 		// Scale up by 200
-		float factor = 200;
-		float factorM = ( mirrored == true ) ? -factor : factor;
-		
-		p.pushMatrix();
-//		if( mirrored ) p.rotateY( (float)Math.PI );
+		float scaleFactor = 200;
+		float factorM = ( mirrored == true ) ? -scaleFactor : scaleFactor;
 		
 		p.noStroke();
-		p.fill( 255 );
+		p.fill( 255, alpha * 255f );
 		
 		for (int x = 0; x < KWIDTH; x += skip) {
 			for (int y = 0; y < KHEIGHT; y += skip) {
@@ -164,7 +162,7 @@ public class KinectWrapper {
 					// draw a point within the specified depth range
 					if( depthMeters > depthClose && depthMeters < depthFar ) {
 						p.pushMatrix();
-						p.translate( v.x * factorM, v.y * factor, factor - v.z * factorM );
+						p.translate( v.x * factorM, v.y * scaleFactor, scaleFactor - v.z * factorM/4f );
 						// Draw a point
 						p.point(0, 0);
 						p.rect(0, 0, 2, 2);
@@ -181,6 +179,12 @@ public class KinectWrapper {
 	 */
 	public void stop() {
 		if( _kinectActive ) _kinect.quit();
+	}
+	
+	public float getDepthMetersForKinectPixel( int x, int y, boolean mirrored ) {
+		int xOffset = ( mirrored == true ) ? KinectWrapper.KWIDTH - 1 - x : x;
+		return rawDepthToMeters( _depthArray[xOffset + y * KinectWrapper.KWIDTH] );
+
 	}
 	
 	/**
