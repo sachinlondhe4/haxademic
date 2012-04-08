@@ -3,7 +3,6 @@ package com.p5core.hardware.kinect;
 import org.openkinect.processing.Kinect;
 
 import processing.core.PApplet;
-import processing.core.PConstants;
 import processing.core.PImage;
 import processing.core.PVector;
 import toxi.geom.Vec3D;
@@ -15,39 +14,34 @@ public class KinectWrapper {
 	protected boolean _kinectActive = true;
 
 	protected int _hardwareTilt = 0;
-
 	public static int KWIDTH = 640;
 	public static int KHEIGHT = 480;
-
-	PVector _loc; 		// Raw location
-	PVector _lerpedLoc;	// Interpolated location
-
+	public static int THRESHOLD_LOW = 1;
+	
+	protected PVector _loc; 		// Raw location
+	protected PVector _lerpedLoc;	// Interpolated location
 	public int[] _depthArray;
 	public float[] _depthLookUp = new float[2048];
 
-	public KinectWrapper(PApplet pApp) {
-		p = pApp;
-
-		init();
-	}
-	
-	protected void init() {
+	public KinectWrapper( PApplet p, boolean initDepth, boolean initRGB, boolean initDepthImage ) {
+		this.p = p;
 
 		_kinect = new Kinect(p);
 		_kinect.start();
+		
 		try {
-			_kinect.enableRGB(true);
-			_kinect.enableDepth(true);
-			_kinect.processDepthImage(false);
+			_kinect.enableRGB(initRGB);
+			_kinect.enableDepth(initDepth);
+			_kinect.processDepthImage(initDepthImage);
 		} catch (NullPointerException e) {
 			_kinectActive = false;
 			p.println("kinect not kinected");
 		}
+		
 		// Lookup table for all possible depth values (0 - 2047)
 		for (int i = 0; i < _depthLookUp.length; i++) {
 			_depthLookUp[i] = rawDepthToMeters(i);
 		}		
-	
 		_loc = new PVector(0, 0);
 		_lerpedLoc = new PVector(0, 0);
 	}
@@ -55,28 +49,28 @@ public class KinectWrapper {
 	public void update() {
 		// Get the raw depth as array of integers
 		_depthArray = _kinect.getRawDepth();
+	}
 	
+	public void updateCenterOfRectangle() {
 		// Being overly cautious here
-		if (_depthArray == null)
-			return;
-	
+		if (_depthArray == null) return;
+		
 		float sumX = 0;
 		float sumY = 0;
 		float count = 0;
+		int rawDepth;
 
 		for (int x = 0; x < KWIDTH; x++) {
 			for (int y = 0; y < KHEIGHT; y++) {
 				// Mirroring the image
 				int offset = KWIDTH - x - 1 + y * KWIDTH;
-				// Grabbing the raw depth
-				int rawDepth = _depthArray[offset];
-	
-//				// Testing against threshold
-//				if (rawDepth < _thresholdLow) {
-//					sumX += x;
-//					sumY += y;
-//					count++;
-//				}
+				// Testing against threshold
+				rawDepth = _depthArray[offset];
+				if (rawDepth < THRESHOLD_LOW) {
+					sumX += x;
+					sumY += y;
+					count++;
+				}
 			}
 		}
 		// As long as we found something
@@ -101,8 +95,28 @@ public class KinectWrapper {
 		return _depthArray;
 	}
 	
+	public void enableDepth( boolean enable ) {
+		_kinect.enableDepth( enable );
+	}
+	
+	public void enableRGB( boolean enable ) {
+		_kinect.enableRGB( enable );
+	}
+	
+	public void enableDepthImage( boolean enable ) {
+		_kinect.processDepthImage( enable );
+	}
+	
 	public boolean isActive() {
 		return _kinectActive;
+	}
+	
+	PVector getLerpedPos() {
+		return _lerpedLoc;
+	}
+	
+	PVector getPos() {
+		return _loc;
 	}
 	
 	public void tiltUp() {
@@ -117,17 +131,20 @@ public class KinectWrapper {
 		_kinect.tilt(_hardwareTilt);
 	}
 	
-	PVector getLerpedPos() {
-		return _lerpedLoc;
+	/**
+	 * Shuts down Kinect properly when the PApplet shuts down
+	 */
+	public void stop() {
+		if( _kinectActive ) _kinect.quit();
 	}
 	
-	PVector getPos() {
-		return _loc;
-	}
-		
-	
-	// These functions come from:
-	// http://graphics.stanford.edu/~mdfisher/Kinect.html
+	/**
+	 * Internal calculations
+	 * These functions come from:
+	 * http://graphics.stanford.edu/~mdfisher/Kinect.html
+	 * @param depthValue	The raw Kinect data
+	 * @return	raw depth to meters
+	 */
 	public float rawDepthToMeters(int depthValue) {
 		if (depthValue < 2047) {
 			return (float) (1.0 / ((double) (depthValue) * -0.0030711016 + 3.3309495161));
@@ -158,9 +175,5 @@ public class KinectWrapper {
 		return result;
 	}
 
-
-	public void stop() {
-		if( _kinectActive ) _kinect.quit();
-	}
 
 }

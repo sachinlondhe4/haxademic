@@ -227,7 +227,7 @@ extends PApplet
 		_waveformData = new WaveformData( p, _audioInput._bufferSize );
 //		_objPool = new ObjPool( p );
 		_renderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE, _appConfig.getString( "render_output_dir", "bin/output/" ) );
-		_kinectWrapper = new KinectWrapper( p );
+		_kinectWrapper = new KinectWrapper( p, _appConfig.getBoolean( "kinect_depth", true ), _appConfig.getBoolean( "kinect_rgb", true ), _appConfig.getBoolean( "kinect_depth_image", true ) );
 //		_launchpadViz = new LaunchpadViz( p5 );
 		_oscWrapper = new OscWrapper( p );
 //		_debugText = new DebugText( p );
@@ -249,7 +249,8 @@ extends PApplet
 		initializeExtraObjectsOn1stFrame();	// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
 		if( keyPressed ) handleInput( false ); // handles overall keyboard commands
 		int[] beatDetectArr = _audioInput.getBeatDetection(); // detect beats and pass through to current visual module
-
+		_kinectWrapper.update();
+		
 		drawApp();
 		
 		if( _isRendering == true ) _renderer.renderFrame(); 	// render frame if rendering
