@@ -3,21 +3,14 @@ package com.haxademic.app.kacheout;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
-import processing.core.PConstants;
-import toxi.color.TColor;
 import toxi.geom.AABB;
-import toxi.geom.Sphere;
-import toxi.geom.Vec3D;
-import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.app.PAppletHax;
-import com.haxademic.viz.elements.GridEQ;
+import com.haxademic.app.kacheout.game.GamePlay;
 import com.p5core.audio.AudioLoopPlayer;
 import com.p5core.cameras.CameraDefault;
 import com.p5core.cameras.common.ICamera;
 import com.p5core.data.FloatRange;
-import com.p5core.data.easing.EasingFloat;
-import com.p5core.draw.shapes.Meshes;
 import com.p5core.hardware.kinect.KinectWrapper;
 import com.p5core.util.ColorGroup;
 import com.p5core.util.DebugUtil;
@@ -67,8 +60,8 @@ extends PAppletHax
 	
 	// game state
 	protected int _gameState;
-	protected final int GAME_READY = 2;
-	protected final int GAME_ON = 3;
+	public final int GAME_READY = 2;
+	public final int GAME_ON = 3;
 	
 	protected final float CAMERA_Z_WIDTH_MULTIPLIER = 0.888888f;	// 1280x720
 	protected float _cameraZFromHeight = 0;
@@ -91,12 +84,6 @@ extends PAppletHax
 	}
 
 	// HAXADEMIC STUFF --------------------------------------------------------------------------------------
-
-	public void initAudio()
-	{
-	}
-	
-
 	void newCamera() {
 		_curCamera = new CameraDefault( p, 0, 0, 0 );
 		_curCamera.setPosition( _stageWidth/2f, _stageHeight/2f, _cameraZFromHeight );
@@ -118,6 +105,7 @@ extends PAppletHax
 		super.handleInput( isMidi );
 		if ( p.key == 'm' || p.key == 'M' ) {
 			for( int i=0; i < _numPlayers; i++ ) _gamePlays.get( i ).launchBall();
+			_gameState = GAME_ON;
 		}
 	}
 
@@ -190,11 +178,21 @@ extends PAppletHax
 				}
 			}
 		} else {
-			paddleX = MathUtil.getPercentWithinRange( 0, _stageWidth, p.mouseX );
+			for( int i=0; i < _numPlayers; i++ ) {
+				FloatRange playerKinectRange = _kinectPositions.get( i );	// _numPlayers - 1 - 
+				_gamePlays.get( i ).updatePaddle( 1f - MathUtil.getPercentWithinRange( 0, _stageWidth, p.mouseX ) );
+//				paddleX = MathUtil.getPercentWithinRange( 0, _stageWidth, p.mouseX );
+			}
+
 		}
 	}
 	
-
+	// PUBLIC ACCESSORS FOR GAME OBJECTS --------------------------------------------------------------------------------------
+	public int gameWidth() { return _gameWidth; }
+	public int stageHeight() { return _stageHeight; }
+	public int gameState() { return _gameState; }
+	public ColorGroup gameColors() { return _gameColors; }
+	
 	// FRAME LOOP --------------------------------------------------------------------------------------
 	
 	public void drawApp() {
@@ -214,25 +212,19 @@ extends PAppletHax
 	// GAME LOGIC --------------------------------------------------------------------------------------
 	
 	public void initGame() {
+		// set flags and props	
 		pickNewColors();
+		_gameState = GAME_READY;
 		
+		// init game objects
+		_audio = new AudioLoopPlayer( p );
 		_kinectPositions = new ArrayList<FloatRange>();
-		for( int i=0; i < _numPlayers; i++ ) {
-			_kinectPositions.add( new FloatRange( -1, -1 ) );
-		}
-		
 		_gamePlays = new ArrayList<GamePlay>();
 		_gameWidth = _stageWidth / _numPlayers;
 		for( int i=0; i < _numPlayers; i++ ) {
+			_kinectPositions.add( new FloatRange( -1, -1 ) );
 			_gamePlays.add( new GamePlay( _gameWidth * i , _gameWidth + _gameWidth * i ) );
 		}
-		
-		// init game state
-		_gameState = GAME_READY;
-		
-		
-		
-		_audio = new AudioLoopPlayer( p );
 	}
 	
 	protected void updateGame() {
@@ -243,24 +235,26 @@ extends PAppletHax
 //		p.rect( _stageWidth/2, _stageHeight/2, _stageWidth, _stageHeight );
 //		p.popMatrix();
 		
-		p.pushMatrix();
 		handleUserInput();
-		
+		updateGames();
+		logDebugInfo();
+	}
+	
+	protected void updateGames(){
 		p.translate( 0,0,-400 );
 		p.rotateX( p.PI / 16f );
-		
+
 		for( int i=0; i < _numPlayers; i++ ) {
 			p.translate( i * ( _stageWidth / _numPlayers), 0 );
 			_gamePlays.get( i ).update();
 		}
-		p.popMatrix();
-		
+	}
+	
+	protected void logDebugInfo(){
 		if( p.frameCount % (30 * 10) == 0 ) {
 			DebugUtil.showMemoryUsage();
 		}
 	}
-	
-
 	
 
 	// Visual fun
@@ -270,396 +264,6 @@ extends PAppletHax
 			_gameColors = new ColorGroup( ColorGroup.KACHE_OUT );
 		}
 		_gameColors.setRandomGroup();
-	}
-
-	// GAMEPLAY OBJECT --------------------------------------------------------------------------------------
-	public class GamePlay {
-		// blocks
-		protected int _gameLeft, _gameRight, _gameWidth;
-		protected int _cols = 10;
-		protected int _rows = 7;
-		protected ArrayList<Block> _blocks;
-		protected WETriangleMesh _invaderMesh_01, _invaderMesh_01_alt;
-		
-		// should be an array of balls
-		protected Ball _ball;
-		protected Paddle _paddle;
-		protected Walls _walls;
-		protected GridEQ _background;
-		
-		public GamePlay( int gameLeft, int gameRight ) {
-			p.println(gameLeft+ ","+gameRight);
-			_gameLeft = gameLeft;
-			_gameRight = gameRight;
-			_gameWidth = gameRight - gameLeft;
-			// create grid
-			float boxW = _gameWidth / _cols;
-			float boxH = _stageHeight / 2 / _rows;
-			_blocks = new ArrayList<Block>();
-			int index = 0;
-			for (int i = 0; i < _cols; i++) {
-				for (int j = 0; j < _rows; j++) {
-					// Initialize each object
-					_blocks.add( new Block( i*boxW, j*boxH, boxW, boxH, index ) );
-					index++;
-				}
-			}
-			
-			_invaderMesh_01 = Meshes.invader1( 1 );
-			_invaderMesh_01_alt = Meshes.invader1( 2 );
-			_invaderMesh_01.scale( 70 );
-			_invaderMesh_01_alt.scale( 70 );
-			
-			// create game objects
-			_background = new GridEQ( p, _toxi, _audioInput );
-			_background.updateColorSet( _gameColors );
-
-			_ball = new Ball();
-			_paddle = new Paddle();
-			_walls = new Walls();
-			
-		}
-		
-		public void update() {
-			drawBackground();
-			drawGameObjects();
-			
-//			DrawUtil.setCenter( p );
-//			_audio.drawSynthOut();
-		}
-		
-		public void updatePaddle( float paddleX ) {
-			_paddle.moveTowardsX( paddleX );
-		}
-		
-		protected void drawBackground(){
-			// draw bg
-			p.pushMatrix();
-			p.translate( 0, 0, -1000 );
-			_background.update();
-			p.popMatrix();
-		}
-		
-		protected void drawGameObjects() {
-			detectCollisions();
-			// draw the blocks
-			for (int i = 0; i < _blocks.size(); i++) {
-				_blocks.get( i ).display();
-			}
-			// draw other objects
-			_paddle.display();
-			_walls.display();
-			_ball.display( _paddle );
-		}
-		
-		public void launchBall() {
-			_gameState = GAME_ON;
-			_ball.launch( _paddle );
-		}
-		
-		public void detectCollisions() {
-			// paddle
-			if( _ball.detectBox( _paddle.box() ) == true ) {
-				_ball.bounceOffPaddle( _paddle );
-			}
-			// walls
-			if( _walls.detectSphere( _ball.sphere() ) == true ) {
-				_ball.detectWalls( _walls.leftHit(), _walls.topHit(), _walls.rightHit() );
-				_walls.resetCollisions();
-			}
-			// blocks
-			for (int i = 0; i < _blocks.size(); i++) {
-				if( _blocks.get( i ).active() == true && _ball.detectBox( _blocks.get( i ).box() ) == true ) {
-					_blocks.get( i ).die();
-				}
-			}
-		}
-	}
-
-	// BLOCK OBJECT --------------------------------------------------------------------------------------
-	
-	public class Block {
-		// A cell object knows about its location in the grid as well as its size with the variables x,y,w,h.
-		protected AABB _box;
-		public float x,y,z;
-		float w,h;
-		float r,g,b;
-		int index;
-		protected boolean _active;
-		protected TColor _color;
-		
-		public static final String SIDE_H = "H";
-		public static final String SIDE_V = "V";
-		public static final String SIDE_BOTH = "B";
-
-		
-		public Block(float x, float y, float w, float h, int index ) {
-			this.w = w/2;
-			this.h = h/2;
-			this.x = x + w/2;
-			this.y = y + h/2;
-			
-			_box = new AABB( w );
-			_box.set( x, y, 0 );
-			_box.setExtent( new Vec3D( this.w, this.h, 10 ) );
-
-			this.index = index;
-			
-			// random colors for now
-			r = p.random( 0, 80 );
-			g = p.random( 200, 255 );
-			b = p.random( 100, 200 );
-			
-			_color = _gameColors.getRandomColor().copy();
-			
-			_active = true;
-		}
-		
-		public boolean active() {
-			return _active;
-		}
-		
-		public AABB box() {
-			return _box;
-		}
-		
-		public void die() {
-			_active = false;
-		}
-		
-		public void display() {
-			if( _active == true ) {
-				_box.set( x, y, 0 );
-
-				// adjust cell z per brightness
-				float zAdd = 40 * _audioInput.getFFT().spectrum[index % 512];
-				
-				//p.rotateZ( _audioInput.getFFT().averages[1] * .01f );
-				_color.alpha = p.constrain( 0.5f + zAdd, 0, 1 );
-				p.fill( _color.toARGB() );
-				p.noStroke();
-				_toxi.box( _box );
-				
-//				WETriangleMesh mesh1 = ( p.round( p.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_01 : _invaderMesh_01_alt;
-//				DrawMesh.drawMeshWithAudio( p, mesh1, p.getAudio(), 3f, false, _color, _color, 0.25f );
-
-			}
-		}
-	}
-
-	// BALL OBJECT --------------------------------------------------------------------------------------
-
-	class Ball {
-
-		protected float BALL_SIZE = 20;
-		protected int BALL_RESOLUTION = 20;
-		float _x, _y, _speedX, _speedY;
-		protected TColor _color;
-		protected Sphere _sphere;
-		protected float SPEED = 15f;
-		
-		public Ball() {
-			// convert speed to use radians
-			_speedX = ( MathUtil.randBoolean( p ) == true ) ? SPEED : -SPEED;
-			_x = p.random( 0, _gameWidth );
-			_y = p.random( _stageHeight / 2, _stageHeight );
-			_color = _gameColors.getRandomColor().copy();
-			_sphere = new Sphere( BALL_SIZE );
-		}
-		
-		public float x() { return _x; }
-		public float y() { return _y; }
-		public Sphere sphere() { return _sphere; }
-		public float radius() { return BALL_SIZE; }
-		
-		public void launch( Paddle paddle ) {
-			_x = paddle.x(); 
-			_y = paddle.y() - paddle.height() - BALL_SIZE - 10;
-			_speedX = ( MathUtil.randBoolean( p ) == true ) ? SPEED : -SPEED;
-			_speedY = -SPEED;
-		}
-		
-		public void bounceX() {
-			_speedX *= -1;
-			_x += _speedX;
-		}
-		
-		public void bounceY() {
-			_speedY *= -1;
-			_y += _speedY;
-		}
-		
-		public void display( Paddle paddle ) {
-			if( _gameState == GAME_READY ) {
-				_x = paddle.x();
-				_y = paddle.y() - paddle.height() - BALL_SIZE - 10;
-			} else {
-				_x += _speedX;
-				_y += _speedY;
-			}
-						
-			p.fill( _color.toARGB() );
-			_sphere.x = _x;
-			_sphere.y = _y;
-			_toxi.sphere( _sphere, BALL_RESOLUTION );
-		}
-		
-		protected void detectWalls( boolean leftHit, boolean topHit, boolean rightHit ) {
-			if( leftHit == true ) {
-				_x -= _speedX;
-				_speedX *= -1;
-			}
-			if( rightHit == true ) {
-				_x -= _speedX;
-				_speedX *= -1;
-			}
-			if( topHit == true ) {
-				_y -= _speedY;
-				_speedY *= -1;
-			}
-//			if( _y > _stageHeight ) {
-//				_y -= _speedY;
-//				_speedY *= -1;
-//			}
-		}
-
-		public boolean detectBox( AABB box ) {
-			if( box.intersectsSphere( _sphere ) ) return true;
-			return false;
-		}
-		
-		protected void bounceOffPaddle( Paddle paddle ) {
-			p.println("bounce!");
-			_speedX = ( _x - paddle.x() ) / 10;
-			bounceY();
-		}
-
-	}
-	
-	// PADDLE OBJECT --------------------------------------------------------------------------------------
-
-	class Paddle {
-
-		protected EasingFloat _x, _y, _z;
-		protected int STAGE_H_PADDING = 40;
-		protected float HEIGHT = 20;
-		protected float _width = 0;
-		protected float _easing = 1.5f;
-		protected float _center;
-		protected TColor _color;
-		protected AABB _box;
-
-		public Paddle() {
-			_center = ( _gameWidth + _width) / 2;
-			_width = (float)_gameWidth / 5f;
-			_x = new EasingFloat( _center, _easing );
-			_y = new EasingFloat( _stageHeight - STAGE_H_PADDING, _easing );
-			_color = _gameColors.getRandomColor().copy();
-			_box = new AABB( 1 );
-			_box.setExtent( new Vec3D( _width, HEIGHT, HEIGHT ) );
-		} 
-		
-		public float x() { return _x.value(); }
-		public float y() { return _y.value(); }
-		public float height() { return HEIGHT; }
-
-		public AABB box() {
-			return _box;
-		}
-
-		public void moveTowardsX( float percent ) {
-			percent = 1 - percent;
-			_x.setTarget( _width + percent * (_gameWidth - _width*2f) );
-		}
-
-		public boolean detectSphere( Sphere sphere ) {
-			if( _box.intersectsSphere( sphere ) ) return true;
-			return false;
-		}
-
-		void display() {
-			_x.update();
-			_y.update();
-			
-			_box.set( _x.value(), _y.value(), 0 );
-			_box.rotateX( p.frameCount / 30f );
-			_color.alpha = 0.5f + _audioInput.getFFT().averages[1];
-			p.fill( _color.toARGB() );
-			p.noStroke();
-			_toxi.box( _box ); 
-		}
-
-	}
-
-	// WALLS BOUNDARY OBJECT --------------------------------------------------------------------------------------
-
-	class Walls {
-		
-		protected AABB _wallLeft, _wallTop, _wallRight;
-		protected boolean _wallLeftHit, _wallTopHit, _wallRightHit;
-		protected TColor _color;
-		protected float BASE_ALPHA = 0.2f;
-		protected float _wallLeftAlpha = BASE_ALPHA;
-		protected float _wallTopAlpha = BASE_ALPHA;
-		protected float _wallRightAlpha = BASE_ALPHA;
-		public final int WALL_WIDTH = 20;
-
-		public Walls() {
-			_color = new TColor( TColor.WHITE );
-			
-			_wallLeft = new AABB( 1 );
-			_wallLeft.set( 0, _stageHeight / 2f, 0 );
-			_wallLeft.setExtent( new Vec3D( WALL_WIDTH, _stageHeight / 2f, WALL_WIDTH ) );
-
-			_wallTop = new AABB( 1 );
-			_wallTop.set( _gameWidth / 2f, 0, 0 );
-			_wallTop.setExtent( new Vec3D( _gameWidth / 2, WALL_WIDTH, WALL_WIDTH ) );
-
-			_wallRight = new AABB( 1 );
-			_wallRight.set( _gameWidth, _stageHeight / 2f, 0 );
-			_wallRight.setExtent( new Vec3D( WALL_WIDTH, _stageHeight / 2f, WALL_WIDTH ) );
-
-		} 
-		
-		public boolean leftHit(){ return _wallLeftHit; }
-		public boolean topHit(){ return _wallTopHit; }
-		public boolean rightHit(){ return _wallRightHit; }
-		
-		public boolean detectSphere( Sphere sphere ) {
-			_wallLeftHit = ( _wallLeft.intersectsSphere( sphere ) ) ? true : false;
-			_wallTopHit = ( _wallTop.intersectsSphere( sphere ) ) ? true : false;
-			_wallRightHit = ( _wallRight.intersectsSphere( sphere ) ) ? true : false;
-			if( _wallLeftHit == true || _wallTopHit == true || _wallRightHit == true ) {
-				if( _wallLeftHit == true ) _wallLeftAlpha = 1;
-				if( _wallTopHit == true ) _wallTopAlpha = 1;
-				if( _wallRightHit == true ) _wallRightAlpha = 1;
-				return true;
-			}
-			return false;
-		}
-		
-		public void resetCollisions() {
-			_wallLeftHit = false;
-			_wallTopHit = false;
-			_wallRightHit = false;
-		}
-
-		void display() {
-			if( _wallLeftAlpha > BASE_ALPHA ) _wallLeftAlpha -= 0.1f;
-			if( _wallTopAlpha > BASE_ALPHA ) _wallTopAlpha -= 0.1f;
-			if( _wallRightAlpha > BASE_ALPHA ) _wallRightAlpha -= 0.1f;
-			p.noStroke();
-			_color.alpha = _wallLeftAlpha;
-			p.fill( _color.toARGB() );
-			_toxi.box( _wallLeft ); 
-			_color.alpha = _wallTopAlpha;
-			p.fill( _color.toARGB() );
-			_toxi.box( _wallTop ); 
-			_color.alpha = _wallRightAlpha;
-			p.fill( _color.toARGB() );
-			_toxi.box( _wallRight ); 
-		}
-
 	}
 
 }
