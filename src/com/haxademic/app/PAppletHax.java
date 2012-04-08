@@ -44,7 +44,7 @@ extends PApplet
 	/**
 	 * Single instance of Toxiclibs object
 	 */
-	public ToxiclibsSupport toxi;
+	public ToxiclibsSupport _toxi;
 	
 	/**
 	 * FullScreen object to get rid of the grey toolbar on OS X.
@@ -130,7 +130,6 @@ extends PApplet
 	 */
 	public void setup () {
 		p = this;
-		frame.setBackground(new java.awt.Color(0,0,0));
 		if ( !_is_setup ) { 
 			// load external properties and set flag
 			_appConfig = new P5Properties(p);
@@ -138,17 +137,13 @@ extends PApplet
 			// set screen size and renderer
 			String renderer = ( _appConfig.getBoolean("sunflow", true ) == true ) ? "hipstersinc.P5Sunflow" : p.OPENGL;
 			if(_appConfig.getBoolean("fills_screen", false)) {
-				size(screen.width,screen.height,renderer);
+				p.size(screen.width,screen.height,renderer);
 			} else {
-				size(_appConfig.getInt("width", 800),_appConfig.getInt("height", 600),renderer);
+				p.size(_appConfig.getInt("width", 800),_appConfig.getInt("height", 600),renderer);
 			}
 		}
-		
+		frame.setBackground(new java.awt.Color(0,0,0));
 		setAppletProps();
-		
-		// save toxi reference for any other classes
-		toxi = new ToxiclibsSupport(p);
-		
 		initHaxademicObjects();
 	}
 	
@@ -169,7 +164,7 @@ extends PApplet
 		_isRenderingMidi = _appConfig.getBoolean("render_midi", false);
 		if( _isRendering == true ) {
 			// prevents an error
-//			hint(DISABLE_OPENGL_2X_SMOOTH);
+			//hint(DISABLE_OPENGL_2X_SMOOTH);
 			hint(ENABLE_OPENGL_4X_SMOOTH); 
 		} else {
 			if( _appConfig.getBoolean("sunflow", true ) == false ) { 
@@ -186,6 +181,8 @@ extends PApplet
 	 * Initializes app-wide support objects for hardware interaction and rendering purposes.
 	 */
 	protected void initHaxademicObjects() {
+		// save single reference for other objects
+		_toxi = new ToxiclibsSupport(p);
 		_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
 		_waveformData = new WaveformData( p, _audioInput._bufferSize );
 //		_objPool = new ObjPool( p );
@@ -195,16 +192,36 @@ extends PApplet
 		_oscWrapper = new OscWrapper( p );
 //		_debugText = new DebugText( p );
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
-		
+		p.println("setup app objects");
+	}
+	
+	protected void initializeExtraObjectsOn1stFrame() {
+		if( p.frameCount == 1 ){
+			if( _appConfig.getString("midi_device_in", "") != "" ) {
+				_midi = new MidiWrapper( p, _appConfig.getString("midi_device_in", ""), _appConfig.getString("midi_device_out", "") );
+			}
+		}
 	}
 	
 	public void draw() {
+		killScreensaver();
+		handleRenderingStepthrough();
+		initializeExtraObjectsOn1stFrame();	// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
+		if( keyPressed ) handleInput( false ); // handles overall keyboard commands
+		int[] beatDetectArr = _audioInput.getBeatDetection(); // detect beats and pass through to current visual module
+
+		drawApp();
+		
+		if( _isRendering == true ) _renderer.renderFrame(); 	// render frame if rendering
+//		_debugText.draw( "Debug :: FPS:" + _fps );	// display some info
+	}
+	
+	protected void handleRenderingStepthrough() {
 		// analyze & init audio if stepping through a render
 		if( _isRendering == true ) {
 			if( p.frameCount == 2 ) {
 				if( _isRenderingAudio == true ) {
-					String audioFile = _appConfig.getStringProperty("render_audio_file", "");
-					_renderer.startRendererForAudio( audioFile, _audioInput );
+					_renderer.startRendererForAudio( _appConfig.getString("render_audio_file", ""), _audioInput );
 					_audioInput.gainDown();
 					_audioInput.gainDown();
 					_audioInput.gainDown();
@@ -214,11 +231,11 @@ extends PApplet
 				if( _isRenderingMidi == true ) {
 					try {
 						_midiRenderer = new MidiSequenceRenderer(p);
-						String midiFile = _appConfig.getStringProperty("render_midi_file", "");
-						_midiRenderer.loadMIDIFile( midiFile, 124, 30, -8f );	// bnc: 98  jack-splash: 
+						_midiRenderer.loadMIDIFile( _appConfig.getString("render_midi_file", ""), 124, 30, -8f );	// bnc: 98  jack-splash: 
 					} catch (InvalidMidiDataException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
 				}
 			}
+			
 			if( p.frameCount > 1 ) {
 				// have renderer step through audio, then special call to update the single WaveformData storage object				
 				if( _isRenderingAudio == true ) {
@@ -226,49 +243,28 @@ extends PApplet
 					_waveformData.updateWaveformDataForRender( _renderer, _audioInput.getAudioInput(), _audioInput._bufferSize );
 				}
 			}
-		}
-		
-		// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
-		if( _midi == null ) {
-//			if( _appConfig.getStringProperty("midi_device_in", "") != "" ) {
-				_midi = new MidiWrapper( p, _appConfig.getStringProperty("midi_device_in", ""), _appConfig.getStringProperty("midi_device_out", "") );
-//			}
-		}
-
-		
-		
-		// handles overall keyboard commands
-		if( keyPressed ) handleInput( false );		//  || _midi.midiPadIsOn( MidiWrapper.PAD_16 ) == 1
-		if( _midiRenderer != null ) {
-			boolean doneCheckingForMidi = false;
-			boolean triggered = false;
-			while( doneCheckingForMidi == false ) {
-				int rendererNote = _midiRenderer.checkCurrentNoteEvent();
-				if( rendererNote != -1 ) {
-					noteOn( 0, rendererNote, 100 );
-					triggered = true;
-				} else {
-					doneCheckingForMidi = true;
+			
+			if( _midiRenderer != null ) {
+				boolean doneCheckingForMidi = false;
+				boolean triggered = false;
+				while( doneCheckingForMidi == false ) {
+					int rendererNote = _midiRenderer.checkCurrentNoteEvent();
+					if( rendererNote != -1 ) {
+						noteOn( 0, rendererNote, 100 );
+						triggered = true;
+					} else {
+						doneCheckingForMidi = true;
+					}
 				}
+				if( triggered == false ) _midi.allOff();
 			}
-			if( triggered == false ) _midi.allOff();
 		}
 
-		// detect beats and pass through to current visual module
-		int[] beatDetectArr = _audioInput.getBeatDetection();
-
-		drawApp();
-		
-		// render frame if rendering
-		if( _isRendering == true ) _renderer.renderFrame();
-		
-		// keep screensaver off - hit shift every 1000 frames
-		if( p.frameCount % 1000 == 0 ) _robot.keyRelease(KeyEvent.VK_SHIFT);
-
-		// display some info
-//		_debugText.draw( "Debug :: FPS:" + _fps );
 	}
 	
+	protected void killScreensaver(){
+		// keep screensaver off - hit shift every 1000 frames
+		if( p.frameCount % 1000 == 0 ) _robot.keyRelease(KeyEvent.VK_SHIFT);
 	}
 	
 	/**
@@ -288,6 +284,7 @@ extends PApplet
 		if( _isRendering ) _renderer.stop();
 	}
 
+	// PApplet-level listeners ------------------------------------------------
 	/**
 	 * PApplet-level listener for MIDIBUS noteOn call
 	 */
@@ -347,7 +344,7 @@ extends PApplet
 	// instance of this -------------------------------------------------
 	public static PAppletHax getInstance(){ return p; }
 	// instance of toxiclibs -------------------------------------------------
-	public ToxiclibsSupport getToxi(){ return toxi; }
+	public ToxiclibsSupport getToxi(){ return _toxi; }
 	// instance of audio wrapper -------------------------------------------------
 	public AudioInputWrapper getAudio() { return _audioInput; }
 	// instance of midi wrapper -------------------------------------------------
