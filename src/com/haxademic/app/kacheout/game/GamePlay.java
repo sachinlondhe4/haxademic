@@ -81,13 +81,14 @@ public class GamePlay {
 	
 	protected void positionGameCenter( int gameIndex ){
 		DrawUtil.setTopLeft( p );
-		p.translate( 0,0,-1000 );
+		p.translate( 0,0,-1200 );
+		p.rotateX( p.PI / 16f );
 		
 		// rotate to kinect position
 		// pivot from center
 		p.translate( p.gameWidth() / 2 + gameIndex * p.gameWidth(), 0, 0 );
 		// ease the rotation 
-		float rotateExtent = p.PI / 16f;
+		float rotateExtent = p.PI / 10f;
 		_gameRotation.setTarget( rotateExtent * _paddle.xPosPercent() - rotateExtent / 2f );
 		_gameRotation.update();
 		p.rotateY( _gameRotation.value() );

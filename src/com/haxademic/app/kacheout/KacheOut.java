@@ -191,9 +191,6 @@ extends PAppletHax
 	}
 	
 	protected void updateGames(){
-//		p.translate( 0,0,-400 );
-//		p.rotateX( p.PI / 16f );
-
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			_gamePlays.get( i ).update( i );
 		}
