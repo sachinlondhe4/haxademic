@@ -5,11 +5,21 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 
 import com.haxademic.app.PAppletHax;
+import com.haxademic.core.draw.text.DebugText;
+import com.haxademic.core.hardware.midi.MidiWrapper;
+import com.haxademic.core.util.ScreenUtil;
 import com.haxademic.viz.IVizModule;
+import com.haxademic.viz.modules.AudioTubes;
+import com.haxademic.viz.modules.BlobSheet;
+import com.haxademic.viz.modules.Boxen3D;
+import com.haxademic.viz.modules.CacheRings;
+import com.haxademic.viz.modules.GridAndLinesEQ;
+import com.haxademic.viz.modules.HorizLines;
 import com.haxademic.viz.modules.MasterHax;
-import com.p5core.draw.text.DebugText;
-import com.p5core.hardware.midi.MidiWrapper;
-import com.p5core.util.ScreenUtil;
+import com.haxademic.viz.modules.MaxCache;
+import com.haxademic.viz.modules.PlusRing;
+import com.haxademic.viz.modules.Spheres;
+import com.haxademic.viz.modules.Toxi;
 
 public class HaxVisual
 extends PAppletHax 
@@ -62,18 +72,17 @@ extends PAppletHax
 	 */
 	protected void initVizModules() {
 		_modules = new ArrayList<IVizModule>();
-//		_modules.add( new KacheOut() );
 		_modules.add( new MasterHax() );
-//		_modules.add( new Boxen3D() );
-//		_modules.add( new Toxi() );
-//		_modules.add( new Spheres() );
-//		_modules.add( new BlobSheet() );
-//		_modules.add( new GridAndLinesEQ() );
-//		_modules.add( new CacheRings() );
-//		_modules.add( new PlusRing() );
-//		_modules.add( new HorizLines() );
-//		_modules.add( new AudioTubes() );
-//		_modules.add( new MaxCache() );
+		_modules.add( new Boxen3D() );
+		_modules.add( new Toxi() );
+		_modules.add( new Spheres() );
+		_modules.add( new BlobSheet() );
+		_modules.add( new GridAndLinesEQ() );
+		_modules.add( new CacheRings() );
+		_modules.add( new PlusRing() );
+		_modules.add( new HorizLines() );
+		_modules.add( new AudioTubes() );
+		_modules.add( new MaxCache() );
 
 		_modules.trimToSize();
 		_modules.get( _curModule ).focus();
@@ -91,16 +100,13 @@ extends PAppletHax
 	/**
 	 * Called by PApplet to run before the first draw() command.
 	 */
-	public void keyPressed () {
-		super.keyPressed();
-		
-		_modules.get( _curModule ).handleKeyboardInput();
-	}
+//	public void keyPressed () {
+//		super.keyPressed();
+//		
+////		_modules.get( _curModule ).handleKeyboardInput();
+//	}
 
-	public void handleInput( Boolean isMidi ) {
-		super.handleInput( isMidi );
-		
-
+	protected void handleInput( boolean isMidi ) {
 		int prevModule = _curModule;
 		
 		// change programs with midi pads

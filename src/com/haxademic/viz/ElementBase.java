@@ -3,8 +3,8 @@ package com.haxademic.viz;
 import processing.core.PApplet;
 import toxi.processing.ToxiclibsSupport;
 
-import com.p5core.audio.AudioInputWrapper;
-import com.p5core.util.ColorGroup;
+import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.util.ColorGroup;
 
 public class ElementBase {
 

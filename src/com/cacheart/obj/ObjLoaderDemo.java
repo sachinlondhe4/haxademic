@@ -8,12 +8,12 @@ import saito.objloader.OBJModel;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
-import com.p5core.draw.model.ObjPool;
-import com.p5core.draw.util.DrawMesh;
-import com.p5core.render.Renderer;
-import com.p5core.util.DebugUtil;
-import com.p5core.util.DrawUtil;
-import com.p5core.util.OpenGLUtil;
+import com.haxademic.core.draw.model.ObjPool;
+import com.haxademic.core.draw.util.DrawMesh;
+import com.haxademic.core.render.Renderer;
+import com.haxademic.core.util.DebugUtil;
+import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.util.OpenGLUtil;
 
 public class ObjLoaderDemo 
 extends PApplet

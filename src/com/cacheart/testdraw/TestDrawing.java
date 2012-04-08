@@ -2,9 +2,9 @@ package com.cacheart.testdraw;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
-import com.p5core.cameras.CameraOscillate;
-import com.p5core.cameras.common.ICamera;
-import com.p5core.render.Renderer;
+import com.haxademic.core.cameras.CameraOscillate;
+import com.haxademic.core.cameras.common.ICamera;
+import com.haxademic.core.render.Renderer;
 
 /**
  * 

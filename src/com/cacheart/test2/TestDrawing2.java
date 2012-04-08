@@ -3,10 +3,10 @@ package com.cacheart.test2;
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
 import processing.core.PConstants;
-import com.p5core.audio.AudioInputWrapper;
-import com.p5core.cameras.CameraOscillate;
-import com.p5core.cameras.common.ICamera;
-import com.p5core.render.Renderer;
+import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.cameras.CameraOscillate;
+import com.haxademic.core.cameras.common.ICamera;
+import com.haxademic.core.render.Renderer;
 
 public class TestDrawing2
 	extends PApplet

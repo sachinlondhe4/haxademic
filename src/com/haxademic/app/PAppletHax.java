@@ -11,17 +11,17 @@ import oscP5.OscMessage;
 import processing.core.PApplet;
 import toxi.processing.ToxiclibsSupport;
 
+import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.audio.WaveformData;
+import com.haxademic.core.data.P5Properties;
+import com.haxademic.core.draw.model.ObjPool;
+import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.hardware.midi.MidiWrapper;
+import com.haxademic.core.hardware.osc.OscWrapper;
+import com.haxademic.core.render.MidiSequenceRenderer;
+import com.haxademic.core.render.Renderer;
+import com.haxademic.core.util.OpenGLUtil;
 import com.haxademic.viz.launchpad.LaunchpadViz;
-import com.p5core.audio.AudioInputWrapper;
-import com.p5core.audio.WaveformData;
-import com.p5core.data.P5Properties;
-import com.p5core.draw.model.ObjPool;
-import com.p5core.hardware.kinect.KinectWrapper;
-import com.p5core.hardware.midi.MidiWrapper;
-import com.p5core.hardware.osc.OscWrapper;
-import com.p5core.render.MidiSequenceRenderer;
-import com.p5core.render.Renderer;
-import com.p5core.util.OpenGLUtil;
 
 import fullscreen.FullScreen;
 

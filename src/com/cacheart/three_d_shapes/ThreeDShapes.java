@@ -10,7 +10,7 @@ import javax.media.opengl.*;
 -Xmx1024M
 -Xms1024M
 */
-import com.p5core.render.Renderer;
+import com.haxademic.core.render.Renderer;
 import toxi.geom.*;
 import toxi.geom.mesh.*;
 import toxi.processing.*;

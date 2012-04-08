@@ -6,14 +6,14 @@ import processing.core.PApplet;
 
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.game.GamePlay;
-import com.p5core.audio.AudioLoopPlayer;
-import com.p5core.cameras.CameraDefault;
-import com.p5core.cameras.common.ICamera;
-import com.p5core.data.FloatRange;
-import com.p5core.hardware.kinect.KinectWrapper;
-import com.p5core.util.ColorGroup;
-import com.p5core.util.DebugUtil;
-import com.p5core.util.DrawUtil;
+import com.haxademic.core.audio.AudioLoopPlayer;
+import com.haxademic.core.cameras.CameraDefault;
+import com.haxademic.core.cameras.common.ICamera;
+import com.haxademic.core.data.FloatRange;
+import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.util.ColorGroup;
+import com.haxademic.core.util.DebugUtil;
+import com.haxademic.core.util.DrawUtil;
 
 public class KacheOut
 extends PAppletHax  

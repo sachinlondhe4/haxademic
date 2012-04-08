@@ -2,14 +2,14 @@ package com.haxademic.viz.modules;
 
 import processing.core.PConstants;
 
+import com.haxademic.core.cameras.CameraOscillate;
+import com.haxademic.core.cameras.common.ICamera;
+import com.haxademic.core.draw.color.ColorRGBA;
+import com.haxademic.core.draw.shapes.CacheFloweLogo;
+import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.ModuleBase;
-import com.p5core.cameras.CameraOscillate;
-import com.p5core.cameras.common.ICamera;
-import com.p5core.draw.color.ColorRGBA;
-import com.p5core.draw.shapes.CacheFloweLogo;
-import com.p5core.draw.shapes.Shapes;
-import com.p5core.hardware.midi.MidiWrapper;
 
 public class CacheRings
 	extends ModuleBase

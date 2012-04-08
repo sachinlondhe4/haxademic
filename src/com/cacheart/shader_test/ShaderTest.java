@@ -12,8 +12,8 @@ import processing.opengl.PGraphicsOpenGL;
 import saito.objloader.OBJModel;
 import codeanticode.glgraphics.GLModel;
 
-import com.p5core.draw.model.ObjPool;
-import com.p5core.draw.util.ThreeDeeUtil;
+import com.haxademic.core.draw.model.ObjPool;
+import com.haxademic.core.draw.util.ThreeDeeUtil;
 import com.sun.opengl.util.BufferUtil;
 import com.sun.opengl.util.GLUT;
 

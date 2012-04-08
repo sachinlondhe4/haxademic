@@ -9,14 +9,14 @@ import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.ModuleBase;
-import com.p5core.cameras.CameraBasic;
-import com.p5core.cameras.CameraOscillate;
-import com.p5core.cameras.CameraSpotter;
-import com.p5core.cameras.common.ICamera;
-import com.p5core.draw.shapes.Shapes;
-import com.p5core.hardware.kinect.KinectWrapper;
-import com.p5core.hardware.midi.MidiWrapper;
-import com.p5core.render.Renderer;
+import com.haxademic.core.cameras.CameraBasic;
+import com.haxademic.core.cameras.CameraOscillate;
+import com.haxademic.core.cameras.CameraSpotter;
+import com.haxademic.core.cameras.common.ICamera;
+import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.hardware.midi.MidiWrapper;
+import com.haxademic.core.render.Renderer;
 
 public class MaxCache extends ModuleBase implements IVizModule {
 	

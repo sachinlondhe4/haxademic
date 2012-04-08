@@ -6,7 +6,7 @@ import toxi.geom.Sphere;
 
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
-import com.p5core.util.MathUtil;
+import com.haxademic.core.util.MathUtil;
 
 public class Ball {
 	

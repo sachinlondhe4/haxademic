@@ -4,7 +4,7 @@ import processing.core.PApplet;
 import processing.core.PConstants;
 import colorLib.webServices.KulerTheme;
 
-import com.p5core.util.ColorUtil;
+import com.haxademic.core.util.ColorUtil;
 
 /**
  * 

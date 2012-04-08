@@ -9,13 +9,13 @@ import toxi.processing.ToxiclibsSupport;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
-import com.p5core.audio.AudioInputWrapper;
-import com.p5core.audio.WaveformData;
-import com.p5core.data.easing.EasingFloat;
-import com.p5core.data.easing.EasingFloat3d;
-import com.p5core.util.ColorGroup;
-import com.p5core.util.DrawUtil;
-import com.p5core.util.MathUtil;
+import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.audio.WaveformData;
+import com.haxademic.core.data.easing.EasingFloat;
+import com.haxademic.core.data.easing.EasingFloat3d;
+import com.haxademic.core.util.ColorGroup;
+import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.util.MathUtil;
 
 public class WaveformPlane 
 extends ElementBase 

@@ -12,16 +12,16 @@ import toxi.geom.mesh.WETriangleMesh;
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.ModuleBase;
 import com.haxademic.viz.elements.GridEQ;
-import com.p5core.audio.AudioLoopPlayer;
-import com.p5core.cameras.CameraDefault;
-import com.p5core.data.FloatRange;
-import com.p5core.data.easing.EasingFloat;
-import com.p5core.draw.shapes.Meshes;
-import com.p5core.hardware.kinect.KinectWrapper;
-import com.p5core.util.ColorGroup;
-import com.p5core.util.DebugUtil;
-import com.p5core.util.DrawUtil;
-import com.p5core.util.MathUtil;
+import com.haxademic.core.audio.AudioLoopPlayer;
+import com.haxademic.core.cameras.CameraDefault;
+import com.haxademic.core.data.FloatRange;
+import com.haxademic.core.data.easing.EasingFloat;
+import com.haxademic.core.draw.shapes.Meshes;
+import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.util.ColorGroup;
+import com.haxademic.core.util.DebugUtil;
+import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.util.MathUtil;
 
 public class KacheOut
 extends ModuleBase 

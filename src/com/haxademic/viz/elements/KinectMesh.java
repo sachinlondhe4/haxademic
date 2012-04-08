@@ -10,11 +10,11 @@ import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
-import com.p5core.audio.AudioInputWrapper;
-import com.p5core.draw.util.DrawMesh;
-import com.p5core.draw.util.ThreeDeeUtil;
-import com.p5core.hardware.kinect.KinectWrapper;
-import com.p5core.util.ColorGroup;
+import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.draw.util.DrawMesh;
+import com.haxademic.core.draw.util.ThreeDeeUtil;
+import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.util.ColorGroup;
 
 public class KinectMesh
 extends ElementBase 

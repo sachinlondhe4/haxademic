@@ -7,7 +7,7 @@ import toxi.geom.Vec3D;
 
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
-import com.p5core.data.easing.EasingFloat;
+import com.haxademic.core.data.easing.EasingFloat;
 
 public class Paddle {
 	protected EasingFloat _x, _y, _z;

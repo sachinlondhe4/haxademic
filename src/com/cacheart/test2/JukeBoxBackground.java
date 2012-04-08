@@ -9,10 +9,10 @@ import hipstersinc.P5Sunflow;
 import hipstersinc.sunflow.SunflowCamera;
 
 
-import com.p5core.audio.AudioInputWrapper;
-import com.p5core.cameras.CameraOscillate;
-import com.p5core.draw.shapes.Shapes;
-import com.p5core.render.Renderer;
+import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.cameras.CameraOscillate;
+import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.render.Renderer;
 
 public class JukeBoxBackground
 	extends PApplet

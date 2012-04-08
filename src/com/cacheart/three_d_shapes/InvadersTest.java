@@ -6,9 +6,9 @@ import processing.core.PConstants;
 import toxi.color.TColor;
 import toxi.geom.mesh.WETriangleMesh;
 
-import com.p5core.audio.AudioInputWrapper;
-import com.p5core.draw.shapes.Meshes;
-import com.p5core.draw.util.DrawMesh;
+import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.draw.shapes.Meshes;
+import com.haxademic.core.draw.util.DrawMesh;
 
 public class InvadersTest
 	extends PApplet

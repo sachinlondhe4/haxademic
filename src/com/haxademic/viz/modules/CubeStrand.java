@@ -6,13 +6,13 @@ import toxi.geom.Sphere;
 import toxi.geom.Vec3D;
 import toxi.processing.ToxiclibsSupport;
 
+import com.haxademic.core.cameras.CameraBasic;
+import com.haxademic.core.cameras.CameraSpotter;
+import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.ModuleBase;
 import com.haxademic.viz.modules.BlobSheet.Cell;
 import com.haxademic.viz.modules.BlobSheet.ControlPoint;
-import com.p5core.cameras.CameraBasic;
-import com.p5core.cameras.CameraSpotter;
-import com.p5core.hardware.midi.MidiWrapper;
 
 public class CubeStrand extends ModuleBase implements IVizModule {
 	

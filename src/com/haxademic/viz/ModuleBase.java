@@ -3,8 +3,8 @@ package com.haxademic.viz;
 import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.app.PAppletHax;
-import com.p5core.audio.AudioInputWrapper;
-import com.p5core.cameras.common.ICamera;
+import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.cameras.common.ICamera;
 
 public class ModuleBase {
 	public PAppletHax p;

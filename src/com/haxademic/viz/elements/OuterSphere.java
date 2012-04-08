@@ -10,13 +10,13 @@ import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
-import com.p5core.audio.AudioInputWrapper;
-import com.p5core.data.Point3D;
-import com.p5core.draw.util.DrawMesh;
-import com.p5core.draw.util.ThreeDeeUtil;
-import com.p5core.util.ColorGroup;
-import com.p5core.util.DrawUtil;
-import com.p5core.util.MathUtil;
+import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.data.Point3D;
+import com.haxademic.core.draw.util.DrawMesh;
+import com.haxademic.core.draw.util.ThreeDeeUtil;
+import com.haxademic.core.util.ColorGroup;
+import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.util.MathUtil;
 
 public class OuterSphere
 extends ElementBase 

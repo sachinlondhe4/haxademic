@@ -28,11 +28,11 @@ import com.haxademic.viz.elements.SphereClouds;
 import com.haxademic.viz.elements.SphericalHarmonicsOscillator;
 import com.haxademic.viz.elements.WaveformPlane;
 import com.haxademic.viz.elements.WaveformShapes;
-import com.p5core.cameras.CameraBasic;
-import com.p5core.hardware.midi.MidiWrapper;
-import com.p5core.util.ColorGroup;
-import com.p5core.util.DrawUtil;
-import com.p5core.util.MathUtil;
+import com.haxademic.core.cameras.CameraBasic;
+import com.haxademic.core.hardware.midi.MidiWrapper;
+import com.haxademic.core.util.ColorGroup;
+import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.util.MathUtil;
 
 public class MasterHax 
 extends ModuleBase

@@ -2,10 +2,9 @@ package com.haxademic.viz.modules;
 
 import processing.core.PConstants;
 
+import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.ModuleBase;
-import com.haxademic.viz.elements.RotatorShape;
-import com.p5core.hardware.midi.MidiWrapper;
 
 public class Grass_OLD 
 extends ModuleBase

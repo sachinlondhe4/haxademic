@@ -5,10 +5,10 @@ import processing.core.PImage;
 
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.ModuleBase;
-import com.p5core.cameras.CameraBasic;
-import com.p5core.cameras.CameraOscillate;
-import com.p5core.cameras.CameraSpotter;
-import com.p5core.hardware.midi.MidiWrapper;
+import com.haxademic.core.cameras.CameraBasic;
+import com.haxademic.core.cameras.CameraOscillate;
+import com.haxademic.core.cameras.CameraSpotter;
+import com.haxademic.core.hardware.midi.MidiWrapper;
 
 public class ImageMunger 
 extends ModuleBase

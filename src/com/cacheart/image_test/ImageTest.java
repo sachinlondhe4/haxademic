@@ -4,7 +4,7 @@ import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
 
-import com.p5core.render.Renderer;
+import com.haxademic.core.render.Renderer;
 
 /**
  * 
