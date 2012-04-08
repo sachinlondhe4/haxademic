@@ -16,6 +16,7 @@ public class Paddle {
 	protected float _width = 0;
 	protected float _easing = 1.5f;
 	protected float _center;
+	protected float _xPosPercent;
 	protected TColor _color;
 	protected AABB _box;
 	protected KacheOut p;
@@ -23,6 +24,7 @@ public class Paddle {
 	public Paddle() {
 		p = (KacheOut)PAppletHax.getInstance();
 		_center = ( p.gameWidth() + _width) / 2;
+		_xPosPercent = 0.5f;
 		_width = (float)p.gameWidth() / 5f;
 		_x = new EasingFloat( _center, _easing );
 		_y = new EasingFloat( p.stageHeight() - STAGE_H_PADDING, _easing );
@@ -34,12 +36,14 @@ public class Paddle {
 	public float x() { return _x.value(); }
 	public float y() { return _y.value(); }
 	public float height() { return HEIGHT; }
+	public float xPosPercent() { return _xPosPercent; }
 
 	public AABB box() {
 		return _box;
 	}
 
 	public void setTargetXByPercent( float percent ) {
+		_xPosPercent = percent;
 		percent = 1 - percent;
 		_x.setTarget( _width + percent * (p.gameWidth() - _width*2f) );
 	}

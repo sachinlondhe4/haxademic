@@ -185,7 +185,6 @@ extends PAppletHax
 //		p.popMatrix();
 		
 		p.pushMatrix();
-//		handleUserInput();
 		updateGames();
 		logDebugInfo();
 		p.popMatrix();
@@ -196,8 +195,7 @@ extends PAppletHax
 //		p.rotateX( p.PI / 16f );
 
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
-			p.translate( i * ( _stageWidth / NUM_PLAYERS), 0 );
-			_gamePlays.get( i ).update();
+			_gamePlays.get( i ).update( i );
 		}
 	}
 	

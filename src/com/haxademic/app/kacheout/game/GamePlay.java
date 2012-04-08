@@ -8,6 +8,7 @@ import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.viz.elements.GridEQ;
 import com.p5core.data.FloatRange;
+import com.p5core.data.easing.EasingFloat;
 import com.p5core.draw.shapes.Meshes;
 import com.p5core.hardware.kinect.KinectWrapper;
 import com.p5core.util.DrawUtil;
@@ -33,6 +34,7 @@ public class GamePlay {
 	protected FloatRange _kinectRange;
 	protected FloatRange _kinectCurrent;
 	protected boolean _isKinectReversed = true;
+	protected EasingFloat _gameRotation = new EasingFloat( 0, 10 );
 	
 	public GamePlay( int gameLeft, int gameRight, FloatRange kinectRange ) {
 		p = (KacheOut)PAppletHax.getInstance();
@@ -69,11 +71,28 @@ public class GamePlay {
 		
 	}
 	
-	public void update() {
+	public void update( int gameIndex ) {
+		positionGameCenter( gameIndex );
 		drawBackground();
 		updateControls();
 		detectCollisions();
 		drawGameObjects();
+	}
+	
+	protected void positionGameCenter( int gameIndex ){
+		DrawUtil.setTopLeft( p );
+		p.translate( 0,0,-1000 );
+		
+		// rotate to kinect position
+		// pivot from center
+		p.translate( p.gameWidth() / 2 + gameIndex * p.gameWidth(), 0, 0 );
+		// ease the rotation 
+		float rotateExtent = p.PI / 16f;
+		_gameRotation.setTarget( rotateExtent * _paddle.xPosPercent() - rotateExtent / 2f );
+		_gameRotation.update();
+		p.rotateY( _gameRotation.value() );
+		// slide back half width
+		p.translate( -p.gameWidth() / 2 , 0, 0 );
 	}
 	
 	protected void drawBackground(){
