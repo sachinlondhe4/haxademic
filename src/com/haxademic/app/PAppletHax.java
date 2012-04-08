@@ -135,11 +135,11 @@ extends PApplet
 			_appConfig = new P5Properties(p);
 			_is_setup = true;
 			// set screen size and renderer
-			String renderer = ( _appConfig.getBooleanProperty("sunflow", true ) == true ) ? "hipstersinc.P5Sunflow" : p.OPENGL;
-			if(_appConfig.getBooleanProperty("fills_screen", false)) {
+			String renderer = ( _appConfig.getBoolean("sunflow", true ) == true ) ? "hipstersinc.P5Sunflow" : p.OPENGL;
+			if(_appConfig.getBoolean("fills_screen", false)) {
 				size(screen.width,screen.height,renderer);
 			} else {
-				size(_appConfig.getIntProperty("width", 800),_appConfig.getIntProperty("height", 600),renderer);
+				size(_appConfig.getInt("width", 800),_appConfig.getInt("height", 600),renderer);
 			}
 		}
 		
@@ -157,22 +157,22 @@ extends PApplet
 	 * Sets some initial Applet properties for OpenGL quality, FPS, and nocursor().
 	 */
 	protected void setAppletProps() {
-		_isRendering = _appConfig.getBooleanProperty("rendering", false);
-		_isRenderingAudio = _appConfig.getBooleanProperty("render_audio", false);
-		_isRenderingMidi = _appConfig.getBooleanProperty("render_midi", false);
+		_isRendering = _appConfig.getBoolean("rendering", false);
+		_isRenderingAudio = _appConfig.getBoolean("render_audio", false);
+		_isRenderingMidi = _appConfig.getBoolean("render_midi", false);
 		if( _isRendering == true ) {
 			// prevents an error
 //			hint(DISABLE_OPENGL_2X_SMOOTH);
 			hint(ENABLE_OPENGL_4X_SMOOTH); 
 		} else {
-			if( _appConfig.getBooleanProperty("sunflow", true ) == false ) { 
+			if( _appConfig.getBoolean("sunflow", true ) == false ) { 
 				OpenGLUtil.SetQuality(p, OpenGLUtil.MEDIUM);
 			}
 		}
 
-		_fps = _appConfig.getIntProperty("fps", 30);
-		frameRate(_fps);
-		noCursor();
+		_fps = _appConfig.getInt("fps", 30);
+		p.frameRate(_fps);
+		p.noCursor();
 	}
 	
 	/**
@@ -182,7 +182,7 @@ extends PApplet
 		_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
 		_waveformData = new WaveformData( p, _audioInput._bufferSize );
 //		_objPool = new ObjPool( p );
-		_renderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE, _appConfig.getStringProperty( "render_output_dir", "bin/output/" ) );
+		_renderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE, _appConfig.getString( "render_output_dir", "bin/output/" ) );
 		_kinectWrapper = new KinectWrapper( p );
 //		_launchpadViz = new LaunchpadViz( p5 );
 		_oscWrapper = new OscWrapper( p );

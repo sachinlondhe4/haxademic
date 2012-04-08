@@ -16,23 +16,23 @@ public class P5Properties extends Properties {
 		try {
 			load(p.createInput("run.properties"));
 		} catch(IOException e) {
-			p.println("couldn't read config file...");
+			p.println("couldn't read run.properties config file...");
 		}
 	}
  
-	public String getStringProperty(String id, String defState) {
+	public String getString(String id, String defState) {
 		return getProperty(id,defState);
 	}
  
-	public boolean getBooleanProperty(String id, boolean defState) {
+	public boolean getBoolean(String id, boolean defState) {
 		return Boolean.parseBoolean(getProperty(id,""+defState));
 	}
  
-	public int getIntProperty(String id, int defVal) {
+	public int getInt(String id, int defVal) {
 		return Integer.parseInt(getProperty(id,""+defVal));
 	}
  
-	public float getFloatProperty(String id, float defVal) {
+	public float getFloat(String id, float defVal) {
 		return new Float(getProperty(id,""+defVal)); 
   	}  
 }
