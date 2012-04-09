@@ -14,7 +14,7 @@ public class P5Properties extends Properties {
 	public P5Properties(PApplet p) {
 		super();
 		try {
-			load(p.createInput("run.properties"));
+			load(p.createInput("../data/run.properties"));
 		} catch(IOException e) {
 			p.println("couldn't read run.properties config file...");
 		}
