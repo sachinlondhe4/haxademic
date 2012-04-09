@@ -32,3 +32,7 @@ Use the following VM Arguments when running the Java Application
 * -d32
 * -Xmx1024M
 * -Xms1024M
+
+General Use / Tips
+
+* If you want to wipe your bin/ directory, you'll have to do a Prject -> Clean... afterwards.
