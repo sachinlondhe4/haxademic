@@ -149,29 +149,33 @@ public class GamePlay {
 		_paddle.display();
 		_walls.display();
 		_ball.display( _paddle );
-		
-		if( p.isDebugging() == true ) {
-			// draw point cloud
-			p.pushMatrix();
-			DrawUtil.setCenter( p );
-			p.translate( 0, 0, -600 );
-			p._kinectWrapper.drawPointCloudForRect( p, true, 8, 0.5f, p.KINECT_MIN_DIST, p.KINECT_MAX_DIST, p.KINECT_TOP, (int)_kinectRange.max(), p.KINECT_BOTTOM, (int)_kinectRange.min() );
-			
-			// draw debug positioning vertical lines
-			p.pushMatrix();
-			DrawUtil.setCenter( p );
-			p.translate( -KinectWrapper.KWIDTH/2, 0, -700 );
-			p.rect(_kinectRange.min(), 0, 2, p.stageHeight());
-			p.rect(_kinectRange.max(), 0, 2, p.stageHeight());
-			p.fill( 255, 0, 0 );
-			p.rect(_kinectCurrent.min(), 0, 2, p.stageHeight());
-			p.rect(_kinectCurrent.max(), 0, 2, p.stageHeight());
-			p.fill( 0, 255, 0 );
-			p.rect(_kinectCurrent.center(), 0, 2, p.stageHeight());
-			p.popMatrix();
+		drawPlayerKinectPoints();
+		if( p.isDebugging() == true ) drawDebugLines();
+	}
 	
-			p.popMatrix();
-		}
+	protected void drawPlayerKinectPoints() {
+		// draw point cloud
+		p.pushMatrix();
+		DrawUtil.setCenter( p );
+		p.translate( 0, 0, -600 );
+		p._kinectWrapper.drawPointCloudForRect( p, true, 8, 0.5f, p.KINECT_MIN_DIST, p.KINECT_MAX_DIST, p.KINECT_TOP, (int)_kinectRange.max(), p.KINECT_BOTTOM, (int)_kinectRange.min() );
+		p.popMatrix();
+	}
+	
+	protected void drawDebugLines() {
+		// draw debug positioning vertical lines
+		p.pushMatrix();
+		DrawUtil.setCenter( p );
+		p.translate( -KinectWrapper.KWIDTH/2, 0, -700 );
+		p.fill( 255, 255, 255, 127 );
+		p.rect(_kinectRange.min(), 0, 2, p.stageHeight());
+		p.rect(_kinectRange.max(), 0, 2, p.stageHeight());
+		p.fill( 255, 0, 0, 127 );
+		p.rect(_kinectCurrent.min(), 0, 2, p.stageHeight());
+		p.rect(_kinectCurrent.max(), 0, 2, p.stageHeight());
+		p.fill( 0, 255, 0, 127 );
+		p.rect(_kinectCurrent.center(), 0, 2, p.stageHeight());
+		p.popMatrix();
 	}
 	
 	public void launchBall() {
