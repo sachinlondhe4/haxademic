@@ -31,7 +31,7 @@ extends PAppletHax
 	// input
 	public static float KINECT_MIN_DIST = 1.5f;
 	public static float KINECT_MAX_DIST = 2.0f;
-	public static int KINECT_TOP = 200;
+	public static int KINECT_TOP = 100;
 	public static int KINECT_BOTTOM = 440;
 	public static float KINECT_GAP_PERCENT = 0.75f;
 	protected boolean _isDebuggingKinect = false;
