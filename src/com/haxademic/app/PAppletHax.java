@@ -304,6 +304,16 @@ extends PApplet
 
 	}
 	
+/////**
+////* Inits the full-screen object and launches it.
+////*/
+////protected void launchFullScreen() {
+////	// add fullscreen - use fs.enter(); to make it happen immediately, or use cmd + F to toggle fullscreen manually 
+////	fs = new FullScreen(this); 
+//////	fs.setResolution( width, height );
+////	fs.enter();
+////}
+	
 	protected void killScreensaver(){
 		// keep screensaver off - hit shift every 1000 frames
 		if( p.frameCount % 1000 == 0 ) _robot.keyRelease(KeyEvent.VK_SHIFT);
