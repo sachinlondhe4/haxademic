@@ -24,6 +24,11 @@ import com.haxademic.viz.modules.Toxi;
 public class HaxVisual
 extends PAppletHax 
 {
+	/**
+	 * HaxVisual allows the developer to create any number of "modules",
+	 * with any number of "elements" that are controlled by each module.
+	 * One module can run at a time, and a programs may be switched with MIDI or keyboard strokes.
+	 */
 
 	/**
 	 * Auto-initialization of the main class.
