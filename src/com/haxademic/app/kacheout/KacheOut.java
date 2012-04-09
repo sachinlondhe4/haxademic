@@ -154,6 +154,8 @@ extends PAppletHax
 ////		p.image( _kinectWrapper.getDepthImage(), 0, 0, _kinectWrapper.KWIDTH, _kinectWrapper.KHEIGHT );
 //		p.image( _kinectWrapper.getDepthImage(), 0, 0, _stageWidth, _stageHeight );
 		
+		
+//		_debugText.draw( "Debug :: FPS:" + _fps );
 	}
 	
 	// GAME LOGIC --------------------------------------------------------------------------------------
