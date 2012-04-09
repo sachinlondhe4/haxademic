@@ -96,15 +96,15 @@ public class KinectWrapper {
 	}
 	
 	public void enableDepth( boolean enable ) {
-		_kinect.enableDepth( enable );
+		if( _kinectActive == true ) _kinect.enableDepth( enable );
 	}
 	
 	public void enableRGB( boolean enable ) {
-		_kinect.enableRGB( enable );
+		if( _kinectActive == true ) _kinect.enableRGB( enable );
 	}
 	
 	public void enableDepthImage( boolean enable ) {
-		_kinect.processDepthImage( enable );
+		if( _kinectActive == true ) _kinect.processDepthImage( enable );
 	}
 	
 	public boolean isActive() {
