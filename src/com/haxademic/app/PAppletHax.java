@@ -23,6 +23,7 @@ import com.haxademic.core.render.Renderer;
 import com.haxademic.core.util.OpenGLUtil;
 import com.haxademic.viz.launchpad.LaunchpadViz;
 
+import ddf.minim.Minim;
 import fullscreen.FullScreen;
 
 /**
@@ -44,7 +45,7 @@ import fullscreen.FullScreen;
  * He_Mesh
  * minim 
  * 
- * @TODO: Address garbage collection
+ * @TODO: Address garbage collection - a larger project would be to have dispose() methods in every class, and implement disposal across the project.
  * @TODO: Come up with a single solution to be an IVizModule or an extension of PAppletHax. 
  * @TODO: optimize the kinectMesh element - shit is slow
  * @TODO: Mesh traversal drawing: more configurable. generative options - implement mesh drawing strategy pattern
@@ -139,6 +140,11 @@ extends PApplet
 	protected Robot _robot;
 	
 	/**
+	 * Single instance for minim audio library.
+	 */
+	public Minim _minim;
+	
+	/**
 	 * Prevents crashing from possible attempts to re-initialize. 
 	 * Similar error described here: http://code.google.com/p/processing/issues/detail?id=356
 	 */
@@ -231,6 +237,7 @@ extends PApplet
 		_kinectWrapper = new KinectWrapper( p, _appConfig.getBoolean( "kinect_depth", true ), _appConfig.getBoolean( "kinect_rgb", true ), _appConfig.getBoolean( "kinect_depth_image", true ) );
 //		_launchpadViz = new LaunchpadViz( p5 );
 		_oscWrapper = new OscWrapper( p );
+		_minim = new Minim( p );
 //		_debugText = new DebugText( p );
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
 		p.println("setup app objects");
@@ -401,8 +408,10 @@ extends PApplet
 	public AudioInputWrapper getAudio() { return _audioInput; }
 	// instance of midi wrapper -------------------------------------------------
 	public MidiWrapper getMidi() { return _midi; }
-	// instance of midi wrapper -------------------------------------------------
+	// instance of osc wrapper -------------------------------------------------
 	public OscWrapper getOsc() { return _oscWrapper; }
+	// instance of osc wrapper -------------------------------------------------
+	public Minim getMinim() { return _minim; }
 	// get fps of app -------------------------------------------------
 	public int getFps() { return _fps; }
 	// get fps factor of app -------------------------------------------------
