@@ -71,7 +71,7 @@ extends PAppletHax
 		
 		_stageWidth = width;
 		_stageHeight = height;
-		_cameraZFromHeight = (float)_stageHeight * CAMERA_Z_WIDTH_MULTIPLIER;
+//		_cameraZFromHeight = (float)_stageHeight * CAMERA_Z_WIDTH_MULTIPLIER;
 
 		newCamera();
 		
