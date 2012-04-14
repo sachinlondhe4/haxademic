@@ -186,11 +186,13 @@ public class GamePlay {
 		// paddle
 		if( _ball.detectBox( _paddle.box() ) == true ) {
 			_ball.bounceOffPaddle( _paddle );
+			p._sounds.getSound( "PADDLE_BOUNCE" ).play(0);
 		}
 		// walls
 		if( _walls.detectSphere( _ball.sphere() ) == true ) {
 			_ball.detectWalls( _walls.leftHit(), _walls.topHit(), _walls.rightHit() );
 			_walls.resetCollisions();
+			p._sounds.getSound( "WALL_BOUNCE" ).play(0);
 		}
 		// blocks
 		for (int i = 0; i < _blocks.size(); i++) {

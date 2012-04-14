@@ -7,6 +7,7 @@ import processing.core.PApplet;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.game.GamePlay;
 import com.haxademic.core.audio.AudioLoopPlayer;
+import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.cameras.CameraDefault;
 import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.data.FloatRange;
@@ -14,6 +15,8 @@ import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.util.ColorGroup;
 import com.haxademic.core.util.DebugUtil;
 import com.haxademic.core.util.DrawUtil;
+
+import ddf.minim.AudioPlayer;
 
 public class KacheOut
 extends PAppletHax  
@@ -38,6 +41,8 @@ extends PAppletHax
 
 	// audio
 	protected AudioLoopPlayer _audio;
+	public AudioPool _sounds;
+	public AudioPlayer _backgroundAudio;
 	
 	// debug 
 	protected boolean _isDebugging = false;
@@ -77,6 +82,12 @@ extends PAppletHax
 		
 		_audioInput.setNumAverages( _numAverages );
 		_audioInput.setDampening( .13f );
+		
+		_sounds = new AudioPool( p, p._minim );
+		_sounds.loadAudioFile( "PADDLE_BOUNCE", 1, "wav/kacheout/ball_hit_wall_v03.wav" );
+		_sounds.loadAudioFile( "WALL_BOUNCE", 1, "wav/kacheout/ball_hit_wall_v02.wav" );
+//		_backgroundAudio = _minim.loadFile("wav/kacheout/soundtrack/01 rip-off artist - bang trim.wav", 512);
+//		_backgroundAudio.loop();
 		
 		_kinectWrapper.enableDepth( true );
 		_kinectWrapper.enableDepthImage( true );
