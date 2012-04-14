@@ -79,6 +79,7 @@ extends PAppletHax
 		_audioInput.setDampening( .13f );
 		
 		_kinectWrapper.enableDepth( true );
+		_kinectWrapper.enableDepthImage( true );
 		
 		initGame();
 	}
@@ -86,7 +87,7 @@ extends PAppletHax
 	// HAXADEMIC STUFF --------------------------------------------------------------------------------------
 	void newCamera() {
 		_curCamera = new CameraDefault( p, 0, 0, 0 );
-		_curCamera.setPosition( _stageWidth/2f, _stageHeight/2f, _cameraZFromHeight );
+		_curCamera.setPosition( _stageWidth/2f, _stageHeight/2f, 0 );	// _cameraZFromHeight
 		_curCamera.setTarget( _stageWidth/2f, _stageHeight/2f, 0 );
 		_curCamera.reset();
 	}
@@ -144,15 +145,15 @@ extends PAppletHax
 //		debugCameraPos();
 		
 		// draw depth image
-//		DrawUtil.setCenter( p );
-//		p.translate( 0, 0, -1350 );
-//		p.fill(255, 255);
-//		p.noStroke();
-//		p.rect(0, 0, _kinectWrapper.KWIDTH*1.1f, _kinectWrapper.KHEIGHT*1.1f);
-//		p.translate( 0, 0, 100 );
-//		p.rotateY( (float)Math.PI );
-////		p.image( _kinectWrapper.getDepthImage(), 0, 0, _kinectWrapper.KWIDTH, _kinectWrapper.KHEIGHT );
-//		p.image( _kinectWrapper.getDepthImage(), 0, 0, _stageWidth, _stageHeight );
+		DrawUtil.setCenter( p );
+		p.translate( 0, 0, -1350 );
+		p.fill(255, 255);
+		p.noStroke();
+		p.rect(0, 0, _kinectWrapper.KWIDTH*1.1f, _kinectWrapper.KHEIGHT*1.1f);
+		p.translate( 0, 0, 100 );
+		p.rotateY( (float)Math.PI );
+//		p.image( _kinectWrapper.getDepthImage(), 0, 0, _kinectWrapper.KWIDTH, _kinectWrapper.KHEIGHT );
+		p.image( _kinectWrapper.getDepthImage(), 0, 0, _stageWidth, _stageHeight );
 		
 		
 //		_debugText.draw( "Debug :: FPS:" + _fps );
