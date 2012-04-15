@@ -183,8 +183,8 @@ extends PAppletHax
 		
 		_gameWidth = _stageWidth / NUM_PLAYERS;
 		float kinectRangeWidth = KinectWrapper.KWIDTH / 2f * KINECT_GAP_PERCENT;
-		_player1 = new GamePlay( _gameWidth, _gameWidth * 2, new FloatRange( 0, kinectRangeWidth ) );
-		_player2 = new GamePlay( _gameWidth * 2, _gameWidth * 3, new FloatRange( KinectWrapper.KWIDTH - kinectRangeWidth, KinectWrapper.KWIDTH ) );
+		_player1 = new GamePlay( 0, _gameWidth, new FloatRange( 0, kinectRangeWidth ) );
+		_player2 = new GamePlay( _gameWidth, _gameWidth * 2, new FloatRange( KinectWrapper.KWIDTH - kinectRangeWidth, KinectWrapper.KWIDTH ) );
 		_gamePlays = new ArrayList<GamePlay>();
 		_gamePlays.add( _player1 );
 		_gamePlays.add( _player2 );

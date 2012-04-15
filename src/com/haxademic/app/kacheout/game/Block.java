@@ -18,9 +18,8 @@ public class Block {
 	protected boolean _active;
 	protected TColor _color;
 	
-	public Block( float x, float y, float w, float h, int index ) {
-		p = (KacheOut)PAppletHax.getInstance();
-		this.w = w/2;
+	/**
+ 		this.w = w/2;
 		this.h = h/2;
 		this.x = x + w/2;
 		this.y = y + h/2;
@@ -28,7 +27,12 @@ public class Block {
 		_box = new AABB( w );
 		_box.set( x, y, 0 );
 		_box.setExtent( new Vec3D( this.w, this.h, 10 ) );
+	 */
+	
+	public Block( AABB box, int index ) {
+		p = (KacheOut)PAppletHax.getInstance();
 
+		_box = box;
 		this.index = index;
 		
 		// random colors for now
@@ -55,8 +59,6 @@ public class Block {
 	
 	public void display() {
 		if( _active == true ) {
-			_box.set( x, y, 0 );
-
 			// adjust cell z per brightness
 			float zAdd = 40 * p._audioInput.getFFT().spectrum[index % 512];
 			

@@ -280,7 +280,7 @@ implements IVizModule
 		protected int _cols = 10;
 		protected int _rows = 7;
 		protected ArrayList<Block> _blocks;
-		protected WETriangleMesh _invaderMesh_01, _invaderMesh_01_alt;
+//		protected WETriangleMesh _invaderMesh_01, _invaderMesh_01_alt;
 		
 		// should be an array of balls
 		protected Ball _ball;
@@ -305,10 +305,10 @@ implements IVizModule
 				}
 			}
 			
-			_invaderMesh_01 = Meshes.invader1( 1 );
-			_invaderMesh_01_alt = Meshes.invader1( 2 );
-			_invaderMesh_01.scale( 70 );
-			_invaderMesh_01_alt.scale( 70 );
+//			_invaderMesh_01 = Meshes.invader1( 1 );
+//			_invaderMesh_01_alt = Meshes.invader1( 2 );
+//			_invaderMesh_01.scale( 70 );
+//			_invaderMesh_01_alt.scale( 70 );
 			
 			// create game objects
 			_background = new GridEQ( p, toxi, _audioData );

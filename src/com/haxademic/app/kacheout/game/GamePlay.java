@@ -16,18 +16,18 @@ import com.haxademic.viz.elements.GridEQ;
 
 public class GamePlay {
 	protected KacheOut p;
-	// blocks
-	protected int _gameLeft, _gameRight, _gameWidth;
-	protected int _cols = 10;
-	protected int _rows = 7;
-	protected ArrayList<Block> _blocks;
-	protected WETriangleMesh _invaderMesh_01, _invaderMesh_01_alt;
 	
-	// should be an array of balls
+	// game dimensions
+	protected int _gameLeft, _gameRight, _gameWidth;
+	protected int _cols = 2;
+	protected int _rows = 2;
+	
+	// main game objects
 	protected Ball _ball;
 	protected Paddle _paddle;
 	protected Walls _walls;
 	protected GridEQ _background;
+	protected ArrayList<Invader> _invaders;
 	
 	// controls
 	protected float K_PIXEL_SKIP = 6;
@@ -43,23 +43,28 @@ public class GamePlay {
 		_gameWidth = gameRight - gameLeft;
 		_kinectRange = kinectRange;
 		_kinectCurrent = new FloatRange( -1, -1 );
-		// create grid
-		float boxW = _gameWidth / _cols;
-		float boxH = p.stageHeight() / 2 / _rows;
-		_blocks = new ArrayList<Block>();
+		
+		// create blocks
+		_invaders = new ArrayList<Invader>();
 		int index = 0;
+		float spacingX = (float)_gameWidth / (float)(_cols+1f);
+		float spacingY = (float)p.stageHeight() / (float)(_rows+1);
+		p.println("game x; "+_gameLeft+","+_gameRight+","+_gameWidth);
+		p.println("spacing; "+spacingX+","+spacingY);
 		for (int i = 0; i < _cols; i++) {
 			for (int j = 0; j < _rows; j++) {
 				// Initialize each object
-				_blocks.add( new Block( i*boxW, j*boxH, boxW, boxH, index ) );
+				float centerX = i * spacingX + spacingX;
+				float centerY = j * spacingY + spacingY;
+				_invaders.add( new Invader( (int)centerX, (int)centerY ) );
 				index++;
 			}
 		}
 		
-		_invaderMesh_01 = Meshes.invader1( 1 );
-		_invaderMesh_01_alt = Meshes.invader1( 2 );
-		_invaderMesh_01.scale( 70 );
-		_invaderMesh_01_alt.scale( 70 );
+//		_invaderMesh_01 = Meshes.invader1( 1 );
+//		_invaderMesh_01_alt = Meshes.invader1( 2 );
+//		_invaderMesh_01.scale( 70 );
+//		_invaderMesh_01_alt.scale( 70 );
 		
 		// create game objects
 		_background = new GridEQ( p, p._toxi, p._audioInput );
@@ -68,7 +73,6 @@ public class GamePlay {
 		_ball = new Ball();
 		_paddle = new Paddle();
 		_walls = new Walls();
-		
 	}
 	
 	public void update( int gameIndex ) {
@@ -141,10 +145,17 @@ public class GamePlay {
 	}
 	
 	protected void drawGameObjects() {
+		p.pushMatrix();
 		// draw the blocks
-		for (int i = 0; i < _blocks.size(); i++) {
-			_blocks.get( i ).display();
+		int index = 0;
+		for (int i = 0; i < _cols; i++) {
+			for (int j = 0; j < _rows; j++) {
+				_invaders.get( index ).display();
+				index++;
+			}
 		}
+		p.popMatrix();
+		
 		// draw other objects
 		_paddle.display();
 		_walls.display();
@@ -195,10 +206,8 @@ public class GamePlay {
 			p._sounds.getSound( "WALL_BOUNCE" ).play(0);
 		}
 		// blocks
-		for (int i = 0; i < _blocks.size(); i++) {
-			if( _blocks.get( i ).active() == true && _ball.detectBox( _blocks.get( i ).box() ) == true ) {
-				_blocks.get( i ).die();
-			}
+		for (int i = 0; i < _invaders.size(); i++) {
+			_invaders.get( i ).detectCollisions( _ball );
 		}
 	}
 
