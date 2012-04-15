@@ -2,13 +2,10 @@ package com.haxademic.app.kacheout.game;
 
 import java.util.ArrayList;
 
-import toxi.geom.mesh.WETriangleMesh;
-
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.data.FloatRange;
 import com.haxademic.core.data.easing.EasingFloat;
-import com.haxademic.core.draw.shapes.Meshes;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.MathUtil;
@@ -20,7 +17,7 @@ public class GamePlay {
 	// game dimensions
 	protected int _gameLeft, _gameRight, _gameWidth;
 	protected int _cols = 3;
-	protected int _rows = 2;
+	protected int _rows = 3;
 	
 	// main game objects
 	protected Ball _ball;
@@ -48,24 +45,17 @@ public class GamePlay {
 		_invaders = new ArrayList<Invader>();
 		int index = 0;
 		float spacingX = (float)_gameWidth / (float)(_cols+1f);
-//		float spacingY = (float)p.stageHeight() / (float)(_rows+1);
-//		p.println("game x; "+_gameLeft+","+_gameRight+","+_gameWidth);
-//		p.println("spacing; "+spacingX+","+spacingY);
+		float spacingY = spacingX * 5f/6f;
 		for (int i = 0; i < _cols; i++) {
 			for (int j = 0; j < _rows; j++) {
 				// Initialize each object
 				float centerX = i * spacingX + spacingX;
-				float centerY = j * spacingX + spacingX;
-				float scale = (spacingX) / 12f; // terrible, but invasder max width is 12 blocks
+				float centerY = j * spacingY + spacingY;
+				float scale = (spacingX) / 15f; // terrible, but invasder max width is 12 blocks
 				_invaders.add( new Invader( (int)centerX, (int)centerY, scale, j ) );
 				index++;
 			}
 		}
-		
-//		_invaderMesh_01 = Meshes.invader1( 1 );
-//		_invaderMesh_01_alt = Meshes.invader1( 2 );
-//		_invaderMesh_01.scale( 70 );
-//		_invaderMesh_01_alt.scale( 70 );
 		
 		// create game objects
 		_background = new GridEQ( p, p._toxi, p._audioInput );
