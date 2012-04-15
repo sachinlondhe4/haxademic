@@ -19,7 +19,7 @@ public class GamePlay {
 	
 	// game dimensions
 	protected int _gameLeft, _gameRight, _gameWidth;
-	protected int _cols = 2;
+	protected int _cols = 3;
 	protected int _rows = 2;
 	
 	// main game objects
@@ -48,15 +48,16 @@ public class GamePlay {
 		_invaders = new ArrayList<Invader>();
 		int index = 0;
 		float spacingX = (float)_gameWidth / (float)(_cols+1f);
-		float spacingY = (float)p.stageHeight() / (float)(_rows+1);
-		p.println("game x; "+_gameLeft+","+_gameRight+","+_gameWidth);
-		p.println("spacing; "+spacingX+","+spacingY);
+//		float spacingY = (float)p.stageHeight() / (float)(_rows+1);
+//		p.println("game x; "+_gameLeft+","+_gameRight+","+_gameWidth);
+//		p.println("spacing; "+spacingX+","+spacingY);
 		for (int i = 0; i < _cols; i++) {
 			for (int j = 0; j < _rows; j++) {
 				// Initialize each object
 				float centerX = i * spacingX + spacingX;
-				float centerY = j * spacingY + spacingY;
-				_invaders.add( new Invader( (int)centerX, (int)centerY ) );
+				float centerY = j * spacingX + spacingX;
+				float scale = (spacingX) / 12f; // terrible, but invasder max width is 12 blocks
+				_invaders.add( new Invader( (int)centerX, (int)centerY, scale, j ) );
 				index++;
 			}
 		}

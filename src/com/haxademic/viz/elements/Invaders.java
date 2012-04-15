@@ -42,18 +42,12 @@ implements IVizElement {
 	public void init() {
 		_invaderMesh_01 = Meshes.invader1( 1, 70 );
 		_invaderMesh_01_alt = Meshes.invader1( 2, 70 );
-//		_invaderMesh_01.scale( 70 );
-//		_invaderMesh_01_alt.scale( 70 );
 		
-		_invaderMesh_02 = Meshes.invader2( 1 );
-		_invaderMesh_02_alt = Meshes.invader2( 2 );
-		_invaderMesh_02.scale( 70 );
-		_invaderMesh_02_alt.scale( 70 );
+		_invaderMesh_02 = Meshes.invader2( 1, 70 );
+		_invaderMesh_02_alt = Meshes.invader2( 2, 70 );
 
-		_invaderMesh_03 = Meshes.invader3( 1 );
-		_invaderMesh_03_alt = Meshes.invader3( 2 );
-		_invaderMesh_03.scale( 70 );
-		_invaderMesh_03_alt.scale( 70 );
+		_invaderMesh_03 = Meshes.invader3( 1, 70 );
+		_invaderMesh_03_alt = Meshes.invader3( 2, 70 );
 		
 		
 		OBJModel model = new OBJModel( p, "./models/submish-horiz-rotated.obj" );

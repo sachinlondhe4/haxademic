@@ -14,37 +14,60 @@ public class Invader {
 	protected ArrayList<Block> _boxes;
 	protected ArrayList<Block> _boxesAlt;
 	protected ArrayList<Block> _curBoxesArray;
+	protected boolean _isAnimating = true;
 	
-	protected int _x, _y;
+	protected int _x, _y, _row;
+	protected float _scale;
+	
 
-	public Invader( int x, int y ) {
+	public Invader( int x, int y, float scale, int row ) {
 		p = (KacheOut)PAppletHax.getInstance();
 		
-		p.println("Invader: "+x+","+y);
 		_x = x;
 		_y = y;
+		_row = row;
+		_scale = scale;
 		
-		_boxes = new ArrayList<Block>();
-		_boxesAlt = new ArrayList<Block>();
-		ArrayList<AABB> boxes = Meshes.invader1Boxes( 0, 30 );
-		for( int i=0; i < boxes.size(); i++ ) {
-			boxes.get( i ).set( boxes.get( i ).x + _x, boxes.get( i ).y + _y, 0 );
-			// p.println(boxes.get( i ).x + _x+","+boxes.get( i ).y);
-			_boxes.add( new Block( boxes.get( i ), i) );
-		}
-		
-		ArrayList<AABB> boxesAlt = Meshes.invader1Boxes( 0, 30 );
-		for( int i=0; i < boxesAlt.size(); i++ ) _boxesAlt.add( new Block( boxes.get( i ), i) );
+		buildInvader();
 		
 		_curBoxesArray = _boxes;
 	}
 	
+	protected void buildInvader() {
+		// create 2 arrays of blocks
+		_boxes = new ArrayList<Block>();
+		_boxesAlt = new ArrayList<Block>();
+		ArrayList<AABB> boxes = null, boxesAlt = null;
+		if( _row % 3 == 0 ) {
+			boxes = Meshes.invader1Boxes( 0, _scale );
+			boxesAlt = Meshes.invader1Boxes( 1, _scale );
+		} else if( _row % 3 == 1 ) {
+			boxes = Meshes.invader2Boxes( 0, _scale );
+			boxesAlt = Meshes.invader2Boxes( 1, _scale );
+		} else {
+			boxes = Meshes.invader3Boxes( 0, _scale );
+			boxesAlt = Meshes.invader3Boxes( 1, _scale );
+		}
+		
+		// populate arrays while positioning individual blocks to the center of this invader
+		for( int i=0; i < boxes.size(); i++ ) {
+			boxes.get( i ).set( boxes.get( i ).x + _x, boxes.get( i ).y + _y, 0 );
+			_boxes.add( new Block( boxes.get( i ), i) );
+		}
+		for( int i=0; i < boxesAlt.size(); i++ ) {
+			boxesAlt.get( i ).set( boxesAlt.get( i ).x + _x, boxesAlt.get( i ).y + _y, 0 );
+			_boxesAlt.add( new Block( boxesAlt.get( i ), i) );
+		}
+	}
+	
 	public void display() {
+		// animate
+		if( _isAnimating == true && p.frameCount % 15 == 0 ) {
+			_curBoxesArray = ( _curBoxesArray == _boxes ) ? _boxesAlt : _boxes;
+		}
+		// draw boxen
 		for( int i=0; i < _curBoxesArray.size(); i++ ) {
 			if( _curBoxesArray.get( i ).active() == true ) {
-//				p.fill( 255 );
-//				p.noStroke();
-//				p._toxi.box( _curBoxesArray.get( i ).box() );
 				_curBoxesArray.get( i ).display();
 			}
 		}
@@ -56,7 +79,7 @@ public class Invader {
 			if( _curBoxesArray.get( i ).active() == true && ball.detectBox( _curBoxesArray.get( i ).box() ) == true ) {
 				_curBoxesArray.get( i ).die();
 				collided = true;
-				
+				_isAnimating = false;
 			}
 		}
 		return collided;
