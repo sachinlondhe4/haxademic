@@ -30,6 +30,8 @@ public class Ball {
 	
 	public float x() { return _x; }
 	public float y() { return _y; }
+	public float speedX() { return _speedX; }
+	public float speedY() { return _speedY; }
 	public Sphere sphere() { return _sphere; }
 	public float radius() { return BALL_SIZE; }
 	

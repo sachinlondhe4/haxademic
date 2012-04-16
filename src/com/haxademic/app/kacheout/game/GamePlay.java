@@ -6,6 +6,7 @@ import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.data.FloatRange;
 import com.haxademic.core.data.easing.EasingFloat;
+import com.haxademic.core.draw.shapes.Voronoi3D;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.MathUtil;
@@ -46,16 +47,18 @@ public class GamePlay {
 		int index = 0;
 		float spacingX = (float)_gameWidth / (float)(_cols+1f);
 		float spacingY = spacingX * 5f/6f;
+		float boxScale = (spacingX) / 15f; // terrible, but invader max width is 12 blocks
 		for (int i = 0; i < _cols; i++) {
 			for (int j = 0; j < _rows; j++) {
 				// Initialize each object
 				float centerX = i * spacingX + spacingX;
 				float centerY = j * spacingY + spacingY;
-				float scale = (spacingX) / 15f; // terrible, but invasder max width is 12 blocks
-				_invaders.add( new Invader( (int)centerX, (int)centerY, scale, j ) );
+				_invaders.add( new Invader( (int)centerX, (int)centerY, boxScale, j ) );
 				index++;
 			}
 		}
+		
+		p.shatteredCubeMeshes = Voronoi3D.getShatteredBox( p, boxScale );
 		
 		// create game objects
 		_background = new GridEQ( p, p._toxi, p._audioInput );
@@ -76,7 +79,7 @@ public class GamePlay {
 	
 	protected void positionGameCenter( int gameIndex ){
 		DrawUtil.setTopLeft( p );
-		p.translate( 0,0,-1200 );
+		p.translate( 0,0,-1100 );
 		p.rotateX( p.PI / 16f );
 		
 		// rotate to kinect position

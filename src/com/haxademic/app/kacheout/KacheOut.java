@@ -3,6 +3,7 @@ package com.haxademic.app.kacheout;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
+import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.game.GamePlay;
@@ -11,6 +12,7 @@ import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.cameras.CameraDefault;
 import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.data.FloatRange;
+import com.haxademic.core.draw.shapes.Voronoi3D;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.util.ColorGroup;
 import com.haxademic.core.util.DebugUtil;
@@ -70,6 +72,9 @@ extends PAppletHax
 	
 	protected final float CAMERA_Z_WIDTH_MULTIPLIER = 0.888888f;	// 1280x720
 	protected float _cameraZFromHeight = 0;
+	
+	// single game object refs
+	public ArrayList<WETriangleMesh> shatteredCubeMeshes;
 
 	public void setup() {
 		super.setup();
@@ -91,7 +96,7 @@ extends PAppletHax
 		
 		_kinectWrapper.enableDepth( true );
 		_kinectWrapper.enableDepthImage( true );
-		
+				
 		initGame();
 	}
 

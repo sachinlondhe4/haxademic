@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.util;
 
+import java.util.ArrayList;
+
 import javax.media.opengl.GL;
 
 import processing.core.PApplet;
@@ -75,4 +77,19 @@ public class ThreeDeeUtil {
 		renderer.gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, new float[] {-1000, 600, 2000, 0 }, 0);
 		renderer.gl.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, new float[] { 1, 1, 1, 1 }, 0);
 	}
+	
+	public static void addPositionToMeshArray( ArrayList<WETriangleMesh> meshes, float x, float y, float z ) {
+		Vec3D center = null;
+		for( int i=0; i < meshes.size(); i++ ) {
+			// TODO: FIX THIS
+			center = meshes.get( i ).computeCentroid();
+			meshes.get( i ).center( new Vec3D( x - center.x, y - center.y, z - center.z ) );
+		}
+	}
+	
+	public static void addPositionToMesh( WETriangleMesh mesh, float x, float y, float z ) {
+		Vec3D center = mesh.computeCentroid();
+		mesh.center( new Vec3D( x - center.x, y - center.y, z - center.z ) );
+	}
+
 }

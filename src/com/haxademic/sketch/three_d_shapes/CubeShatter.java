@@ -91,14 +91,13 @@ extends PApplet
 		HE_Mesh cell;
 		HE_Face[] faces;
 		meshes = new ArrayList<WETriangleMesh>();
-		for(int i=0;i<numcells;i++) {
-			
+		for(int i=0;i<numcells;i++) {			
 			cell = cells[i];
-//			cell.subdivide( planar, 2 );
-
 			faces = cell.getFacesAsArray();
+			
 			WETriangleMesh toxiMesh = new WETriangleMesh(); 
 			meshes.add( toxiMesh );
+			
 			for(int j=0;j<faces.length;j++) {
 				int numVertices = faces[j].getFaceVertices().size();
 				if( numVertices == 3 ) {
@@ -134,18 +133,13 @@ extends PApplet
 		rotateX(1f/height*mouseY*TWO_PI-PI);
 		rotateY(1f/width*mouseX*TWO_PI-PI);
 		
-		
+		// draw toxiclibs mesh
 		fill(200);
 		for(int j=0;j<meshes.size();j++) {
-//			for(int k=0; k<meshes.get( j ).faces.size(); k++ ) {
-//				Face face = meshes.get( j ).faces.get( k );
-//				toxi.triangle( new Triangle3D(face.a,face.b,face.c) );
-//			}
-			
 			toxi.mesh( meshes.get( j ) );
 		}
 
-		// expand pieces
+		// draw hemesh & expand pieces
 //		for(int i=0;i<numcells;i++) {
 //			WB_Point3d pos = cells[i].getCenter();
 //			cells[i].moveTo( new WB_Point3d( pos.x * 1.002f, pos.y * 1.002f, pos.z * 1.002f ) );

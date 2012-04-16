@@ -7,6 +7,7 @@ import toxi.geom.AABB;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.draw.shapes.Meshes;
+import com.haxademic.core.draw.util.ThreeDeeUtil;
 
 public class Invader {
 	
@@ -69,6 +70,8 @@ public class Invader {
 		for( int i=0; i < _curBoxesArray.size(); i++ ) {
 			if( _curBoxesArray.get( i ).active() == true ) {
 				_curBoxesArray.get( i ).display();
+			} else {
+				_curBoxesArray.get( i ).display();
 			}
 		}
 	}
@@ -77,7 +80,7 @@ public class Invader {
 		boolean collided = false;
 		for( int i=0; i < _curBoxesArray.size(); i++ ) {
 			if( _curBoxesArray.get( i ).active() == true && ball.detectBox( _curBoxesArray.get( i ).box() ) == true ) {
-				_curBoxesArray.get( i ).die();
+				_curBoxesArray.get( i ).die( ball.speedX(), ball.speedY() );
 				collided = true;
 				_isAnimating = false;
 			}
