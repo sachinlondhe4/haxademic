@@ -1,11 +1,15 @@
 package com.haxademic.app.kacheout.game;
 
+import processing.core.PApplet;
 import toxi.color.TColor;
 import toxi.geom.AABB;
 import toxi.geom.Sphere;
+import toxi.geom.Vec3D;
+import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
+import com.haxademic.core.draw.util.DrawMesh;
 import com.haxademic.core.util.MathUtil;
 
 public class Ball {
@@ -17,6 +21,7 @@ public class Ball {
 	protected TColor _color;
 	protected Sphere _sphere;
 	protected float SPEED = 15f;
+	protected WETriangleMesh _ballMesh;
 	
 	public Ball() {
 		p = (KacheOut)PAppletHax.getInstance();
@@ -26,6 +31,9 @@ public class Ball {
 		_y = p.random( p.stageHeight() / 2, p.stageHeight() );
 		_color = p.gameColors().getRandomColor().copy();
 		_sphere = new Sphere( BALL_SIZE );
+		
+		_ballMesh = new WETriangleMesh();
+		_ballMesh.addMesh( _sphere.toMesh( BALL_RESOLUTION ) );
 	}
 	
 	public float x() { return _x; }
@@ -64,7 +72,13 @@ public class Ball {
 		p.fill( _color.toARGB() );
 		_sphere.x = _x;
 		_sphere.y = _y;
-		p._toxi.sphere( _sphere, BALL_RESOLUTION );
+		
+		p.pushMatrix();
+		p.translate( _x, _y );
+//		_ballMesh.translate( new Vec3D( _x, _y, 0f ) );
+		DrawMesh.drawMeshWithAudio( (PApplet)p, _ballMesh, p._audioInput, 3f, false, new TColor(TColor.WHITE), new TColor(TColor.WHITE), 0.3f );
+		p.popMatrix();
+		//p._toxi.sphere( _sphere, BALL_RESOLUTION );
 	}
 	
 	public void detectWalls( boolean leftHit, boolean topHit, boolean rightHit ) {
