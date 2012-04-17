@@ -39,11 +39,12 @@ public class Block {
 
 		_box = box;
 		this.index = index;
+		_scale = scale;
 		
 		// random colors for now
-		r = p.random( 0, 80 );
+		r = p.random( 0, 0 );
 		g = p.random( 200, 255 );
-		b = p.random( 100, 200 );
+		b = p.random( 0, 0 );
 		
 		_color = p.gameColors().getRandomColor().copy();
 		
@@ -79,7 +80,7 @@ public class Block {
 			// adjust cell z per brightness
 			float zAdd = 6 + 50f * p._audioInput.getFFT().spectrum[index % 512];
 //			_box.setExtent( arg0 )
-			_box.setExtent( new Vec3D( 5, 5, zAdd ) );
+			_box.setExtent( new Vec3D( _scale/200f, _scale/200f, zAdd ) );
 			
 			//p.rotateZ( _audioInput.getFFT().averages[1] * .01f );
 			_color.alpha = p.constrain( 0.5f + zAdd, 0, 1 );
