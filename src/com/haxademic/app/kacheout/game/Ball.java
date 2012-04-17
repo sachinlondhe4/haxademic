@@ -11,7 +11,7 @@ import com.haxademic.core.util.MathUtil;
 public class Ball {
 	
 	protected KacheOut p;
-	protected float BALL_SIZE = 20;
+	protected float BALL_SIZE = 50;
 	protected int BALL_RESOLUTION = 20;
 	float _x, _y, _speedX, _speedY;
 	protected TColor _color;
