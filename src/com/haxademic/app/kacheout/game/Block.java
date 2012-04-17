@@ -21,7 +21,7 @@ public class Block {
 	protected TColor _color;
 	protected ArrayList<Shard> _shards;
 	protected ArrayList<Vec3D> _explodeVecs;
-	
+	protected float _scale;
 	
 	/**
  		this.w = w/2;
@@ -34,7 +34,7 @@ public class Block {
 		_box.setExtent( new Vec3D( this.w, this.h, 10 ) );
 	 */
 	
-	public Block( AABB box, int index ) {
+	public Block( AABB box, int index, float scale ) {
 		p = (KacheOut)PAppletHax.getInstance();
 
 		_box = box;
@@ -77,7 +77,9 @@ public class Block {
 	public void display() {
 		if( _active == true ) {
 			// adjust cell z per brightness
-			float zAdd = 40 * p._audioInput.getFFT().spectrum[index % 512];
+			float zAdd = 6 + 50f * p._audioInput.getFFT().spectrum[index % 512];
+//			_box.setExtent( arg0 )
+			_box.setExtent( new Vec3D( 5, 5, zAdd ) );
 			
 			//p.rotateZ( _audioInput.getFFT().averages[1] * .01f );
 			_color.alpha = p.constrain( 0.5f + zAdd, 0, 1 );
@@ -96,7 +98,7 @@ public class Block {
 					p._toxi.mesh( _shards.get( j ).mesh() );
 				}
 			}
-			_color.alpha = _color.alpha - 0.05f;
+			_color.alpha = _color.alpha - 0.2f;
 		}
 	}
 	

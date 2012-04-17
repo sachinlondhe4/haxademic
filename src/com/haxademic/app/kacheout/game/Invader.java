@@ -53,11 +53,11 @@ public class Invader {
 		// populate arrays while positioning individual blocks to the center of this invader
 		for( int i=0; i < boxes.size(); i++ ) {
 			boxes.get( i ).set( boxes.get( i ).x + _x, boxes.get( i ).y + _y, 0 );
-			_boxes.add( new Block( boxes.get( i ), i) );
+			_boxes.add( new Block( boxes.get( i ), i, _scale*100f) );
 		}
 		for( int i=0; i < boxesAlt.size(); i++ ) {
 			boxesAlt.get( i ).set( boxesAlt.get( i ).x + _x, boxesAlt.get( i ).y + _y, 0 );
-			_boxesAlt.add( new Block( boxesAlt.get( i ), i) );
+			_boxesAlt.add( new Block( boxesAlt.get( i ), i, _scale*100f) );
 		}
 	}
 	
