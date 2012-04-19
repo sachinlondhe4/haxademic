@@ -17,6 +17,7 @@ import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.util.ColorGroup;
 import com.haxademic.core.util.DebugUtil;
 import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.util.FileUtil;
 
 import ddf.minim.AudioPlayer;
 
@@ -93,6 +94,9 @@ extends PAppletHax
 		_sounds.loadAudioFile( "WALL_BOUNCE", 1, "wav/kacheout/ball_hit_wall_v02.wav" );
 //		_backgroundAudio = _minim.loadFile("wav/kacheout/soundtrack/01 rip-off artist - bang trim.wav", 512);
 //		_backgroundAudio.loop();
+		
+        DebugUtil.print( "Soundtracks:::::::::::::::" );
+		FileUtil.getFilesInDir( "data/wav/kacheout/soundtrack" );
 		
 		_kinectWrapper.enableDepth( true );
 		_kinectWrapper.enableDepthImage( true );
