@@ -1,6 +1,7 @@
 package com.haxademic.core.util;
 
 public class DebugUtil {
+	
 	public static void showMemoryUsage() {
 		Runtime runtime = Runtime.getRuntime();  
 		  
@@ -14,6 +15,10 @@ public class DebugUtil {
 		System.out.println("-- max memory: " + maxMemory /1024);  
 		System.out.println("-- total free memory: " + (freeMemory + (maxMemory - allocatedMemory)) / 1024);
 		System.out.println("---------------------------------");  
+	}
+	
+	public static void print( String str ) {
+		System.out.println( str );  
 	}
 
 }
