@@ -3,11 +3,29 @@ package com.haxademic.core.util;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
 
 public class FileUtil {
+	public static ArrayList<String> getFilesInDirOfType( String directory, String type ) {
+		File dir = new File( directory );
+		String[] children = dir.list();
+		ArrayList<String> filesOfType = new ArrayList<String>();
+		if (children == null) {
+		    // Either dir does not exist or is not a directory
+		} else {
+		    for (int i=0; i<children.length; i++) {
+		        // Get filename of file or directory
+		        String filename = children[i];
+		        if( filename.indexOf( type ) != -1 ) {	
+		        	filesOfType.add( filename );
+		        }
+		    }
+		}
+		return filesOfType;
+	}
+	
 	public static void getFilesInDir( String directory ) {
 		File dir = new File( directory );
-        DebugUtil.print( dir.getAbsolutePath() );
 
 		String[] children = dir.list();
 		if (children == null) {

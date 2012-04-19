@@ -92,11 +92,10 @@ extends PAppletHax
 		_sounds = new AudioPool( p, p._minim );
 		_sounds.loadAudioFile( "PADDLE_BOUNCE", 1, "wav/kacheout/ball_hit_wall_v03.wav" );
 		_sounds.loadAudioFile( "WALL_BOUNCE", 1, "wav/kacheout/ball_hit_wall_v02.wav" );
-//		_backgroundAudio = _minim.loadFile("wav/kacheout/soundtrack/01 rip-off artist - bang trim.wav", 512);
-//		_backgroundAudio.loop();
 		
-        DebugUtil.print( "Soundtracks:::::::::::::::" );
-		FileUtil.getFilesInDir( "data/wav/kacheout/soundtrack" );
+		ArrayList<String> soundtrackFiles = FileUtil.getFilesInDirOfType( "data/wav/kacheout/soundtrack", ".wav" );
+		_backgroundAudio = _minim.loadFile("wav/kacheout/soundtrack/"+soundtrackFiles.get( 0 ), 512);
+		_backgroundAudio.loop();
 		
 		_kinectWrapper.enableDepth( true );
 		_kinectWrapper.enableDepthImage( true );
