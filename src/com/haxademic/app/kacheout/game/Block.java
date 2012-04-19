@@ -21,7 +21,7 @@ public class Block {
 	protected TColor _color;
 	protected ArrayList<Shard> _shards;
 	protected ArrayList<Vec3D> _explodeVecs;
-	protected float _scale;
+	protected float _scale, _speedX, _speedY;
 	
 	/**
  		this.w = w/2;
@@ -60,20 +60,22 @@ public class Block {
 	}
 	
 	public void die( float speedX, float speedY ) {
-		if( _active == true ) createShatteredMesh( speedX, speedY );
+		//if( _active == true ) createShatteredMesh( speedX, speedY );
+		_speedX = speedX*p.random(1.5f,3.5f);
+		_speedY = speedY*p.random(1.5f,3.5f);
 		_active = false;
 	}
 	
-	protected void createShatteredMesh( float speedX, float speedY ) {
-		if( _shards == null ) {
-			_shards = new ArrayList<Shard>();
-			_explodeVecs = new ArrayList<Vec3D>();
-			for( int i=0; i < p.shatteredCubeMeshes.size(); i++ ) {
-				_shards.add( new Shard( p.shatteredCubeMeshes.get( i ).copy(), _box.x, _box.y, _box.z ) );
-				_shards.get(i).setSpeed( speedX*p.random(1.5f,3.5f), speedY*p.random(1.5f,3.5f), p.random(-2.5f,2.5f) );
-			}
-		}
-	}
+//	protected void createShatteredMesh( float speedX, float speedY ) {
+//		if( _shards == null ) {
+//			_shards = new ArrayList<Shard>();
+//			_explodeVecs = new ArrayList<Vec3D>();
+//			for( int i=0; i < p.shatteredCubeMeshes.size(); i++ ) {
+//				_shards.add( new Shard( p.shatteredCubeMeshes.get( i ).copy(), _box.x, _box.y, _box.z ) );
+//				_shards.get(i).setSpeed( speedX*p.random(2.f,4.f), speedY*p.random(2.f,4.f), p.random(-2.5f,2.5f) );
+//			}
+//		}
+//	}
 	
 	public void display() {
 		if( _active == true ) {
@@ -86,20 +88,28 @@ public class Block {
 			_color.alpha = p.constrain( 0.5f + zAdd, 0, 1 );
 			p.fill( _color.toARGB() );
 			p.noStroke();
-			p._toxi.box( _box );
+			p._toxi.box( _box );	
 			
 //			WETriangleMesh mesh1 = ( p.round( p.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_01 : _invaderMesh_01_alt;
 //			DrawMesh.drawMeshWithAudio( p, mesh1, p.getAudio(), 3f, false, _color, _color, 0.25f );
 
 		} else {
 			if( _color.alpha > 0 ) {
-				for( int j=0; j < _shards.size(); j++ ) {
-					_shards.get( j ).update();
-					p.fill( _color.toARGB() );
-					p._toxi.mesh( _shards.get( j ).mesh() );
-				}
+//				for( int j=0; j < _shards.size(); j++ ) {
+//					_shards.get( j ).update();
+//					p.fill( _color.toARGB() );
+//					p._toxi.mesh( _shards.get( j ).mesh() );
+//				}
+				
+				_box.set( _box.x + _speedX, _box.y + _speedY, 0 );
+
+				
+				p.fill( _color.toARGB() );
+				p.noStroke();
+				p._toxi.box( _box );
+				
+				_color.alpha = _color.alpha - 0.2f;
 			}
-			_color.alpha = _color.alpha - 0.2f;
 		}
 	}
 	
