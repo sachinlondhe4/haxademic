@@ -75,7 +75,6 @@ public class Ball {
 		
 		p.pushMatrix();
 		p.translate( _x, _y );
-//		_ballMesh.translate( new Vec3D( _x, _y, 0f ) );
 		DrawMesh.drawMeshWithAudio( (PApplet)p, _ballMesh, p._audioInput, 3f, false, new TColor(TColor.WHITE), new TColor(TColor.WHITE), 0.3f );
 		p.popMatrix();
 		//p._toxi.sphere( _sphere, BALL_RESOLUTION );
