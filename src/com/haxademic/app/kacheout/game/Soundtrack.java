@@ -28,7 +28,7 @@ public class Soundtrack {
 		_backgroundAudio = p._minim.loadFile("wav/kacheout/soundtrack/" + _soundtrackFiles.get( _index ), 512);
 		_backgroundAudio.loop();
 		_index++;
-		if( _index == _soundtrackFiles.size() - 1 );
+		if( _index == _soundtrackFiles.size() - 1 ) _index = 0;
 	}
 	
 	public void stop() {
