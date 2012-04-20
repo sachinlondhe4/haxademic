@@ -7,6 +7,7 @@ import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.game.GamePlay;
+import com.haxademic.app.kacheout.game.Soundtrack;
 import com.haxademic.core.audio.AudioLoopPlayer;
 import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.cameras.CameraDefault;
@@ -45,7 +46,7 @@ extends PAppletHax
 	// audio
 	protected AudioLoopPlayer _audio;
 	public AudioPool _sounds;
-	public AudioPlayer _backgroundAudio;
+	public Soundtrack _soundtrack;
 	
 	// debug 
 	protected boolean _isDebugging = false;
@@ -93,9 +94,8 @@ extends PAppletHax
 		_sounds.loadAudioFile( "PADDLE_BOUNCE", 1, "wav/kacheout/ball_hit_wall_v03.wav" );
 		_sounds.loadAudioFile( "WALL_BOUNCE", 1, "wav/kacheout/ball_hit_wall_v02.wav" );
 		
-		ArrayList<String> soundtrackFiles = FileUtil.getFilesInDirOfType( "data/wav/kacheout/soundtrack", ".wav" );
-		_backgroundAudio = _minim.loadFile("wav/kacheout/soundtrack/"+soundtrackFiles.get( 0 ), 512);
-		_backgroundAudio.loop();
+		_soundtrack = new Soundtrack();
+		_soundtrack.playNext();
 		
 		_kinectWrapper.enableDepth( true );
 		_kinectWrapper.enableDepthImage( true );
@@ -128,6 +128,7 @@ extends PAppletHax
 			_player1.launchBall();
 			_player2.launchBall();
 			_gameState = GAME_ON;
+			_soundtrack.playNext();
 		}
 		if ( p.key == 'd' || p.key == 'D' ) {
 			_isDebugging = !_isDebugging;
