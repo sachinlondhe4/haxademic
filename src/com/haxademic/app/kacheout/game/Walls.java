@@ -2,6 +2,7 @@ package com.haxademic.app.kacheout.game;
 
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
+import com.haxademic.core.draw.color.EasingTColor;
 
 import toxi.color.TColor;
 import toxi.geom.AABB;
@@ -12,16 +13,14 @@ public class Walls {
 	protected KacheOut p;
 	protected AABB _wallLeft, _wallTop, _wallRight;
 	protected boolean _wallLeftHit, _wallTopHit, _wallRightHit;
-	protected TColor _color;
-	protected float BASE_ALPHA = 0.2f;
-	protected float _wallLeftAlpha = BASE_ALPHA;
-	protected float _wallTopAlpha = BASE_ALPHA;
-	protected float _wallRightAlpha = BASE_ALPHA;
-	public final int WALL_WIDTH = 20;
+	protected EasingTColor _colorLeft, _colorTop, _colorRight;
+	public final int WALL_WIDTH = 10;
 
 	public Walls() {
 		p = (KacheOut)PAppletHax.getInstance();
-		_color = new TColor( TColor.WHITE );
+		_colorLeft = new EasingTColor( new TColor( TColor.WHITE ), 0.03f );
+		_colorTop = new EasingTColor( new TColor( TColor.WHITE ), 0.03f );
+		_colorRight = new EasingTColor( new TColor( TColor.WHITE ), 0.03f );
 		
 		_wallLeft = new AABB( 1 );
 		_wallLeft.set( 0, p.stageHeight() / 2f, 0 );
@@ -46,9 +45,18 @@ public class Walls {
 		_wallTopHit = ( _wallTop.intersectsSphere( sphere ) ) ? true : false;
 		_wallRightHit = ( _wallRight.intersectsSphere( sphere ) ) ? true : false;
 		if( _wallLeftHit == true || _wallTopHit == true || _wallRightHit == true ) {
-			if( _wallLeftHit == true ) _wallLeftAlpha = 1;
-			if( _wallTopHit == true ) _wallTopAlpha = 1;
-			if( _wallRightHit == true ) _wallRightAlpha = 1;
+			if( _wallLeftHit == true ) {
+				_colorLeft.setCurColor( new TColor( TColor.GREEN ) );
+				_colorLeft.setTargetColor( new TColor( TColor.WHITE ) );
+			}
+			if( _wallTopHit == true ) {
+				_colorTop.setCurColor( new TColor( TColor.RED ) );
+				_colorTop.setTargetColor( new TColor( TColor.WHITE ) );
+			}
+			if( _wallRightHit == true ) {
+				_colorRight.setCurColor( new TColor( TColor.YELLOW ) );
+				_colorRight.setTargetColor( new TColor( TColor.WHITE ) );
+			}
 			return true;
 		}
 		return false;
@@ -61,18 +69,15 @@ public class Walls {
 	}
 
 	public void display() {
-		if( _wallLeftAlpha > BASE_ALPHA ) _wallLeftAlpha -= 0.1f;
-		if( _wallTopAlpha > BASE_ALPHA ) _wallTopAlpha -= 0.1f;
-		if( _wallRightAlpha > BASE_ALPHA ) _wallRightAlpha -= 0.1f;
 		p.noStroke();
-		_color.alpha = _wallLeftAlpha;
-		p.fill( _color.toARGB() );
+		_colorLeft.update();
+		_colorTop.update();
+		_colorRight.update();
+		p.fill( _colorLeft.color().toARGB() );
 		p._toxi.box( _wallLeft ); 
-		_color.alpha = _wallTopAlpha;
-		p.fill( _color.toARGB() );
+		p.fill( _colorTop.color().toARGB() );
 		p._toxi.box( _wallTop ); 
-		_color.alpha = _wallRightAlpha;
-		p.fill( _color.toARGB() );
+		p.fill( _colorRight.color().toARGB() );
 		p._toxi.box( _wallRight ); 
 	}
 }
