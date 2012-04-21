@@ -191,6 +191,7 @@ public class GamePlay {
 		// paddle
 		if( _ball.detectBox( _paddle.box() ) == true ) {
 			_ball.bounceOffPaddle( _paddle );
+			_paddle.hit();
 			p._sounds.getSound( "PADDLE_BOUNCE" ).play(0);
 		}
 		// walls
