@@ -46,7 +46,8 @@ public class Block {
 		g = p.random( 200, 255 );
 		b = p.random( 0, 0 );
 		
-		_color = p.gameColors().getRandomColor().copy();
+		//_color = p.gameColors().getRandomColor().copy();
+		_color = new TColor( TColor.GREEN );
 		
 		_active = true;
 	}
@@ -108,7 +109,7 @@ public class Block {
 				p.noStroke();
 				p._toxi.box( _box );
 				
-				_color.alpha = _color.alpha - 0.2f;
+				_color.alpha = _color.alpha - 0.05f;
 			}
 		}
 	}
