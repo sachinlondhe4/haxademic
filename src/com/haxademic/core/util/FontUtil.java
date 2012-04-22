@@ -29,7 +29,7 @@ public class FontUtil {
 		}
 
 		// creating font
-		//p.print("Creating font " + fontName + "... please wait... ");
+		p.print("Creating font " + fontName + "  " + fontSize + "... please wait... ");
 		return p.createFont(fontName, fontSize, true, mCharset);
 	}
 	
