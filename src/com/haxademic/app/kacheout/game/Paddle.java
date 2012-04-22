@@ -8,12 +8,15 @@ import toxi.geom.Vec3D;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.data.easing.EasingFloat;
+import com.haxademic.core.data.easing.ElasticFloat;
 import com.haxademic.core.draw.color.EasingTColor;
 
 public class Paddle {
-	protected EasingFloat _x, _y, _z;
+	protected EasingFloat _x, _z;
+	protected ElasticFloat _y;
 	protected float _stageVPadding;
 	protected float _height;
+	protected float _baseY;
 	protected float _width = 0;
 	protected float _easing = 1.5f;
 	protected float _center;
@@ -24,20 +27,25 @@ public class Paddle {
 
 	public Paddle() {
 		p = (KacheOut)PAppletHax.getInstance();
-		_center = ( p.gameWidth() + _width) / 2;
-		_stageVPadding = p.stageHeight() * 0.04f;
 		_xPosPercent = 0.5f;
+		
 		_width = (float)p.gameWidth() / 5f;
 		_height = (float)p.stageHeight() * 0.025f;
+		
+		_center = ( p.gameWidth() + _width) / 2;
 		_x = new EasingFloat( _center, _easing );
-		_y = new EasingFloat( p.stageHeight() - _stageVPadding, _easing );
+		_stageVPadding = p.stageHeight() * 0.04f;
+		_baseY = p.stageHeight() - _stageVPadding;
+		_y = new ElasticFloat( _baseY, 0.6f, 0.4f );
+		
 		_color = new EasingTColor(new TColor(TColor.WHITE), 0.2f);
+		
 		_box = new AABB( 1 );
 		_box.setExtent( new Vec3D( _width, _height, _height ) );
 	} 
 	
 	public float x() { return _x.value(); }
-	public float y() { return _y.value(); }
+	public float y() { return _y.val(); }
 	public float height() { return _height; }
 	public float xPosPercent() { return _xPosPercent; }
 
@@ -59,6 +67,8 @@ public class Paddle {
 	public void hit() {
 		_color.setCurColor( new TColor( TColor.GREEN ) );
 		_color.setTargetColor( new TColor( TColor.WHITE ) );
+		_y.setValue( _baseY + 20f );
+		_y.setTarget( _baseY );
 	}
 
 	public void display() {
@@ -66,7 +76,7 @@ public class Paddle {
 		_y.update();
 		_color.update();
 		
-		_box.set( _x.value(), _y.value(), 0 );
+		_box.set( _x.value(), _y.val(), 0 );
 		_box.rotateX( p.frameCount / 30f );
 //		_color.alpha = 0.5f + p._audioInput.getFFT().averages[1];
 		
