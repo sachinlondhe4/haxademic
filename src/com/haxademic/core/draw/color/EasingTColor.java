@@ -20,16 +20,16 @@ public class EasingTColor {
 	}
 	
 	public void setCurColor( TColor color ) {
-		this.curColor = color.copy();
+		curColor.setARGB( color.toARGB() );
 	}
 	
 	public void setTargetColor( TColor color ) {
-		this.targetColor = color.copy();
+		targetColor.setARGB( color.toARGB() );
 	}
 	
 	public void setCurAndTargetColors( TColor cur, TColor target ) {
-		this.curColor = cur.copy();
-		this.targetColor = target.copy();
+		curColor.setARGB( cur.toARGB() );
+		targetColor.setARGB( target.toARGB() );
 	}
 	
 	public void update() {
