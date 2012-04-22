@@ -22,17 +22,22 @@ public class Walls {
 		_colorTop = new EasingTColor( new TColor( TColor.WHITE ), 0.03f );
 		_colorRight = new EasingTColor( new TColor( TColor.WHITE ), 0.03f );
 		
+		float sideX = p.stageHeight() / 2f;
+		float sideHeight = p.stageHeight() / 2f + WALL_WIDTH;
+		float topX = p.gameWidth() / 2f;
+		float topWidth = p.gameWidth() / 2f - WALL_WIDTH;
+		
 		_wallLeft = new AABB( 1 );
-		_wallLeft.set( 0, p.stageHeight() / 2f, 0 );
-		_wallLeft.setExtent( new Vec3D( WALL_WIDTH, p.stageHeight() / 2f, WALL_WIDTH ) );
+		_wallLeft.set( 0, sideX, 0 );
+		_wallLeft.setExtent( new Vec3D( WALL_WIDTH, sideHeight, WALL_WIDTH ) );
 
 		_wallTop = new AABB( 1 );
-		_wallTop.set( p.gameWidth() / 2f, 0, 0 );
-		_wallTop.setExtent( new Vec3D( p.gameWidth() / 2, WALL_WIDTH, WALL_WIDTH ) );
+		_wallTop.set( topX, 0, 0 );
+		_wallTop.setExtent( new Vec3D( topWidth, WALL_WIDTH, WALL_WIDTH ) );
 
 		_wallRight = new AABB( 1 );
-		_wallRight.set( p.gameWidth(), p.stageHeight() / 2f, 0 );
-		_wallRight.setExtent( new Vec3D( WALL_WIDTH, p.stageHeight() / 2f, WALL_WIDTH ) );
+		_wallRight.set( p.gameWidth(), sideX, 0 );
+		_wallRight.setExtent( new Vec3D( WALL_WIDTH, sideHeight, WALL_WIDTH ) );
 
 	} 
 	
