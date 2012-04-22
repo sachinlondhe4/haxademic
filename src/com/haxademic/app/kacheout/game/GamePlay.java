@@ -210,12 +210,11 @@ public class GamePlay {
 	}
 	
 	public void detectCollisions() {
+		// TODO: don't pass the paddle into ball so much! booo.
 		// paddle
 		if( _ball.detectBox( _paddle.box() ) == true ) {
 			if( _ball.y() < _paddle.y() ) {
 				_ball.bounceOffPaddle( _paddle );
-				_paddle.hit();
-				p._sounds.getSound( "PADDLE_BOUNCE" ).play(0);
 			}
 		}
 		// paddle misses ball
