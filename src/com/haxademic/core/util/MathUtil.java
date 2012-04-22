@@ -19,7 +19,7 @@ public class MathUtil {
 	}
 	
 	public static int randRange( float min, float max ) {
-		return (int) ( Math.round( Math.random() * ( max - min ) ) + min );
+		return (int) ( Math.floor( Math.random() * ( max - min ) ) + min );
 	}
 	
 	public static float randRangeDecimel( float min, float max ) {	
