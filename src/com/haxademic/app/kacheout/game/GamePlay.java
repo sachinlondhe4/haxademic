@@ -74,6 +74,7 @@ public class GamePlay {
 		for (int i = 0; i < _invaders.size(); i++) {
 			_invaders.get( i ).reset();
 		}
+		_ball.reset();
 		_hasClearedBoard = false;
 	}
 	
@@ -211,9 +212,16 @@ public class GamePlay {
 	public void detectCollisions() {
 		// paddle
 		if( _ball.detectBox( _paddle.box() ) == true ) {
-			_ball.bounceOffPaddle( _paddle );
-			_paddle.hit();
-			p._sounds.getSound( "PADDLE_BOUNCE" ).play(0);
+			if( _ball.y() < _paddle.y() ) {
+				_ball.bounceOffPaddle( _paddle );
+				_paddle.hit();
+				p._sounds.getSound( "PADDLE_BOUNCE" ).play(0);
+			}
+		}
+		// paddle misses ball
+		if( _ball.y() > p.stageHeight() + 200 ) {
+			_ball.resetY( _paddle );
+			_ball.launch( _paddle );
 		}
 		// walls
 		if( _walls.detectSphere( _ball.sphere() ) == true ) {

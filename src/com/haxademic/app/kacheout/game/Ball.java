@@ -8,6 +8,7 @@ import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
+import com.haxademic.core.data.easing.EasingFloat;
 import com.haxademic.core.data.easing.ElasticFloat;
 import com.haxademic.core.draw.color.EasingTColor;
 import com.haxademic.core.draw.util.DrawMesh;
@@ -20,7 +21,11 @@ public class Ball {
 	protected ElasticFloat _ballSizeElastic;
 	protected int BALL_RESOLUTION = 4;
 	protected Sphere _sphere;
-	float _x, _y, _speedX, _speedY;
+	protected float _x, _y, _speedX, _speedY;
+	
+	protected float BASE_ALPHA = 0.8f;
+	protected EasingFloat _alpha;
+	protected boolean _waitingToLaunch = true;
 
 	protected EasingTColor _color;
 	protected final TColor YELLOW = new TColor( TColor.YELLOW );
@@ -37,8 +42,9 @@ public class Ball {
 		_x = p.random( 0, p.gameWidth() );
 		_y = p.random( p.stageHeight() / 2, p.stageHeight() );
 		_color = new EasingTColor( YELLOW, 0.05f );
-
-		_ballSize = p.stageHeight() / 16f;
+		_alpha = new EasingFloat( 0, 7f );
+		
+		_ballSize = p.stageHeight() / 10f;
 		_ballSizeElastic = new ElasticFloat( _ballSize, 0.85f, 0.25f );
 		_sphere = new Sphere( _ballSize );
 		
@@ -53,11 +59,16 @@ public class Ball {
 	public Sphere sphere() { return _sphere; }
 	public float radius() { return _ballSize; }
 	
+	public void reset() {
+		_alpha.setTarget( 0 );
+	}
+	
 	public void launch( Paddle paddle ) {
+		_alpha.setCurrent( 0 );
+		_alpha.setTarget( BASE_ALPHA );
+		_waitingToLaunch = true;
 		_x = paddle.x(); 
-		_y = paddle.y() - paddle.height() - _ballSize - 10;
-		_speedX = ( MathUtil.randBoolean( p ) == true ) ? _baseSpeed : -_baseSpeed;
-		_speedY = -_baseSpeed;
+		resetY( paddle );
 	}
 	
 	public void bounceX() {
@@ -80,9 +91,9 @@ public class Ball {
 	}
 	
 	public void display( Paddle paddle ) {
-		if( p.gameState() == p.GAME_READY ) {
+		if( p.gameState() == p.GAME_READY || _waitingToLaunch == true ) {
 			_x = paddle.x();
-			_y = paddle.y() - paddle.height() - _ballSize - 10;
+			resetY( paddle );
 		} else if( p.gameState() == p.GAME_ON ) {
 			_x += _speedX;
 			_y += _speedY;
@@ -90,6 +101,14 @@ public class Ball {
 					
 		_color.update();
 		p.fill( _color.color().toARGB() );
+		_alpha.update();
+		
+		if( _alpha.value() == BASE_ALPHA && _waitingToLaunch == true ) {
+			_waitingToLaunch = false;
+			_speedX = ( MathUtil.randBoolean( p ) == true ) ? _baseSpeed : -_baseSpeed;
+			_speedY = -_baseSpeed;
+		}
+		
 		_sphere.x = _x;
 		_sphere.y = _y;
 		
@@ -103,12 +122,16 @@ public class Ball {
 		p.rotateX( p.frameCount * 0.01f );
 		p.rotateY( p.frameCount * 0.01f );
 		p.rotateZ( p.frameCount * 0.01f );
-		DrawMesh.drawMeshWithAudio( (PApplet)p, _ballMesh, p._audioInput, 3f, false, _color.color(), _color.color(), 0.9f );
+		DrawMesh.drawMeshWithAudio( (PApplet)p, _ballMesh, p._audioInput, 3f, false, _color.color(), _color.color(), _alpha.value() );
 		p.popMatrix();
 		//p._toxi.sphere( _sphere, BALL_RESOLUTION );
 		
 		// reset elastic scale
 		_ballMesh.scale( 1 / ballScale );
+	}
+	
+	public void resetY( Paddle paddle ) {
+		_y = paddle.y() - paddle.height() - _ballSize - 10;
 	}
 	
 	public void detectWalls( boolean leftHit, boolean topHit, boolean rightHit ) {
@@ -128,10 +151,6 @@ public class Ball {
 			_speedY *= -1;
 			didHit = true;
 		}
-//		if( _y > _stageHeight ) {
-//			_y -= _speedY;
-//			_speedY *= -1;
-//		}
 		
 		if( didHit == true ) bounceBall();
 	}
@@ -142,10 +161,12 @@ public class Ball {
 	}
 	
 	public void bounceOffPaddle( Paddle paddle ) {
-		_speedX = ( _x - paddle.x() ) / 10;
-		bounceY();
-		bounceBall();
-		_color.setCurAndTargetColors( WHITE, YELLOW );
+		if( _speedY > 0 ) {
+			_speedX = ( _x - paddle.x() ) / 10;
+			bounceY();
+			bounceBall();
+			_color.setCurAndTargetColors( WHITE, YELLOW );
+		}
 	}
 
 }
