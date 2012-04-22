@@ -15,12 +15,16 @@ public class Walls {
 	protected boolean _wallLeftHit, _wallTopHit, _wallRightHit;
 	protected EasingTColor _colorLeft, _colorTop, _colorRight;
 	public final int WALL_WIDTH = 10;
+	protected final TColor GREEN = new TColor( TColor.GREEN );
+	protected final TColor RED = new TColor( TColor.RED );
+	protected final TColor YELLOW = new TColor( TColor.YELLOW );
+	protected final TColor WHITE = new TColor( TColor.WHITE );
 
 	public Walls() {
 		p = (KacheOut)PAppletHax.getInstance();
-		_colorLeft = new EasingTColor( new TColor( TColor.WHITE ), 0.03f );
-		_colorTop = new EasingTColor( new TColor( TColor.WHITE ), 0.03f );
-		_colorRight = new EasingTColor( new TColor( TColor.WHITE ), 0.03f );
+		_colorLeft = new EasingTColor( WHITE, 0.03f );
+		_colorTop = new EasingTColor( WHITE, 0.03f );
+		_colorRight = new EasingTColor( WHITE, 0.03f );
 		
 		float sideX = p.stageHeight() / 2f;
 		float sideHeight = p.stageHeight() / 2f + WALL_WIDTH;
@@ -51,16 +55,16 @@ public class Walls {
 		_wallRightHit = ( _wallRight.intersectsSphere( sphere ) ) ? true : false;
 		if( _wallLeftHit == true || _wallTopHit == true || _wallRightHit == true ) {
 			if( _wallLeftHit == true ) {
-				_colorLeft.setCurColor( new TColor( TColor.GREEN ) );
-				_colorLeft.setTargetColor( new TColor( TColor.WHITE ) );
+				_colorLeft.setCurColor( GREEN );
+				_colorLeft.setTargetColor( WHITE );
 			}
 			if( _wallTopHit == true ) {
-				_colorTop.setCurColor( new TColor( TColor.RED ) );
-				_colorTop.setTargetColor( new TColor( TColor.WHITE ) );
+				_colorTop.setCurColor( RED );
+				_colorTop.setTargetColor( WHITE );
 			}
 			if( _wallRightHit == true ) {
-				_colorRight.setCurColor( new TColor( TColor.YELLOW ) );
-				_colorRight.setTargetColor( new TColor( TColor.WHITE ) );
+				_colorRight.setCurColor( YELLOW );
+				_colorRight.setTargetColor( WHITE );
 			}
 			return true;
 		}
