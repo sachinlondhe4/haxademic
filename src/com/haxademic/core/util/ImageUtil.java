@@ -13,4 +13,15 @@ public class ImageUtil {
 	public static int getPixelColor( PImage image, int x, int y ) {
 		return image.pixels[(int)x + y * image.width];
 	}
+	
+	public static PImage getReversePImage( PImage image ) {
+		PImage reverse = new PImage( image.width, image.height );
+		for( int i=0; i < image.width; i++ ){
+			for(int j=0; j < image.height; j++){
+				reverse.set( image.width - 1 - i, j, image.get(i, j) );
+			}
+		}
+		return reverse;
+	}
+
 }
