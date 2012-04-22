@@ -44,7 +44,7 @@ public class Ball {
 		_color = new EasingTColor( YELLOW, 0.05f );
 		_alpha = new EasingFloat( 0, 7f );
 		
-		_ballSize = p.stageHeight() / 10f;
+		_ballSize = p.stageHeight() / 16f;
 		_ballSizeElastic = new ElasticFloat( _ballSize, 0.85f, 0.25f );
 		_sphere = new Sphere( _ballSize );
 		
