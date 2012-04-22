@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import toxi.color.TColor;
 import toxi.geom.AABB;
 import toxi.geom.Vec3D;
-import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
-import com.haxademic.core.draw.util.ThreeDeeUtil;
+import com.haxademic.core.draw.color.EasingTColor;
 
 public class Block {
 	protected KacheOut p;
@@ -18,7 +17,9 @@ public class Block {
 	float r,g,b;
 	int index;
 	protected boolean _active;
-	protected TColor _color;
+	protected EasingTColor _color;
+	protected TColor _colorStart;
+	protected TColor _colorDead;
 	protected ArrayList<Shard> _shards;
 	protected ArrayList<Vec3D> _explodeVecs;
 	protected float _scale, _speedX, _speedY;
@@ -47,8 +48,9 @@ public class Block {
 		b = p.random( 0, 0 );
 		
 		//_color = p.gameColors().getRandomColor().copy();
-		_color = new TColor( TColor.GREEN );
-		
+		_colorStart = new TColor( TColor.GREEN );
+		_colorDead = new TColor( TColor.WHITE );
+		_color = new EasingTColor( _colorStart, 0.1f );
 		_active = true;
 	}
 	
@@ -62,9 +64,12 @@ public class Block {
 	
 	public void die( float speedX, float speedY ) {
 		//if( _active == true ) createShatteredMesh( speedX, speedY );
-		_speedX = speedX*p.random(1.5f,3.5f);
-		_speedY = speedY*p.random(1.5f,3.5f);
-		_active = false;
+		if( _active == true ) {
+			_speedX = speedX*p.random(1.5f,3.5f);
+			_speedY = speedY*p.random(1.5f,3.5f);
+			_color.setTargetColor( _colorDead );
+			_active = false;
+		}
 	}
 	
 //	protected void createShatteredMesh( float speedX, float speedY ) {
@@ -79,6 +84,7 @@ public class Block {
 //	}
 	
 	public void display() {
+		_color.update();
 		if( _active == true ) {
 			// adjust cell z per brightness
 			float zAdd = 6 + 50f * p._audioInput.getFFT().spectrum[index % 512];
@@ -86,8 +92,8 @@ public class Block {
 			_box.setExtent( new Vec3D( _scale/200f, _scale/200f, zAdd ) );
 			
 			//p.rotateZ( _audioInput.getFFT().averages[1] * .01f );
-			_color.alpha = p.constrain( 0.5f + zAdd, 0, 1 );
-			p.fill( _color.toARGB() );
+			_color.color().alpha = p.constrain( 0.5f + zAdd, 0, 1 );
+			p.fill( _color.color().toARGB() );
 			p.noStroke();
 			p._toxi.box( _box );	
 			
@@ -95,23 +101,30 @@ public class Block {
 //			DrawMesh.drawMeshWithAudio( p, mesh1, p.getAudio(), 3f, false, _color, _color, 0.25f );
 
 		} else {
-			if( _color.alpha > 0 ) {
+			if( _box.y < p.stageHeight() ) {
 //				for( int j=0; j < _shards.size(); j++ ) {
 //					_shards.get( j ).update();
 //					p.fill( _color.toARGB() );
 //					p._toxi.mesh( _shards.get( j ).mesh() );
 //				}
-				
+				// gravity
+				_speedY += 0.75f;
+				// move box
 				_box.set( _box.x + _speedX, _box.y + _speedY, 0 );
 
 				
-				p.fill( _color.toARGB() );
+				p.fill( _color.color().toARGB() );
 				p.noStroke();
 				p._toxi.box( _box );
 				
-				_color.alpha = _color.alpha - 0.05f;
+//				_color.alpha = _color.alpha - 0.05f;
 			}
 		}
+	}
+	
+	public void reset() {
+		_color.setTargetColor( _colorStart );
+
 	}
 	
 }
