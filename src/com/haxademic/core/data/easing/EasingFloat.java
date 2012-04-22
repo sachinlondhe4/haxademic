@@ -5,6 +5,7 @@ public class EasingFloat
 implements IEasingValue {
 	
 	public float _val, _target, _easeFactor;
+	protected float COMPLETE_THRESHOLD = 0.1f;
 		   
 	public EasingFloat( float value, float easeFactor ) {
 		_val = value;
@@ -14,6 +15,10 @@ implements IEasingValue {
 	
 	public float value() {
 		return _val;
+	}
+	
+	public void setCurrent( float value ) {
+		_val = value;
 	}
 	
 	public void setTarget( float value ) {
@@ -26,6 +31,7 @@ implements IEasingValue {
 	
 	public void update() {
 		_val -= ( ( _val - _target ) / _easeFactor );
+		if( Math.abs( _val - _target ) < COMPLETE_THRESHOLD ) _val = _target;
 	}
 	
 }
