@@ -75,9 +75,6 @@ extends PAppletHax
 	protected final float CAMERA_Z_WIDTH_MULTIPLIER = 0.888888f;	// 1280x720
 	protected float _cameraZFromHeight = 0;
 	
-	// single game object refs
-	public ArrayList<WETriangleMesh> shatteredCubeMeshes;
-
 	public void setup() {
 		super.setup();
 		

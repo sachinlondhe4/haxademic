@@ -58,8 +58,6 @@ public class GamePlay {
 			}
 		}
 		
-		p.shatteredCubeMeshes = Voronoi3D.getShatteredBox( p, boxScale );
-		
 		// create game objects
 		_background = new GridEQ( p, p._toxi, p._audioInput );
 		_background.updateColorSet( p.gameColors() );
