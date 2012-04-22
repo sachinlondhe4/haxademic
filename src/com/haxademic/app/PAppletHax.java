@@ -14,12 +14,15 @@ import toxi.processing.ToxiclibsSupport;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.audio.WaveformData;
 import com.haxademic.core.data.P5Properties;
+import com.haxademic.core.debug.Stats;
 import com.haxademic.core.draw.model.ObjPool;
+import com.haxademic.core.draw.text.DebugText;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.render.MidiSequenceRenderer;
 import com.haxademic.core.render.Renderer;
+import com.haxademic.core.util.DebugUtil;
 import com.haxademic.core.util.OpenGLUtil;
 import com.haxademic.viz.launchpad.LaunchpadViz;
 
@@ -157,6 +160,21 @@ extends PApplet
 	public int _fps;
 	
 	/**
+	 * Stats debug class
+	 */
+	public Stats _stats;
+	
+	/**
+	 * Flag for showing stats
+	 */
+	public boolean _showStats;
+	
+	/**
+	 * Text for showing stats
+	 */
+	public DebugText _debugText;
+	
+	/**
 	 * Helps the Renderer object work with minimal reconfiguration. Maybe this should be moved at some point... 
 	 */
 	protected Boolean _isRendering = true;
@@ -209,9 +227,10 @@ extends PApplet
 		_isRendering = _appConfig.getBoolean("rendering", false);
 		_isRenderingAudio = _appConfig.getBoolean("render_audio", false);
 		_isRenderingMidi = _appConfig.getBoolean("render_midi", false);
+		_showStats = _appConfig.getBoolean("show_stats", false);
 		if( _isRendering == true ) {
 			// prevents an error
-			//hint(DISABLE_OPENGL_2X_SMOOTH);
+//			hint(DISABLE_OPENGL_2X_SMOOTH);
 			hint(ENABLE_OPENGL_4X_SMOOTH); 
 		} else {
 			if( _appConfig.getBoolean("sunflow", true ) == false ) { 
@@ -238,9 +257,9 @@ extends PApplet
 //		_launchpadViz = new LaunchpadViz( p5 );
 		_oscWrapper = new OscWrapper( p );
 		_minim = new Minim( p );
-//		_debugText = new DebugText( p );
+		_debugText = new DebugText( p );
+		if( _showStats == true ) _stats = new Stats( p );
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
-		p.println("setup app objects");
 	}
 	
 	protected void initializeExtraObjectsOn1stFrame() {
@@ -262,7 +281,17 @@ extends PApplet
 		drawApp();
 		
 		if( _isRendering == true ) _renderer.renderFrame(); 	// render frame if rendering
-//		_debugText.draw( "Debug :: FPS:" + _fps );	// display some info
+		
+		if( _showStats == true ) showStats();
+	}
+	
+	protected void showStats() {
+		_stats.update();
+		_debugText.draw( "FPS: " + _fps + " :: ACTUAL FPS: " + _stats.getFps() );	// display some info
+		if( p.frameCount % 60 == 0 ) {
+			_stats.printStats();
+			DebugUtil.showMemoryUsage();
+		}
 	}
 	
 	protected void handleRenderingStepthrough() {
