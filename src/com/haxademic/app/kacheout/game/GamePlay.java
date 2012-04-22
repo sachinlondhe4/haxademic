@@ -17,7 +17,7 @@ public class GamePlay {
 	
 	// game dimensions
 	protected int _gameLeft, _gameRight, _gameWidth;
-	protected int _cols = 3;
+	protected int _cols = 4;
 	protected int _rows = 3;
 	
 	// main game objects
@@ -70,18 +70,29 @@ public class GamePlay {
 		_walls = new Walls();
 	}
 	
+	public void reset() {
+		for (int i = 0; i < _invaders.size(); i++) {
+			_invaders.get( i ).reset();
+		}
+		_hasClearedBoard = false;
+	}
+	
+	public boolean hasClearedBoard() {
+		return _hasClearedBoard;
+	}
+	
 	public void update( int gameIndex ) {
 		positionGameCenter( gameIndex );
-		drawBackground();
+//		drawBackground();
 		updateControls();
-		detectCollisions();
 		drawGameObjects();
+		detectCollisions();
 	}
 	
 	protected void positionGameCenter( int gameIndex ){
 		DrawUtil.setTopLeft( p );
-		p.translate( 0,0,-1100 );
-		p.rotateX( p.PI / 16f );
+		p.translate( 0,0,-p.height );
+//		p.rotateX( p.PI / 16f );
 		
 		// rotate to kinect position
 		// pivot from center
@@ -151,9 +162,7 @@ public class GamePlay {
 				index++;
 			}
 		}
-		if( numActiveBlocks == 0 ) {
-			_hasClearedBoard = true;
-		}
+		if( numActiveBlocks == 0 ) _hasClearedBoard = true;
 		p.popMatrix();
 		
 		// draw other objects

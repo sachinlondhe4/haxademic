@@ -30,8 +30,7 @@ public class Invader {
 		_scale = scale;
 		
 		buildInvader();
-		
-		_curBoxesArray = _boxes;
+		reset();
 	}
 	
 	protected void buildInvader() {
@@ -58,6 +57,19 @@ public class Invader {
 		for( int i=0; i < boxesAlt.size(); i++ ) {
 			boxesAlt.get( i ).set( boxesAlt.get( i ).x + _x, boxesAlt.get( i ).y + _y, 0 );
 			_boxesAlt.add( new Block( boxesAlt.get( i ), i, _scale*100f) );
+		}
+	}
+	
+	public void reset() {
+		_numActiveBlocks = 999;
+		_isAnimating = true;
+		
+		_curBoxesArray = _boxes;
+		for( int i=0; i < _boxes.size(); i++ ) {
+			_boxes.get( i ).reset();
+		}
+		for( int i=0; i < _boxesAlt.size(); i++ ) {
+			_boxesAlt.get( i ).reset();
 		}
 	}
 	

@@ -13,7 +13,7 @@ import com.haxademic.core.draw.color.EasingTColor;
 public class Block {
 	protected KacheOut p;
 	// A cell object knows about its location in the grid as well as its size with the variables x,y,w,h.
-	protected AABB _box;
+	protected AABB _box, _boxOrigin;
 	float r,g,b;
 	int index;
 	protected boolean _active;
@@ -24,21 +24,11 @@ public class Block {
 	protected ArrayList<Vec3D> _explodeVecs;
 	protected float _scale, _speedX, _speedY;
 	
-	/**
- 		this.w = w/2;
-		this.h = h/2;
-		this.x = x + w/2;
-		this.y = y + h/2;
-		
-		_box = new AABB( w );
-		_box.set( x, y, 0 );
-		_box.setExtent( new Vec3D( this.w, this.h, 10 ) );
-	 */
-	
 	public Block( AABB box, int index, float scale ) {
 		p = (KacheOut)PAppletHax.getInstance();
 
 		_box = box;
+		_boxOrigin = _box.copy();
 		this.index = index;
 		_scale = scale;
 		
@@ -47,11 +37,19 @@ public class Block {
 		g = p.random( 200, 255 );
 		b = p.random( 0, 0 );
 		
-		//_color = p.gameColors().getRandomColor().copy();
+		// set up color fading
 		_colorStart = new TColor( TColor.GREEN );
 		_colorDead = new TColor( TColor.WHITE );
 		_color = new EasingTColor( _colorStart, 0.1f );
+		
+		reset();
+	}
+	
+	public void reset() {
+		_color.setTargetColor( _colorStart );
 		_active = true;
+		_box.set( _boxOrigin.x, _boxOrigin.y, 0 );
+
 	}
 	
 	public boolean active() {
@@ -120,11 +118,5 @@ public class Block {
 //				_color.alpha = _color.alpha - 0.05f;
 			}
 		}
-	}
-	
-	public void reset() {
-		_color.setTargetColor( _colorStart );
-
-	}
-	
+	}	
 }

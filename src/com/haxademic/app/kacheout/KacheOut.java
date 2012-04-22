@@ -141,6 +141,8 @@ extends PAppletHax
 	public ColorGroup gameColors() { return _gameColors; }
 	public boolean isDebugging() { return _isDebugging; }
 	
+	
+	
 	// FRAME LOOP --------------------------------------------------------------------------------------
 	
 	public void drawApp() {
@@ -206,22 +208,30 @@ extends PAppletHax
 		
 		p.pushMatrix();
 		updateGames();
-		logDebugInfo();
 		p.popMatrix();
 	}
 	
 	protected void updateGames(){
+		// update all games before checking for complete
+		for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).update( i );
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
-			_gamePlays.get( i ).update( i );
+			if( _gamePlays.get( i ).hasClearedBoard() == true ) {
+				gameOver();
+			}
 		}
 	}
 	
-	protected void logDebugInfo(){
-		if( p.frameCount % (30 * 10) == 0 ) {
-			DebugUtil.showMemoryUsage();
+	protected void gameOver() {
+		resetGame();
+	}	
+
+	protected void resetGame() {
+		_gameState = GAME_READY;
+
+		for( int i=0; i < NUM_PLAYERS; i++ ) {
+			_gamePlays.get( i ).reset();
 		}
-	}
-	
+	}	
 
 	// Visual fun
 	protected void pickNewColors() {
