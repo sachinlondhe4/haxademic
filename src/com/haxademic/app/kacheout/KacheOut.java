@@ -1,9 +1,9 @@
 package com.haxademic.app.kacheout;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
+import processing.core.PFont;
 import processing.core.PImage;
 
 import com.haxademic.app.PAppletHax;
@@ -58,6 +58,8 @@ extends PAppletHax
 
 	protected ICamera _curCamera = null;
 	
+	protected PFont _cdwFont;
+	
 	// game state
 	protected int _curMode;
 	protected ColorGroup _gameColors;
@@ -86,6 +88,9 @@ extends PAppletHax
 //		_cameraZFromHeight = (float)_stageHeight * CAMERA_Z_WIDTH_MULTIPLIER;
 
 		newCamera();
+		
+		_cdwFont = p.createFont("HelloDenverDisplay-Regular",30);
+
 		
 		_audioInput.setNumAverages( _numAverages );
 		_audioInput.setDampening( .13f );
