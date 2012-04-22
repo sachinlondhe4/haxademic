@@ -12,4 +12,8 @@ public class SystemUtil {
 				String.valueOf( p.minute() ) + "-" + 
 				String.valueOf( p.second() );
 	}
+	
+	public static String getTimestampFine( PApplet p ) {
+		return SystemUtil.getTimestamp(p) + "-" + p.nf(p.frameCount, 8); 
+	}
 }

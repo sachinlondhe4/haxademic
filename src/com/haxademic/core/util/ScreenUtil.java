@@ -6,8 +6,10 @@ import processing.core.PImage;
 
 public class ScreenUtil {
 	
-	public static void screenshotToJPG( PApplet p, String outputDir ) {
-		p.saveFrame( outputDir + SystemUtil.getTimestamp( p ) + p.nf(p.frameCount, 8) + ".jpg");
+	public static String screenshotToJPG( PApplet p, String outputDir ) {
+		String filename = outputDir + SystemUtil.getTimestampFine( p ) + ".png";
+		p.saveFrame( filename );
+		return filename;
 	}
 	
 	public static void screenshotHiRes( PApplet p, int scaleFactor, String p5Renderer, String outputDir ) {
