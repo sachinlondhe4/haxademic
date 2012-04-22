@@ -9,6 +9,7 @@ import toxi.geom.Vec3D;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.draw.color.EasingTColor;
+import com.haxademic.core.util.MathUtil;
 
 public class Block {
 	protected KacheOut p;
@@ -48,7 +49,7 @@ public class Block {
 	public void reset() {
 		_color.setTargetColor( _colorStart );
 		_active = true;
-		_box.set( _boxOrigin.x, _boxOrigin.y, 0 );
+//		_box.set( _boxOrigin.x, _boxOrigin.y, 0 );
 
 	}
 	
@@ -84,12 +85,14 @@ public class Block {
 	public void display() {
 		_color.update();
 		if( _active == true ) {
+			// ease box to origin
+			_box.set( MathUtil.easeTo( _box.x, _boxOrigin.x, 8f ), MathUtil.easeTo( _box.y, _boxOrigin.y, 8f ), 0 );
+
+			
 			// adjust cell z per brightness
 			float zAdd = 6 + 50f * p._audioInput.getFFT().spectrum[index % 512];
-//			_box.setExtent( arg0 )
 			_box.setExtent( new Vec3D( _scale/200f, _scale/200f, zAdd ) );
 			
-			//p.rotateZ( _audioInput.getFFT().averages[1] * .01f );
 			_color.color().alpha = p.constrain( 0.5f + zAdd, 0, 1 );
 			p.fill( _color.color().toARGB() );
 			p.noStroke();

@@ -86,7 +86,7 @@ public class GamePlay {
 //		drawBackground();
 		updateControls();
 		drawGameObjects();
-		detectCollisions();
+		if( p.gameState() == p.GAME_ON ) detectCollisions();
 	}
 	
 	protected void positionGameCenter( int gameIndex ){
