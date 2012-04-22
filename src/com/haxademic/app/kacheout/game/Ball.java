@@ -66,6 +66,15 @@ public class Ball {
 		_y += _speedY;
 	}
 	
+	/**
+	 * Visually bounce the Ball on collisions
+	 */
+	public void bounceBall() {
+		_color.setCurAndTargetColors( new TColor(TColor.WHITE), new TColor(TColor.YELLOW) );
+		_ballSizeElastic.setValue( _ballSize * 0.7f );
+		_ballSizeElastic.setTarget( _ballSize );
+	}
+	
 	public void display( Paddle paddle ) {
 		if( p.gameState() == p.GAME_READY ) {
 			_x = paddle.x();
@@ -120,11 +129,7 @@ public class Ball {
 //			_speedY *= -1;
 //		}
 		
-		if( didHit == true ) {
-			_color.setCurAndTargetColors( new TColor(TColor.WHITE), new TColor(TColor.YELLOW) );
-			_ballSizeElastic.setValue( _ballSize * 0.7f );
-			_ballSizeElastic.setTarget( _ballSize );
-		}
+		if( didHit == true ) bounceBall();
 	}
 
 	public boolean detectBox( AABB box ) {
@@ -135,6 +140,7 @@ public class Ball {
 	public void bounceOffPaddle( Paddle paddle ) {
 		_speedX = ( _x - paddle.x() ) / 10;
 		bounceY();
+		bounceBall();
 		_color.setCurAndTargetColors( new TColor(TColor.WHITE), new TColor(TColor.YELLOW) );
 	}
 
