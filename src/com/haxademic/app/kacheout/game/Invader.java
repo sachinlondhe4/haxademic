@@ -7,6 +7,7 @@ import toxi.geom.AABB;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.draw.shapes.Meshes;
+import com.haxademic.core.util.MathUtil;
 
 public class Invader {
 	
@@ -76,7 +77,7 @@ public class Invader {
 	public void gameOver() {
 		_isAnimating = false;
 		for( int i=0; i < _curBoxesArray.size(); i++ ) {
-			_curBoxesArray.get( i ).die( 0, 0 );
+			_curBoxesArray.get( i ).die( 0, MathUtil.randRangeDecimel( -1f, 1f ) );
 		}
 	}
 	
