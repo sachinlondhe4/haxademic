@@ -77,6 +77,12 @@ public class GamePlay {
 		_hasClearedBoard = false;
 	}
 	
+	public void gameOver() {
+		for (int i = 0; i < _invaders.size(); i++) {
+			_invaders.get( i ).gameOver();
+		}
+	}
+	
 	public boolean hasClearedBoard() {
 		return _hasClearedBoard;
 	}

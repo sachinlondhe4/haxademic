@@ -73,6 +73,13 @@ public class Invader {
 		}
 	}
 	
+	public void gameOver() {
+		_isAnimating = false;
+		for( int i=0; i < _curBoxesArray.size(); i++ ) {
+			_curBoxesArray.get( i ).die( 0, 0 );
+		}
+	}
+	
 	public void display() {
 		// animate
 		if( _isAnimating == true && p.frameCount % 15 == 0 ) {

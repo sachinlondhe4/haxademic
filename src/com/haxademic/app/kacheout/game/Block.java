@@ -49,8 +49,6 @@ public class Block {
 	public void reset() {
 		_color.setTargetColor( _colorStart );
 		_active = true;
-//		_box.set( _boxOrigin.x, _boxOrigin.y, 0 );
-
 	}
 	
 	public boolean active() {
@@ -87,7 +85,6 @@ public class Block {
 		if( _active == true ) {
 			// ease box to origin
 			_box.set( MathUtil.easeTo( _box.x, _boxOrigin.x, 8f ), MathUtil.easeTo( _box.y, _boxOrigin.y, 8f ), 0 );
-
 			
 			// adjust cell z per brightness
 			float zAdd = 6 + 50f * p._audioInput.getFFT().spectrum[index % 512];
@@ -98,27 +95,16 @@ public class Block {
 			p.noStroke();
 			p._toxi.box( _box );	
 			
-//			WETriangleMesh mesh1 = ( p.round( p.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_01 : _invaderMesh_01_alt;
-//			DrawMesh.drawMeshWithAudio( p, mesh1, p.getAudio(), 3f, false, _color, _color, 0.25f );
-
 		} else {
 			if( _box.y < p.stageHeight() ) {
-//				for( int j=0; j < _shards.size(); j++ ) {
-//					_shards.get( j ).update();
-//					p.fill( _color.toARGB() );
-//					p._toxi.mesh( _shards.get( j ).mesh() );
-//				}
 				// gravity
 				_speedY += 0.75f;
 				// move box
 				_box.set( _box.x + _speedX, _box.y + _speedY, 0 );
-
 				
 				p.fill( _color.color().toARGB() );
 				p.noStroke();
 				p._toxi.box( _box );
-				
-//				_color.alpha = _color.alpha - 0.05f;
 			}
 		}
 	}	

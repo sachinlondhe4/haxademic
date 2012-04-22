@@ -3,7 +3,6 @@ package com.haxademic.app.kacheout;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
-import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.game.GamePlay;
@@ -13,14 +12,9 @@ import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.cameras.CameraDefault;
 import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.data.FloatRange;
-import com.haxademic.core.draw.shapes.Voronoi3D;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.util.ColorGroup;
-import com.haxademic.core.util.DebugUtil;
 import com.haxademic.core.util.DrawUtil;
-import com.haxademic.core.util.FileUtil;
-
-import ddf.minim.AudioPlayer;
 
 public class KacheOut
 extends PAppletHax  
@@ -71,6 +65,10 @@ extends PAppletHax
 	protected int _gameState;
 	public final int GAME_READY = 2;
 	public final int GAME_ON = 3;
+	public final int GAME_OVER = 4;
+	public final int GAME_TITLE = 5;
+	public final int GAME_INSTRUCTIONS = 6;
+	public final int GAME_COUNTDOWN = 7;
 	
 	protected final float CAMERA_Z_WIDTH_MULTIPLIER = 0.888888f;	// 1280x720
 	protected float _cameraZFromHeight = 0;
@@ -120,12 +118,16 @@ extends PAppletHax
 
 	protected void handleInput( boolean isMidi ) {
 		super.handleInput( isMidi );
-		if ( p.key == 'm' || p.key == 'M' ) {
+		if ( p.key == ' ' ) {
 //			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).launchBall();
-			_player1.launchBall();
-			_player2.launchBall();
-			_gameState = GAME_ON;
-			_soundtrack.playNext();
+			if( _gameState == GAME_OVER ) {
+				resetGame();
+			} else if( _gameState == GAME_READY ) {
+				_player1.launchBall();
+				_player2.launchBall();
+				_gameState = GAME_ON;
+				_soundtrack.playNext();
+			}
 		}
 		if ( p.key == 'd' || p.key == 'D' ) {
 			_isDebugging = !_isDebugging;
@@ -173,9 +175,6 @@ extends PAppletHax
 		p.rotateY( (float)Math.PI );
 //		p.image( _kinectWrapper.getDepthImage(), 0, 0, _kinectWrapper.KWIDTH, _kinectWrapper.KHEIGHT );
 		p.image( _kinectWrapper.getDepthImage(), 0, 0, _stageWidth, _stageHeight );
-		
-		
-//		_debugText.draw( "Debug :: FPS:" + _fps );
 	}
 	
 	// GAME LOGIC --------------------------------------------------------------------------------------
@@ -187,7 +186,6 @@ extends PAppletHax
 		
 		// init game objects
 		_audio = new AudioLoopPlayer( p );
-
 		
 		_gameWidth = _stageWidth / NUM_PLAYERS;
 		float kinectRangeWidth = KinectWrapper.KWIDTH / 2f * KINECT_GAP_PERCENT;
@@ -222,7 +220,10 @@ extends PAppletHax
 	}
 	
 	protected void gameOver() {
-		resetGame();
+		_gameState = GAME_OVER;
+		for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).gameOver();
+
+//		resetGame();
 	}	
 
 	protected void resetGame() {

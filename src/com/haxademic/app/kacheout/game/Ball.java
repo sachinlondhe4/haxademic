@@ -83,7 +83,7 @@ public class Ball {
 		if( p.gameState() == p.GAME_READY ) {
 			_x = paddle.x();
 			_y = paddle.y() - paddle.height() - _ballSize - 10;
-		} else {
+		} else if( p.gameState() == p.GAME_ON ) {
 			_x += _speedX;
 			_y += _speedY;
 		}
