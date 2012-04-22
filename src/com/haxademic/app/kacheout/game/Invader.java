@@ -7,7 +7,6 @@ import toxi.geom.AABB;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.draw.shapes.Meshes;
-import com.haxademic.core.draw.util.ThreeDeeUtil;
 
 public class Invader {
 	
@@ -16,6 +15,7 @@ public class Invader {
 	protected ArrayList<Block> _boxesAlt;
 	protected ArrayList<Block> _curBoxesArray;
 	protected boolean _isAnimating = true;
+	protected int _numActiveBlocks = 999;
 	
 	protected int _x, _y, _row;
 	protected float _scale;
@@ -67,13 +67,20 @@ public class Invader {
 			_curBoxesArray = ( _curBoxesArray == _boxes ) ? _boxesAlt : _boxes;
 		}
 		// draw boxen
+		_numActiveBlocks = 0;
 		for( int i=0; i < _curBoxesArray.size(); i++ ) {
 			if( _curBoxesArray.get( i ).active() == true ) {
 				_curBoxesArray.get( i ).display();
+				_numActiveBlocks++;
+				
 			} else {
 				_curBoxesArray.get( i ).display();
 			}
 		}
+	}
+	
+	public int numActiveBlocks() {
+		return _numActiveBlocks;
 	}
 	
 	public boolean detectCollisions( Ball ball ) {

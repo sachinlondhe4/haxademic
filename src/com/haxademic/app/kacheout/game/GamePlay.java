@@ -34,6 +34,9 @@ public class GamePlay {
 	protected boolean _isKinectReversed = true;
 	protected EasingFloat _gameRotation = new EasingFloat( 0, 10 );
 	
+	// state 
+	protected boolean _hasClearedBoard = false;
+	
 	public GamePlay( int gameLeft, int gameRight, FloatRange kinectRange ) {
 		p = (KacheOut)PAppletHax.getInstance();
 		_gameLeft = gameLeft;
@@ -140,11 +143,16 @@ public class GamePlay {
 		p.pushMatrix();
 		// draw the blocks
 		int index = 0;
+		int numActiveBlocks = 0;
 		for (int i = 0; i < _cols; i++) {
 			for (int j = 0; j < _rows; j++) {
 				_invaders.get( index ).display();
+				numActiveBlocks += _invaders.get( index ).numActiveBlocks();
 				index++;
 			}
+		}
+		if( numActiveBlocks == 0 ) {
+			_hasClearedBoard = true;
 		}
 		p.popMatrix();
 		
