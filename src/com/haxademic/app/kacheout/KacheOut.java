@@ -1,8 +1,10 @@
 package com.haxademic.app.kacheout;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.game.GamePlay;
@@ -15,6 +17,9 @@ import com.haxademic.core.data.FloatRange;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.util.ColorGroup;
 import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.util.ImageUtil;
+import com.haxademic.core.util.ScreenUtil;
+import com.haxademic.core.util.SystemUtil;
 
 public class KacheOut
 extends PAppletHax  
@@ -220,10 +225,11 @@ extends PAppletHax
 	}
 	
 	protected void gameOver() {
-		_gameState = GAME_OVER;
-		for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).gameOver();
-
-//		resetGame();
+		if( _gameState != GAME_OVER ) {
+			_gameState = GAME_OVER;
+			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).gameOver();
+			snapGamePhoto();
+		}
 	}	
 
 	protected void resetGame() {
@@ -233,6 +239,30 @@ extends PAppletHax
 			_gamePlays.get( i ).reset();
 		}
 	}	
+	
+	protected void snapGamePhoto() {
+		// save screenshot and open it back up
+		String screenshotFile = ScreenUtil.screenshotToJPG( p, "bin/output/kacheout/kacheout-" );
+		PImage screenshot = loadImage( screenshotFile );
+		
+		// save kinect
+		p._kinectWrapper.getVideoImage().save( "bin/output/kacheout/kacheout-" + SystemUtil.getTimestampFine( p ) + "-rgb.png" );
+		
+		if( p._kinectWrapper.isActive() ) {
+			float screenToOutputWidthRatio = 640f / (float)_stageWidth;
+			int screenShotHeight = Math.round( _stageHeight * screenToOutputWidthRatio );
+			PImage img = createImage(640, 480 + screenShotHeight, RGB);
+			
+			// paste 2 images together and save
+			img.copy( ImageUtil.getReversePImage( p._kinectWrapper.getVideoImage() ), 0, 0, 640, 480, 0, 0, 640, 480 );
+			img.copy( screenshot, 0, 0, _stageWidth, _stageHeight, 0, 481, 640, screenShotHeight );
+			img.save( "bin/output/kacheout/kacheout-" + SystemUtil.getTimestampFine( p ) + "-comp.png" );
+		}
+		
+		// clean up screenshot
+//		boolean success = ( new File( screenshotFile ) ).delete();
+//		if (!success) p.println("counldn't delete screenshot");
+	}
 
 	// Visual fun
 	protected void pickNewColors() {
