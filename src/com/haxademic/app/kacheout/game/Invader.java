@@ -2,6 +2,7 @@ package com.haxademic.app.kacheout.game;
 
 import java.util.ArrayList;
 
+import toxi.color.TColor;
 import toxi.geom.AABB;
 
 import com.haxademic.app.PAppletHax;
@@ -38,26 +39,30 @@ public class Invader {
 		// create 2 arrays of blocks
 		_boxes = new ArrayList<Block>();
 		_boxesAlt = new ArrayList<Block>();
+		TColor color = null;
 		ArrayList<AABB> boxes = null, boxesAlt = null;
 		if( _row % 3 == 0 ) {
 			boxes = Meshes.invader1Boxes( 0, _scale );
 			boxesAlt = Meshes.invader1Boxes( 1, _scale );
+			color = new TColor( TColor.GREEN );
 		} else if( _row % 3 == 1 ) {
 			boxes = Meshes.invader2Boxes( 0, _scale );
 			boxesAlt = Meshes.invader2Boxes( 1, _scale );
-		} else {
+			color = new TColor( TColor.YELLOW );
+		} else if( _row % 3 == 2 ) {
 			boxes = Meshes.invader3Boxes( 0, _scale );
 			boxesAlt = Meshes.invader3Boxes( 1, _scale );
+			color = new TColor( TColor.RED );
 		}
 		
 		// populate arrays while positioning individual blocks to the center of this invader
 		for( int i=0; i < boxes.size(); i++ ) {
 			boxes.get( i ).set( boxes.get( i ).x + _x, boxes.get( i ).y + _y, 0 );
-			_boxes.add( new Block( boxes.get( i ), i, _scale*100f) );
+			_boxes.add( new Block( boxes.get( i ), i, _scale*100f, color ) );
 		}
 		for( int i=0; i < boxesAlt.size(); i++ ) {
 			boxesAlt.get( i ).set( boxesAlt.get( i ).x + _x, boxesAlt.get( i ).y + _y, 0 );
-			_boxesAlt.add( new Block( boxesAlt.get( i ), i, _scale*100f) );
+			_boxesAlt.add( new Block( boxesAlt.get( i ), i, _scale*100f, color ) );
 		}
 	}
 	

@@ -25,7 +25,7 @@ public class Block {
 	protected ArrayList<Vec3D> _explodeVecs;
 	protected float _scale, _speedX, _speedY;
 	
-	public Block( AABB box, int index, float scale ) {
+	public Block( AABB box, int index, float scale, TColor color ) {
 		p = (KacheOut)PAppletHax.getInstance();
 
 		_box = box;
@@ -39,7 +39,7 @@ public class Block {
 		b = p.random( 0, 0 );
 		
 		// set up color fading
-		_colorStart = new TColor( TColor.GREEN );
+		_colorStart = color;//new TColor( TColor.GREEN );
 		_colorDead = new TColor( TColor.WHITE );
 		_color = new EasingTColor( _colorStart, 0.1f );
 		
