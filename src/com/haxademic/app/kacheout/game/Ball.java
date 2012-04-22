@@ -19,20 +19,24 @@ public class Ball {
 	protected float _ballSize;
 	protected ElasticFloat _ballSizeElastic;
 	protected int BALL_RESOLUTION = 4;
-	float _x, _y, _speedX, _speedY;
-	protected EasingTColor _color;
 	protected Sphere _sphere;
-	protected float _speed;
+	float _x, _y, _speedX, _speedY;
+
+	protected EasingTColor _color;
+	protected final TColor YELLOW = new TColor( TColor.YELLOW );
+	protected final TColor WHITE = new TColor( TColor.WHITE );
+
+	protected float _baseSpeed;
 	protected WETriangleMesh _ballMesh;
 	
 	public Ball() {
 		p = (KacheOut)PAppletHax.getInstance();
 		// TODO: convert speed to use radians
-		_speed = p.stageHeight() / 80f;
-		_speedX = ( MathUtil.randBoolean( p ) == true ) ? _speed : -_speed;
+		_baseSpeed = p.stageHeight() / 80f;
+		_speedX = ( MathUtil.randBoolean( p ) == true ) ? _baseSpeed : -_baseSpeed;
 		_x = p.random( 0, p.gameWidth() );
 		_y = p.random( p.stageHeight() / 2, p.stageHeight() );
-		_color = new EasingTColor( new TColor(TColor.YELLOW), 0.05f );
+		_color = new EasingTColor( YELLOW, 0.05f );
 
 		_ballSize = p.stageHeight() / 16f;
 		_ballSizeElastic = new ElasticFloat( _ballSize, 0.85f, 0.25f );
@@ -52,8 +56,8 @@ public class Ball {
 	public void launch( Paddle paddle ) {
 		_x = paddle.x(); 
 		_y = paddle.y() - paddle.height() - _ballSize - 10;
-		_speedX = ( MathUtil.randBoolean( p ) == true ) ? _speed : -_speed;
-		_speedY = -_speed;
+		_speedX = ( MathUtil.randBoolean( p ) == true ) ? _baseSpeed : -_baseSpeed;
+		_speedY = -_baseSpeed;
 	}
 	
 	public void bounceX() {
@@ -70,7 +74,7 @@ public class Ball {
 	 * Visually bounce the Ball on collisions
 	 */
 	public void bounceBall() {
-		_color.setCurAndTargetColors( new TColor(TColor.WHITE), new TColor(TColor.YELLOW) );
+		_color.setCurAndTargetColors( WHITE, YELLOW );
 		_ballSizeElastic.setValue( _ballSize * 0.7f );
 		_ballSizeElastic.setTarget( _ballSize );
 	}
@@ -141,7 +145,7 @@ public class Ball {
 		_speedX = ( _x - paddle.x() ) / 10;
 		bounceY();
 		bounceBall();
-		_color.setCurAndTargetColors( new TColor(TColor.WHITE), new TColor(TColor.YELLOW) );
+		_color.setCurAndTargetColors( WHITE, YELLOW );
 	}
 
 }

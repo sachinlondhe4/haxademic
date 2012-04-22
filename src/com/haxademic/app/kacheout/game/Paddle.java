@@ -22,6 +22,8 @@ public class Paddle {
 	protected float _center;
 	protected float _xPosPercent;
 	protected EasingTColor _color;
+	protected final TColor GREEN = new TColor( TColor.GREEN );
+	protected final TColor WHITE = new TColor( TColor.WHITE );
 	protected AABB _box;
 	protected KacheOut p;
 
@@ -38,7 +40,7 @@ public class Paddle {
 		_baseY = p.stageHeight() - _stageVPadding;
 		_y = new ElasticFloat( _baseY, 0.6f, 0.4f );
 		
-		_color = new EasingTColor(new TColor(TColor.WHITE), 0.2f);
+		_color = new EasingTColor( WHITE, 0.2f );
 		
 		_box = new AABB( 1 );
 		_box.setExtent( new Vec3D( _width, _height, _height ) );
@@ -65,8 +67,8 @@ public class Paddle {
 	}
 	
 	public void hit() {
-		_color.setCurColor( new TColor( TColor.GREEN ) );
-		_color.setTargetColor( new TColor( TColor.WHITE ) );
+		_color.setCurColor( GREEN );
+		_color.setTargetColor( WHITE );
 		_y.setValue( _baseY + 20f );
 		_y.setTarget( _baseY );
 	}
