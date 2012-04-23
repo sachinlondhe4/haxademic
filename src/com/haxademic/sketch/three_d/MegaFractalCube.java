@@ -1,4 +1,4 @@
-package com.haxademic.sketch.sunflow_test;
+package com.haxademic.sketch.three_d;
 
 import hipstersinc.P5Sunflow;
 import hipstersinc.sunflow.SunflowCamera;

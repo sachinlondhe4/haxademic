@@ -1,7 +1,8 @@
-package com.haxademic.sketch.testdraw;
+package com.haxademic.sketch.three_d;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
+
 import com.haxademic.core.cameras.CameraOscillate;
 import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.render.Renderer;
@@ -11,7 +12,7 @@ import com.haxademic.core.render.Renderer;
  * @author justin
  *
  */
-public class TestDrawing
+public class PlusGridWave
 	extends PApplet
 {
 	// global vars

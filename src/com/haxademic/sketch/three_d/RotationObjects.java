@@ -1,4 +1,4 @@
-package com.haxademic.sketch.patterns;
+package com.haxademic.sketch.three_d;
 
 import processing.core.PApplet;
 import processing.core.PConstants;

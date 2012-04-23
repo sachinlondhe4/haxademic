@@ -1,4 +1,4 @@
-package com.haxademic.sketch.test2;
+package com.haxademic.sketch.render;
 
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
@@ -8,7 +8,7 @@ import com.haxademic.core.cameras.CameraOscillate;
 import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.render.Renderer;
 
-public class TestDrawing2
+public class BasicAudioRender
 	extends PApplet
 {
 	// global vars

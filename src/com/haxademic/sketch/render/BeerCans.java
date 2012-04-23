@@ -1,4 +1,4 @@
-package com.haxademic.sketch.media_services_staff_mtg;
+package com.haxademic.sketch.render;
 
 import com.haxademic.core.render.Renderer;
 

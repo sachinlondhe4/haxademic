@@ -1,4 +1,4 @@
-package com.haxademic.sketch.kinect;
+package com.haxademic.sketch.hardware;
 
 import krister.Ess.AudioInput;
 

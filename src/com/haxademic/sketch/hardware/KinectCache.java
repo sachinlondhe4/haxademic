@@ -1,4 +1,4 @@
-package com.haxademic.sketch.kinect;
+package com.haxademic.sketch.hardware;
 
 import org.openkinect.processing.Kinect;
 
