@@ -1,16 +1,18 @@
 package com.haxademic.sketch.obj;
 
+import geomerative.RFont;
+import geomerative.RG;
+
 import java.util.ArrayList;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
-import saito.objloader.OBJModel;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
+import com.haxademic.core.data.easing.EasingFloat3d;
 import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.DrawMesh;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.util.DebugUtil;
 import com.haxademic.core.util.DrawUtil;
@@ -27,9 +29,11 @@ extends PApplet
 //	OBJModel _model;
 	MeshPool _objPool;
 	WETriangleMesh _mesh;
-	float _rot;
+//	float _rot;
+	EasingFloat3d _rot;
 	int _meshIndex;
 	ArrayList<String> _modelIds;
+	boolean _wireFrame = false;
 	
 	boolean isSunflow = false;
 
@@ -46,6 +50,7 @@ extends PApplet
 		p.colorMode( PConstants.RGB, 255, 255, 255, 255 );
 		p.background( 0 );
 		p.smooth();
+		
 		p.rectMode(PConstants.CENTER);
 		p.noStroke();
 		toxi = new ToxiclibsSupport( p );
@@ -54,9 +59,25 @@ extends PApplet
 //		_render = new Renderer( this, 30, Renderer.OUTPUT_TYPE_MOVIE );
 //		_render.startRenderer();
 		
-		// set up 3d objects pool
+		_rot = new EasingFloat3d( 0, 0, 0, 10f );
+		
+		
 		_objPool = new MeshPool( p );
-//		_objPool.loadObj( "SUBMISH_HORIZ", 		200, 	"./models/submish-rotated.obj" );
+		
+		// 3d text with different options
+		if( RG.initialized() == false ) RG.init( p );
+		RFont font = new RFont( "../data/fonts/HelloDenverDisplay-Regular.ttf", 200, RFont.CENTER);
+		_objPool.addMesh( "HAI", MeshUtil.mesh2dFromTextFont( p, null, "../data/fonts/bitlow.ttf", 200, "HAI", 1f ), 1 );
+		WETriangleMesh helloTextMesh = MeshUtil.mesh2dFromTextFont( p, font, null, -1, "HELLO", 1f );
+		_objPool.addMesh( "HELLO", helloTextMesh, 1 );
+		_objPool.addMesh( "HELLO_3D", MeshUtil.getExtrudedMesh( helloTextMesh, 20 ), 1 );
+		
+		// .svg vecotrs
+		WETriangleMesh cacheSVG = MeshUtil.meshFromSVG( p, "../data/svg/cacheflowe-logo.svg", 1f );
+		_objPool.addMesh( "CACHE", cacheSVG, 0.5f );
+		_objPool.addMesh( "CACHE_EXTRUDE", MeshUtil.getExtrudedMesh( cacheSVG, 20 ), 1 );
+		
+		// .obj models
 		_objPool.addMesh( "POINTER", MeshUtil.meshFromOBJ( p, "../data/models/pointer_cursor_2_hollow.obj", 1f ), 1.5f );
 		_objPool.addMesh( "DIAMOND", MeshUtil.meshFromOBJ( p, "../data/models/diamond.obj", 1f ), 1.2f );
 		_objPool.addMesh( "INVADER", MeshUtil.meshFromOBJ( p, "../data/models/invader.obj", 1f ), 45 );
@@ -68,6 +89,7 @@ extends PApplet
 		_objPool.addMesh( "SPIROGRAPH", MeshUtil.meshFromOBJ( p, "../data/models/spirograph-seied.obj", 1f ), 150 );
 		_objPool.addMesh( "CACHEFLOWE", MeshUtil.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 150 );
 
+//		_objPool.loadObj( "SUBMISH_HORIZ", 		200, 	"./models/submish-rotated.obj" );
 //		_objPool.loadObj( "SHUTTLE", 			30, 	"./models/Space Shuttle.obj" );
 //		_objPool.loadObj( "SPEAKER", 			200, 	"./models/speaker.obj" );
 //		_objPool.loadObj( "HOUSE", 				150, 	"./models/monopoly-house.obj" );
@@ -91,27 +113,40 @@ extends PApplet
 			if( _meshIndex >= _modelIds.size() ) _meshIndex = 0;
 			_mesh = _objPool.getMesh( _modelIds.get( _meshIndex ) );
 		}
+		if( key == 'w' ) {
+			_wireFrame = !_wireFrame;
+		}
 	}
 
 	public void draw() {
-		DrawUtil.setBasicLights( p );
 		// draw background and set to center
 		if( isSunflow == false ) p.background(0,0,0,255);
 		p.translate(p.width/2, p.height/2, 0);
 		
+		//DrawUtil.setBasicLights( p );
+		p.lights();
+		p.shininess( 100 );
+		
 		// rotate with mouse
-		_rot += p.TWO_PI / 360f;
-		p.rotateZ(p.mouseX/100f);
-		p.rotateY(p.mouseY/100f);
+		_rot.setTargetX( p.mouseX/100f );
+		_rot.setTargetY( p.mouseY/100f );
+		_rot.update();
+		p.rotateZ( _rot.valueX() );
+		p.rotateY( _rot.valueY() );
 		
 		// draw WETriangleMesh
-		p.fill(255, 255);		// white
-		p.fill(0,200,234, 255);	// mode set blue
-		p.fill(255,249,0, 255);	// cacheflowe yellow
-		p.noStroke();
+		if( _wireFrame ) {
+			p.stroke(255,249,0, 255);	// cacheflowe yellow
+			p.noFill();
+		} else {
+			p.fill(255, 255);		// white
+			p.fill(0,200,234, 255);	// mode set blue
+			p.fill(255,249,0, 255);	// cacheflowe yellow
+			p.noStroke();
+		}
 
 		// draw to screen
-		if( !isSunflow ) toxi.mesh( _mesh, true, 0 );
+		toxi.mesh( _mesh, true, 0 );
 		
 		
 		

@@ -19,8 +19,7 @@ extends PApplet{
 	ToxiclibsSupport toxi;
 	WETriangleMesh weMesh;
 
-	public void setup()
-	{
+	public void setup() {
 		size(1200,800,OPENGL);
 //		size(1200,800, "hipstersinc.P5Sunflow" );
 
@@ -30,8 +29,8 @@ extends PApplet{
 		RG.init(this);
 		toxi = new ToxiclibsSupport( this );
 
-		font = new RFont( "../data/fonts/mrseavesbold-webfont.ttf", 200, RFont.CENTER);
-		buildToxiMesh3D();
+		font = new RFont( "../data/fonts/bitlow.ttf", 200, RFont.CENTER);
+		buildToxiMesh();
 	}
 
 	protected void buildToxiMesh() {
@@ -47,7 +46,7 @@ extends PApplet{
 		for ( int i = 0; i < rMesh.strips.length; i++ ) {
 			RPoint[] meshPoints = rMesh.strips[i].getPoints();
 
-			for ( int ii = 0; ii < meshPoints.length - 1; ii++ ) {
+			for ( int ii = 0; ii < meshPoints.length - 2; ii++ ) {
 				weMesh.addFace( 
 						new Vec3D( meshPoints[ii].x, meshPoints[ii].y, 0 ), 
 						new Vec3D( meshPoints[ii+1].x, meshPoints[ii+1].y, 0 ), 
@@ -121,8 +120,8 @@ extends PApplet{
 	}
 
 	public void draw() {
-		background(255);
-		translate(width/2,height/2,200);
+		background(10);
+		translate(width/2,height/2,-600);
 		rotateX(-mouseY/100f);
 		rotateY(mouseX/100f);
 //		println(mouseX/100f+","+(-mouseY/100f));
@@ -134,8 +133,6 @@ extends PApplet{
 		
 		//	    drawText2d();
 		drawText3d();
-
-
 	}
 
 	public void drawText2d() {
@@ -163,6 +160,7 @@ extends PApplet{
 
 	public void drawText3d() {
 		fill(255,127,0,255);
+		fill(255,249,0, 255);
 		noStroke();
 //		stroke(0);
 		toxi.mesh( weMesh );

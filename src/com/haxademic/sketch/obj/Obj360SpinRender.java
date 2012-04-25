@@ -25,7 +25,6 @@ extends PApplet
 		
 	Renderer _render;
 	
-	OBJModel _model;
 	MeshPool _objPool;
 	WETriangleMesh _mesh;
 	float _rot;
@@ -67,7 +66,6 @@ extends PApplet
 		_objPool.addMesh( "CACHEFLOWE", MeshUtil.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 100 );
 		
 		_modelIds = _objPool.getIds();
-		_model = _objPool.getModel( _modelIds.get( 0 ) );
 		_mesh = _objPool.getMesh( _modelIds.get( 0 ) );
 
 //		ThreeDeeUtil.SmoothToxiMesh( p, _mesh, 1 );
@@ -94,8 +92,8 @@ extends PApplet
 		p.fill(255,249,0, 255);	// cacheflowe yellow
 		p.noStroke();
 //		p.rect( 0, 0, 2500, 1500 );
-		DrawMesh.drawObjModel( p, toxi, _model );
-//		toxi.mesh( _mesh, true, 0 );
+//		DrawMesh.drawObjModel( p, toxi, _model );
+		toxi.mesh( _mesh, true, 0 );
 		
 		// render movie
 		if( _isRendering == true && _render != null ) {

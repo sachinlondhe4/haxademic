@@ -49,7 +49,7 @@ extends PApplet {
 		MeshPool _objPool = new MeshPool( this );
 		_objPool.addMesh( "DISCOVERY", MeshUtil.meshFromOBJ( this, "../data/models/pointer_cursor_2.obj" , 1f ), 900 );
 		glmesh = ThreeDeeUtil.GetGLModelFromToxiMesh( this, _objPool.getMesh( "DISCOVERY" ) );
-		objModel = _objPool.getModel( "DISCOVERY" );
+//		objModel = _objPool.getModel( "DISCOVERY" );
 //		objModel.disableMaterial();
 //		objModel.disableTexture();
 		objModel.enableMaterial();

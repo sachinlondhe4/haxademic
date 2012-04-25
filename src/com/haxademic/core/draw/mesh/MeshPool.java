@@ -23,21 +23,12 @@ public class MeshPool {
 		_models = new HashMap<String, ObjItem>();
 	}
 	
-		
-//	public void loadSVG( String id, float scale, String file ) {
-//		_models.put( id, new ObjItem( p, scale, file ) );
-//	}
-		
 	public void addMesh( String id, WETriangleMesh mesh, float scale ) {
 		_models.put( id, new ObjItem( mesh, scale ) );
 	}
 
 	public WETriangleMesh getMesh( String id ) {
 		return _models.get( id )._mesh;
-	}
-
-	public OBJModel getModel( String id ) {
-		return null;//_models.get( id )._obj;
 	}
 
 	public ArrayList<String> getIds() {
@@ -66,6 +57,7 @@ public class MeshPool {
 		public ObjItem( WETriangleMesh mesh, float scale ) {
 			_mesh = mesh;
 			_scale = scale;
+			_mesh.scale( _scale );
 		}
 	}
 }
