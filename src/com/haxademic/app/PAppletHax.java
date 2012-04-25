@@ -47,10 +47,12 @@ import fullscreen.FullScreen;
  * launchpad
  * He_Mesh
  * minim 
+ * Geomerative 
  * 
  * @TODO: Address garbage collection - a larger project would be to have dispose() methods in every class, and implement disposal across the project.
  * @TODO: Come up with a single solution to be an IVizModule or an extension of PAppletHax. 
  * @TODO: optimize the kinectMesh element - shit is slow
+ * @TODO: MIDI signals from rendering and live should be abstracted as MIDI message objects?
  * @TODO: Mesh traversal drawing: more configurable. generative options - implement mesh drawing strategy pattern
  * @TODO: Finish converting old modules into new Elements: AudioTubes, Blobsheet, cacheRings outer rings, GridEQ w/lines, MaxCache outer rings, PlusRing, more spheres
  * @TODO: Create more abstract user/hardware input system that routes different inputs into certain types of commands.
