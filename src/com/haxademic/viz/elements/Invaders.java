@@ -7,17 +7,16 @@ import toxi.color.TColor;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.viz.ElementBase;
-import com.haxademic.viz.IVizElement;
 import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.data.Point3D;
 import com.haxademic.core.data.easing.EasingFloat3d;
+import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.shapes.Meshes;
 import com.haxademic.core.draw.util.DrawMesh;
-import com.haxademic.core.draw.util.ThreeDeeUtil;
 import com.haxademic.core.util.ColorGroup;
 import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.MathUtil;
+import com.haxademic.viz.ElementBase;
+import com.haxademic.viz.IVizElement;
 
 public class Invaders
 extends ElementBase 
@@ -53,7 +52,7 @@ implements IVizElement {
 		OBJModel model = new OBJModel( p, "./models/submish-horiz-rotated.obj" );
 		model.disableMaterial();
 		model.disableTexture();
-		_logoMesh = ThreeDeeUtil.ConvertObjModelToToxiMesh( p, model );
+		_logoMesh = MeshUtil.ConvertObjModelToToxiMesh( p, model );
 		_logoMesh.scale( 400f );
 	}
 	

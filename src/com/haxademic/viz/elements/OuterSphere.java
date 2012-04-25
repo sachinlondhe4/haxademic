@@ -8,15 +8,15 @@ import toxi.geom.Vec3D;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.viz.ElementBase;
-import com.haxademic.viz.IVizElement;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.data.Point3D;
+import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.util.DrawMesh;
-import com.haxademic.core.draw.util.ThreeDeeUtil;
 import com.haxademic.core.util.ColorGroup;
 import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.MathUtil;
+import com.haxademic.viz.ElementBase;
+import com.haxademic.viz.IVizElement;
 
 public class OuterSphere
 extends ElementBase 
@@ -53,7 +53,7 @@ implements IVizElement {
 		OBJModel model = new OBJModel( p, "./models/the-discovery-multiplied-seied.obj" );
 		model.disableMaterial();
 		model.disableTexture();
-		_objMesh = ThreeDeeUtil.ConvertObjModelToToxiMesh( p, model );
+		_objMesh = MeshUtil.ConvertObjModelToToxiMesh( p, model );
 		_objMesh.scale( _radius * 4 );
 	}
 

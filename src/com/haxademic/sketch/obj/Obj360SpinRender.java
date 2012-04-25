@@ -10,6 +10,7 @@ import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.core.draw.mesh.MeshPool;
+import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.util.DrawMesh;
 import com.haxademic.core.draw.util.ThreeDeeUtil;
 import com.haxademic.core.render.Renderer;
@@ -62,8 +63,8 @@ extends PApplet
 		
 		// set up 3d objects pool
 		_objPool = new MeshPool( p );
-//		_objPool.loadObj( "MODE_SET", 150, "../data/models/mode-set.obj" );		
-		_objPool.loadObj( "CACHEFLOWE", 100, "../data/models/cacheflowe-3d.obj" );		
+//		_objPool.loadObj( "MODE_SET", 150, "../data/models/mode-set.obj" );	
+		_objPool.addMesh( "CACHEFLOWE", MeshUtil.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 100 );
 		
 		_modelIds = _objPool.getIds();
 		_model = _objPool.getModel( _modelIds.get( 0 ) );

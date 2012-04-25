@@ -13,6 +13,7 @@ import saito.objloader.OBJModel;
 import codeanticode.glgraphics.GLModel;
 
 import com.haxademic.core.draw.mesh.MeshPool;
+import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.util.ThreeDeeUtil;
 import com.sun.opengl.util.BufferUtil;
 import com.sun.opengl.util.GLUT;
@@ -46,7 +47,7 @@ extends PApplet {
 		
 		
 		MeshPool _objPool = new MeshPool( this );
-		_objPool.loadObj( "DISCOVERY", 900, "../data/models/pointer_cursor_2.obj" );
+		_objPool.addMesh( "DISCOVERY", MeshUtil.meshFromOBJ( this, "../data/models/pointer_cursor_2.obj" , 1f ), 900 );
 		glmesh = ThreeDeeUtil.GetGLModelFromToxiMesh( this, _objPool.getMesh( "DISCOVERY" ) );
 		objModel = _objPool.getModel( "DISCOVERY" );
 //		objModel.disableMaterial();
