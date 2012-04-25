@@ -8,7 +8,7 @@ import saito.objloader.OBJModel;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.core.draw.model.MeshPool;
+import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.util.DrawMesh;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.util.DebugUtil;

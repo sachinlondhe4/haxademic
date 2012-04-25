@@ -1,4 +1,4 @@
-package com.haxademic.core.draw.model;
+package com.haxademic.core.draw.mesh;
 
 import java.util.ArrayList;
 import java.util.HashMap;

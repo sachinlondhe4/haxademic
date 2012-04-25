@@ -78,6 +78,13 @@ public class ThreeDeeUtil {
 		renderer.gl.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, new float[] { 1, 1, 1, 1 }, 0);
 	}
 	
+	/**
+	 * Move a mesh by a 3D vector
+	 * @param meshes
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
 	public static void addPositionToMeshArray( ArrayList<WETriangleMesh> meshes, float x, float y, float z ) {
 		Vec3D center = null;
 		for( int i=0; i < meshes.size(); i++ ) {

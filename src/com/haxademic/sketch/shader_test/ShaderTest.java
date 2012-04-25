@@ -12,7 +12,7 @@ import processing.opengl.PGraphicsOpenGL;
 import saito.objloader.OBJModel;
 import codeanticode.glgraphics.GLModel;
 
-import com.haxademic.core.draw.model.MeshPool;
+import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.util.ThreeDeeUtil;
 import com.sun.opengl.util.BufferUtil;
 import com.sun.opengl.util.GLUT;

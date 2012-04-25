@@ -15,7 +15,7 @@ import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.audio.WaveformData;
 import com.haxademic.core.data.P5Properties;
 import com.haxademic.core.debug.Stats;
-import com.haxademic.core.draw.model.MeshPool;
+import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.text.DebugText;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.hardware.midi.MidiWrapper;
