@@ -23,6 +23,7 @@ Java & Processing libraries:
 * launchpad
 * He_Mesh
 * minim
+* Geomerative
 
 Use the following VM Arguments when running the Java Application
 
