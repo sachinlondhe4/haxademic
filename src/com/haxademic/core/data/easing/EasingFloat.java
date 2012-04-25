@@ -5,7 +5,7 @@ public class EasingFloat
 implements IEasingValue {
 	
 	public float _val, _target, _easeFactor;
-	protected float COMPLETE_THRESHOLD = 0.1f;
+	protected float COMPLETE_THRESHOLD = 0.001f;
 		   
 	public EasingFloat( float value, float easeFactor ) {
 		_val = value;
