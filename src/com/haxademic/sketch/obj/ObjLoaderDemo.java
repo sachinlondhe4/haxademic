@@ -15,6 +15,7 @@ import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.util.DebugUtil;
+import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.OpenGLUtil;
 
 public class ObjLoaderDemo 
@@ -77,8 +78,9 @@ extends PApplet
 		_objPool.addMesh( "CACHE_EXTRUDE", MeshUtil.getExtrudedMesh( cacheSVG, 20 ), 1 );
 		
 		// img models
-		_objPool.addMesh( "KACHEOUT", MeshUtil.meshFromImg( p, "../data/images/kacheout.gif", 1f ), 10f );
+		_objPool.addMesh( "KACHEOUT", MeshUtil.meshFromImg( p, "../data/images/kacheout/kacheout.gif", 1f ), 20f );
 		_objPool.addMesh( "MUSIC_NOTE", MeshUtil.meshFromImg( p, "../data/images/music.gif", 1f ), 10f );
+		_objPool.addMesh( "UFO", MeshUtil.meshFromImg( p, "../data/images/kacheout/invader-01.gif", 1f ), 30f );
 		
 		// .obj models
 		_objPool.addMesh( "POINTER", MeshUtil.meshFromOBJ( p, "../data/models/pointer_cursor_2_hollow.obj", 1f ), 1.5f );
@@ -122,13 +124,11 @@ extends PApplet
 	}
 
 	public void draw() {
+		DrawUtil.setBasicLights( p );
 		// draw background and set to center
 		if( isSunflow == false ) p.background(0,0,0,255);
 		p.translate(p.width/2, p.height/2, 0);
 		
-		//DrawUtil.setBasicLights( p );
-		p.lights();
-		p.shininess( 100 );
 		
 		// rotate with mouse
 		_rot.setTargetX( p.mouseX/100f );
@@ -143,8 +143,8 @@ extends PApplet
 			p.noFill();
 		} else {
 			p.fill(255, 255);		// white
-			p.fill(0,200,234, 255);	// mode set blue
-			p.fill(255,249,0, 255);	// cacheflowe yellow
+//			p.fill(0,200,234, 255);	// mode set blue
+//			p.fill(255,249,0, 255);	// cacheflowe yellow
 			p.noStroke();
 		}
 
