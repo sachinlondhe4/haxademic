@@ -12,7 +12,7 @@ import processing.opengl.PGraphicsOpenGL;
 import saito.objloader.OBJModel;
 import codeanticode.glgraphics.GLModel;
 
-import com.haxademic.core.draw.model.ObjPool;
+import com.haxademic.core.draw.model.MeshPool;
 import com.haxademic.core.draw.util.ThreeDeeUtil;
 import com.sun.opengl.util.BufferUtil;
 import com.sun.opengl.util.GLUT;
@@ -45,7 +45,7 @@ extends PApplet {
 		gl = pgl.gl;
 		
 		
-		ObjPool _objPool = new ObjPool( this );
+		MeshPool _objPool = new MeshPool( this );
 		_objPool.loadObj( "DISCOVERY", 900, "../data/models/pointer_cursor_2.obj" );
 		glmesh = ThreeDeeUtil.GetGLModelFromToxiMesh( this, _objPool.getMesh( "DISCOVERY" ) );
 		objModel = _objPool.getModel( "DISCOVERY" );

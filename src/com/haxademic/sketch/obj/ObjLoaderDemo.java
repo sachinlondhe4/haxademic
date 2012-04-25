@@ -8,7 +8,7 @@ import saito.objloader.OBJModel;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.core.draw.model.ObjPool;
+import com.haxademic.core.draw.model.MeshPool;
 import com.haxademic.core.draw.util.DrawMesh;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.util.DebugUtil;
@@ -23,8 +23,8 @@ extends PApplet
 		
 	Renderer _render;
 	
-	OBJModel _model;
-	ObjPool _objPool;
+//	OBJModel _model;
+	MeshPool _objPool;
 	WETriangleMesh _mesh;
 	float _rot;
 	int _meshIndex;
@@ -54,7 +54,7 @@ extends PApplet
 //		_render.startRenderer();
 		
 		// set up 3d objects pool
-		_objPool = new ObjPool( p );
+		_objPool = new MeshPool( p );
 //		_objPool.loadObj( "SUBMISH_HORIZ", 		200, 	"./models/submish-rotated.obj" );
 		_objPool.loadObj( "POINTER", 			1.5f, 	"../data/models/pointer_cursor_2_hollow.obj" );
 		_objPool.loadObj( "DIAMOND", 			1.2f, 	"../data/models/diamond.obj" );
@@ -75,7 +75,7 @@ extends PApplet
 		
 		
 		_modelIds = _objPool.getIds();
-		_model = _objPool.getModel( _modelIds.get( 0 ) );
+//		_model = _objPool.getModel( _modelIds.get( 0 ) );
 		_mesh = _objPool.getMesh( _modelIds.get( 0 ) );
 
 //		ThreeDeeUtil.SmoothToxiMesh( p, _mesh, 2 );
@@ -90,7 +90,7 @@ extends PApplet
 			_meshIndex++;
 			if( _meshIndex >= _modelIds.size() ) _meshIndex = 0;
 			
-			_model = _objPool.getModel( _modelIds.get( _meshIndex ) );
+//			_model = _objPool.getModel( _modelIds.get( _meshIndex ) );
 			_mesh = _objPool.getMesh( _modelIds.get( _meshIndex ) );
 		}
 	}
@@ -107,19 +107,24 @@ extends PApplet
 		p.rotateY(p.mouseY/100f);
 		
 		// draw OBJModel
-		p.translate(0,0,-150);
+//		p.translate(0,0,-150);
+//		p.fill(255, 255);		// white
+//		p.fill(0,200,234, 255);	// mode set blue
+//		p.fill(255,249,0, 255);	// cacheflowe yellow
+//		p.noStroke();
+//		DrawMesh.drawObjModel( p, toxi, _model );
+		
+		
+		
+		// draw WETriangleMesh
 		p.fill(255, 255);		// white
 		p.fill(0,200,234, 255);	// mode set blue
 		p.fill(255,249,0, 255);	// cacheflowe yellow
 		p.noStroke();
-		DrawMesh.drawObjModel( p, toxi, _model );
-		
-		// draw WETriangleMesh
-		p.translate(0,0,300);
-		p.stroke(255, 100f);
-		p.strokeWeight(2);
-		p.noFill();
+
 		if( !isSunflow ) toxi.mesh( _mesh, true, 0 );
+		
+		
 		
 		// render movie
 		if( _render != null ) {

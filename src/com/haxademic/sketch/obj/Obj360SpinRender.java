@@ -9,7 +9,7 @@ import saito.objloader.OBJModel;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.core.draw.model.ObjPool;
+import com.haxademic.core.draw.model.MeshPool;
 import com.haxademic.core.draw.util.DrawMesh;
 import com.haxademic.core.draw.util.ThreeDeeUtil;
 import com.haxademic.core.render.Renderer;
@@ -25,7 +25,7 @@ extends PApplet
 	Renderer _render;
 	
 	OBJModel _model;
-	ObjPool _objPool;
+	MeshPool _objPool;
 	WETriangleMesh _mesh;
 	float _rot;
 	int _meshIndex;
@@ -61,7 +61,7 @@ extends PApplet
 		}
 		
 		// set up 3d objects pool
-		_objPool = new ObjPool( p );
+		_objPool = new MeshPool( p );
 //		_objPool.loadObj( "MODE_SET", 150, "../data/models/mode-set.obj" );		
 		_objPool.loadObj( "CACHEFLOWE", 100, "../data/models/cacheflowe-3d.obj" );		
 		

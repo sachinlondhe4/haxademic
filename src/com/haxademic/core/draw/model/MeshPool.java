@@ -15,26 +15,34 @@ import com.haxademic.core.draw.util.ThreeDeeUtil;
  * @author cacheflowe
  *
  */
-public class ObjPool {
+public class MeshPool {
 	
 	protected PApplet p;
 	protected HashMap<String, ObjItem> _models;
 	
-	public ObjPool( PApplet p ) {
+	public MeshPool( PApplet p ) {
 		this.p = p;
 		_models = new HashMap<String, ObjItem>();
 	}
 	
 	public void loadObj( String id, float scale, String file ) {
-		_models.put( id, new ObjItem( p, scale, file ) );
+		// load and scale the .obj file. convert to mesh and store it 
+		OBJModel obj = new OBJModel( p, file, OBJModel.RELATIVE );
+		obj.scale( scale );
+		WETriangleMesh mesh = ThreeDeeUtil.ConvertObjModelToToxiMesh( p, obj );
+		_models.put( id, new ObjItem( p, scale, file, mesh ) );
 	}
+		
+//	public void loadSVG( String id, float scale, String file ) {
+//		_models.put( id, new ObjItem( p, scale, file ) );
+//	}
 		
 	public WETriangleMesh getMesh( String id ) {
 		return _models.get( id )._mesh;
 	}
 
 	public OBJModel getModel( String id ) {
-		return _models.get( id )._obj;
+		return null;//_models.get( id )._obj;
 	}
 
 	public ArrayList<String> getIds() {
@@ -55,7 +63,6 @@ public class ObjPool {
 	public class ObjItem {
 		public String _file;
 		public float _scale;
-		public OBJModel _obj;
 		public WETriangleMesh _mesh;
 		
 		/**
@@ -64,12 +71,10 @@ public class ObjPool {
 		 * @param scale
 		 * @param file
 		 */
-		public ObjItem( PApplet p, float scale, String file ) {
+		public ObjItem( PApplet p, float scale, String file, WETriangleMesh mesh ) {
 			_file = file;
 			_scale = scale;
-			_obj = new OBJModel( p, file, OBJModel.RELATIVE );
-			_obj.scale( _scale );
-			_mesh = ThreeDeeUtil.ConvertObjModelToToxiMesh( p, _obj );
+			_mesh = mesh;
 		}
 	}
 }
