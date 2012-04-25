@@ -15,7 +15,6 @@ import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.util.DebugUtil;
-import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.OpenGLUtil;
 
 public class ObjLoaderDemo 
@@ -72,10 +71,14 @@ extends PApplet
 		_objPool.addMesh( "HELLO", helloTextMesh, 1 );
 		_objPool.addMesh( "HELLO_3D", MeshUtil.getExtrudedMesh( helloTextMesh, 20 ), 1 );
 		
-		// .svg vecotrs
+		// .svg vectors
 		WETriangleMesh cacheSVG = MeshUtil.meshFromSVG( p, "../data/svg/cacheflowe-logo.svg", 1f );
 		_objPool.addMesh( "CACHE", cacheSVG, 0.5f );
 		_objPool.addMesh( "CACHE_EXTRUDE", MeshUtil.getExtrudedMesh( cacheSVG, 20 ), 1 );
+		
+		// img models
+		_objPool.addMesh( "KACHEOUT", MeshUtil.meshFromImg( p, "../data/images/kacheout.gif", 1f ), 10f );
+		_objPool.addMesh( "MUSIC_NOTE", MeshUtil.meshFromImg( p, "../data/images/music.gif", 1f ), 10f );
 		
 		// .obj models
 		_objPool.addMesh( "POINTER", MeshUtil.meshFromOBJ( p, "../data/models/pointer_cursor_2_hollow.obj", 1f ), 1.5f );

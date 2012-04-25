@@ -8,11 +8,15 @@ import geomerative.RMesh;
 import geomerative.RPoint;
 import geomerative.RSVG;
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.core.PVector;
 import saito.objloader.OBJModel;
+import toxi.geom.AABB;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
+
+import com.haxademic.core.util.ImageUtil;
 
 public class MeshUtil {
 	
@@ -38,6 +42,23 @@ public class MeshUtil {
 		return mesh;
 	}
 
+	public static WETriangleMesh meshFromImg( PApplet p, String file, float scale ) {
+		WETriangleMesh mesh = new WETriangleMesh();
+		PImage image = p.loadImage( file );
+		AABB box = new AABB( 0.5f );
+		for( int x=0; x < image.width; x++ ){
+			for(int y=0; y < image.height; y++){
+				if( ImageUtil.getPixelColor( image, x, y ) != -1 ) {
+					box.set( x, y, 0 );
+					mesh.addMesh( box.toMesh() );
+				}
+			}
+		}
+		mesh.translate( new Vec3D( -image.width/2, -image.height/2, 0 ) );
+		mesh.scale( scale );
+		return mesh;
+	}
+	
 
 	public static WETriangleMesh meshFromSVG( PApplet p, String file, float scale ) {
 		if( RG.initialized() == false ) RG.init( p );
