@@ -146,7 +146,7 @@ extends PApplet
 		}
 
 		// draw to screen
-		toxi.mesh( _mesh, true, 0 );
+		toxi.mesh( _mesh );
 		
 		
 		

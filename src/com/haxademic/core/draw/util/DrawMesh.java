@@ -89,7 +89,7 @@ public class DrawMesh {
 		}
 	}
 
-	public static void drawObjModel( PApplet p, ToxiclibsSupport toxi, OBJModel model ) {
+	public static void drawObjModelFaces( PApplet p, ToxiclibsSupport toxi, OBJModel model ) {
 		// loop through and set vertices
 		Triangle3D tri;
 		
@@ -103,6 +103,24 @@ public class DrawMesh {
 					new Vec3D( facePoints[0].x, facePoints[0].y, facePoints[0].z ), 
 					new Vec3D( facePoints[1].x, facePoints[1].y, facePoints[1].z ), 
 					new Vec3D( facePoints[2].x, facePoints[2].y, facePoints[2].z )
+				);
+			toxi.triangle( tri );
+		}		
+	}
+	
+	public static void drawToxiFaces( PApplet p, ToxiclibsSupport toxi, WETriangleMesh mesh ) {
+		// loop through and set vertices
+		Triangle3D tri;
+		Face face;
+		
+		
+		// loop through model's vertices
+		for( int i = 0; i < mesh.faces.size(); i++ ) {
+			face = mesh.faces.get( i );
+			tri = new Triangle3D( 
+					new Vec3D( face.a.x, face.a.y, face.a.z ), 
+					new Vec3D( face.b.x, face.b.y, face.b.z ), 
+					new Vec3D( face.c.x, face.c.y, face.c.z )
 				);
 			toxi.triangle( tri );
 		}		

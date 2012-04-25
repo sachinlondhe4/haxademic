@@ -12,7 +12,6 @@ import toxi.processing.ToxiclibsSupport;
 import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.util.DrawMesh;
-import com.haxademic.core.draw.util.ThreeDeeUtil;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.OpenGLUtil;
@@ -27,12 +26,13 @@ extends PApplet
 	
 	MeshPool _objPool;
 	WETriangleMesh _mesh;
+	OBJModel _model;
 	float _rot;
 	int _meshIndex;
 	ArrayList<String> _modelIds;
 	
 	boolean _isSunflow = false;
-	boolean _isRendering = true;
+	boolean _isRendering = false;
 
 	public void setup () {
 		p = this;
@@ -61,9 +61,19 @@ extends PApplet
 		}
 		
 		// set up 3d objects pool
+//		_objPool.loadObj( "MODE_SET", 150, "../data/models/mode-set.obj" );
+		
 		_objPool = new MeshPool( p );
-//		_objPool.loadObj( "MODE_SET", 150, "../data/models/mode-set.obj" );	
 		_objPool.addMesh( "CACHEFLOWE", MeshUtil.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 100 );
+		
+		_model = new OBJModel( p, "../data/models/cacheflowe-3d.obj", OBJModel.RELATIVE );
+		_model.scale( 100 );
+		
+//		if( RG.initialized() == false ) RG.init( p );
+//		RFont font = new RFont( "../data/fonts/HelloDenverDisplay-Regular.ttf", 200, RFont.CENTER);
+//		WETriangleMesh helloTextMesh = MeshUtil.mesh2dFromTextFont( p, font, null, -1, "HELLO", 1f );
+//		_objPool.addMesh( "HELLO_3D", MeshUtil.getExtrudedMesh( helloTextMesh, 20 ), 1 );
+
 		
 		_modelIds = _objPool.getIds();
 		_mesh = _objPool.getMesh( _modelIds.get( 0 ) );
@@ -93,7 +103,8 @@ extends PApplet
 		p.noStroke();
 //		p.rect( 0, 0, 2500, 1500 );
 //		DrawMesh.drawObjModel( p, toxi, _model );
-		toxi.mesh( _mesh, true, 0 );
+//		DrawMesh.drawToxiFaces( p, toxi, _mesh );
+		toxi.mesh( _mesh, false, 0 );
 		
 		// render movie
 		if( _isRendering == true && _render != null ) {

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import processing.core.PApplet;
-import saito.objloader.OBJModel;
 import toxi.geom.mesh.WETriangleMesh;
 
 /**
