@@ -6,50 +6,50 @@ While the code has been open-sourced, this library is not quite ready for genera
 
 ## Features / Capabilities
 * Inputs
-** Audio input and analysis (both realtime and step-through for rendering)
-*** FFT analysis
-*** Waveform/oscilloscope data
-*** Audio beat detection
-** Step-through rendering with multiple audio files concurrently
-** MIDI input (both realtime and step-through for rendering)
-*** Cached MIDI input to avoid thread-unsafe operations
-** OSC input
-** Kinect input
+	* Audio input and analysis (both realtime and step-through for rendering)
+		* FFT analysis
+		* Waveform/oscilloscope data
+		* Audio beat detection
+	* Step-through rendering with multiple audio files concurrently
+	* MIDI input (both realtime and step-through for rendering)
+		* Cached MIDI input to avoid thread-unsafe operations
+	* OSC input
+	* Kinect input
 * 3D Tools (using Toxiclibs WETriangleMesh objects as the common format)
-** Convert SVG files to 2D meshes
-** Create a 2D mesh from text with a custom .ttf font
-** Simple extrusion of 2D meshes
-** Load and convert .obj files to WETriangleMesh
-** Mesh pool object to load and hold instance of any number of meshes
-** Base Camera type, with simple camera subclasses (needs work) 
-** Draw a mesh with incoming Audio data spread across the faces
-** Shatter a box or sphere with randomized Voronoi3D calculations (soon to work on any mesh)
-** Some basic shape-drawing code
-** Mesh smoothing
+	* Convert SVG files to 2D meshes
+	* Create a 2D mesh from text with a custom .ttf font
+	* Simple extrusion of 2D meshes
+	* Load and convert .obj files to WETriangleMesh
+	* Mesh pool object to load and hold instance of any number of meshes
+	* Base Camera type, with simple camera subclasses (needs work) 
+	* Draw a mesh with incoming Audio data spread across the faces
+	* Shatter a box or sphere with randomized Voronoi3D calculations (soon to work on any mesh)
+	* Some basic shape-drawing code
+	* Mesh smoothing
 * Image processing
-** PImage reversal
-** Multiple screenshot methods
+	* PImage reversal
+	* Multiple screenshot methods
 * Utility objects
-** Math utilities
-** Easing floats (with 3D containers)
-** Elastic floats (with 3D containers)
-** Utilities to (re)set Applet properties like lighting, current matrix, drawing colors
-** OpenGL utility to set GL-specific properties
-** Debug utilities to report current actual frame rate, memory usage 
-** Timestamp generators
-** Eased color interpolation
+	* Math utilities
+	* Easing floats (with 3D containers)
+	* Elastic floats (with 3D containers)
+	* Utilities to (re)set Applet properties like lighting, current matrix, drawing colors
+	* OpenGL utility to set GL-specific properties
+	* Debug utilities to report current actual frame rate, memory usage 
+	* Timestamp generators
+	* Eased color interpolation
 * Output
-** Render to Quicktime or image sequence with minimal effort
-** High-quality rendering with the Sunflow renderer, for beautiful globally-illuminated, antialiased scenes 
-** Audio playback with cached audio clip pool
+	* Render to Quicktime or image sequence with minimal effort
+	* High-quality rendering with the Sunflow renderer, for beautiful globally-illuminated, antialiased scenes 
+	* Audio playback with cached audio clip pool
 * General Environment
-** .properties file loader with overridable defaults
-** Directory searching for specific filetypes
-** Automatic screensaver disabling while running
-** True full-screen mode on OS X
+	* .properties file loader with overridable defaults
+	* Directory searching for specific filetypes
+	* Automatic screensaver disabling while running
+	* True full-screen mode on OS X
 * Demo apps
-** HaxVisual - a modular VJ system
-** KacheOut - a 2-player Kinect-based video game 
+	* HaxVisual - a modular VJ system
+	* KacheOut - a 2-player Kinect-based video game 
 
 ## Todo
 * Comment the codebase and generate docs
@@ -57,6 +57,7 @@ While the code has been open-sourced, this library is not quite ready for genera
 * Make the Eclipse project easily installable for anyone else
 * Support Windows - mostly will require a different Kinect library & abstraction
 * Clean up legacy code that's no longer used
+* Lots more noted in the PAppletHax class comments
 
 ## Requirements / Compiling
 IDE:
