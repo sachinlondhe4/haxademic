@@ -1,4 +1,4 @@
-package com.haxademic.sketch.obj;
+package com.haxademic.sketch.three_d;
 
 import geomerative.RFont;
 import geomerative.RG;
@@ -18,7 +18,7 @@ import com.haxademic.core.util.DebugUtil;
 import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.OpenGLUtil;
 
-public class ObjLoaderDemo 
+public class MeshLoaderDemo 
 extends PApplet
 {
 	ToxiclibsSupport toxi;
