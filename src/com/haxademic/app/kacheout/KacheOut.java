@@ -1,10 +1,14 @@
 package com.haxademic.app.kacheout;
 
+import geomerative.RFont;
+import geomerative.RG;
+
 import java.util.ArrayList;
 
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
+import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.game.GamePlay;
@@ -14,6 +18,7 @@ import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.cameras.CameraDefault;
 import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.data.FloatRange;
+import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.util.ColorGroup;
 import com.haxademic.core.util.DrawUtil;
@@ -58,7 +63,10 @@ extends PAppletHax
 
 	protected ICamera _curCamera = null;
 	
-	protected PFont _cdwFont;
+	// texts
+	protected RFont _fontHelloDenver;
+	protected RFont _fontBitLow;
+	protected WETriangleMesh _textCreateDenver;
 	
 	// game state
 	protected int _curMode;
@@ -89,9 +97,6 @@ extends PAppletHax
 
 		newCamera();
 		
-		_cdwFont = p.createFont("HelloDenverDisplay-Regular",30);
-
-		
 		_audioInput.setNumAverages( _numAverages );
 		_audioInput.setDampening( .13f );
 		
@@ -108,6 +113,41 @@ extends PAppletHax
 		initGame();
 	}
 
+	public void initGame() {
+		// set flags and props	
+		pickNewColors();
+		_gameState = GAME_READY;
+		
+		// init game objects
+		createTextObjects();
+		_audio = new AudioLoopPlayer( p );
+		
+		_gameWidth = _stageWidth / NUM_PLAYERS;
+		float kinectRangeWidth = KinectWrapper.KWIDTH / 2f * KINECT_GAP_PERCENT;
+		_player1 = new GamePlay( 0, _gameWidth, new FloatRange( 0, kinectRangeWidth ) );
+		_player2 = new GamePlay( _gameWidth, _gameWidth * 2, new FloatRange( KinectWrapper.KWIDTH - kinectRangeWidth, KinectWrapper.KWIDTH ) );
+		_gamePlays = new ArrayList<GamePlay>();
+		_gamePlays.add( _player1 );
+		_gamePlays.add( _player2 );
+	}
+	
+	protected void createTextObjects() {
+		// make sure geomerative is ready
+		if( RG.initialized() == false ) RG.init( p );
+		
+		// load fonts
+		_fontHelloDenver = new RFont( "../data/fonts/HelloDenverDisplay-Regular.ttf", 200, RFont.CENTER);
+		_fontBitLow = new RFont( "../data/fonts/bitlow.ttf", 200, RFont.CENTER);
+		
+		// move meshes into different screen objects - TitleScreen, 
+//		_objPool.addMesh( "HAI", MeshUtil.mesh2dFromTextFont( p, null, "../data/fonts/bitlow.ttf", 200, "HAI", -1, 2, 1f ), 1 );
+//		_objPool.addMesh( "HELLO", helloTextMesh, 1 );
+//		_objPool.addMesh( "HELLO_3D", MeshUtil.getExtrudedMesh( helloTextMesh, 20 ), 1 );
+
+//		_textCreateDenver = MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 1f ), 20 );
+		_textCreateDenver = MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 1f );
+	}
+	
 	// HAXADEMIC STUFF --------------------------------------------------------------------------------------
 	void newCamera() {
 		_curCamera = new CameraDefault( p, 0, 0, 0 );
@@ -168,6 +208,12 @@ extends PAppletHax
 		_curCamera.update();
 
 		updateGame();
+		
+		// testing!
+		DrawUtil.setCenter( p );
+		p.translate( 0, 0, -1000 );
+		p.fill( 255 );
+		p._toxi.mesh( _textCreateDenver );
 	
 		if( _isDebugging == true ) displayDebug();
 	}
@@ -188,23 +234,6 @@ extends PAppletHax
 	}
 	
 	// GAME LOGIC --------------------------------------------------------------------------------------
-	
-	public void initGame() {
-		// set flags and props	
-		pickNewColors();
-		_gameState = GAME_READY;
-		
-		// init game objects
-		_audio = new AudioLoopPlayer( p );
-		
-		_gameWidth = _stageWidth / NUM_PLAYERS;
-		float kinectRangeWidth = KinectWrapper.KWIDTH / 2f * KINECT_GAP_PERCENT;
-		_player1 = new GamePlay( 0, _gameWidth, new FloatRange( 0, kinectRangeWidth ) );
-		_player2 = new GamePlay( _gameWidth, _gameWidth * 2, new FloatRange( KinectWrapper.KWIDTH - kinectRangeWidth, KinectWrapper.KWIDTH ) );
-		_gamePlays = new ArrayList<GamePlay>();
-		_gamePlays.add( _player1 );
-		_gamePlays.add( _player2 );
-	}
 	
 	protected void updateGame() {
 		// debug bg

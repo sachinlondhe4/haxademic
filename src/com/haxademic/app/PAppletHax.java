@@ -49,6 +49,7 @@ import fullscreen.FullScreen;
  * minim 
  * Geomerative 
  * 
+ * @TODO: Use a static Haxademic.support( PApplet ) type static instance to let us gain access to the applet without passing it everywhere. Look at Geomerative & Toxiclibs to see how they did it.
  * @TODO: Address garbage collection - a larger project would be to have dispose() methods in every class, and implement disposal across the project.
  * @TODO: Come up with a single solution to be an IVizModule or an extension of PAppletHax. 
  * @TODO: optimize the kinectMesh element - shit is slow
