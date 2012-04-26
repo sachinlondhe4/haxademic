@@ -1,10 +1,53 @@
 # Haxademic
-Haxademic is a multimedia platform, built in Java and [Processing](http://processing.org/). is a starting point for interactive visuals, giving you a unified environment for both realtime and rendering modes. It loads several Java libraries and wraps them up to play nicely with each other, all within the context of Haxademic. It handles any number of problems faced by thread-unsafe inputs like MIDI.
+Haxademic is a multimedia platform, built in Java and [Processing](http://processing.org/). It’s a starting point for interactive visuals, giving you a unified environment for both realtime and rendering modes. It loads several Java libraries and wraps them up to play nicely with each other, all within the context of Haxademic. It solves a number of problems faced by thread-unsafe inputs, and a number of hardware inputs like audio, Kinect, MIDI and OSC.
 
 ## Pre-Alpha State
-While the code has been open-sourced, this library is definitely not ready for general use, but I'm trying to get it there. If you're interested in collaborating, please contact me via my [GitHub account](http://github.com/cacheflowe), or my [web site](http://cacheflowe.com/?page=contact). If you're interested in getting the project running, let me know and I can help for now.
+While the code has been open-sourced, this library is not quite ready for general use, but I'm trying to get it there. There's plenty of interesting code within, and I fully endorse borrowing it however you see fit in the meantime. If you're interested in collaborating, please contact me via my [GitHub account](http://github.com/cacheflowe), or my [web site](http://cacheflowe.com/?page=contact). If you're interested in getting the project running, let me know and I can help for now.
 
-## Requirements
+## Features / Capabilities
+* Inputs
+** Audio input and analysis (both realtime and step-through for rendering)
+*** FFT analysis
+*** Waveform/oscilloscope data
+*** Audio beat detection
+** Step-through rendering with multiple audio files concurrently
+** MIDI input (both realtime and step-through for rendering)
+** OSC input
+** Kinect input
+* 3D Tools (using Toxiclibs WETriangleMesh objects as the common format)
+** Convert SVG files to 2D meshes
+** Create a 2D mesh from text with a custom .ttf font
+** Simple extrusion of 2D meshes
+** Load and convert .obj files to WETriangleMesh
+** Mesh pool object to load and hold instance of any number of meshes
+** Base Camera type, with simple camera subclasses (needs work) 
+** Draw a mesh with incoming Audio data spread across the faces
+** Shatter a box or sphere with randomized Voronoi3D calculations (soon to work on any mesh)
+** Some basic shape-drawing code
+** Mesh smoothing
+* Image processing
+** PImage reversal
+** Multiple screenshot methods
+* Utility objects
+** Math utilities
+** Easing floats (with 3D containers)
+** Elastic floats (with 3D containers)
+** Utilities to (re)set Applet properties like lighting, current matrix, drawing colors
+** OpenGL utility to set GL-specific properties
+** Debug utilities to report current actual frame rate, memory usage 
+** Timestamp generators
+** Eased color interpolation
+* Output
+** Render to Quicktime or image sequence with minimal effort
+** Audio player with cached audio clip pool
+* General Environment
+** .properties file loader with overridable defaults
+** Directory searching for specific filetypes
+* Demo apps
+** HaxVisual - a modular VJ system
+** KacheOut - a 2-player Kinect-based video game 
+
+## Requirements / Compiling
 IDE:
 
 * Eclipse
