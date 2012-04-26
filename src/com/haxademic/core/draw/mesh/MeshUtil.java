@@ -60,13 +60,9 @@ public class MeshUtil {
 	}
 	
 
-	public static WETriangleMesh meshFromSVG( PApplet p, String file, float scale ) {
-		if( RG.initialized() == false ) RG.init( p );
+	public static WETriangleMesh meshFromSVG( PApplet p, String file, int segmentLength, int segmentStep, float scale ) {
+		setRMeshResolution( p, segmentLength, segmentStep );
 		
-		// TODO: make this configurable?
-		RCommand.setSegmentLength(8);
-		RCommand.setSegmentator(RCommand.UNIFORMLENGTH);
-
 		// build from font path or a passed-in RFont
 		RSVG rSvg = new RSVG();
 		RGroup grp = rSvg.toGroup( file );
@@ -80,13 +76,9 @@ public class MeshUtil {
 		return mesh;
 	}
 	
-	public static WETriangleMesh mesh2dFromTextFont( PApplet p, RFont font, String fontPath, int fontSize, String text, float scale ) {
-		if( RG.initialized() == false ) RG.init( p );
+	public static WETriangleMesh mesh2dFromTextFont( PApplet p, RFont font, String fontPath, int fontSize, String text, int segmentLength, int segmentStep, float scale ) {
+		setRMeshResolution( p, segmentLength, segmentStep );
 		
-		// TODO: make this configurable?
-		RCommand.setSegmentLength(10);
-		RCommand.setSegmentator(RCommand.UNIFORMLENGTH);
-
 		// build from font path or a passed-in RFont
 		if( font == null ) font = new RFont( fontPath, fontSize, RFont.CENTER);
 		RGroup grp = font.toGroup( text );
@@ -96,6 +88,26 @@ public class MeshUtil {
 		WETriangleMesh mesh = rMeshToToxiMesh( rMesh );
 		mesh.scale( scale );
 		return mesh;
+	}
+	
+	/**
+	 * Sets resolution for the Geomerative library to create 2D meshes from text or svg files.
+	 * @param p					The applet
+	 * @param segmentLength		Uses UNIFORMLENGTH - smaller numbers are higher resolution
+	 * @param segmentStep		Uses UNIFORMSTEP - larger numbers are higher resolution
+	 */
+	public static void setRMeshResolution( PApplet p, int segmentLength, int segmentStep ) {
+		if( RG.initialized() == false ) RG.init( p );
+		
+		if( segmentLength != -1 ) {
+			RCommand.setSegmentator( RCommand.UNIFORMLENGTH );	
+			RCommand.setSegmentLength( segmentLength );
+		} else if( segmentStep != -1 ) {
+			RCommand.setSegmentator( RCommand.UNIFORMSTEP );	
+			RCommand.setSegmentStep( segmentStep );
+		} else {
+			RCommand.setSegmentator( RCommand.ADAPTATIVE );	
+		}
 	}
 	
 	public static WETriangleMesh rMeshToToxiMesh( RMesh rMesh ) {
@@ -135,7 +147,7 @@ public class MeshUtil {
 					new Vec3D( face.c.x, face.c.y, -depth ) 
 			);
 			
-			// draw walls - close the 2 triangles drawn above
+			// draw walls between the 2 faces - close the 2 triangles 
 			addTriQuadToMeshWith4Points( 
 					mesh3d, 
 					new Vec3D( face.a.x, face.a.y, depth ),

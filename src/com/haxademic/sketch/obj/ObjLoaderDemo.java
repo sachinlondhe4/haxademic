@@ -67,15 +67,17 @@ extends PApplet
 		// 3d text with different options
 		if( RG.initialized() == false ) RG.init( p );
 		RFont font = new RFont( "../data/fonts/HelloDenverDisplay-Regular.ttf", 200, RFont.CENTER);
-		_objPool.addMesh( "HAI", MeshUtil.mesh2dFromTextFont( p, null, "../data/fonts/bitlow.ttf", 200, "HAI", 1f ), 1 );
-		WETriangleMesh helloTextMesh = MeshUtil.mesh2dFromTextFont( p, font, null, -1, "HELLO", 1f );
+		_objPool.addMesh( "HAI", MeshUtil.mesh2dFromTextFont( p, null, "../data/fonts/bitlow.ttf", 200, "HAI", -1, 2, 1f ), 1 );
+		WETriangleMesh helloTextMesh = MeshUtil.mesh2dFromTextFont( p, font, null, -1, "HELLO", -1, 3, 1f );
 		_objPool.addMesh( "HELLO", helloTextMesh, 1 );
 		_objPool.addMesh( "HELLO_3D", MeshUtil.getExtrudedMesh( helloTextMesh, 20 ), 1 );
 		
 		// .svg vectors
-		WETriangleMesh cacheSVG = MeshUtil.meshFromSVG( p, "../data/svg/cacheflowe-logo.svg", 1f );
+		WETriangleMesh cacheSVG = MeshUtil.meshFromSVG( p, "../data/svg/cacheflowe-logo.svg", -1, 10, 1f );
 		_objPool.addMesh( "CACHE", cacheSVG, 0.5f );
 		_objPool.addMesh( "CACHE_EXTRUDE", MeshUtil.getExtrudedMesh( cacheSVG, 20 ), 1 );
+		_objPool.addMesh( "DIAMOND_2D", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/diamond.svg", -1, 3, 0.5f ), 20 ), 1 );
+		_objPool.addMesh( "BIKE_COMMUTER", MeshUtil.meshFromSVG( p, "../data/svg/bike-commuter.svg", -1, 7, 0.5f ), 1 );
 		
 		// img models
 		_objPool.addMesh( "KACHEOUT", MeshUtil.meshFromImg( p, "../data/images/kacheout/kacheout.gif", 1f ), 20f );
