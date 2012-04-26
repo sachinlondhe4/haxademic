@@ -12,6 +12,7 @@ While the code has been open-sourced, this library is not quite ready for genera
 *** Audio beat detection
 ** Step-through rendering with multiple audio files concurrently
 ** MIDI input (both realtime and step-through for rendering)
+*** Cached MIDI input to avoid thread-unsafe operations
 ** OSC input
 ** Kinect input
 * 3D Tools (using Toxiclibs WETriangleMesh objects as the common format)
@@ -39,13 +40,23 @@ While the code has been open-sourced, this library is not quite ready for genera
 ** Eased color interpolation
 * Output
 ** Render to Quicktime or image sequence with minimal effort
-** Audio player with cached audio clip pool
+** High-quality rendering with the Sunflow renderer, for beautiful globally-illuminated, antialiased scenes 
+** Audio playback with cached audio clip pool
 * General Environment
 ** .properties file loader with overridable defaults
 ** Directory searching for specific filetypes
+** Automatic screensaver disabling while running
+** True full-screen mode on OS X
 * Demo apps
 ** HaxVisual - a modular VJ system
 ** KacheOut - a 2-player Kinect-based video game 
+
+## Todo
+* Comment the codebase and generate docs
+* Create a unified keyboard/MIDI/OSC input system with improved midi/osc data handling
+* Make the Eclipse project easily installable for anyone else
+* Support Windows - mostly will require a different Kinect library & abstraction
+* Clean up legacy code that's no longer used
 
 ## Requirements / Compiling
 IDE:
