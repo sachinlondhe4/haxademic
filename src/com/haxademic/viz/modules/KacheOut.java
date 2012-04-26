@@ -7,21 +7,19 @@ import toxi.color.TColor;
 import toxi.geom.AABB;
 import toxi.geom.Sphere;
 import toxi.geom.Vec3D;
-import toxi.geom.mesh.WETriangleMesh;
 
-import com.haxademic.viz.IVizModule;
-import com.haxademic.viz.ModuleBase;
-import com.haxademic.viz.elements.GridEQ;
 import com.haxademic.core.audio.AudioLoopPlayer;
 import com.haxademic.core.cameras.CameraDefault;
 import com.haxademic.core.data.FloatRange;
 import com.haxademic.core.data.easing.EasingFloat;
-import com.haxademic.core.draw.shapes.Meshes;
+import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.util.ColorGroup;
-import com.haxademic.core.util.DebugUtil;
 import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.MathUtil;
+import com.haxademic.viz.IVizModule;
+import com.haxademic.viz.ModuleBase;
+import com.haxademic.viz.elements.GridEQ;
 
 public class KacheOut
 extends ModuleBase 

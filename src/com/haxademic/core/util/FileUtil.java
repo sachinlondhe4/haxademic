@@ -5,6 +5,8 @@ import java.io.FileFilter;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 
+import com.haxademic.core.debug.DebugUtil;
+
 public class FileUtil {
 	public static ArrayList<String> getFilesInDirOfType( String directory, String type ) {
 		File dir = new File( directory );

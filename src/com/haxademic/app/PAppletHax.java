@@ -14,6 +14,7 @@ import toxi.processing.ToxiclibsSupport;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.audio.WaveformData;
 import com.haxademic.core.data.P5Properties;
+import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.debug.Stats;
 import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.text.DebugText;
@@ -22,7 +23,6 @@ import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.render.MidiSequenceRenderer;
 import com.haxademic.core.render.Renderer;
-import com.haxademic.core.util.DebugUtil;
 import com.haxademic.core.util.OpenGLUtil;
 import com.haxademic.viz.launchpad.LaunchpadViz;
 

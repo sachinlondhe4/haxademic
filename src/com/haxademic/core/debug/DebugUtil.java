@@ -1,4 +1,4 @@
-package com.haxademic.core.util;
+package com.haxademic.core.debug;
 
 public class DebugUtil {
 	
