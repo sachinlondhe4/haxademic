@@ -119,7 +119,7 @@ extends PAppletHax
 		_gameState = GAME_READY;
 		
 		// init game objects
-		createTextObjects();
+		createMeshPool();
 		_audio = new AudioLoopPlayer( p );
 		
 		_gameWidth = _stageWidth / NUM_PLAYERS;
@@ -131,7 +131,7 @@ extends PAppletHax
 		_gamePlays.add( _player2 );
 	}
 	
-	protected void createTextObjects() {
+	protected void createMeshPool() {
 		// make sure geomerative is ready
 		if( RG.initialized() == false ) RG.init( p );
 		
@@ -139,13 +139,37 @@ extends PAppletHax
 		_fontHelloDenver = new RFont( "../data/fonts/HelloDenverDisplay-Regular.ttf", 200, RFont.CENTER);
 		_fontBitLow = new RFont( "../data/fonts/bitlow.ttf", 200, RFont.CENTER);
 		
-		// move meshes into different screen objects - TitleScreen, 
-//		_objPool.addMesh( "HAI", MeshUtil.mesh2dFromTextFont( p, null, "../data/fonts/bitlow.ttf", 200, "HAI", -1, 2, 1f ), 1 );
-//		_objPool.addMesh( "HELLO", helloTextMesh, 1 );
-//		_objPool.addMesh( "HELLO_3D", MeshUtil.getExtrudedMesh( helloTextMesh, 20 ), 1 );
-
+		// "create denver presents"
+		p.meshPool.addMesh( "CREATE DENVER", MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 1f ), 1 );
+		p.meshPool.addMesh( "PRESENTS_TEXT", MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "PRESENTS", -1, 2, 0.4f ), 1 );
 //		_textCreateDenver = MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 1f ), 20 );
-		_textCreateDenver = MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 1f );
+//		_textCreateDenver = MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 1f );
+		
+		// Kacheout logo
+		p.meshPool.addMesh( "KACHEOUT_LOGO", MeshUtil.meshFromImg( p, "../data/images/kacheout/kacheout.gif", 1f ), 20f );
+		p.meshPool.addMesh( "UFO", MeshUtil.meshFromImg( p, "../data/images/kacheout/invader-01.gif", 1f ), 30f );
+		
+		// cacheflowe / mode set
+		p.meshPool.addMesh( "MODE_SET_LOGO", MeshUtil.meshFromOBJ( p, "../data/models/mode-set.obj", 1f ), 150 );
+		p.meshPool.addMesh( "MODE_SET_LOGOTYPE", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/modeset-logotype.svg", -1, 6, 0.7f ), 4 ), 1 );
+		p.meshPool.addMesh( "CACHEFLOWE_LOGO", MeshUtil.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 150 );
+		p.meshPool.addMesh( "CACHEFLOWE_LOGOTYPE", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/cacheflowe-logotype.svg", -1, 6, 0.7f ), 4 ), 1 );
+
+		// design credits
+		p.meshPool.addMesh( "DESIGN_BY", MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "DESIGN BY:", -1, 2, 0.3f ), 1 );
+		p.meshPool.addMesh( "JON_DESIGN", MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "JON TRAISTER", -1, 2, 0.4f ), 1 );
+		p.meshPool.addMesh( "RYAN_DESIGN", MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "RYAN POLICKY", -1, 2, 0.4f ), 1 );
+		
+		// countdown
+		p.meshPool.addMesh( "COUNTDOWN_TEXT_1", MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "1", -1, 2, 3f ), 4 ), 1 );
+		p.meshPool.addMesh( "COUNTDOWN_TEXT_2", MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "2", -1, 2, 3f ), 4 ), 1 );
+		p.meshPool.addMesh( "COUNTDOWN_TEXT_3", MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "3", -1, 2, 3f ), 4 ), 1 );
+		
+		// win/lose
+		p.meshPool.addMesh( "WIN_TEXT", MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "WIN", -1, 2, 1f ), 20 ), 1 );
+		p.meshPool.addMesh( "LOSE_TEXT", MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "LOSE", -1, 2, 1f ), 20 ), 1 );
+
+		
 	}
 	
 	// HAXADEMIC STUFF --------------------------------------------------------------------------------------
