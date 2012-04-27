@@ -83,10 +83,10 @@ public class Walls {
 		_colorTop.update();
 		_colorRight.update();
 		p.fill( _colorLeft.color().toARGB() );
-		p._toxi.box( _wallLeft ); 
+		p.toxi.box( _wallLeft ); 
 		p.fill( _colorTop.color().toARGB() );
-		p._toxi.box( _wallTop ); 
+		p.toxi.box( _wallTop ); 
 		p.fill( _colorRight.color().toARGB() );
-		p._toxi.box( _wallRight ); 
+		p.toxi.box( _wallRight ); 
 	}
 }

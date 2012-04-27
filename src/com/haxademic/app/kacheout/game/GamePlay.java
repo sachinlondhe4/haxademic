@@ -61,7 +61,7 @@ public class GamePlay {
 		}
 		
 		// create game objects
-		_background = new GridEQ( p, p._toxi, p._audioInput );
+		_background = new GridEQ( p, p.toxi, p._audioInput );
 		_background.updateColorSet( p.gameColors() );
 
 		_ball = new Ball();

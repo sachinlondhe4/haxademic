@@ -93,7 +93,7 @@ public class Block {
 			_color.color().alpha = p.constrain( 0.5f + zAdd, 0, 1 );
 			p.fill( _color.color().toARGB() );
 			p.noStroke();
-			p._toxi.box( _box );	
+			p.toxi.box( _box );	
 			
 		} else {
 			if( _box.y < p.stageHeight() ) {
@@ -104,7 +104,7 @@ public class Block {
 				
 				p.fill( _color.color().toARGB() );
 				p.noStroke();
-				p._toxi.box( _box );
+				p.toxi.box( _box );
 			}
 		}
 	}	

@@ -13,6 +13,7 @@ import toxi.geom.mesh.WETriangleMesh;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.game.GamePlay;
 import com.haxademic.app.kacheout.game.Soundtrack;
+import com.haxademic.app.kacheout.screens.IntroScreen;
 import com.haxademic.core.audio.AudioLoopPlayer;
 import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.cameras.CameraDefault;
@@ -68,6 +69,24 @@ extends PAppletHax
 	protected RFont _fontBitLow;
 	protected WETriangleMesh _textCreateDenver;
 	
+	// mesh IDs
+	public String CREATE_DENVER = "CREATE_DENVER";
+	public String PRESENTS_TEXT = "PRESENTS_TEXT";
+	public String KACHEOUT_LOGO = "KACHEOUT_LOGO";
+	public String UFO = "UFO";
+	public String MODE_SET_LOGO = "MODE_SET_LOGO";
+	public String MODE_SET_LOGOTYPE = "MODE_SET_LOGOTYPE";
+	public String CACHEFLOWE_LOGO = "CACHEFLOWE_LOGO";
+	public String CACHEFLOWE_LOGOTYPE = "CACHEFLOWE_LOGOTYPE";
+	public String DESIGN_BY = "DESIGN_BY";
+	public String JON_DESIGN = "JON_DESIGN";
+	public String RYAN_DESIGN = "RYAN_DESIGN";
+	public String COUNTDOWN_TEXT_1 = "COUNTDOWN_TEXT_1";
+	public String COUNTDOWN_TEXT_2 = "COUNTDOWN_TEXT_2";
+	public String COUNTDOWN_TEXT_3 = "COUNTDOWN_TEXT_3";
+	public String WIN_TEXT = "WIN_TEXT";
+	public String LOSE_TEXT = "LOSE_TEXT";
+	
 	// game state
 	protected int _curMode;
 	protected ColorGroup _gameColors;
@@ -75,6 +94,9 @@ extends PAppletHax
 	protected ArrayList<GamePlay> _gamePlays;
 	protected GamePlay _player1;
 	protected GamePlay _player2;
+	
+	// non-gameplay screens
+	protected IntroScreen _screenIntro;
 	
 	// game state
 	protected int _gameState;
@@ -93,6 +115,7 @@ extends PAppletHax
 		
 		_stageWidth = width;
 		_stageHeight = height;
+		_gameWidth = _stageWidth / NUM_PLAYERS;
 //		_cameraZFromHeight = (float)_stageHeight * CAMERA_Z_WIDTH_MULTIPLIER;
 
 		newCamera();
@@ -106,9 +129,13 @@ extends PAppletHax
 		
 		_soundtrack = new Soundtrack();
 		_soundtrack.playNext();
+		_audio = new AudioLoopPlayer( p );
 		
 		_kinectWrapper.enableDepth( true );
 		_kinectWrapper.enableDepthImage( true );
+
+		_gameState = GAME_READY;
+		_screenIntro = new IntroScreen();
 				
 		initGame();
 	}
@@ -116,13 +143,10 @@ extends PAppletHax
 	public void initGame() {
 		// set flags and props	
 		pickNewColors();
-		_gameState = GAME_READY;
 		
 		// init game objects
 		createMeshPool();
-		_audio = new AudioLoopPlayer( p );
 		
-		_gameWidth = _stageWidth / NUM_PLAYERS;
 		float kinectRangeWidth = KinectWrapper.KWIDTH / 2f * KINECT_GAP_PERCENT;
 		_player1 = new GamePlay( 0, _gameWidth, new FloatRange( 0, kinectRangeWidth ) );
 		_player2 = new GamePlay( _gameWidth, _gameWidth * 2, new FloatRange( KinectWrapper.KWIDTH - kinectRangeWidth, KinectWrapper.KWIDTH ) );
@@ -140,34 +164,34 @@ extends PAppletHax
 		_fontBitLow = new RFont( "../data/fonts/bitlow.ttf", 200, RFont.CENTER);
 		
 		// "create denver presents"
-		p.meshPool.addMesh( "CREATE DENVER", MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 1f ), 1 );
-		p.meshPool.addMesh( "PRESENTS_TEXT", MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "PRESENTS", -1, 2, 0.4f ), 1 );
+		p.meshPool.addMesh( CREATE_DENVER, MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 1f ), 1 );
+		p.meshPool.addMesh( PRESENTS_TEXT, MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "PRESENTS", -1, 2, 0.4f ), 1 );
 //		_textCreateDenver = MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 1f ), 20 );
 //		_textCreateDenver = MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 1f );
 		
 		// Kacheout logo
-		p.meshPool.addMesh( "KACHEOUT_LOGO", MeshUtil.meshFromImg( p, "../data/images/kacheout/kacheout.gif", 1f ), 20f );
-		p.meshPool.addMesh( "UFO", MeshUtil.meshFromImg( p, "../data/images/kacheout/invader-01.gif", 1f ), 30f );
+		p.meshPool.addMesh( KACHEOUT_LOGO, MeshUtil.meshFromImg( p, "../data/images/kacheout/kacheout.gif", 1f ), 20f );
+		p.meshPool.addMesh( UFO, MeshUtil.meshFromImg( p, "../data/images/kacheout/invader-01.gif", 1f ), 30f );
 		
 		// cacheflowe / mode set
-		p.meshPool.addMesh( "MODE_SET_LOGO", MeshUtil.meshFromOBJ( p, "../data/models/mode-set.obj", 1f ), 150 );
-		p.meshPool.addMesh( "MODE_SET_LOGOTYPE", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/modeset-logotype.svg", -1, 6, 0.7f ), 4 ), 1 );
-		p.meshPool.addMesh( "CACHEFLOWE_LOGO", MeshUtil.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 150 );
-		p.meshPool.addMesh( "CACHEFLOWE_LOGOTYPE", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/cacheflowe-logotype.svg", -1, 6, 0.7f ), 4 ), 1 );
+		p.meshPool.addMesh( MODE_SET_LOGO, MeshUtil.meshFromOBJ( p, "../data/models/mode-set.obj", 1f ), 150 );
+		p.meshPool.addMesh( MODE_SET_LOGOTYPE, MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/modeset-logotype.svg", -1, 6, 0.7f ), 4 ), 1 );
+		p.meshPool.addMesh( CACHEFLOWE_LOGO, MeshUtil.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 150 );
+		p.meshPool.addMesh( CACHEFLOWE_LOGOTYPE, MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/cacheflowe-logotype.svg", -1, 6, 0.7f ), 4 ), 1 );
 
 		// design credits
-		p.meshPool.addMesh( "DESIGN_BY", MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "DESIGN BY:", -1, 2, 0.3f ), 1 );
-		p.meshPool.addMesh( "JON_DESIGN", MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "JON TRAISTER", -1, 2, 0.4f ), 1 );
-		p.meshPool.addMesh( "RYAN_DESIGN", MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "RYAN POLICKY", -1, 2, 0.4f ), 1 );
+		p.meshPool.addMesh( DESIGN_BY, MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "DESIGN BY:", -1, 2, 0.3f ), 1 );
+		p.meshPool.addMesh( JON_DESIGN, MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "JON TRAISTER", -1, 2, 0.4f ), 1 );
+		p.meshPool.addMesh( RYAN_DESIGN, MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "RYAN POLICKY", -1, 2, 0.4f ), 1 );
 		
 		// countdown
-		p.meshPool.addMesh( "COUNTDOWN_TEXT_1", MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "1", -1, 2, 3f ), 4 ), 1 );
-		p.meshPool.addMesh( "COUNTDOWN_TEXT_2", MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "2", -1, 2, 3f ), 4 ), 1 );
-		p.meshPool.addMesh( "COUNTDOWN_TEXT_3", MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "3", -1, 2, 3f ), 4 ), 1 );
+		p.meshPool.addMesh( COUNTDOWN_TEXT_1, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "1", -1, 2, 3f ), 4 ), 1 );
+		p.meshPool.addMesh( COUNTDOWN_TEXT_2, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "2", -1, 2, 3f ), 4 ), 1 );
+		p.meshPool.addMesh( COUNTDOWN_TEXT_3, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "3", -1, 2, 3f ), 4 ), 1 );
 		
 		// win/lose
-		p.meshPool.addMesh( "WIN_TEXT", MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "WIN", -1, 2, 1f ), 20 ), 1 );
-		p.meshPool.addMesh( "LOSE_TEXT", MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "LOSE", -1, 2, 1f ), 20 ), 1 );
+		p.meshPool.addMesh( WIN_TEXT, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "WIN", -1, 2, 1f ), 20 ), 1 );
+		p.meshPool.addMesh( LOSE_TEXT, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "LOSE", -1, 2, 1f ), 20 ), 1 );
 
 		
 	}
@@ -231,6 +255,7 @@ extends PAppletHax
 		
 		_curCamera.update();
 
+		_screenIntro.update();
 		updateGame();
 		
 		// testing!

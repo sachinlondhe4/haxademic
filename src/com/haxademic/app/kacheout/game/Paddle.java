@@ -84,6 +84,6 @@ public class Paddle {
 		
 		p.fill( _color.color().toARGB() );
 		p.noStroke();
-		p._toxi.box( _box ); 
+		p.toxi.box( _box ); 
 	}
 }

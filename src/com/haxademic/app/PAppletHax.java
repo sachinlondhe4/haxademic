@@ -92,7 +92,7 @@ extends PApplet
 	/**
 	 * Single instance of Toxiclibs object
 	 */
-	public ToxiclibsSupport _toxi;
+	public ToxiclibsSupport toxi;
 	
 	/**
 	 * FullScreen object to get rid of the grey toolbar on OS X.
@@ -251,7 +251,7 @@ extends PApplet
 	 */
 	protected void initHaxademicObjects() {
 		// save single reference for other objects
-		_toxi = new ToxiclibsSupport(p);
+		toxi = new ToxiclibsSupport(p);
 		_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
 		_waveformData = new WaveformData( p, _audioInput._bufferSize );
 //		_objPool = new ObjPool( p );
@@ -436,7 +436,7 @@ extends PApplet
 	// instance of this -------------------------------------------------
 	public static PAppletHax getInstance(){ return p; }
 	// instance of toxiclibs -------------------------------------------------
-	public ToxiclibsSupport getToxi(){ return _toxi; }
+	public ToxiclibsSupport getToxi(){ return toxi; }
 	// instance of audio wrapper -------------------------------------------------
 	public AudioInputWrapper getAudio() { return _audioInput; }
 	// instance of midi wrapper -------------------------------------------------
