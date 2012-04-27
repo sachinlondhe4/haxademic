@@ -210,10 +210,10 @@ extends PAppletHax
 		updateGame();
 		
 		// testing!
-		DrawUtil.setCenter( p );
-		p.translate( 0, 0, -1000 );
-		p.fill( 255 );
-		p._toxi.mesh( _textCreateDenver );
+//		DrawUtil.setCenter( p );
+//		p.translate( 0, 0, -1000 );
+//		p.fill( 255 );
+//		p._toxi.mesh( _textCreateDenver );
 	
 		if( _isDebugging == true ) displayDebug();
 	}
