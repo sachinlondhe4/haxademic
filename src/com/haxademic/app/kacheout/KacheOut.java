@@ -178,8 +178,8 @@ extends PAppletHax
 		// cacheflowe / mode set
 		p.meshPool.addMesh( MODE_SET_LOGO, MeshUtil.meshFromOBJ( p, "../data/models/mode-set.obj", 1f ), 150 );
 		p.meshPool.addMesh( MODE_SET_LOGOTYPE, MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/modeset-logotype.svg", -1, 6, 0.35f ), 4 ), 1 );
-		p.meshPool.addMesh( CACHEFLOWE_LOGO, MeshUtil.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 150 );
-		p.meshPool.addMesh( CACHEFLOWE_LOGOTYPE, MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/cacheflowe-logotype.svg", -1, 6, 0.7f ), 4 ), 1 );
+		p.meshPool.addMesh( CACHEFLOWE_LOGO, MeshUtil.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 80f ), 1f );
+		p.meshPool.addMesh( CACHEFLOWE_LOGOTYPE, MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/cacheflowe-logotype.svg", -1, 6, 0.6f ), 4 ), 1 );
 
 		// design credits
 		p.meshPool.addMesh( DESIGN_BY, MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "DESIGN BY:", -1, 2, 0.3f ), 1 );
