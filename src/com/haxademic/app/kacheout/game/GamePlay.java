@@ -6,7 +6,6 @@ import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.data.FloatRange;
 import com.haxademic.core.data.easing.EasingFloat;
-import com.haxademic.core.draw.shapes.Voronoi3D;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.MathUtil;
