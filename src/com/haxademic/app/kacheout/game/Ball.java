@@ -166,7 +166,7 @@ public class Ball {
 			bounceY();
 			bounceBall();
 			_color.setCurAndTargetColors( WHITE, YELLOW );
-			p._sounds.getSound( "PADDLE_BOUNCE" ).play(0);
+			p.sounds.getSound( "PADDLE_BOUNCE" ).play(0);
 			paddle.hit();
 		}
 	}

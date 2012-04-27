@@ -97,7 +97,7 @@ public class GamePlay {
 	
 	protected void positionGameCenter( int gameIndex ){
 		DrawUtil.setTopLeft( p );
-		p.translate( 0,0,-p.height );
+		p.translate( 0, 0, p.gameBaseZ() );
 //		p.rotateX( p.PI / 16f );
 		
 		// rotate to kinect position
@@ -225,7 +225,7 @@ public class GamePlay {
 		if( _walls.detectSphere( _ball.sphere() ) == true ) {
 			_ball.detectWalls( _walls.leftHit(), _walls.topHit(), _walls.rightHit() );
 			_walls.resetCollisions();
-			p._sounds.getSound( "WALL_BOUNCE" ).play(0);
+			p.sounds.getSound( "WALL_BOUNCE" ).play(0);
 		}
 		// blocks
 		for (int i = 0; i < _invaders.size(); i++) {

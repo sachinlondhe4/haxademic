@@ -50,8 +50,8 @@ extends PAppletHax
 
 	// audio
 	protected AudioLoopPlayer _audio;
-	public AudioPool _sounds;
-	public Soundtrack _soundtrack;
+	public AudioPool sounds;
+	public Soundtrack soundtrack;
 	
 	// debug 
 	protected boolean _isDebugging = false;
@@ -103,7 +103,7 @@ extends PAppletHax
 	public final int GAME_READY = 2;
 	public final int GAME_ON = 3;
 	public final int GAME_OVER = 4;
-	public final int GAME_TITLE = 5;
+	public final int GAME_INTRO = 5;
 	public final int GAME_INSTRUCTIONS = 6;
 	public final int GAME_COUNTDOWN = 7;
 	
@@ -123,18 +123,18 @@ extends PAppletHax
 		_audioInput.setNumAverages( _numAverages );
 		_audioInput.setDampening( .13f );
 		
-		_sounds = new AudioPool( p, p._minim );
-		_sounds.loadAudioFile( "PADDLE_BOUNCE", 1, "wav/kacheout/ball_hit_wall_v03.wav" );
-		_sounds.loadAudioFile( "WALL_BOUNCE", 1, "wav/kacheout/ball_hit_wall_v02.wav" );
+		sounds = new AudioPool( p, p._minim );
+		sounds.loadAudioFile( "PADDLE_BOUNCE", 1, "wav/kacheout/ball_hit_wall_v03.wav" );
+		sounds.loadAudioFile( "WALL_BOUNCE", 1, "wav/kacheout/ball_hit_wall_v02.wav" );
+		sounds.loadAudioFile( "INSERT_COIN", 1, "wav/kacheout/sfx/insert coin.wav" );
 		
-		_soundtrack = new Soundtrack();
-		_soundtrack.playNext();
+		soundtrack = new Soundtrack();
+//		_soundtrack.playNext();
 		_audio = new AudioLoopPlayer( p );
 		
 		_kinectWrapper.enableDepth( true );
 		_kinectWrapper.enableDepthImage( true );
 
-		_gameState = GAME_READY;
 		_screenIntro = new IntroScreen();
 				
 		initGame();
@@ -153,6 +153,8 @@ extends PAppletHax
 		_gamePlays = new ArrayList<GamePlay>();
 		_gamePlays.add( _player1 );
 		_gamePlays.add( _player2 );
+		
+		setGameMode( GAME_INTRO );
 	}
 	
 	protected void createMeshPool() {
@@ -164,7 +166,7 @@ extends PAppletHax
 		_fontBitLow = new RFont( "../data/fonts/bitlow.ttf", 200, RFont.CENTER);
 		
 		// "create denver presents"
-		p.meshPool.addMesh( CREATE_DENVER, MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 1f ), 1 );
+		p.meshPool.addMesh( CREATE_DENVER, MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 0.8f ), 1 );
 		p.meshPool.addMesh( PRESENTS_TEXT, MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "PRESENTS", -1, 2, 0.4f ), 1 );
 //		_textCreateDenver = MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 1f ), 20 );
 //		_textCreateDenver = MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 1f );
@@ -175,7 +177,7 @@ extends PAppletHax
 		
 		// cacheflowe / mode set
 		p.meshPool.addMesh( MODE_SET_LOGO, MeshUtil.meshFromOBJ( p, "../data/models/mode-set.obj", 1f ), 150 );
-		p.meshPool.addMesh( MODE_SET_LOGOTYPE, MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/modeset-logotype.svg", -1, 6, 0.7f ), 4 ), 1 );
+		p.meshPool.addMesh( MODE_SET_LOGOTYPE, MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/modeset-logotype.svg", -1, 6, 0.35f ), 4 ), 1 );
 		p.meshPool.addMesh( CACHEFLOWE_LOGO, MeshUtil.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 150 );
 		p.meshPool.addMesh( CACHEFLOWE_LOGOTYPE, MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/cacheflowe-logotype.svg", -1, 6, 0.7f ), 4 ), 1 );
 
@@ -223,8 +225,8 @@ extends PAppletHax
 			} else if( _gameState == GAME_READY ) {
 				_player1.launchBall();
 				_player2.launchBall();
-				_gameState = GAME_ON;
-				_soundtrack.playNext();
+				setGameMode( GAME_ON );
+				soundtrack.playNext();
 			}
 		}
 		if ( p.key == 'd' || p.key == 'D' ) {
@@ -237,6 +239,7 @@ extends PAppletHax
 	// PUBLIC ACCESSORS FOR GAME OBJECTS --------------------------------------------------------------------------------------
 	public int gameWidth() { return _gameWidth; }
 	public int stageHeight() { return _stageHeight; }
+	public float gameBaseZ() { return -_stageHeight; }
 	public int gameState() { return _gameState; }
 	public ColorGroup gameColors() { return _gameColors; }
 	public boolean isDebugging() { return _isDebugging; }
@@ -255,8 +258,11 @@ extends PAppletHax
 		
 		_curCamera.update();
 
-		_screenIntro.update();
-		updateGame();
+		if( _gameState == GAME_INTRO ) {
+			_screenIntro.update();
+		} else if( _gameState == GAME_ON ) {
+			updateGame();
+		}
 		
 		// testing!
 //		DrawUtil.setCenter( p );
@@ -284,6 +290,13 @@ extends PAppletHax
 	
 	// GAME LOGIC --------------------------------------------------------------------------------------
 	
+	protected void setGameMode( int mode ) {
+		_gameState = mode;
+		if( _gameState == GAME_INTRO ) {
+			_screenIntro.reset();
+		}
+	}
+	
 	protected void updateGame() {
 		// debug bg
 //		p.pushMatrix();
@@ -309,14 +322,14 @@ extends PAppletHax
 	
 	protected void gameOver() {
 		if( _gameState != GAME_OVER ) {
-			_gameState = GAME_OVER;
+			setGameMode( GAME_OVER );
 			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).gameOver();
 			snapGamePhoto();
 		}
 	}	
 
 	protected void resetGame() {
-		_gameState = GAME_READY;
+		setGameMode( GAME_INTRO );
 
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			_gamePlays.get( i ).reset();

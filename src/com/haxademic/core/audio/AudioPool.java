@@ -27,6 +27,10 @@ public class AudioPool {
 		return _audioPlayers.get( id )._sound;
 	}
 
+	public void playSound( String id ) {
+		_audioPlayers.get( id )._sound.play(0);
+	}
+
 	public ArrayList<String> getIds() {
 		ArrayList<String> keyList = new ArrayList<String>();
 		Iterator iter = _audioPlayers.keySet().iterator();
