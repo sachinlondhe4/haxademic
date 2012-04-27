@@ -36,6 +36,18 @@ implements IEasingValue {
 		_z.setTarget( value );
 	}
 	
+	public void setCurrentX( float value ) {
+		_x.setCurrent( value );
+	}
+	
+	public void setCurrentY( float value ) {
+		_y.setCurrent( value );
+	}
+	
+	public void setCurrentZ( float value ) {
+		_z.setCurrent( value );
+	}
+	
 	public void setEaseFactor( float value ) {
 		_easeFactor = value;
 		_x.setEaseFactor( _easeFactor );
