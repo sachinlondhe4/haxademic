@@ -121,9 +121,9 @@ extends PApplet
 	public MidiWrapper _midi = null;
 	
 	/**
-	 * Loads and stores a pool of .obj models.
+	 * Loads and stores a pool of WETriangleMesh objects.
 	 */
-	public MeshPool _objPool = null;
+	public MeshPool meshPool = null;
 	
 	/**
 	 * Wraps up Kinect functionality with openkinect library.
@@ -260,6 +260,7 @@ extends PApplet
 //		_launchpadViz = new LaunchpadViz( p5 );
 		_oscWrapper = new OscWrapper( p );
 		_minim = new Minim( p );
+		meshPool = new MeshPool( p );
 		_debugText = new DebugText( p );
 		if( _showStats == true ) _stats = new Stats( p );
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
