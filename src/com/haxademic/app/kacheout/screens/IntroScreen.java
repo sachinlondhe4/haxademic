@@ -1,6 +1,7 @@
 package com.haxademic.app.kacheout.screens;
 
 import toxi.color.TColor;
+import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
@@ -76,10 +77,16 @@ public class IntroScreen {
 	}
 	
 	public void update() {
+		updateAnimationsOnFrameCount();
+		updatePositions();
+		drawObjects();
+		_frameCount++;
+	}
+	
+	protected void updateAnimationsOnFrameCount() {
 		// animate on certain frames
 		if( _frameCount == 0 ) {
 			p.soundtrack.playIntro();
-//			p.sounds.playSound("INSERT_COIN");
 			_cdLogoLoc.setTargetY( 0 );
 			_presentsLoc.setTargetY( 100 );
 		} else if( _frameCount == 30 ) {
@@ -92,8 +99,29 @@ public class IntroScreen {
 			_modeSetLogoLoc.setTargetY( -60 );
 			_modeSetTextLoc.setTargetY( 160 );
 			_modeSetLogoZ.setTarget( 0 );
+		} else if( _frameCount == 150 ) {
+			_modeSetLogoLoc.setTargetY( -p.stageHeight() );
+			_modeSetTextLoc.setTargetY( -p.stageHeight() );
+			_cacheFloweLogoLoc.setTargetY( -60 );
+			_cacheFloweTextLoc.setTargetY( 160 );
+		} else if( _frameCount == 200 ) {
+			_cacheFloweLogoLoc.setTargetY( -p.stageHeight() );
+			_cacheFloweTextLoc.setTargetY( -p.stageHeight() );
+			_designByLoc.setTargetY( -90 );
+			_designJonLoc.setTargetY( 0 );
+			_designRyanLoc.setTargetY( 100 );
+		} else if( _frameCount == 250 ) {
+			_designByLoc.setTargetY( -p.stageHeight() );
+			_designJonLoc.setTargetY( -p.stageHeight() );
+			_designRyanLoc.setTargetY( -p.stageHeight() );
+		} else if( _frameCount == 255 ) {
+			p.soundtrack.stop();
+			p.sounds.playSound("INSERT_COIN");
+			p.setGameMode( p.GAME_READY );
 		}
-		
+	}
+	
+	protected void updatePositions() {
 		// update positions
 		_cdLogoLoc.update();
 		_presentsLoc.update();
@@ -106,8 +134,9 @@ public class IntroScreen {
 		_designByLoc.update();
 		_designJonLoc.update();
 		_designRyanLoc.update();
-		
-		
+	}
+	
+	protected void drawObjects() {
 		// set up for drawing objects
 		p.pushMatrix();
 		DrawUtil.setCenter( p );
@@ -115,51 +144,39 @@ public class IntroScreen {
 		
 		
 		
-		// draw create denver text
-		p.pushMatrix();
-		p.translate( _cdLogoLoc.valueX(), _cdLogoLoc.valueY(), 0 );
-		p.fill( WHITE.toARGB() );
-		p.noStroke();
-		p.toxi.mesh( p.meshPool.getMesh( p.CREATE_DENVER ) );
-		p.popMatrix();
-		
-		// draw "presents"
-		p.pushMatrix();
-		p.translate( _presentsLoc.valueX(), _presentsLoc.valueY(), 0 );
-		p.fill( WHITE.toARGB() );
-		p.noStroke();
-		p.toxi.mesh( p.meshPool.getMesh( p.PRESENTS_TEXT ) );
-		p.popMatrix();
+		// draw create denver text & "presents"
+		drawObjectAtLoc( p.meshPool.getMesh( p.CREATE_DENVER ), _cdLogoLoc.valueX(), _cdLogoLoc.valueY(), 0, WHITE.toARGB() );
+		drawObjectAtLoc( p.meshPool.getMesh( p.PRESENTS_TEXT ), _presentsLoc.valueX(), _presentsLoc.valueY(), 0, WHITE.toARGB() );
 		
 		// draw kacheout logo
-		p.pushMatrix();
-		p.translate( _kacheOutLoc.valueX(), _kacheOutLoc.valueY(), 0 );
-		p.fill( WHITE.toARGB() );
-		p.noStroke();
-		p.toxi.mesh( p.meshPool.getMesh( p.KACHEOUT_LOGO ) );
-		p.popMatrix();	
+		drawObjectAtLoc( p.meshPool.getMesh( p.KACHEOUT_LOGO ), _kacheOutLoc.valueX(), _kacheOutLoc.valueY(), 0, WHITE.toARGB() );
 		
-		// draw mode set logo
-		p.pushMatrix();
-		p.translate( _modeSetLogoLoc.valueX(), _modeSetLogoLoc.valueY(), _modeSetLogoZ.val() );
-		p.fill( MODE_SET_BLUE.toARGB() );
-		p.noStroke();
-		p.toxi.mesh( p.meshPool.getMesh( p.MODE_SET_LOGO ) );
-		p.popMatrix();	
+		// draw mode set logo & text
+		drawObjectAtLoc( p.meshPool.getMesh( p.MODE_SET_LOGO ), _modeSetLogoLoc.valueX(), _modeSetLogoLoc.valueY(), _modeSetLogoZ.val(), MODE_SET_BLUE.toARGB() );
+		drawObjectAtLoc( p.meshPool.getMesh( p.MODE_SET_LOGOTYPE ), _modeSetTextLoc.valueX(), _modeSetTextLoc.valueY(), 0, MODE_SET_GREY.toARGB() );
 		
-		// draw mode set text
-		p.pushMatrix();
-		p.translate( _modeSetTextLoc.valueX(), _modeSetTextLoc.valueY(), 0 );
-		p.fill( MODE_SET_GREY.toARGB() );
-		p.noStroke();
-		p.toxi.mesh( p.meshPool.getMesh( p.MODE_SET_LOGOTYPE ) );
-		p.popMatrix();	
+		// draw cacheflowe logo & text
+		drawObjectAtLoc( p.meshPool.getMesh( p.CACHEFLOWE_LOGO ), _cacheFloweLogoLoc.valueX(), _cacheFloweLogoLoc.valueY(), _cacheFloweLogoLoc.valueZ(), CACHEFLOWE_YELLOW.toARGB() );
+		drawObjectAtLoc( p.meshPool.getMesh( p.CACHEFLOWE_LOGOTYPE), _cacheFloweTextLoc.valueX(), _cacheFloweTextLoc.valueY(), _cacheFloweTextLoc.valueZ(), CACHEFLOWE_YELLOW.toARGB() );
+		
+		// draw design credits
+		drawObjectAtLoc( p.meshPool.getMesh( p.DESIGN_BY ), _designByLoc.valueX(), _designByLoc.valueY(), _designByLoc.valueZ(), WHITE.toARGB() );
+		drawObjectAtLoc( p.meshPool.getMesh( p.JON_DESIGN), _designJonLoc.valueX(), _designJonLoc.valueY(), _designJonLoc.valueZ(), WHITE.toARGB() );
+		drawObjectAtLoc( p.meshPool.getMesh( p.RYAN_DESIGN), _designRyanLoc.valueX(), _designRyanLoc.valueY(), _designRyanLoc.valueZ(), WHITE.toARGB() );
 		
 		
 		
 		// reset
 		p.popMatrix();
-		
-		_frameCount++;
+	}
+	
+	protected void drawObjectAtLoc( WETriangleMesh mesh, float x, float y, float z, int color ) {
+		p.pushMatrix();
+		p.translate( x, y, z );
+		p.fill( color );
+		p.noStroke();
+		p.toxi.mesh( mesh );
+		p.popMatrix();	
+
 	}
 }

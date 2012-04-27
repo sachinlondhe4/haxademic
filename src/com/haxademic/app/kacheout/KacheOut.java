@@ -290,7 +290,7 @@ extends PAppletHax
 	
 	// GAME LOGIC --------------------------------------------------------------------------------------
 	
-	protected void setGameMode( int mode ) {
+	public void setGameMode( int mode ) {
 		_gameState = mode;
 		if( _gameState == GAME_INTRO ) {
 			_screenIntro.reset();
