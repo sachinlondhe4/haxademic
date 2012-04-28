@@ -50,12 +50,12 @@ public class IntroScreen {
 		
 		// set up keyframes
 		_frame1 = 0;
-		_frame2 = _frame1 + 50;
-		_frame3 = _frame2 + 60;
-		_frame4 = _frame3 + 60;
-		_frame5 = _frame4 + 40;
-		_frame6 = _frame5 + 50;
-		_frame7 = _frame6 + 40;
+		_frame2 = _frame1 + 80;	// create denver
+		_frame3 = _frame2 + 90;	// kacheout
+		_frame4 = _frame3 + 80;	// mode set
+		_frame5 = _frame4 + 50;	// cacheflowe
+		_frame6 = _frame5 + 80;	// designers
+		_frame7 = _frame6 + 20;	// end
 	}
 	
 	public void reset() {
@@ -82,8 +82,8 @@ public class IntroScreen {
 		_designRyanLoc.setCurrentY( p.stageHeight() );
 		_designRyanLoc.setTargetY( p.stageHeight() );
 		
-		_modeSetLogoZ.setValue( -1400f );
-		_modeSetLogoZ.setTarget( -1400f );
+		_modeSetLogoZ.setValue( -800f );
+		_modeSetLogoZ.setTarget( -800f );
 
 	}
 	
@@ -100,7 +100,6 @@ public class IntroScreen {
 			p.soundtrack.playIntro();
 			_cdLogoLoc.setTargetY( 0 );
 			_presentsLoc.setTargetY( 100 );
-		} else if( _frameCount == 30 ) {
 		} else if( _frameCount == _frame2 ) {
 			_cdLogoLoc.setTargetY( -p.stageHeight() );
 			_presentsLoc.setTargetY( -p.stageHeight() );
@@ -133,7 +132,7 @@ public class IntroScreen {
 	}
 	
 	protected void updatePositions() {
-		// update positions
+		// update eased positions
 		_cdLogoLoc.update();
 		_presentsLoc.update();
 		_kacheOutLoc.update();
