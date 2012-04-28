@@ -71,22 +71,22 @@ extends PAppletHax
 	protected WETriangleMesh _textCreateDenver;
 	
 	// mesh IDs
-	public String CREATE_DENVER = "CREATE_DENVER";
-	public String PRESENTS_TEXT = "PRESENTS_TEXT";
-	public String KACHEOUT_LOGO = "KACHEOUT_LOGO";
-	public String UFO = "UFO";
-	public String MODE_SET_LOGO = "MODE_SET_LOGO";
-	public String MODE_SET_LOGOTYPE = "MODE_SET_LOGOTYPE";
-	public String CACHEFLOWE_LOGO = "CACHEFLOWE_LOGO";
-	public String CACHEFLOWE_LOGOTYPE = "CACHEFLOWE_LOGOTYPE";
-	public String DESIGN_BY = "DESIGN_BY";
-	public String JON_DESIGN = "JON_DESIGN";
-	public String RYAN_DESIGN = "RYAN_DESIGN";
-	public String COUNTDOWN_TEXT_1 = "COUNTDOWN_TEXT_1";
-	public String COUNTDOWN_TEXT_2 = "COUNTDOWN_TEXT_2";
-	public String COUNTDOWN_TEXT_3 = "COUNTDOWN_TEXT_3";
-	public String WIN_TEXT = "WIN_TEXT";
-	public String LOSE_TEXT = "LOSE_TEXT";
+	public static String CREATE_DENVER = "CREATE_DENVER";
+	public static String PRESENTS_TEXT = "PRESENTS_TEXT";
+	public static String KACHEOUT_LOGO = "KACHEOUT_LOGO";
+	public static String UFO = "UFO";
+	public static String MODE_SET_LOGO = "MODE_SET_LOGO";
+	public static String MODE_SET_LOGOTYPE = "MODE_SET_LOGOTYPE";
+	public static String CACHEFLOWE_LOGO = "CACHEFLOWE_LOGO";
+	public static String CACHEFLOWE_LOGOTYPE = "CACHEFLOWE_LOGOTYPE";
+	public static String DESIGN_BY = "DESIGN_BY";
+	public static String JON_DESIGN = "JON_DESIGN";
+	public static String RYAN_DESIGN = "RYAN_DESIGN";
+	public static String COUNTDOWN_TEXT_1 = "COUNTDOWN_TEXT_1";
+	public static String COUNTDOWN_TEXT_2 = "COUNTDOWN_TEXT_2";
+	public static String COUNTDOWN_TEXT_3 = "COUNTDOWN_TEXT_3";
+	public static String WIN_TEXT = "WIN_TEXT";
+	public static String LOSE_TEXT = "LOSE_TEXT";
 	
 	// game state
 	protected int _curMode;
@@ -101,12 +101,12 @@ extends PAppletHax
 	
 	// game state
 	protected int _gameState;
-	public final int GAME_READY = 2;
-	public final int GAME_ON = 3;
-	public final int GAME_OVER = 4;
-	public final int GAME_INTRO = 5;
-	public final int GAME_INSTRUCTIONS = 6;
-	public final int GAME_COUNTDOWN = 7;
+	public static int GAME_READY = 2;
+	public static int GAME_ON = 3;
+	public static int GAME_OVER = 4;
+	public static int GAME_INTRO = 5;
+	public static int GAME_INSTRUCTIONS = 6;
+	public static int GAME_COUNTDOWN = 7;
 	
 	protected final float CAMERA_Z_WIDTH_MULTIPLIER = 0.888888f;	// 1280x720
 	protected float _cameraZFromHeight = 0;
