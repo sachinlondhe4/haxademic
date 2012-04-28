@@ -95,6 +95,7 @@ extends PAppletHax
 	
 	// game state
 	protected int _gameState;
+	protected int _gameStateQueued;	// wait until beginning on the next frame to switch modes to avoid mid-frame conflicts
 	public static int GAME_READY = 2;
 	public static int GAME_ON = 3;
 	public static int GAME_OVER = 4;
@@ -178,9 +179,6 @@ extends PAppletHax
 				resetGame();
 			} else if( _gameState == GAME_READY ) {
 				setGameMode( GAME_ON );
-				_player1.launchBall();
-				_player2.launchBall();
-				soundtrack.playNext();
 			}
 		}
 		if ( p.key == 'd' || p.key == 'D' ) {
@@ -212,6 +210,7 @@ extends PAppletHax
 		
 		_curCamera.update();
 
+		if( _gameState != _gameStateQueued ) swapGameMode();
 		if( _gameState == GAME_INTRO ) {
 			_screenIntro.update();
 		} else if( _gameState == GAME_ON ) {
@@ -245,11 +244,15 @@ extends PAppletHax
 	// GAME LOGIC --------------------------------------------------------------------------------------
 	
 	public void setGameMode( int mode ) {
-		_gameState = mode;
+		_gameStateQueued = mode;
+	}
+	
+	public void swapGameMode() {
+		_gameState = _gameStateQueued;
 		if( _gameState == GAME_INTRO ) {
 			_screenIntro.reset();
-		} else if( _gameState == GAME_ON ) {
-			_screenIntro.reset();
+		} else if( _gameState == GAME_READY ) {
+			resetGame();
 		}
 	}
 	
@@ -285,10 +288,14 @@ extends PAppletHax
 	}	
 
 	protected void resetGame() {
-
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			_gamePlays.get( i ).reset();
 		}
+		_player1.launchBall();
+		_player2.launchBall();
+		soundtrack.playNext();
+		
+		setGameMode( GAME_ON );
 	}	
 	
 
