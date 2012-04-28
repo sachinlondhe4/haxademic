@@ -101,7 +101,7 @@ public class MaxCache extends ModuleBase implements IVizModule {
 		
 		
 		_gfx = new ToxiclibsSupport(p);
-		_kinectinterface = p._kinectWrapper;
+		_kinectinterface = p.kinectWrapper;
 
 		
 		newBaseColors();

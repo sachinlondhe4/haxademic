@@ -129,7 +129,7 @@ public class GamePlay {
 		// loop through kinect data within player's control range
 		for ( int x = (int)_kinectRange.min(); x < (int)_kinectRange.max(); x += K_PIXEL_SKIP ) {
 			for ( int y = p.KINECT_TOP; y < p.KINECT_BOTTOM; y += K_PIXEL_SKIP ) { // only use the vertical middle portion of the kinect data
-				depthInMeters = p._kinectWrapper.getDepthMetersForKinectPixel( x, y, true );
+				depthInMeters = p.kinectWrapper.getDepthMetersForKinectPixel( x, y, true );
 				if( depthInMeters > p.KINECT_MIN_DIST && depthInMeters < p.KINECT_MAX_DIST ) {
 					// keep track of kinect range
 					if( minX == -1 || x < minX ) minX = x;
@@ -144,7 +144,7 @@ public class GamePlay {
 	protected void updateControls() {
 		// update keyboard or Kinect, and pass the value to the paddle
 		float paddleX = 0;// = _stageWidth / 2;
-		if( p._kinectWrapper.isActive() == true ) {
+		if( p.kinectWrapper.isActive() == true ) {
 			findKinectCenterX();
 			// send kinect data to games - calculate based off number of games vs. kinect width
 			if( _kinectCurrent.center() != -1 ) {
@@ -184,7 +184,7 @@ public class GamePlay {
 		p.pushMatrix();
 		DrawUtil.setCenter( p );
 		p.translate( 0, 0, -600 );
-		p._kinectWrapper.drawPointCloudForRect( p, true, 8, 0.5f, p.KINECT_MIN_DIST, p.KINECT_MAX_DIST, p.KINECT_TOP, (int)_kinectRange.max(), p.KINECT_BOTTOM, (int)_kinectRange.min() );
+		p.kinectWrapper.drawPointCloudForRect( p, true, 8, 0.5f, p.KINECT_MIN_DIST, p.KINECT_MAX_DIST, p.KINECT_TOP, (int)_kinectRange.max(), p.KINECT_BOTTOM, (int)_kinectRange.min() );
 		p.popMatrix();
 	}
 	

@@ -1,32 +1,26 @@
 package com.haxademic.app.kacheout;
 
 import geomerative.RFont;
-import geomerative.RG;
 
 import java.util.ArrayList;
 
 import processing.core.PApplet;
-import processing.core.PFont;
-import processing.core.PImage;
 import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.game.GamePlay;
 import com.haxademic.app.kacheout.game.Soundtrack;
 import com.haxademic.app.kacheout.media.AssetLoader;
+import com.haxademic.app.kacheout.media.PhotoBooth;
 import com.haxademic.app.kacheout.screens.IntroScreen;
 import com.haxademic.core.audio.AudioLoopPlayer;
 import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.cameras.CameraDefault;
 import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.data.FloatRange;
-import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.util.ColorGroup;
 import com.haxademic.core.util.DrawUtil;
-import com.haxademic.core.util.ImageUtil;
-import com.haxademic.core.util.ScreenUtil;
-import com.haxademic.core.util.SystemUtil;
 
 public class KacheOut
 extends PAppletHax  
@@ -133,8 +127,8 @@ extends PAppletHax
 //		_soundtrack.playNext();
 		_audio = new AudioLoopPlayer( p );
 		
-		_kinectWrapper.enableDepth( true );
-		_kinectWrapper.enableDepthImage( true );
+		kinectWrapper.enableDepth( true );
+		kinectWrapper.enableDepthImage( true );
 
 		_screenIntro = new IntroScreen();
 				
@@ -191,8 +185,8 @@ extends PAppletHax
 		}
 		if ( p.key == 'd' || p.key == 'D' ) {
 			_isDebugging = !_isDebugging;
-			_kinectWrapper.enableRGB( !_isDebugging );
-			_kinectWrapper.enableDepthImage( !_isDebugging );
+			kinectWrapper.enableRGB( !_isDebugging );
+			kinectWrapper.enableDepthImage( !_isDebugging );
 		}
 	}
 	
@@ -241,11 +235,11 @@ extends PAppletHax
 		p.translate( 0, 0, -1350 );
 		p.fill(255, 255);
 		p.noStroke();
-		p.rect(0, 0, _kinectWrapper.KWIDTH*1.1f, _kinectWrapper.KHEIGHT*1.1f);
+		p.rect(0, 0, kinectWrapper.KWIDTH*1.1f, kinectWrapper.KHEIGHT*1.1f);
 		p.translate( 0, 0, 100 );
 		p.rotateY( (float)Math.PI );
 //		p.image( _kinectWrapper.getDepthImage(), 0, 0, _kinectWrapper.KWIDTH, _kinectWrapper.KHEIGHT );
-		p.image( _kinectWrapper.getDepthImage(), 0, 0, _stageWidth, _stageHeight );
+		p.image( kinectWrapper.getDepthImage(), 0, 0, _stageWidth, _stageHeight );
 	}
 	
 	// GAME LOGIC --------------------------------------------------------------------------------------
@@ -286,7 +280,7 @@ extends PAppletHax
 		if( _gameState != GAME_INTRO ) {	// GAME_OVER
 			setGameMode( GAME_INTRO );
 			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).gameOver();
-			snapGamePhoto();
+			PhotoBooth.snapGamePhoto( p, _stageWidth, _stageHeight );
 		}
 	}	
 
@@ -297,29 +291,6 @@ extends PAppletHax
 		}
 	}	
 	
-	protected void snapGamePhoto() {
-		// save screenshot and open it back up
-		String screenshotFile = ScreenUtil.screenshotToJPG( p, "bin/output/kacheout/kacheout-" );
-		PImage screenshot = loadImage( screenshotFile );
-		
-		// save kinect
-		p._kinectWrapper.getVideoImage().save( "bin/output/kacheout/kacheout-" + SystemUtil.getTimestampFine( p ) + "-rgb.png" );
-		
-		if( p._kinectWrapper.isActive() ) {
-			float screenToOutputWidthRatio = 640f / (float)_stageWidth;
-			int screenShotHeight = Math.round( _stageHeight * screenToOutputWidthRatio );
-			PImage img = createImage(640, 480 + screenShotHeight, RGB);
-			
-			// paste 2 images together and save
-			img.copy( ImageUtil.getReversePImage( p._kinectWrapper.getVideoImage() ), 0, 0, 640, 480, 0, 0, 640, 480 );
-			img.copy( screenshot, 0, 0, _stageWidth, _stageHeight, 0, 481, 640, screenShotHeight );
-			img.save( "bin/output/kacheout/kacheout-" + SystemUtil.getTimestampFine( p ) + "-comp.png" );
-		}
-		
-		// clean up screenshot
-//		boolean success = ( new File( screenshotFile ) ).delete();
-//		if (!success) p.println("counldn't delete screenshot");
-	}
 
 	// Visual fun
 	protected void pickNewColors() {

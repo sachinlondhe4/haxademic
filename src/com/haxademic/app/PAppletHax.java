@@ -128,7 +128,7 @@ extends PApplet
 	/**
 	 * Wraps up Kinect functionality with openkinect library.
 	 */
-	public KinectWrapper _kinectWrapper = null;
+	public KinectWrapper kinectWrapper = null;
 	
 	/**
 	 * A secondary system of running the visuals on the Launchpad. This should probably be integrated into Modules?
@@ -256,7 +256,7 @@ extends PApplet
 		_waveformData = new WaveformData( p, _audioInput._bufferSize );
 //		_objPool = new ObjPool( p );
 		_renderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE, _appConfig.getString( "render_output_dir", "bin/output/" ) );
-		_kinectWrapper = new KinectWrapper( p, _appConfig.getBoolean( "kinect_depth", true ), _appConfig.getBoolean( "kinect_rgb", true ), _appConfig.getBoolean( "kinect_depth_image", true ) );
+		kinectWrapper = new KinectWrapper( p, _appConfig.getBoolean( "kinect_depth", true ), _appConfig.getBoolean( "kinect_rgb", true ), _appConfig.getBoolean( "kinect_depth_image", true ) );
 //		_launchpadViz = new LaunchpadViz( p5 );
 		_oscWrapper = new OscWrapper( p );
 		_minim = new Minim( p );
@@ -280,7 +280,7 @@ extends PApplet
 		initializeExtraObjectsOn1stFrame();	// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
 		if( keyPressed ) handleInput( false ); // handles overall keyboard commands
 		int[] beatDetectArr = _audioInput.getBeatDetection(); // detect beats and pass through to current visual module
-		_kinectWrapper.update();
+		kinectWrapper.update();
 		
 		drawApp();
 		
@@ -371,7 +371,7 @@ extends PApplet
 	 * We stop rendering if applicable, and clean up hardware connections that might barf if left open.
 	 */
 	public void stop() {
-		if( _kinectWrapper != null ) _kinectWrapper.stop();
+		if( kinectWrapper != null ) kinectWrapper.stop();
 		if( _launchpadViz != null ) _launchpadViz.dispose();
 		if( _isRendering ) _renderer.stop();
 	}

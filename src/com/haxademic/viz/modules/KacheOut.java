@@ -75,7 +75,7 @@ implements IVizModule
 		p.noStroke();
 		newCamera();
 
-		_kinectInterface = p._kinectWrapper;
+		_kinectInterface = p.kinectWrapper;
 		
 		_stageWidth = p.width;
 		_stageHeight = p.height;
