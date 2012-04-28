@@ -30,10 +30,12 @@ public class IntroScreen {
 	protected EasingFloat3d _designRyanLoc;
 	
 	protected int _frameCount;
+	protected int _frame1, _frame2, _frame3, _frame4, _frame5, _frame6, _frame7, _frame8;	// horrible, but whatever
 
 	public IntroScreen() {
 		p = (KacheOut)PAppletHax.getInstance();
 		
+		// set up easing values for objects to fly onto screen
 		_cdLogoLoc = new EasingFloat3d( 0, 0, 0, 5 );
 		_presentsLoc = new EasingFloat3d( 0, 0, 0, 7 );
 		_kacheOutLoc = new EasingFloat3d( 0, 0, 0, 5 );
@@ -45,6 +47,15 @@ public class IntroScreen {
 		_designByLoc = new EasingFloat3d( 0, 0, 0, 5 );
 		_designJonLoc = new EasingFloat3d( 0, 0, 0, 7 );
 		_designRyanLoc = new EasingFloat3d( 0, 0, 0, 9 );
+		
+		// set up keyframes
+		_frame1 = 0;
+		_frame2 = _frame1 + 50;
+		_frame3 = _frame2 + 60;
+		_frame4 = _frame3 + 60;
+		_frame5 = _frame4 + 40;
+		_frame6 = _frame5 + 50;
+		_frame7 = _frame6 + 40;
 	}
 	
 	public void reset() {
@@ -85,36 +96,36 @@ public class IntroScreen {
 	
 	protected void updateAnimationsOnFrameCount() {
 		// animate on certain frames
-		if( _frameCount == 0 ) {
+		if( _frameCount == _frame1 ) {
 			p.soundtrack.playIntro();
 			_cdLogoLoc.setTargetY( 0 );
 			_presentsLoc.setTargetY( 100 );
 		} else if( _frameCount == 30 ) {
-		} else if( _frameCount == 60 ) {
+		} else if( _frameCount == _frame2 ) {
 			_cdLogoLoc.setTargetY( -p.stageHeight() );
 			_presentsLoc.setTargetY( -p.stageHeight() );
 			_kacheOutLoc.setTargetY( 0 );
-		} else if( _frameCount == 120 ) {
+		} else if( _frameCount == _frame3 ) {
 			_kacheOutLoc.setTargetY( -p.stageHeight() );
 			_modeSetLogoLoc.setTargetY( -60 );
 			_modeSetTextLoc.setTargetY( 160 );
 			_modeSetLogoZ.setTarget( 0 );
-		} else if( _frameCount == 150 ) {
+		} else if( _frameCount == _frame4 ) {
 			_modeSetLogoLoc.setTargetY( -p.stageHeight() );
 			_modeSetTextLoc.setTargetY( -p.stageHeight() );
 			_cacheFloweLogoLoc.setTargetY( -60 );
 			_cacheFloweTextLoc.setTargetY( 160 );
-		} else if( _frameCount == 200 ) {
+		} else if( _frameCount == _frame5 ) {
 			_cacheFloweLogoLoc.setTargetY( -p.stageHeight() );
 			_cacheFloweTextLoc.setTargetY( -p.stageHeight() );
 			_designByLoc.setTargetY( -90 );
 			_designJonLoc.setTargetY( 0 );
 			_designRyanLoc.setTargetY( 100 );
-		} else if( _frameCount == 250 ) {
+		} else if( _frameCount == _frame6 ) {
 			_designByLoc.setTargetY( -p.stageHeight() );
 			_designJonLoc.setTargetY( -p.stageHeight() );
 			_designRyanLoc.setTargetY( -p.stageHeight() );
-		} else if( _frameCount == 255 ) {
+		} else if( _frameCount == _frame7 ) {
 			p.soundtrack.stop();
 			p.sounds.playSound("INSERT_COIN");
 			p.setGameMode( p.GAME_READY );
@@ -171,12 +182,13 @@ public class IntroScreen {
 	}
 	
 	protected void drawObjectAtLoc( WETriangleMesh mesh, float x, float y, float z, int color ) {
-		p.pushMatrix();
-		p.translate( x, y, z );
-		p.fill( color );
-		p.noStroke();
-		p.toxi.mesh( mesh );
-		p.popMatrix();	
-
+		if( y > -p.stageHeight() && y < p.stageHeight() ) {
+			p.pushMatrix();
+			p.translate( x, y, z );
+			p.fill( color );
+			p.noStroke();
+			p.toxi.mesh( mesh );
+			p.popMatrix();	
+		}
 	}
 }
