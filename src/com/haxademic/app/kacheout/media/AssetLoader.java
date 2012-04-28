@@ -43,7 +43,7 @@ public class AssetLoader {
 		// design credits
 		p.meshPool.addMesh( p.DESIGN_BY, MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "DESIGN BY:", -1, 2, 0.3f ), 1 );
 		p.meshPool.addMesh( p.JON_DESIGN, MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "JON TRAISTER", -1, 2, 0.4f ), 1 );
-		p.meshPool.addMesh( p.RYAN_DESIGN, MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "RYAN POLICKY", -1, 2, 0.4f ), 1 );
+		p.meshPool.addMesh( p.RYAN_DESIGN, MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "LATENIGHT WEEKNIGHT", -1, 2, 0.4f ), 1 );
 		
 		// countdown
 		p.meshPool.addMesh( p.COUNTDOWN_TEXT_1, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "1", -1, 2, 3f ), 4 ), 1 );
