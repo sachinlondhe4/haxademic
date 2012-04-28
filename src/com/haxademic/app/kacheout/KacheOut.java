@@ -58,12 +58,7 @@ extends PAppletHax
 	protected int _numAverages = 32;
 
 	protected ICamera _curCamera = null;
-	
-	// texts
-	protected RFont _fontHelloDenver;
-	protected RFont _fontBitLow;
-	protected WETriangleMesh _textCreateDenver;
-	
+		
 	// mesh IDs
 	public static String CREATE_DENVER = "CREATE_DENVER";
 	public static String PRESENTS_TEXT = "PRESENTS_TEXT";
