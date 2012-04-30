@@ -2,10 +2,14 @@ package com.haxademic.app.kacheout.game;
 
 import java.util.ArrayList;
 
+import toxi.color.TColor;
+
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
+import com.haxademic.app.kacheout.media.PhotoBooth;
 import com.haxademic.core.data.FloatRange;
 import com.haxademic.core.data.easing.EasingFloat;
+import com.haxademic.core.data.easing.ElasticFloat;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.MathUtil;
@@ -33,11 +37,20 @@ public class GamePlay {
 	protected boolean _isKinectReversed = true;
 	protected EasingFloat _gameRotation = new EasingFloat( 0, 10 );
 	
-	// state 
-	protected boolean _hasClearedBoard = false;
+	// colors
+	protected TColor _winColor = new TColor( TColor.GREEN );
+	protected TColor _loseColor = new TColor( TColor.RED );
 	
-	public GamePlay( int gameLeft, int gameRight, FloatRange kinectRange ) {
+	// state 
+	protected int _gameIndex;
+	protected boolean _hasClearedBoard = false;
+	protected boolean _didWin = false;
+	protected ElasticFloat _gameOverTextScale;
+	protected int _gameOverFrameCount = 0;
+
+	public GamePlay( int gameIndex, int gameLeft, int gameRight, FloatRange kinectRange ) {
 		p = (KacheOut)PAppletHax.getInstance();
+		_gameIndex = gameIndex;
 		_gameLeft = gameLeft;
 		_gameRight = gameRight;
 		_gameWidth = gameRight - gameLeft;
@@ -67,6 +80,8 @@ public class GamePlay {
 		_ball = new Ball();
 		_paddle = new Paddle();
 		_walls = new Walls();
+		
+		_gameOverTextScale = new ElasticFloat( 0, 0.7f, 0.4f );
 	}
 	
 	public void reset() {
@@ -75,12 +90,18 @@ public class GamePlay {
 		}
 		_ball.reset();
 		_hasClearedBoard = false;
+		_didWin = false;
+		_gameOverTextScale.setValue( 0 );
+		_gameOverTextScale.setTarget( 0 );
+		_gameOverFrameCount = 0;
 	}
 	
 	public void gameOver() {
+		_didWin = ( _hasClearedBoard == true ) ? true : false;
 		for (int i = 0; i < _invaders.size(); i++) {
 			_invaders.get( i ).gameOver();
 		}
+		_gameOverTextScale.setTarget( 1 );
 	}
 	
 	public boolean hasClearedBoard() {
@@ -88,21 +109,21 @@ public class GamePlay {
 	}
 	
 	public void update( int gameIndex ) {
-		positionGameCenter( gameIndex );
+		positionGameCenter();
 //		drawBackground();
 		updateControls();
 		drawGameObjects();
 		if( p.gameState() == p.GAME_ON ) detectCollisions();
 	}
 	
-	protected void positionGameCenter( int gameIndex ){
+	protected void positionGameCenter(){
 		DrawUtil.setTopLeft( p );
 		p.translate( 0, 0, p.gameBaseZ() );
 //		p.rotateX( p.PI / 16f );
 		
 		// rotate to kinect position
 		// pivot from center
-		p.translate( p.gameWidth() / 2 + gameIndex * p.gameWidth(), 0, 0 );
+		p.translate( p.gameWidth() / 2 + _gameIndex * p.gameWidth(), 0, 0 );
 		// ease the rotation 
 		float rotateExtent = p.PI / 10f;
 		_gameRotation.setTarget( rotateExtent * _paddle.xPosPercent() - rotateExtent / 2f );
@@ -177,6 +198,13 @@ public class GamePlay {
 		_ball.display( _paddle );
 		drawPlayerKinectPoints();
 		if( p.isDebugging() == true ) drawDebugLines();
+		
+		if( p.gameState() == p.GAME_OVER ) {
+			p.pushMatrix();
+			p.translate( _paddle.x(), _paddle.y() - _paddle.height(), 0 );
+			showWinLose();
+			p.popMatrix();
+		}
 	}
 	
 	protected void drawPlayerKinectPoints() {
@@ -230,6 +258,32 @@ public class GamePlay {
 		// blocks
 		for (int i = 0; i < _invaders.size(); i++) {
 			_invaders.get( i ).detectCollisions( _ball );
+		}
+	}
+	
+	protected void showWinLose() {
+		_gameOverTextScale.update();
+		if( _gameIndex == 0 ) {
+			p.meshPool.getMesh( p.WIN_TEXT ).scale( _gameOverTextScale.val() );
+			p.fill( _winColor.toARGB() );
+			p.toxi.mesh( p.meshPool.getMesh( p.WIN_TEXT ) );
+			p.meshPool.getMesh( p.WIN_TEXT ).scale( 1f / _gameOverTextScale.val() );
+		} else {
+			p.meshPool.getMesh( p.LOSE_TEXT ).scale( _gameOverTextScale.val() );
+			p.fill( _loseColor.toARGB() );
+			p.toxi.mesh( p.meshPool.getMesh( p.LOSE_TEXT ) );
+			p.meshPool.getMesh( p.LOSE_TEXT ).scale( 1f / _gameOverTextScale.val() );
+		}
+		_gameOverFrameCount++;
+		if( _gameOverFrameCount == 20 && _gameIndex == 0 ) {
+			PhotoBooth.snapGamePhoto( p, p.stageWidth(), p.stageHeight() );
+		}
+		if( _gameOverFrameCount == 80 ) {
+			_gameOverTextScale.setTarget( 0 );
+		}
+		if( _gameOverFrameCount == 100 ) {
+			// TODO: let game rebuild/reset before exiting?
+			p.setGameMode( p.GAME_INTRO );
 		}
 	}
 

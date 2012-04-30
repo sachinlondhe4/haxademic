@@ -97,6 +97,7 @@ extends PAppletHax
 	public static int GAME_INTRO = 5;
 	public static int GAME_INSTRUCTIONS = 6;
 	public static int GAME_COUNTDOWN = 7;
+	public static int GAME_OVER_OUTRO = 8;
 	
 	protected final float CAMERA_Z_WIDTH_MULTIPLIER = 0.888888f;	// 1280x720
 	protected float _cameraZFromHeight = 0;
@@ -139,13 +140,14 @@ extends PAppletHax
 		AssetLoader loader = new AssetLoader();
 		
 		float kinectRangeWidth = KinectWrapper.KWIDTH / 2f * KINECT_GAP_PERCENT;
-		_player1 = new GamePlay( 0, _gameWidth, new FloatRange( 0, kinectRangeWidth ) );
-		_player2 = new GamePlay( _gameWidth, _gameWidth * 2, new FloatRange( KinectWrapper.KWIDTH - kinectRangeWidth, KinectWrapper.KWIDTH ) );
+		_player1 = new GamePlay( 0, 0, _gameWidth, new FloatRange( 0, kinectRangeWidth ) );
+		_player2 = new GamePlay( 1, _gameWidth, _gameWidth * 2, new FloatRange( KinectWrapper.KWIDTH - kinectRangeWidth, KinectWrapper.KWIDTH ) );
 		_gamePlays = new ArrayList<GamePlay>();
 		_gamePlays.add( _player1 );
 		_gamePlays.add( _player2 );
 		
-		setGameMode( GAME_INTRO );
+		//setGameMode( GAME_INTRO );
+		setGameMode( GAME_ON );
 	}
 		
 	// HAXADEMIC STUFF --------------------------------------------------------------------------------------
@@ -168,14 +170,14 @@ extends PAppletHax
 
 	protected void handleInput( boolean isMidi ) {
 		super.handleInput( isMidi );
-		if ( p.key == ' ' ) {
-//			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).launchBall();
-			if( _gameState == GAME_OVER ) {
-				resetGame();
-			} else if( _gameState == GAME_READY ) {
-				setGameMode( GAME_ON );
-			}
-		}
+//		if ( p.key == ' ' ) {
+////			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).launchBall();
+//			if( _gameState == GAME_OVER ) {
+//				resetGame();
+//			} else if( _gameState == GAME_READY ) {
+//				setGameMode( GAME_ON );
+//			}
+//		}
 		if ( p.key == 'd' || p.key == 'D' ) {
 			_isDebugging = !_isDebugging;
 			kinectWrapper.enableRGB( !_isDebugging );
@@ -185,6 +187,7 @@ extends PAppletHax
 	
 	// PUBLIC ACCESSORS FOR GAME OBJECTS --------------------------------------------------------------------------------------
 	public int gameWidth() { return _gameWidth; }
+	public int stageWidth() { return _stageWidth; }
 	public int stageHeight() { return _stageHeight; }
 	public float gameBaseZ() { return -_stageHeight; }
 	public int gameState() { return _gameState; }
@@ -192,7 +195,32 @@ extends PAppletHax
 	public boolean isDebugging() { return _isDebugging; }
 	
 	
+	// GAME LOGIC --------------------------------------------------------------------------------------
 	
+	public void setGameMode( int mode ) {
+		p.println("next mode: "+mode);
+		_gameStateQueued = mode;
+	}
+	
+	public void swapGameMode() {
+		_gameState = _gameStateQueued;
+		if( _gameState == GAME_INTRO ) {
+			_screenIntro.reset();
+		} else if( _gameState == GAME_READY ) {
+			// TODO: MAKE THE INSTRUCTION/COUNTDOWN SCREENS HERE
+			setGameMode( GAME_ON );
+		} else if( _gameState == GAME_ON ) {
+			for( int i=0; i < NUM_PLAYERS; i++ ) {
+				_gamePlays.get( i ).reset();
+			}
+			_player1.launchBall();
+			_player2.launchBall();
+			soundtrack.playNext();
+		} else if( _gameState == GAME_OVER ) {
+			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).gameOver();
+		}
+	}
+		
 	// FRAME LOOP --------------------------------------------------------------------------------------
 	
 	public void drawApp() {
@@ -208,17 +236,23 @@ extends PAppletHax
 		if( _gameState != _gameStateQueued ) swapGameMode();
 		if( _gameState == GAME_INTRO ) {
 			_screenIntro.update();
-		} else if( _gameState == GAME_ON ) {
-			updateGame();
+		} else if( _gameState == GAME_ON || _gameState == GAME_OVER ) {
+			p.pushMatrix();
+			updateGames();
+			p.popMatrix();
 		}
 		
-		// testing!
-//		DrawUtil.setCenter( p );
-//		p.translate( 0, 0, -1000 );
-//		p.fill( 255 );
-//		p._toxi.mesh( _textCreateDenver );
-	
 		if( _isDebugging == true ) displayDebug();
+	}
+	
+	protected void updateGames(){
+		// update all games before checking for complete
+		for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).update( i );
+		for( int i=0; i < NUM_PLAYERS; i++ ) {
+			if( _gamePlays.get( i ).hasClearedBoard() == true && _gameState != GAME_OVER ) {
+				setGameMode( GAME_OVER );
+			}
+		}
 	}
 	
 	protected void displayDebug() {
@@ -236,64 +270,6 @@ extends PAppletHax
 		p.image( kinectWrapper.getDepthImage(), 0, 0, _stageWidth, _stageHeight );
 	}
 	
-	// GAME LOGIC --------------------------------------------------------------------------------------
-	
-	public void setGameMode( int mode ) {
-		_gameStateQueued = mode;
-	}
-	
-	public void swapGameMode() {
-		_gameState = _gameStateQueued;
-		if( _gameState == GAME_INTRO ) {
-			_screenIntro.reset();
-		} else if( _gameState == GAME_READY ) {
-			resetGame();
-		}
-	}
-	
-	protected void updateGame() {
-		// debug bg
-//		p.pushMatrix();
-//		p.noStroke();
-//		p.fill( 255, 255, 255, 50 );
-//		p.rect( _stageWidth/2, _stageHeight/2, _stageWidth, _stageHeight );
-//		p.popMatrix();
-		
-		p.pushMatrix();
-		updateGames();
-		p.popMatrix();
-	}
-	
-	protected void updateGames(){
-		// update all games before checking for complete
-		for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).update( i );
-		for( int i=0; i < NUM_PLAYERS; i++ ) {
-			if( _gamePlays.get( i ).hasClearedBoard() == true ) {
-				gameOver();
-			}
-		}
-	}
-	
-	protected void gameOver() {
-		if( _gameState != GAME_INTRO ) {	// GAME_OVER
-			setGameMode( GAME_INTRO );
-			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).gameOver();
-			PhotoBooth.snapGamePhoto( p, _stageWidth, _stageHeight );
-		}
-	}	
-
-	protected void resetGame() {
-		for( int i=0; i < NUM_PLAYERS; i++ ) {
-			_gamePlays.get( i ).reset();
-		}
-		_player1.launchBall();
-		_player2.launchBall();
-		soundtrack.playNext();
-		
-		setGameMode( GAME_ON );
-	}	
-	
-
 	// Visual fun
 	protected void pickNewColors() {
 		// get themed colors
