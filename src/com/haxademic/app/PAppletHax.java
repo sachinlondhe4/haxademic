@@ -332,7 +332,7 @@ extends PApplet
 				boolean doneCheckingForMidi = false;
 				boolean triggered = false;
 				while( doneCheckingForMidi == false ) {
-					int rendererNote = _midiRenderer.checkCurrentNoteEvent();
+					int rendererNote = _midiRenderer.checkForCurrentFrameNoteEvents();
 					if( rendererNote != -1 ) {
 						noteOn( 0, rendererNote, 100 );
 						triggered = true;

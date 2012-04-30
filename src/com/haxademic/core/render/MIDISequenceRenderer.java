@@ -33,10 +33,11 @@ public class MidiSequenceRenderer {
     
     // helps align audio and midi render timing
     protected float _frameOffset = 0;
+    // TODO: make fps configurable
     protected float _renderFPS = 30;
     
-    public MidiSequenceRenderer( PApplet p5 ) {
-    	p = p5;
+    public MidiSequenceRenderer( PApplet p ) {
+    	this.p = p;
     } 
     
     public void loadMIDIFile( String midiFile, float midiBpm, float renderFPS, float frameOffset ) throws InvalidMidiDataException, IOException {
@@ -100,8 +101,8 @@ public class MidiSequenceRenderer {
         }
     }
     
-    // return current midi pitch of it's an NOTE_ON message. shift the event off the from of the vector to get ready for the next event
-    public int checkCurrentNoteEvent() {
+    // return current midi pitch of it's an NOTE_ON message. shift the event off the front of the vector to get ready for the next event
+    public int checkForCurrentFrameNoteEvents() {
     	// get current time and add offset
     	float curAppletSeconds = (float)p.frameCount / _renderFPS;
     	curAppletSeconds += (_frameOffset * 1f/_renderFPS);
@@ -116,7 +117,7 @@ public class MidiSequenceRenderer {
     			}
     		} 
     	}
-    	return( -1 );
+    	return -1;
     }
     
     public class MidiSequenceEvent {
