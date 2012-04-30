@@ -50,6 +50,8 @@ import fullscreen.FullScreen;
  * Geomerative 
  * 
  * @TODO: Use a static Haxademic.support( PApplet ) type static instance to let us gain access to the applet without passing it everywhere. Look at Geomerative & Toxiclibs to see how they did it.
+ * @TODO: ^^^ General cleanup of PAppletHax references throughout codebase
+ * @TODO: Make sure it's cool to post all the 3rd-party code within. potentially rewrite these bits
  * @TODO: Address garbage collection - a larger project would be to have dispose() methods in every class, and implement disposal across the project.
  * @TODO: Come up with a single solution to be an IVizModule or an extension of PAppletHax. 
  * @TODO: optimize the kinectMesh element - shit is slow
@@ -57,7 +59,7 @@ import fullscreen.FullScreen;
  * @TODO: Mesh traversal drawing: more configurable. generative options - implement mesh drawing strategy pattern
  * @TODO: Finish converting old modules into new Elements: AudioTubes, Blobsheet, cacheRings outer rings, GridEQ w/lines, MaxCache outer rings, PlusRing, more spheres
  * @TODO: Create more abstract user/hardware input system that routes different inputs into certain types of commands.
- * @TODO: Allow more than just note_on messages from Haxademix base. should be able to respond to any midi data
+ * @TODO: Allow more than just note_on messages from PAppletHax base. should be able to respond to any midi data
  * @TODO: Port .js MathUtil methods in MathUtil
  * @TODO: Fix stepping through audio for WaveformData - this was hacked for BNC video rendering but shouldn't have to play & cue() the audio to capture the data
  * @TODO: Figure out why publish/output directory weirdness is happening, and why generated .class files need to be there...
