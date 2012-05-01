@@ -36,6 +36,7 @@ public class GamePlay {
 	protected FloatRange _kinectCurrent;
 	protected boolean _isKinectReversed = true;
 	protected EasingFloat _gameRotation = new EasingFloat( 0, 10 );
+	protected EasingFloat _gameBaseY = new EasingFloat( 0, 7 );
 	
 	// colors
 	protected TColor _winColor = new TColor( TColor.GREEN );
@@ -94,6 +95,7 @@ public class GamePlay {
 		_gameOverTextScale.setValue( 0 );
 		_gameOverTextScale.setTarget( 0 );
 		_gameOverFrameCount = 0;
+		_gameBaseY.setTarget( 0 );
 	}
 	
 	public void gameOver() {
@@ -123,7 +125,8 @@ public class GamePlay {
 		
 		// rotate to kinect position
 		// pivot from center
-		p.translate( p.gameWidth() / 2 + _gameIndex * p.gameWidth(), 0, 0 );
+		_gameBaseY.update();
+		p.translate( p.gameWidth() / 2 + _gameIndex * p.gameWidth(), _gameBaseY.value(), 0 );
 		// ease the rotation 
 		float rotateExtent = p.PI / 10f;
 		_gameRotation.setTarget( rotateExtent * _paddle.xPosPercent() - rotateExtent / 2f );
@@ -179,6 +182,7 @@ public class GamePlay {
 	
 	protected void drawGameObjects() {
 		p.pushMatrix();
+		
 		// draw the blocks
 		int index = 0;
 		int numActiveBlocks = 0;
@@ -205,6 +209,7 @@ public class GamePlay {
 			showWinLose();
 			p.popMatrix();
 		}
+		
 	}
 	
 	protected void drawPlayerKinectPoints() {
@@ -262,6 +267,7 @@ public class GamePlay {
 	}
 	
 	protected void showWinLose() {
+		// update win/lose text scale and draw it
 		_gameOverTextScale.update();
 		if( _gameIndex == 0 ) {
 			p.meshPool.getMesh( p.WIN_TEXT ).scale( _gameOverTextScale.val() );
@@ -274,7 +280,10 @@ public class GamePlay {
 			p.toxi.mesh( p.meshPool.getMesh( p.LOSE_TEXT ) );
 			p.meshPool.getMesh( p.LOSE_TEXT ).scale( 1f / _gameOverTextScale.val() );
 		}
+		
+		// time out the 
 		_gameOverFrameCount++;
+		
 		if( _gameOverFrameCount == 20 && _gameIndex == 0 ) {
 			PhotoBooth.snapGamePhoto( p, p.stageWidth(), p.stageHeight() );
 		}
@@ -282,9 +291,12 @@ public class GamePlay {
 			_gameOverTextScale.setTarget( 0 );
 		}
 		if( _gameOverFrameCount == 100 ) {
-			// TODO: let game rebuild/reset before exiting?
+			_gameBaseY.setTarget( p.stageHeight() * 2 );
+		}
+		if( _gameOverFrameCount == 125 ) {
 			p.setGameMode( p.GAME_INTRO );
 		}
+
 	}
 
 }

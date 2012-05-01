@@ -97,7 +97,6 @@ extends PAppletHax
 	public static int GAME_INTRO = 5;
 	public static int GAME_INSTRUCTIONS = 6;
 	public static int GAME_COUNTDOWN = 7;
-	public static int GAME_OVER_OUTRO = 8;
 	
 	protected final float CAMERA_Z_WIDTH_MULTIPLIER = 0.888888f;	// 1280x720
 	protected float _cameraZFromHeight = 0;
@@ -249,7 +248,7 @@ extends PAppletHax
 		// update all games before checking for complete
 		for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).update( i );
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
-			if( _gamePlays.get( i ).hasClearedBoard() == true && _gameState != GAME_OVER ) {
+			if( _gamePlays.get( i ).hasClearedBoard() == true && _gameState == GAME_ON ) {
 				setGameMode( GAME_OVER );
 			}
 		}
