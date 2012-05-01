@@ -19,7 +19,7 @@ public class Ball {
 	protected KacheOut p;
 	protected float _ballSize;
 	protected ElasticFloat _ballSizeElastic;
-	protected int BALL_RESOLUTION = 4;
+	protected int BALL_RESOLUTION = 6;
 	protected Sphere _sphere;
 	protected float _x, _y, _speedX, _speedY;
 	
