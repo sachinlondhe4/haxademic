@@ -281,12 +281,8 @@ public class GamePlay {
 			p.meshPool.getMesh( p.LOSE_TEXT ).scale( 1f / _gameOverTextScale.val() );
 		}
 		
-		// time out the 
+		// time out the outro animations
 		_gameOverFrameCount++;
-		
-		if( _gameOverFrameCount == 20 && _gameIndex == 0 ) {
-			PhotoBooth.snapGamePhoto( p, p.stageWidth(), p.stageHeight() );
-		}
 		if( _gameOverFrameCount == 80 ) {
 			_gameOverTextScale.setTarget( 0 );
 		}
@@ -297,6 +293,14 @@ public class GamePlay {
 			p.setGameMode( p.GAME_INTRO );
 		}
 
+	}
+	
+	public boolean shouldTakeScreenshot() {
+		if( _gameOverFrameCount == 20 ) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

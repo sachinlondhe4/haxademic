@@ -237,8 +237,14 @@ extends PAppletHax
 	}
 	
 	protected void updateGames(){
-		// update all games before checking for complete
-		for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).update( i );
+		// update all games before checking for complete. also take screenshot if the game's over and the time is right
+		boolean takeScreenShot = false;
+		for( int i=0; i < NUM_PLAYERS; i++ ) {
+			_gamePlays.get( i ).update( i );
+			if( _gamePlays.get( i ).shouldTakeScreenshot() == true ) takeScreenShot = true;
+		}
+		if( takeScreenShot == true ) PhotoBooth.snapGamePhoto( p, _stageWidth, _stageHeight );
+		// check for complete
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			if( _gamePlays.get( i ).hasClearedBoard() == true && _gameState == GAME_ON ) {
 				setGameMode( GAME_OVER );
