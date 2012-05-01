@@ -169,14 +169,6 @@ extends PAppletHax
 
 	protected void handleInput( boolean isMidi ) {
 		super.handleInput( isMidi );
-//		if ( p.key == ' ' ) {
-////			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).launchBall();
-//			if( _gameState == GAME_OVER ) {
-//				resetGame();
-//			} else if( _gameState == GAME_READY ) {
-//				setGameMode( GAME_ON );
-//			}
-//		}
 		if ( p.key == 'd' || p.key == 'D' ) {
 			_isDebugging = !_isDebugging;
 			kinectWrapper.enableRGB( !_isDebugging );
@@ -197,7 +189,7 @@ extends PAppletHax
 	// GAME LOGIC --------------------------------------------------------------------------------------
 	
 	public void setGameMode( int mode ) {
-		p.println("next mode: "+mode);
+		//p.println("next mode: "+mode);
 		_gameStateQueued = mode;
 	}
 	
