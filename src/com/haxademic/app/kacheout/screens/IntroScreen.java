@@ -39,9 +39,9 @@ public class IntroScreen {
 		_cdLogoLoc = new EasingFloat3d( 0, 0, 0, 5 );
 		_presentsLoc = new EasingFloat3d( 0, 0, 0, 7 );
 		_kacheOutLoc = new EasingFloat3d( 0, 0, 0, 5 );
-		_modeSetLogoLoc = new EasingFloat3d( 0, 0, 0, 5 );
+		_modeSetLogoLoc = new EasingFloat3d( 0, 0, 0, 4 );
 		_modeSetLogoZ = new ElasticFloat( -1400f, 0.8f, 0.4f );
-		_modeSetTextLoc = new EasingFloat3d( 0, 0, 0, 7 );
+		_modeSetTextLoc = new EasingFloat3d( 0, 0, 0, 9 );
 		_cacheFloweLogoLoc = new EasingFloat3d( 0, 0, 0, 5 );
 		_cacheFloweTextLoc = new EasingFloat3d( 0, 0, 0, 7 );
 		_designByLoc = new EasingFloat3d( 0, 0, 0, 5 );
