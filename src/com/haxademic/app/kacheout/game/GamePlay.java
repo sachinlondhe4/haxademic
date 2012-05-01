@@ -269,7 +269,7 @@ public class GamePlay {
 	protected void showWinLose() {
 		// update win/lose text scale and draw it
 		_gameOverTextScale.update();
-		if( _gameIndex == 0 ) {
+		if( _didWin == true ) {
 			p.meshPool.getMesh( p.WIN_TEXT ).scale( _gameOverTextScale.val() );
 			p.fill( _winColor.toARGB() );
 			p.toxi.mesh( p.meshPool.getMesh( p.WIN_TEXT ) );
