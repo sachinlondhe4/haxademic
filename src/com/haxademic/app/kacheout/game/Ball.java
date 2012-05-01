@@ -92,11 +92,14 @@ public class Ball {
 	
 	public void display( Paddle paddle ) {
 		if( p.gameState() == p.GAME_READY || _waitingToLaunch == true ) {
+			_ballSizeElastic.setTarget( _ballSize );
 			_x = paddle.x();
 			resetY( paddle );
 		} else if( p.gameState() == p.GAME_ON ) {
 			_x += _speedX;
 			_y += _speedY;
+		} else if( p.gameState() == p.GAME_OVER ) {
+			_ballSizeElastic.setTarget( 0 );
 		}
 					
 		_color.update();
