@@ -32,7 +32,10 @@ public class AssetLoader {
 		
 		// Kacheout logo
 		p.meshPool.addMesh( p.KACHEOUT_LOGO, MeshUtil.meshFromImg( p, "../data/images/kacheout/kacheout.gif", 1f ), 20f );
-		p.meshPool.addMesh( p.UFO, MeshUtil.meshFromImg( p, "../data/images/kacheout/invader-01.gif", 1f ), 30f );
+
+		// Built by text & ufo
+		p.meshPool.addMesh( p.BUILT_BY_TEXT, MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "BUILT BY:", -1, 2, 0.5f ), 1 );
+		p.meshPool.addMesh( p.UFO, MeshUtil.meshFromImg( p, "../data/images/kacheout/ufo.gif", 1f ), 15f );
 		
 		// cacheflowe / mode set
 		p.meshPool.addMesh( p.MODE_SET_LOGO, MeshUtil.meshFromOBJ( p, "../data/models/mode-set.obj", 1f ), 150 );

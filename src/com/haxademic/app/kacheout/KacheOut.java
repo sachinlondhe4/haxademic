@@ -63,6 +63,7 @@ extends PAppletHax
 	public static String CREATE_DENVER = "CREATE_DENVER";
 	public static String PRESENTS_TEXT = "PRESENTS_TEXT";
 	public static String KACHEOUT_LOGO = "KACHEOUT_LOGO";
+	public static String BUILT_BY_TEXT = "BUILT_BY_TEXT";
 	public static String UFO = "UFO";
 	public static String MODE_SET_LOGO = "MODE_SET_LOGO";
 	public static String MODE_SET_LOGOTYPE = "MODE_SET_LOGOTYPE";
@@ -145,8 +146,8 @@ extends PAppletHax
 		_gamePlays.add( _player1 );
 		_gamePlays.add( _player2 );
 		
-		//setGameMode( GAME_INTRO );
-		setGameMode( GAME_ON );
+		setGameMode( GAME_INTRO );
+		//setGameMode( GAME_ON );
 	}
 		
 	// HAXADEMIC STUFF --------------------------------------------------------------------------------------
