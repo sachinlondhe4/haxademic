@@ -24,6 +24,7 @@ public class Block {
 	protected ArrayList<Shard> _shards;
 	protected ArrayList<Vec3D> _explodeVecs;
 	protected float _scale, _speedX, _speedY;
+	protected float _lastZAdd = 0;
 	
 	public Block( AABB box, int index, float scale, TColor color ) {
 		p = (KacheOut)PAppletHax.getInstance();
@@ -102,7 +103,14 @@ public class Block {
 			float zAdd = 6 + 50f * p._audioInput.getFFT().spectrum[index % 512];
 			_box.setExtent( new Vec3D( _scale/200f, _scale/200f, zAdd ) );
 			
-			_color.color().alpha = p.constrain( 0.5f + zAdd, 0, 1 );
+			// ease towards white, or default color, depending on which way the audio eq's going
+			if( _lastZAdd < zAdd )
+				_color.setTargetColor( _colorDead );
+			else
+				_color.setTargetColor( _colorStart );
+			_lastZAdd = zAdd;
+			
+			//_color.color().alpha = p.constrain( 0.5f + zAdd, 0, 1 );
 			p.fill( _color.color().toARGB() );
 			p.noStroke();
 			p.toxi.box( _box );	
