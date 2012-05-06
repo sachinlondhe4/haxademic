@@ -22,6 +22,7 @@ public class Ball {
 	protected int BALL_RESOLUTION = 6;
 	protected Sphere _sphere;
 	protected float _x, _y, _speedX, _speedY;
+	protected float SPEED_UP = 1.001f;
 	
 	protected float BASE_ALPHA = 0.8f;
 	protected EasingFloat _alpha;
@@ -32,6 +33,7 @@ public class Ball {
 	protected final TColor WHITE = new TColor( TColor.WHITE );
 
 	protected float _baseSpeed;
+	protected float _curBaseSpeed;
 	protected WETriangleMesh _ballMesh;
 	
 	public Ball() {
@@ -45,7 +47,7 @@ public class Ball {
 		_alpha = new EasingFloat( 0, 7f );
 		
 		_ballSize = p.stageHeight() / 16f;
-		_ballSizeElastic = new ElasticFloat( _ballSize, 0.85f, 0.25f );
+		_ballSizeElastic = new ElasticFloat( 0, 0.66f, 0.48f );
 		_sphere = new Sphere( _ballSize );
 		
 		_ballMesh = new WETriangleMesh();
@@ -60,6 +62,7 @@ public class Ball {
 	public float radius() { return _ballSize; }
 	
 	public void reset() {
+		_curBaseSpeed = _baseSpeed;
 		_alpha.setTarget( 0 );
 	}
 	
@@ -108,8 +111,8 @@ public class Ball {
 		
 		if( _alpha.value() == BASE_ALPHA && _waitingToLaunch == true ) {
 			_waitingToLaunch = false;
-			_speedX = ( MathUtil.randBoolean( p ) == true ) ? _baseSpeed : -_baseSpeed;
-			_speedY = -_baseSpeed;
+			_speedX = ( MathUtil.randBoolean( p ) == true ) ? _curBaseSpeed : -_curBaseSpeed;
+			_speedY = -_curBaseSpeed;
 		}
 		
 		_sphere.x = _x;
@@ -159,14 +162,19 @@ public class Ball {
 	}
 
 	public boolean detectBox( AABB box ) {
-		if( box.intersectsSphere( _sphere ) ) return true;
+		if( box.intersectsSphere( _sphere ) ) {
+			_curBaseSpeed *= SPEED_UP;
+			_speedX *= SPEED_UP;
+			_speedY *= SPEED_UP;
+			return true;
+		}
 		return false;
 	}
 	
 	public void bounceOffPaddle( Paddle paddle ) {
 		if( _speedY > 0 ) {
 			_speedX = ( _x - paddle.x() ) / 10;
-			_speedX = p.constrain( _speedX, -_baseSpeed * 1.4f, _baseSpeed * 1.4f );
+			_speedX = p.constrain( _speedX, -_curBaseSpeed * 1.4f, _curBaseSpeed * 1.4f );
 			bounceY();
 			bounceBall();
 			_color.setCurAndTargetColors( WHITE, YELLOW );
