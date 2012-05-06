@@ -94,7 +94,7 @@ public class Ball {
 	}
 	
 	public void display( Paddle paddle ) {
-		if( p.gameState() == p.GAME_READY || _waitingToLaunch == true ) {
+		if( _waitingToLaunch == true ) {
 			_ballSizeElastic.setTarget( _ballSize );
 			_x = paddle.x();
 			resetY( paddle );

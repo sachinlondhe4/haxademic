@@ -107,7 +107,6 @@ extends PAppletHax
 	// game state
 	protected int _gameState;
 	protected int _gameStateQueued;	// wait until beginning on the next frame to switch modes to avoid mid-frame conflicts
-	public static int GAME_READY = 2;
 	public static int GAME_ON = 3;
 	public static int GAME_OVER = 4;
 	public static int GAME_INTRO = 5;
