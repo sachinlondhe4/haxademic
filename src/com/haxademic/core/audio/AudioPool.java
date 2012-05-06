@@ -19,8 +19,8 @@ public class AudioPool {
 		_audioPlayers = new HashMap<String, ObjItem>();
 	}
 	
-	public void loadAudioFile( String id, float scale, String file ) {
-		_audioPlayers.put( id, new ObjItem( p, scale, file ) );
+	public void loadAudioFile( String id, float vol, String file ) {
+		_audioPlayers.put( id, new ObjItem( p, vol, file ) );
 	}
 	
 	public AudioPlayer getSound( String id ) {
