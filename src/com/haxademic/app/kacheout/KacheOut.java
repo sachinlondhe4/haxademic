@@ -91,6 +91,7 @@ extends PAppletHax
 	public static String COUNTDOWN_1 = "COUNTDOWN_1";
 	public static String COUNTDOWN_2 = "COUNTDOWN_2";
 	public static String COUNTDOWN_3 = "COUNTDOWN_3";
+	public static String WIN_SOUND = "WIN_SOUND";
 
 	// game state
 	protected int _curMode;
@@ -136,6 +137,7 @@ extends PAppletHax
 		sounds.loadAudioFile( COUNTDOWN_1, 1, "wav/kacheout/sfx/countdown-01.wav" );
 		sounds.loadAudioFile( COUNTDOWN_2, 1, "wav/kacheout/sfx/countdown-02.wav" );
 		sounds.loadAudioFile( COUNTDOWN_3, 1, "wav/kacheout/sfx/countdown-03.wav" );
+		sounds.loadAudioFile( WIN_SOUND, 1, "wav/kacheout/sfx/chirp bounce.wav" );
 		
 		soundtrack = new Soundtrack();
 //		_soundtrack.playNext();
@@ -236,6 +238,8 @@ extends PAppletHax
 			soundtrack.playNext();
 		} else if( _gameState == GAME_OVER ) {
 			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).gameOver();
+			soundtrack.stop();
+			sounds.playSound( WIN_SOUND );
 		}
 	}
 		
