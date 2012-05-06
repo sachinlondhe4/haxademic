@@ -166,6 +166,7 @@ public class Ball {
 	public void bounceOffPaddle( Paddle paddle ) {
 		if( _speedY > 0 ) {
 			_speedX = ( _x - paddle.x() ) / 10;
+			_speedX = p.constrain( _speedX, -_baseSpeed * 1.4f, _baseSpeed * 1.4f );
 			bounceY();
 			bounceBall();
 			_color.setCurAndTargetColors( WHITE, YELLOW );
