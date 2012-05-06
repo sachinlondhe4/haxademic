@@ -36,7 +36,7 @@ public class Paddle {
 		
 		_center = ( p.gameWidth() + _width) / 2;
 		_x = new EasingFloat( _center, _easing );
-		_stageVPadding = p.stageHeight() * 0.04f;
+		_stageVPadding = p.stageHeight() * 0.01f;
 		_baseY = p.stageHeight() - _stageVPadding;
 		_y = new ElasticFloat( _baseY, 0.6f, 0.4f );
 		
