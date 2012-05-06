@@ -35,13 +35,13 @@ public class Soundtrack {
 	public void playIntro() {
 		if( _backgroundAudio != null ) _backgroundAudio.close();
 		_backgroundAudio = p._minim.loadFile("wav/kacheout/soundtrack/special/08 disrupt - the bass has left the building.wav", 512);
-		_backgroundAudio.play(0);
+		_backgroundAudio.loop();
 	}
 	
 	public void playInstructions() {
 		if( _backgroundAudio != null ) _backgroundAudio.close();
 		_backgroundAudio = p._minim.loadFile("wav/kacheout/soundtrack/special/01 rip-off artist - bang trim.wav", 512);
-		_backgroundAudio.play(0);
+		_backgroundAudio.loop();
 	}
 	
 	public void stop() {
