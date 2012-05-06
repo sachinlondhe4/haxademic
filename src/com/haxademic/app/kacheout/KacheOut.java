@@ -131,13 +131,13 @@ extends PAppletHax
 		_audioInput.setDampening( .13f );
 		
 		sounds = new AudioPool( p, p._minim );
-		sounds.loadAudioFile( PADDLE_BOUNCE, 1, "wav/kacheout/ball_hit_wall_v03.wav" );
-		sounds.loadAudioFile( WALL_BOUNCE, 1, "wav/kacheout/ball_hit_wall_v02.wav" );
-		sounds.loadAudioFile( INSERT_COIN, 1, "wav/kacheout/sfx/insert coin.wav" );
-		sounds.loadAudioFile( COUNTDOWN_1, 1, "wav/kacheout/sfx/countdown-01.wav" );
-		sounds.loadAudioFile( COUNTDOWN_2, 1, "wav/kacheout/sfx/countdown-02.wav" );
-		sounds.loadAudioFile( COUNTDOWN_3, 1, "wav/kacheout/sfx/countdown-03.wav" );
-		sounds.loadAudioFile( WIN_SOUND, 1, "wav/kacheout/sfx/chirp bounce.wav" );
+		sounds.loadAudioFile( PADDLE_BOUNCE, 1, "data/audio/kacheout/sfx/ball_hit_wall_v03.mp3" );
+		sounds.loadAudioFile( WALL_BOUNCE, 1, "data/audio/kacheout/sfx/ball_hit_wall_v02.mp3" );
+		sounds.loadAudioFile( INSERT_COIN, 1, "data/audio/kacheout/sfx/insert-coin.mp3" );
+		sounds.loadAudioFile( COUNTDOWN_1, 1, "data/audio/kacheout/sfx/countdown-01.mp3" );
+		sounds.loadAudioFile( COUNTDOWN_2, 1, "data/audio/kacheout/sfx/countdown-02.mp3" );
+		sounds.loadAudioFile( COUNTDOWN_3, 1, "data/audio/kacheout/sfx/countdown-03.mp3" );
+		sounds.loadAudioFile( WIN_SOUND, 1, "data/audio/kacheout/sfx/chirp-bounce.mp3" );
 		
 		soundtrack = new Soundtrack();
 //		_soundtrack.playNext();
