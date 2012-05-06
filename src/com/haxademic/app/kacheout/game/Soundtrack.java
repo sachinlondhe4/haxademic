@@ -25,11 +25,10 @@ public class Soundtrack {
 	
 	public void playNext() {
 		_index++;
-		if( _index == _soundtrackFiles.size() - 1 ) _index = 0;
+		if( _index == _soundtrackFiles.size() ) _index = 0;
 		if( _backgroundAudio != null ) _backgroundAudio.close();
 		_backgroundAudio = p._minim.loadFile("wav/kacheout/soundtrack/" + _soundtrackFiles.get( _index ), 512);
 		_backgroundAudio.loop();
-		if( _index == _soundtrackFiles.size() - 1 ) _index = 0;
 	}
 	
 	public void playIntro() {
