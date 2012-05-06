@@ -143,7 +143,7 @@ public class IntroScreen {
 		} else if( _frameCount == _frame8 ) {
 			p.soundtrack.stop();
 			p.sounds.playSound("INSERT_COIN");
-			p.setGameMode( p.GAME_READY );
+			p.setGameMode( p.GAME_INSTRUCTIONS );
 		}
 	}
 	

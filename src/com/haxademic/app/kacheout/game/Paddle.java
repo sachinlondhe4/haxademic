@@ -82,6 +82,8 @@ public class Paddle {
 		_box.rotateX( p.frameCount / 30f );
 //		_color.alpha = 0.5f + p._audioInput.getFFT().averages[1];
 		
+		_color.color().alpha = ( p.gameState() == p.GAME_ON ) ? 1 : 0.4f;
+		
 		p.fill( _color.color().toARGB() );
 		p.noStroke();
 		p.toxi.box( _box ); 

@@ -72,6 +72,8 @@ extends PAppletHax
 	public static String DESIGN_BY = "DESIGN_BY";
 	public static String JON_DESIGN = "JON_DESIGN";
 	public static String RYAN_DESIGN = "RYAN_DESIGN";
+	public static String STEP_UP_TEXT = "STEP_UP_TEXT";
+	public static String READY_TEXT = "READY_TEXT";
 	public static String COUNTDOWN_TEXT_1 = "COUNTDOWN_TEXT_1";
 	public static String COUNTDOWN_TEXT_2 = "COUNTDOWN_TEXT_2";
 	public static String COUNTDOWN_TEXT_3 = "COUNTDOWN_TEXT_3";
@@ -146,8 +148,9 @@ extends PAppletHax
 		_gamePlays.add( _player1 );
 		_gamePlays.add( _player2 );
 		
-		setGameMode( GAME_INTRO );
+		//setGameMode( GAME_INTRO );
 		//setGameMode( GAME_ON );
+		setGameMode( GAME_INSTRUCTIONS );
 	}
 		
 	// HAXADEMIC STUFF --------------------------------------------------------------------------------------
@@ -198,9 +201,11 @@ extends PAppletHax
 		_gameState = _gameStateQueued;
 		if( _gameState == GAME_INTRO ) {
 			_screenIntro.reset();
+		} else if( _gameState == GAME_INSTRUCTIONS ) {
+			
 		} else if( _gameState == GAME_READY ) {
 			// TODO: MAKE THE INSTRUCTION/COUNTDOWN SCREENS HERE
-			setGameMode( GAME_ON );
+//			setGameMode( GAME_ON );
 		} else if( _gameState == GAME_ON ) {
 			for( int i=0; i < NUM_PLAYERS; i++ ) {
 				_gamePlays.get( i ).reset();
@@ -228,7 +233,7 @@ extends PAppletHax
 		if( _gameState != _gameStateQueued ) swapGameMode();
 		if( _gameState == GAME_INTRO ) {
 			_screenIntro.update();
-		} else if( _gameState == GAME_ON || _gameState == GAME_OVER ) {
+		} else {
 			p.pushMatrix();
 			updateGames();
 			p.popMatrix();

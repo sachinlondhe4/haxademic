@@ -48,6 +48,10 @@ public class AssetLoader {
 		p.meshPool.addMesh( p.JON_DESIGN, MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "JON TRAISTER", -1, 2, 0.4f ), 1 );
 		p.meshPool.addMesh( p.RYAN_DESIGN, MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "LATENIGHT WEEKNIGHT", -1, 2, 0.4f ), 1 );
 		
+		// instructions screen
+		p.meshPool.addMesh( p.STEP_UP_TEXT, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "STEP UP", -1, 2, 0.4f ), 10 ), 1 );
+		p.meshPool.addMesh( p.READY_TEXT, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "READY!", -1, 2, 0.4f ), 10 ), 1 );
+		
 		// countdown
 		p.meshPool.addMesh( p.COUNTDOWN_TEXT_1, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "1", -1, 2, 3f ), 4 ), 1 );
 		p.meshPool.addMesh( p.COUNTDOWN_TEXT_2, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "2", -1, 2, 3f ), 4 ), 1 );

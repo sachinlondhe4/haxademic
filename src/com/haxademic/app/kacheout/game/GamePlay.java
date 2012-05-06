@@ -41,9 +41,14 @@ public class GamePlay {
 	// colors
 	protected TColor _winColor = new TColor( TColor.GREEN );
 	protected TColor _loseColor = new TColor( TColor.RED );
+	protected TColor _waitingColor = new TColor( TColor.YELLOW );
+	protected TColor _readyColor = new TColor( TColor.GREEN );
 	
 	// state 
 	protected int _gameIndex;
+	protected boolean _playerReady = false;
+	protected int _playerDetectedFrames = 0;
+	protected ElasticFloat _playerReadyTextScale;
 	protected boolean _hasClearedBoard = false;
 	protected boolean _didWin = false;
 	protected ElasticFloat _gameOverTextScale;
@@ -83,6 +88,7 @@ public class GamePlay {
 		_walls = new Walls();
 		
 		_gameOverTextScale = new ElasticFloat( 0, 0.7f, 0.4f );
+		_playerReadyTextScale = new ElasticFloat( 1, 0.7f, 0.4f );
 	}
 	
 	public void reset() {
@@ -90,6 +96,10 @@ public class GamePlay {
 			_invaders.get( i ).reset();
 		}
 		_ball.reset();
+		_playerReady = false;
+		_playerDetectedFrames = 0;
+		_playerReadyTextScale.setValue( 1 );
+		_playerReadyTextScale.setValue( 1 );
 		_hasClearedBoard = false;
 		_didWin = false;
 		_gameOverTextScale.setValue( 0 );
@@ -110,11 +120,16 @@ public class GamePlay {
 		return _hasClearedBoard;
 	}
 	
+	public boolean isPlayerReady() {
+		return _playerReady;
+	}
+	
 	public void update( int gameIndex ) {
 		positionGameCenter();
 //		drawBackground();
 		updateControls();
 		drawGameObjects();
+		drawSpecialModes();
 		if( p.gameState() == p.GAME_ON ) detectCollisions();
 	}
 	
@@ -161,7 +176,23 @@ public class GamePlay {
 				}
 			}
 //			p.println("min/max : "+minX+" "+ maxX);
-			_kinectCurrent.set( minX, maxX );
+		}
+		_kinectCurrent.set( minX, maxX );
+		
+		if( minX != -1 && maxX != -1 ) {
+			detectPlayerReady();
+		} else {
+			_playerDetectedFrames = 0;
+		}
+	}
+	
+	protected void detectPlayerReady() {
+		// recognize that a player is in the area
+		if( _playerReady == false ) {
+			_playerDetectedFrames++;
+			if( _playerDetectedFrames > 60 ) {
+				_playerReady = true;
+			}
 		}
 	}
 	
@@ -171,10 +202,12 @@ public class GamePlay {
 		if( p.kinectWrapper.isActive() == true ) {
 			findKinectCenterX();
 			// send kinect data to games - calculate based off number of games vs. kinect width
-			if( _kinectCurrent.center() != -1 ) {
+			if( _kinectCurrent.center() == -1 || _playerReady == false ) {
+				paddleX = 0.5f;
+			} else {
 				paddleX = MathUtil.getPercentWithinRange( _kinectRange.min(), _kinectRange.max(), _kinectCurrent.center() );
-				_paddle.setTargetXByPercent( 1f - paddleX );
 			}
+			_paddle.setTargetXByPercent( 1f - paddleX );
 		} else {
 			_paddle.setTargetXByPercent( 1f - MathUtil.getPercentWithinRange( 0, p.gameWidth(), p.mouseX ) );
 		}
@@ -199,17 +232,75 @@ public class GamePlay {
 		// draw other objects
 		_paddle.display();
 		_walls.display();
-		_ball.display( _paddle );
+		if( p.gameState() == p.GAME_ON ) {
+			_ball.display( _paddle );
+		}
 		drawPlayerKinectPoints();
 		if( p.isDebugging() == true ) drawDebugLines();
 		
-		if( p.gameState() == p.GAME_OVER ) {
-			p.pushMatrix();
-			p.translate( _paddle.x(), _paddle.y() - _paddle.height(), 0 );
-			showWinLose();
-			p.popMatrix();
+	}
+	
+	protected void drawSpecialModes() {
+		if( p.gameState() == p.GAME_INSTRUCTIONS ) drawInstructionsMode();
+		if( p.gameState() == p.GAME_OVER ) drawGameOverMode();
+	}
+	
+	protected void drawInstructionsMode() {
+		p.pushMatrix();
+		p.translate( _paddle.x(), _paddle.y() - _paddle.height(), _paddle.height() );
+		//showWinLose();
+		
+		// update win/lose text scale and draw it
+		_playerReadyTextScale.update();
+		if( _playerReady == false ) {
+			p.meshPool.getMesh( p.STEP_UP_TEXT ).scale( _playerReadyTextScale.val() );
+			p.fill( _waitingColor.toARGB() );
+			p.toxi.mesh( p.meshPool.getMesh( p.STEP_UP_TEXT ) );
+			p.meshPool.getMesh( p.STEP_UP_TEXT ).scale( 1f / _playerReadyTextScale.val() );
+		} else {
+			p.meshPool.getMesh( p.READY_TEXT ).scale( _playerReadyTextScale.val() );
+			p.fill( _readyColor.toARGB() );
+			p.toxi.mesh( p.meshPool.getMesh( p.READY_TEXT ) );
+			p.meshPool.getMesh( p.READY_TEXT ).scale( 1f / _playerReadyTextScale.val() );
+		}
+
+		
+		p.popMatrix();
+	}
+		
+	protected void drawGameOverMode() {
+		// position drawing
+		p.pushMatrix();
+		p.translate( _paddle.x(), _paddle.y() - _paddle.height(), 0 );
+		
+		// update win/lose text scale and draw it
+		_gameOverTextScale.update();
+		if( _didWin == true ) {
+			p.meshPool.getMesh( p.WIN_TEXT ).scale( _gameOverTextScale.val() );
+			p.fill( _winColor.toARGB() );
+			p.toxi.mesh( p.meshPool.getMesh( p.WIN_TEXT ) );
+			p.meshPool.getMesh( p.WIN_TEXT ).scale( 1f / _gameOverTextScale.val() );
+		} else {
+			p.meshPool.getMesh( p.LOSE_TEXT ).scale( _gameOverTextScale.val() );
+			p.fill( _loseColor.toARGB() );
+			p.toxi.mesh( p.meshPool.getMesh( p.LOSE_TEXT ) );
+			p.meshPool.getMesh( p.LOSE_TEXT ).scale( 1f / _gameOverTextScale.val() );
 		}
 		
+		// time out the outro animations
+		_gameOverFrameCount++;
+		if( _gameOverFrameCount == 80 ) {
+			_gameOverTextScale.setTarget( 0 );
+		}
+		if( _gameOverFrameCount == 100 ) {
+			_gameBaseY.setTarget( p.stageHeight() * 2 );
+		}
+		if( _gameOverFrameCount == 125 ) {
+			p.setGameMode( p.GAME_INTRO );
+		}
+
+		// make sure we didn't jack anything up elsewhere
+		p.popMatrix();
 	}
 	
 	protected void drawPlayerKinectPoints() {
@@ -265,36 +356,7 @@ public class GamePlay {
 			_invaders.get( i ).detectCollisions( _ball );
 		}
 	}
-	
-	protected void showWinLose() {
-		// update win/lose text scale and draw it
-		_gameOverTextScale.update();
-		if( _didWin == true ) {
-			p.meshPool.getMesh( p.WIN_TEXT ).scale( _gameOverTextScale.val() );
-			p.fill( _winColor.toARGB() );
-			p.toxi.mesh( p.meshPool.getMesh( p.WIN_TEXT ) );
-			p.meshPool.getMesh( p.WIN_TEXT ).scale( 1f / _gameOverTextScale.val() );
-		} else {
-			p.meshPool.getMesh( p.LOSE_TEXT ).scale( _gameOverTextScale.val() );
-			p.fill( _loseColor.toARGB() );
-			p.toxi.mesh( p.meshPool.getMesh( p.LOSE_TEXT ) );
-			p.meshPool.getMesh( p.LOSE_TEXT ).scale( 1f / _gameOverTextScale.val() );
-		}
-		
-		// time out the outro animations
-		_gameOverFrameCount++;
-		if( _gameOverFrameCount == 80 ) {
-			_gameOverTextScale.setTarget( 0 );
-		}
-		if( _gameOverFrameCount == 100 ) {
-			_gameBaseY.setTarget( p.stageHeight() * 2 );
-		}
-		if( _gameOverFrameCount == 125 ) {
-			p.setGameMode( p.GAME_INTRO );
-		}
 
-	}
-	
 	public boolean shouldTakeScreenshot() {
 		if( _gameOverFrameCount == 20 ) {
 			return true;
