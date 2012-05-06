@@ -206,7 +206,7 @@ extends PAppletHax
 	// GAME LOGIC --------------------------------------------------------------------------------------
 	
 	public void setGameMode( int mode ) {
-		p.println("next mode: "+mode);
+//		p.println("next mode: "+mode);
 		_gameStateQueued = mode;
 	}
 	
