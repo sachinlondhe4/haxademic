@@ -163,9 +163,9 @@ extends PAppletHax
 		_gamePlays.add( _player1 );
 		_gamePlays.add( _player2 );
 		
-		setGameMode( GAME_INTRO );
+		//setGameMode( GAME_INTRO );
 		//setGameMode( GAME_ON );
-		//setGameMode( GAME_INSTRUCTIONS );
+		setGameMode( GAME_INSTRUCTIONS );
 	}
 		
 	// HAXADEMIC STUFF --------------------------------------------------------------------------------------
@@ -292,7 +292,17 @@ extends PAppletHax
 	
 	protected void displayDebug() {
 //		debugCameraPos();
+//		drawDebug();
 		
+		if( p.frameCount % 1000 == 0 ) {
+			p.println( "time: "+p.minute()+":"+p.second() );
+			if( _gameState == GAME_INSTRUCTIONS ) {
+				setGameMode( GAME_COUNTDOWN );
+			}
+		}
+	}
+	
+	protected void drawDebug() {
 		// draw depth image
 		DrawUtil.setCenter( p );
 		p.translate( 0, 0, -1350 );
@@ -303,6 +313,7 @@ extends PAppletHax
 		p.rotateY( (float)Math.PI );
 //		p.image( _kinectWrapper.getDepthImage(), 0, 0, _kinectWrapper.KWIDTH, _kinectWrapper.KHEIGHT );
 		p.image( kinectWrapper.getDepthImage(), 0, 0, _stageWidth, _stageHeight );
+
 	}
 	
 	// Visual fun
