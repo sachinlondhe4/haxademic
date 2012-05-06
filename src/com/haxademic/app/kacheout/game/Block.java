@@ -43,16 +43,28 @@ public class Block {
 		_colorDead = new TColor( TColor.WHITE );
 		_color = new EasingTColor( _colorStart, 0.1f );
 		
-		reset();
+		reset( true );
 	}
 	
-	public void reset() {
+	public void reset( boolean shouldResetPosition ) {
 		_color.setTargetColor( _colorStart );
 		_active = true;
+		if( shouldResetPosition ) {
+			_box.x = _boxOrigin.x;
+			_box.y = _boxOrigin.y;
+		}
 	}
 	
 	public boolean active() {
 		return _active;
+	}
+	
+	public boolean isReset() {
+		if( Math.abs( _box.x - _boxOrigin.x ) < 1 && Math.abs( _box.y - _boxOrigin.y ) < 1 ) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public AABB box() {
@@ -84,7 +96,7 @@ public class Block {
 		_color.update();
 		if( _active == true ) {
 			// ease box to origin
-			_box.set( MathUtil.easeTo( _box.x, _boxOrigin.x, 8f ), MathUtil.easeTo( _box.y, _boxOrigin.y, 8f ), 0 );
+			_box.set( MathUtil.easeTo( _box.x, _boxOrigin.x, 10f ), MathUtil.easeTo( _box.y, _boxOrigin.y, 10f ), 0 );
 			
 			// adjust cell z per brightness
 			float zAdd = 6 + 50f * p._audioInput.getFFT().spectrum[index % 512];

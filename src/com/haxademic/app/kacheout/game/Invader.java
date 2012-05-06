@@ -16,7 +16,8 @@ public class Invader {
 	protected ArrayList<Block> _boxes;
 	protected ArrayList<Block> _boxesAlt;
 	protected ArrayList<Block> _curBoxesArray;
-	protected boolean _isAnimating = true;
+	protected boolean _hasBeenHit = false;
+	protected boolean _isAnimating = false;
 	protected int _numActiveBlocks = 999;
 	
 	protected int _x, _y, _row;
@@ -64,43 +65,73 @@ public class Invader {
 			boxesAlt.get( i ).set( boxesAlt.get( i ).x + _x, boxesAlt.get( i ).y + _y, 0 );
 			_boxesAlt.add( new Block( boxesAlt.get( i ), i, _scale*100f, color ) );
 		}
+		
+		// set this once - from here out, they'll reanimate after animating back to original positions after die()
+		_curBoxesArray = _boxes;
 	}
 	
 	public void reset() {
 		_numActiveBlocks = 999;
-		_isAnimating = true;
+		_isAnimating = false;
+		_hasBeenHit = false;
 		
-		_curBoxesArray = _boxes;
 		for( int i=0; i < _boxes.size(); i++ ) {
-			_boxes.get( i ).reset();
+			boolean shouldResetPositionsImmediately = ( _curBoxesArray != _boxes );
+			_boxes.get( i ).reset( shouldResetPositionsImmediately );
 		}
 		for( int i=0; i < _boxesAlt.size(); i++ ) {
-			_boxesAlt.get( i ).reset();
+			boolean shouldResetPositionsImmediately = ( _curBoxesArray != _boxesAlt );
+			_boxesAlt.get( i ).reset( shouldResetPositionsImmediately );
 		}
 	}
 	
 	public void gameOver() {
 		_isAnimating = false;
+		_hasBeenHit = true;
 		for( int i=0; i < _curBoxesArray.size(); i++ ) {
 			_curBoxesArray.get( i ).die( 0, MathUtil.randRangeDecimel( -1f, 1f ) );
 		}
 	}
 	
 	public void display() {
-		// animate
+		animateInvaderState();
+		startAnimatingOnRestoredPosition();
+		drawBoxes();
+	}
+	
+	protected void animateInvaderState() {
+		// animate - make sure every invader's on the same frame with double mod
 		if( _isAnimating == true && p.frameCount % 15 == 0 ) {
-			_curBoxesArray = ( _curBoxesArray == _boxes ) ? _boxesAlt : _boxes;
+			_curBoxesArray = ( p.frameCount % 30 == 0 ) ? _boxesAlt : _boxes;
 		}
+	}
+	
+	protected void startAnimatingOnRestoredPosition() {
+		// check to see if we should start animating
+		if( _isAnimating == false && _hasBeenHit == false ) {
+			int numResettingBlocks = 0;
+			for( int i=0; i < _boxes.size(); i++ ) {
+				if( _boxes.get( i ).isReset() == false  ) {
+					numResettingBlocks++;
+				}
+			}
+			for( int i=0; i < _boxesAlt.size(); i++ ) {
+				if( _boxesAlt.get( i ).isReset() == false  ) {
+					numResettingBlocks++;
+				}
+			}
+			if( numResettingBlocks == 0 ) {
+				_isAnimating = true;
+			}
+		}
+	}
+	
+	protected void drawBoxes() {
 		// draw boxen
 		_numActiveBlocks = 0;
 		for( int i=0; i < _curBoxesArray.size(); i++ ) {
-			if( _curBoxesArray.get( i ).active() == true ) {
-				_curBoxesArray.get( i ).display();
-				_numActiveBlocks++;
-				
-			} else {
-				_curBoxesArray.get( i ).display();
-			}
+			_curBoxesArray.get( i ).display();
+			if( _curBoxesArray.get( i ).active() == true ) _numActiveBlocks++;
 		}
 	}
 	
@@ -115,6 +146,7 @@ public class Invader {
 				_curBoxesArray.get( i ).die( ball.speedX(), ball.speedY() );
 				collided = true;
 				_isAnimating = false;
+				_hasBeenHit = true;
 			}
 		}
 		return collided;
