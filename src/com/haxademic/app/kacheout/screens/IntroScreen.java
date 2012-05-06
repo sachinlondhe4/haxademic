@@ -18,6 +18,7 @@ public class IntroScreen {
 	protected final TColor WHITE = new TColor( TColor.WHITE );
 	
 	protected EasingFloat3d _cdLogoLoc;
+	protected EasingFloat3d _cdTextLoc;
 	protected EasingFloat3d _presentsLoc;
 	protected EasingFloat3d _kacheOutLoc;
 	protected EasingFloat3d _builtByLoc;
@@ -38,7 +39,8 @@ public class IntroScreen {
 		p = (KacheOut)PAppletHax.getInstance();
 		
 		// set up easing values for objects to fly onto screen
-		_cdLogoLoc = new EasingFloat3d( 0, 0, 0, 5 );
+		_cdLogoLoc = new EasingFloat3d( 0, 0, 0, 4 );
+		_cdTextLoc = new EasingFloat3d( 0, 0, 0, 5 );
 		_presentsLoc = new EasingFloat3d( 0, 0, 0, 7 );
 		_kacheOutLoc = new EasingFloat3d( 0, 0, 0, 5 );
 		_builtByLoc = new EasingFloat3d( 0, 0, 0, 5 );
@@ -54,7 +56,7 @@ public class IntroScreen {
 		
 		// set up keyframes
 		_frame1 = 0;
-		_frame2 = _frame1 + 80;	// create denver
+		_frame2 = _frame1 + 100;	// create denver
 		_frame3 = _frame2 + 120;// kacheout
 		_frame4 = _frame3 + 90;	// built by
 		_frame5 = _frame4 + 90;	// mode set
@@ -68,6 +70,8 @@ public class IntroScreen {
 		
 		_cdLogoLoc.setCurrentY( p.stageHeight() );
 		_cdLogoLoc.setTargetY( p.stageHeight() );
+		_cdTextLoc.setCurrentY( p.stageHeight() );
+		_cdTextLoc.setTargetY( p.stageHeight() );
 		_presentsLoc.setCurrentY( p.stageHeight() );
 		_presentsLoc.setTargetY( p.stageHeight() );
 		_kacheOutLoc.setCurrentY( p.stageHeight() );
@@ -108,10 +112,12 @@ public class IntroScreen {
 	protected void updateAnimationsOnFrameCount() {
 		// animate on certain frames
 		if( _frameCount == _frame1 ) {
-			_cdLogoLoc.setTargetY( 0 );
-			_presentsLoc.setTargetY( 100 );
+			_cdLogoLoc.setTargetY( -150 );
+			_cdTextLoc.setTargetY( 120 );
+			_presentsLoc.setTargetY( 220 );
 		} else if( _frameCount == _frame2 ) {
 			_cdLogoLoc.setTargetY( -p.stageHeight() );
+			_cdTextLoc.setTargetY( -p.stageHeight() );
 			_presentsLoc.setTargetY( -p.stageHeight() );
 			_kacheOutLoc.setTargetY( 0 );
 		} else if( _frameCount == _frame3 ) {
@@ -122,7 +128,7 @@ public class IntroScreen {
 			_builtByLoc.setTargetY( -p.stageHeight() );
 			_ufoLoc.setTargetX( p.stageWidth() );
 			_modeSetLogoLoc.setTargetY( -60 );
-			_modeSetTextLoc.setTargetY( 160 );
+			_modeSetTextLoc.setTargetY( 180 );
 			_modeSetLogoZ.setTarget( 0 );
 		} else if( _frameCount == _frame5 ) {
 			_modeSetLogoLoc.setTargetY( -p.stageHeight() );
@@ -132,9 +138,9 @@ public class IntroScreen {
 		} else if( _frameCount == _frame6 ) {
 			_cacheFloweLogoLoc.setTargetY( -p.stageHeight() );
 			_cacheFloweTextLoc.setTargetY( -p.stageHeight() );
-			_designByLoc.setTargetY( -90 );
-			_designJonLoc.setTargetY( 0 );
-			_designRyanLoc.setTargetY( 100 );
+			_designByLoc.setTargetY( -130 );
+			_designJonLoc.setTargetY( 20 );
+			_designRyanLoc.setTargetY( 140 );
 		} else if( _frameCount == _frame7 ) {
 			_designByLoc.setTargetY( -p.stageHeight() );
 			_designJonLoc.setTargetY( -p.stageHeight() );
@@ -147,6 +153,7 @@ public class IntroScreen {
 	protected void updatePositions() {
 		// update eased positions
 		_cdLogoLoc.update();
+		_cdTextLoc.update();
 		_presentsLoc.update();
 		_kacheOutLoc.update();
 		_builtByLoc.update();
@@ -170,15 +177,28 @@ public class IntroScreen {
 		
 		
 		// draw create denver text & "presents"
-		drawObjectAtLoc( p.meshPool.getMesh( p.CREATE_DENVER ), _cdLogoLoc.valueX(), _cdLogoLoc.valueY(), 0, WHITE.toARGB() );
+		drawObjectAtLoc( p.meshPool.getMesh( p.CREATE_DENVER_LOGO ), _cdLogoLoc.valueX(), _cdLogoLoc.valueY(), 0, WHITE.toARGB() );
+		drawObjectAtLoc( p.meshPool.getMesh( p.CREATE_DENVER ), _cdTextLoc.valueX(), _cdTextLoc.valueY(), 0, WHITE.toARGB() );
 		drawObjectAtLoc( p.meshPool.getMesh( p.PRESENTS_TEXT ), _presentsLoc.valueX(), _presentsLoc.valueY(), 0, WHITE.toARGB() );
 		
 		// draw kacheout logo
-		drawObjectAtLoc( p.meshPool.getMesh( p.KACHEOUT_LOGO ), _kacheOutLoc.valueX(), _kacheOutLoc.valueY(), 0, WHITE.toARGB() );
+		int kacheOutAnim = p.frameCount % 40;
+		if( kacheOutAnim < 20 ) {
+			drawObjectAtLoc( p.meshPool.getMesh( p.KACHEOUT_LOGO ), _kacheOutLoc.valueX(), _kacheOutLoc.valueY(), 0, WHITE.toARGB() );
+		} else {
+			drawObjectAtLoc( p.meshPool.getMesh( p.KACHEOUT_LOGO_ALT ), _kacheOutLoc.valueX(), _kacheOutLoc.valueY(), 0, WHITE.toARGB() );
+		}
 		
 		// draw built by: text & ufo
 		drawObjectAtLoc( p.meshPool.getMesh( p.BUILT_BY_TEXT ), _builtByLoc.valueX(), _builtByLoc.valueY(), 0, WHITE.toARGB() );
-		drawObjectAtLoc( p.meshPool.getMesh( p.UFO ), _ufoLoc.valueX(), _ufoLoc.valueY(), 0, WHITE.toARGB() );
+		int ufoAnim = p.frameCount % 12;
+		if( ufoAnim < 4 ) {
+			drawObjectAtLoc( p.meshPool.getMesh( p.UFO_1 ), _ufoLoc.valueX(), _ufoLoc.valueY(), 0, WHITE.toARGB() );
+		} else if( ufoAnim < 8 ) {
+			drawObjectAtLoc( p.meshPool.getMesh( p.UFO_2 ), _ufoLoc.valueX(), _ufoLoc.valueY(), 0, WHITE.toARGB() );
+		} else if( ufoAnim <= 12 ) {
+			drawObjectAtLoc( p.meshPool.getMesh( p.UFO_3 ), _ufoLoc.valueX(), _ufoLoc.valueY(), 0, WHITE.toARGB() );
+		}
 		
 		// draw mode set logo & text
 		drawObjectAtLoc( p.meshPool.getMesh( p.MODE_SET_LOGO ), _modeSetLogoLoc.valueX(), _modeSetLogoLoc.valueY(), _modeSetLogoZ.val(), MODE_SET_BLUE.toARGB() );

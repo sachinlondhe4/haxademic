@@ -60,11 +60,15 @@ extends PAppletHax
 	protected ICamera _curCamera = null;
 		
 	// mesh IDs
+	public static String CREATE_DENVER_LOGO = "CREATE_DENVER_LOGO";
 	public static String CREATE_DENVER = "CREATE_DENVER";
 	public static String PRESENTS_TEXT = "PRESENTS_TEXT";
 	public static String KACHEOUT_LOGO = "KACHEOUT_LOGO";
+	public static String KACHEOUT_LOGO_ALT = "KACHEOUT_LOGO_ALT";
 	public static String BUILT_BY_TEXT = "BUILT_BY_TEXT";
-	public static String UFO = "UFO";
+	public static String UFO_1 = "UFO_1";
+	public static String UFO_2 = "UFO_2";
+	public static String UFO_3 = "UFO_3";
 	public static String MODE_SET_LOGO = "MODE_SET_LOGO";
 	public static String MODE_SET_LOGOTYPE = "MODE_SET_LOGOTYPE";
 	public static String CACHEFLOWE_LOGO = "CACHEFLOWE_LOGO";
@@ -159,9 +163,9 @@ extends PAppletHax
 		_gamePlays.add( _player1 );
 		_gamePlays.add( _player2 );
 		
-		//setGameMode( GAME_INTRO );
+		setGameMode( GAME_INTRO );
 		//setGameMode( GAME_ON );
-		setGameMode( GAME_INSTRUCTIONS );
+		//setGameMode( GAME_INSTRUCTIONS );
 	}
 		
 	// HAXADEMIC STUFF --------------------------------------------------------------------------------------

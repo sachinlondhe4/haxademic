@@ -25,17 +25,22 @@ public class AssetLoader {
 		RFont _fontBitLow = new RFont( "../data/fonts/bitlow.ttf", 200, RFont.CENTER);
 		
 		// "create denver presents"
+		
+		p.meshPool.addMesh( p.CREATE_DENVER_LOGO, MeshUtil.meshFromSVG( p, "../data/svg/create-denver-logo.svg", -1, 6, 0.35f ), 1 );
 		p.meshPool.addMesh( p.CREATE_DENVER, MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 0.8f ), 1 );
 		p.meshPool.addMesh( p.PRESENTS_TEXT, MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "PRESENTS", -1, 2, 0.4f ), 1 );
 //		_textCreateDenver = MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 1f ), 20 );
 //		_textCreateDenver = MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 1f );
 		
 		// Kacheout logo
-		p.meshPool.addMesh( p.KACHEOUT_LOGO, MeshUtil.meshFromImg( p, "../data/images/kacheout/kacheout.gif", 1f ), 20f );
+		p.meshPool.addMesh( p.KACHEOUT_LOGO, MeshUtil.meshFromImg( p, "../data/images/kacheout/kacheout.gif", 1.2f ), 20f );
+		p.meshPool.addMesh( p.KACHEOUT_LOGO_ALT, MeshUtil.meshFromImg( p, "../data/images/kacheout/kacheout_alt.gif", 1.2f ), 20f );
 
 		// Built by text & ufo
 		p.meshPool.addMesh( p.BUILT_BY_TEXT, MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "BUILT BY:", -1, 2, 0.5f ), 1 );
-		p.meshPool.addMesh( p.UFO, MeshUtil.meshFromImg( p, "../data/images/kacheout/ufo.gif", 1f ), 15f );
+		p.meshPool.addMesh( p.UFO_1, MeshUtil.meshFromImg( p, "../data/images/kacheout/ufo_1.gif", 1.4f ), 15f );
+		p.meshPool.addMesh( p.UFO_2, MeshUtil.meshFromImg( p, "../data/images/kacheout/ufo_2.gif", 1.4f ), 15f );
+		p.meshPool.addMesh( p.UFO_3, MeshUtil.meshFromImg( p, "../data/images/kacheout/ufo_3.gif", 1.4f ), 15f );
 		
 		// cacheflowe / mode set
 		p.meshPool.addMesh( p.MODE_SET_LOGO, MeshUtil.meshFromOBJ( p, "../data/models/mode-set.obj", 1f ), 150 );
@@ -58,8 +63,8 @@ public class AssetLoader {
 		p.meshPool.addMesh( p.COUNTDOWN_TEXT_3, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "3", -1, 2, 2f ), 40 ), 1 );
 		
 		// win/lose
-		p.meshPool.addMesh( p.WIN_TEXT, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "WIN", -1, 2, 0.4f ), 10 ), 1 );
-		p.meshPool.addMesh( p.LOSE_TEXT, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "LOSE", -1, 2, 0.4f ), 10 ), 1 );
+		p.meshPool.addMesh( p.WIN_TEXT, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "WIN", -1, 2, 0.8f ), 10 ), 1 );
+		p.meshPool.addMesh( p.LOSE_TEXT, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "LOSE", -1, 2, 0.5f ), 10 ), 1 );
 
 		
 	}
