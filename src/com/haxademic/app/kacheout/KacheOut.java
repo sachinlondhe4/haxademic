@@ -49,7 +49,7 @@ extends PAppletHax
 	public Soundtrack soundtrack;
 	
 	// debug 
-	protected boolean _isDebugging = false;
+	protected boolean _isDebugging = true;
 	
 	// dimensions and stuff
 	protected int _stageWidth;
@@ -294,8 +294,10 @@ extends PAppletHax
 //		debugCameraPos();
 //		drawDebug();
 		
-		if( p.frameCount % 1000 == 0 ) {
+		if( p.frameCount % ( _fps * 60 ) == 0 ) {
 			p.println( "time: "+p.minute()+":"+p.second() );
+		}
+		if( p.frameCount % ( _fps * 15 ) == 0 ) {
 			if( _gameState == GAME_INSTRUCTIONS ) {
 				setGameMode( GAME_COUNTDOWN );
 			}
