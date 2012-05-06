@@ -329,16 +329,18 @@ public class GamePlay {
 		
 		// update win/lose text scale and draw it
 		_gameOverTextScale.update();
-		if( _didWin == true ) {
-			p.meshPool.getMesh( p.WIN_TEXT ).scale( _gameOverTextScale.val() );
-			p.fill( _winColor.toARGB() );
-			p.toxi.mesh( p.meshPool.getMesh( p.WIN_TEXT ) );
-			p.meshPool.getMesh( p.WIN_TEXT ).scale( 1f / _gameOverTextScale.val() );
-		} else {
-			p.meshPool.getMesh( p.LOSE_TEXT ).scale( _gameOverTextScale.val() );
-			p.fill( _loseColor.toARGB() );
-			p.toxi.mesh( p.meshPool.getMesh( p.LOSE_TEXT ) );
-			p.meshPool.getMesh( p.LOSE_TEXT ).scale( 1f / _gameOverTextScale.val() );
+		if( _gameOverTextScale.val() > 0 ) {
+			if( _didWin == true ) {
+				p.meshPool.getMesh( p.WIN_TEXT ).scale( _gameOverTextScale.val() );
+				p.fill( _winColor.toARGB() );
+				p.toxi.mesh( p.meshPool.getMesh( p.WIN_TEXT ) );
+				p.meshPool.getMesh( p.WIN_TEXT ).scale( 1f / _gameOverTextScale.val() );
+			} else {
+				p.meshPool.getMesh( p.LOSE_TEXT ).scale( _gameOverTextScale.val() );
+				p.fill( _loseColor.toARGB() );
+				p.toxi.mesh( p.meshPool.getMesh( p.LOSE_TEXT ) );
+				p.meshPool.getMesh( p.LOSE_TEXT ).scale( 1f / _gameOverTextScale.val() );
+			}
 		}
 		
 		// time out the outro animations
