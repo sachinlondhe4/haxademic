@@ -108,7 +108,6 @@ public class IntroScreen {
 	protected void updateAnimationsOnFrameCount() {
 		// animate on certain frames
 		if( _frameCount == _frame1 ) {
-			p.soundtrack.playIntro();
 			_cdLogoLoc.setTargetY( 0 );
 			_presentsLoc.setTargetY( 100 );
 		} else if( _frameCount == _frame2 ) {
@@ -141,8 +140,6 @@ public class IntroScreen {
 			_designJonLoc.setTargetY( -p.stageHeight() );
 			_designRyanLoc.setTargetY( -p.stageHeight() );
 		} else if( _frameCount == _frame8 ) {
-			p.soundtrack.stop();
-			p.sounds.playSound("INSERT_COIN");
 			p.setGameMode( p.GAME_INSTRUCTIONS );
 		}
 	}

@@ -53,9 +53,9 @@ public class AssetLoader {
 		p.meshPool.addMesh( p.READY_TEXT, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "READY!", -1, 2, 0.4f ), 10 ), 1 );
 		
 		// countdown
-		p.meshPool.addMesh( p.COUNTDOWN_TEXT_1, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "1", -1, 2, 3f ), 4 ), 1 );
-		p.meshPool.addMesh( p.COUNTDOWN_TEXT_2, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "2", -1, 2, 3f ), 4 ), 1 );
-		p.meshPool.addMesh( p.COUNTDOWN_TEXT_3, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "3", -1, 2, 3f ), 4 ), 1 );
+		p.meshPool.addMesh( p.COUNTDOWN_TEXT_1, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "1", -1, 2, 2f ), 40 ), 1 );
+		p.meshPool.addMesh( p.COUNTDOWN_TEXT_2, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "2", -1, 2, 2f ), 40 ), 1 );
+		p.meshPool.addMesh( p.COUNTDOWN_TEXT_3, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "3", -1, 2, 2f ), 40 ), 1 );
 		
 		// win/lose
 		p.meshPool.addMesh( p.WIN_TEXT, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "WIN", -1, 2, 0.4f ), 10 ), 1 );

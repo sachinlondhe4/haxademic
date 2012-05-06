@@ -80,6 +80,14 @@ extends PAppletHax
 	public static String WIN_TEXT = "WIN_TEXT";
 	public static String LOSE_TEXT = "LOSE_TEXT";
 	
+	// sound IDs
+	public static String PADDLE_BOUNCE = "PADDLE_BOUNCE";
+	public static String WALL_BOUNCE = "WALL_BOUNCE";
+	public static String INSERT_COIN = "INSERT_COIN";
+	public static String COUNTDOWN_1 = "COUNTDOWN_1";
+	public static String COUNTDOWN_2 = "COUNTDOWN_2";
+	public static String COUNTDOWN_3 = "COUNTDOWN_3";
+
 	// game state
 	protected int _curMode;
 	protected ColorGroup _gameColors;
@@ -118,9 +126,12 @@ extends PAppletHax
 		_audioInput.setDampening( .13f );
 		
 		sounds = new AudioPool( p, p._minim );
-		sounds.loadAudioFile( "PADDLE_BOUNCE", 1, "wav/kacheout/ball_hit_wall_v03.wav" );
-		sounds.loadAudioFile( "WALL_BOUNCE", 1, "wav/kacheout/ball_hit_wall_v02.wav" );
-		sounds.loadAudioFile( "INSERT_COIN", 1, "wav/kacheout/sfx/insert coin.wav" );
+		sounds.loadAudioFile( PADDLE_BOUNCE, 1, "wav/kacheout/ball_hit_wall_v03.wav" );
+		sounds.loadAudioFile( WALL_BOUNCE, 1, "wav/kacheout/ball_hit_wall_v02.wav" );
+		sounds.loadAudioFile( INSERT_COIN, 1, "wav/kacheout/sfx/insert coin.wav" );
+		sounds.loadAudioFile( COUNTDOWN_1, 1, "wav/kacheout/sfx/countdown-01.wav" );
+		sounds.loadAudioFile( COUNTDOWN_2, 1, "wav/kacheout/sfx/countdown-02.wav" );
+		sounds.loadAudioFile( COUNTDOWN_3, 1, "wav/kacheout/sfx/countdown-03.wav" );
 		
 		soundtrack = new Soundtrack();
 //		_soundtrack.playNext();
@@ -193,7 +204,7 @@ extends PAppletHax
 	// GAME LOGIC --------------------------------------------------------------------------------------
 	
 	public void setGameMode( int mode ) {
-		//p.println("next mode: "+mode);
+		p.println("next mode: "+mode);
 		_gameStateQueued = mode;
 	}
 	
@@ -201,17 +212,23 @@ extends PAppletHax
 		_gameState = _gameStateQueued;
 		if( _gameState == GAME_INTRO ) {
 			_screenIntro.reset();
+			soundtrack.playIntro();
 		} else if( _gameState == GAME_INSTRUCTIONS ) {
-			
-		} else if( _gameState == GAME_READY ) {
-			// TODO: MAKE THE INSTRUCTION/COUNTDOWN SCREENS HERE
-//			setGameMode( GAME_ON );
-		} else if( _gameState == GAME_ON ) {
 			for( int i=0; i < NUM_PLAYERS; i++ ) {
 				_gamePlays.get( i ).reset();
 			}
-			_player1.launchBall();
-			_player2.launchBall();
+			soundtrack.stop();
+			sounds.playSound( INSERT_COIN );
+			soundtrack.playInstructions();
+		} else if( _gameState == GAME_COUNTDOWN ) {
+			for( int i=0; i < NUM_PLAYERS; i++ ) {
+				_gamePlays.get( i ).startCountdown();
+			}
+			soundtrack.stop();
+		} else if( _gameState == GAME_ON ) {
+			for( int i=0; i < NUM_PLAYERS; i++ ) {
+				_gamePlays.get( i ).launchBall();
+			}
 			soundtrack.playNext();
 		} else if( _gameState == GAME_OVER ) {
 			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).gameOver();
@@ -235,11 +252,22 @@ extends PAppletHax
 			_screenIntro.update();
 		} else {
 			p.pushMatrix();
+			if( _gameState == GAME_INSTRUCTIONS ) checkGameStart();
 			updateGames();
 			p.popMatrix();
 		}
 		
 		if( _isDebugging == true ) displayDebug();
+	}
+	
+	protected void checkGameStart() {
+		boolean gameIsReady = true;
+		for( int i=0; i < NUM_PLAYERS; i++ ) {
+			if( _gamePlays.get( i ).isPlayerReady() == false ) gameIsReady = false;
+		}
+		if( gameIsReady == true ) {
+			setGameMode( GAME_COUNTDOWN );
+		}
 	}
 	
 	protected void updateGames(){

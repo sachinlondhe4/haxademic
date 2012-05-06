@@ -6,7 +6,6 @@ import toxi.color.TColor;
 
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
-import com.haxademic.app.kacheout.media.PhotoBooth;
 import com.haxademic.core.data.FloatRange;
 import com.haxademic.core.data.easing.EasingFloat;
 import com.haxademic.core.data.easing.ElasticFloat;
@@ -43,12 +42,14 @@ public class GamePlay {
 	protected TColor _loseColor = new TColor( TColor.RED );
 	protected TColor _waitingColor = new TColor( TColor.YELLOW );
 	protected TColor _readyColor = new TColor( TColor.GREEN );
+	protected TColor _countdownColor = new TColor( TColor.WHITE );
 	
 	// state 
 	protected int _gameIndex;
 	protected boolean _playerReady = false;
 	protected int _playerDetectedFrames = 0;
 	protected ElasticFloat _playerReadyTextScale;
+	protected int _countdownFrames = 0;
 	protected boolean _hasClearedBoard = false;
 	protected boolean _didWin = false;
 	protected ElasticFloat _gameOverTextScale;
@@ -88,7 +89,7 @@ public class GamePlay {
 		_walls = new Walls();
 		
 		_gameOverTextScale = new ElasticFloat( 0, 0.7f, 0.4f );
-		_playerReadyTextScale = new ElasticFloat( 1, 0.7f, 0.4f );
+		_playerReadyTextScale = new ElasticFloat( 0, 0.7f, 0.4f );
 	}
 	
 	public void reset() {
@@ -98,8 +99,8 @@ public class GamePlay {
 		_ball.reset();
 		_playerReady = false;
 		_playerDetectedFrames = 0;
-		_playerReadyTextScale.setValue( 1 );
-		_playerReadyTextScale.setValue( 1 );
+		_playerReadyTextScale.setValue( 0 );
+		_playerReadyTextScale.setTarget( 1 );
 		_hasClearedBoard = false;
 		_didWin = false;
 		_gameOverTextScale.setValue( 0 );
@@ -122,6 +123,11 @@ public class GamePlay {
 	
 	public boolean isPlayerReady() {
 		return _playerReady;
+	}
+	
+	public void startCountdown() {
+		_playerReadyTextScale.setTarget( 0 );
+		_countdownFrames = 0;
 	}
 	
 	public void update( int gameIndex ) {
@@ -198,16 +204,21 @@ public class GamePlay {
 	
 	protected void updateControls() {
 		// update keyboard or Kinect, and pass the value to the paddle
-		float paddleX = 0;// = _stageWidth / 2;
+		float paddleX = 0.5f;
+		boolean inputDetected = false;
 		if( p.kinectWrapper.isActive() == true ) {
 			findKinectCenterX();
 			// send kinect data to games - calculate based off number of games vs. kinect width
-			if( _kinectCurrent.center() == -1 || _playerReady == false ) {
+			if( _playerReady == false ) {	// _kinectCurrent.center() == -1 || 
 				paddleX = 0.5f;
+				inputDetected = true;
 			} else {
-				paddleX = MathUtil.getPercentWithinRange( _kinectRange.min(), _kinectRange.max(), _kinectCurrent.center() );
+				if( _kinectCurrent.center() != -1 ) {
+					paddleX = MathUtil.getPercentWithinRange( _kinectRange.min(), _kinectRange.max(), _kinectCurrent.center() );
+					inputDetected = true;
+				}
 			}
-			_paddle.setTargetXByPercent( 1f - paddleX );
+			if( inputDetected == true ) _paddle.setTargetXByPercent( 1f - paddleX );
 		} else {
 			_paddle.setTargetXByPercent( 1f - MathUtil.getPercentWithinRange( 0, p.gameWidth(), p.mouseX ) );
 		}
@@ -241,29 +252,72 @@ public class GamePlay {
 	}
 	
 	protected void drawSpecialModes() {
-		if( p.gameState() == p.GAME_INSTRUCTIONS ) drawInstructionsMode();
+		_playerReadyTextScale.update();
+		if( p.gameState() == p.GAME_INSTRUCTIONS || p.gameState() == p.GAME_COUNTDOWN ) drawInstructionsMode();
+		if( p.gameState() == p.GAME_COUNTDOWN ) drawCountdownMode();
 		if( p.gameState() == p.GAME_OVER ) drawGameOverMode();
 	}
 	
 	protected void drawInstructionsMode() {
 		p.pushMatrix();
 		p.translate( _paddle.x(), _paddle.y() - _paddle.height(), _paddle.height() );
-		//showWinLose();
 		
 		// update win/lose text scale and draw it
-		_playerReadyTextScale.update();
 		if( _playerReady == false ) {
-			p.meshPool.getMesh( p.STEP_UP_TEXT ).scale( _playerReadyTextScale.val() );
-			p.fill( _waitingColor.toARGB() );
-			p.toxi.mesh( p.meshPool.getMesh( p.STEP_UP_TEXT ) );
-			p.meshPool.getMesh( p.STEP_UP_TEXT ).scale( 1f / _playerReadyTextScale.val() );
+			if( _playerReadyTextScale.val() > 0 ) {
+				if( _playerDetectedFrames > 0 ) {
+					if( _playerDetectedFrames % 2 == 0 ) {
+						p.fill( _readyColor.toARGB() );
+					} else {
+						p.fill( _waitingColor.toARGB() );
+					}
+				} else {
+					p.fill( _waitingColor.toARGB() );
+				}
+				p.meshPool.getMesh( p.STEP_UP_TEXT ).scale( _playerReadyTextScale.val() );
+				p.toxi.mesh( p.meshPool.getMesh( p.STEP_UP_TEXT ) );
+				p.meshPool.getMesh( p.STEP_UP_TEXT ).scale( 1f / _playerReadyTextScale.val() );
+			}
 		} else {
-			p.meshPool.getMesh( p.READY_TEXT ).scale( _playerReadyTextScale.val() );
-			p.fill( _readyColor.toARGB() );
-			p.toxi.mesh( p.meshPool.getMesh( p.READY_TEXT ) );
-			p.meshPool.getMesh( p.READY_TEXT ).scale( 1f / _playerReadyTextScale.val() );
+			if( _playerReadyTextScale.val() > 0 ) {
+				p.meshPool.getMesh( p.READY_TEXT ).scale( _playerReadyTextScale.val() );
+				p.fill( _readyColor.toARGB() );
+				p.toxi.mesh( p.meshPool.getMesh( p.READY_TEXT ) );
+				p.meshPool.getMesh( p.READY_TEXT ).scale( 1f / _playerReadyTextScale.val() );
+			}
 		}
-
+		
+		p.popMatrix();
+	}
+	
+	protected void drawCountdownMode() {
+		p.pushMatrix();
+		p.translate( _paddle.x(), _paddle.y() - _paddle.height() - 120, _paddle.height() * 3f );
+		
+		_countdownFrames++;
+		
+		// update win/lose text scale and draw it
+		if( _countdownFrames >= 11 && _countdownFrames < 40 ) {
+			if( _countdownFrames == 11 && _gameIndex == 0 ) p.sounds.playSound( p.COUNTDOWN_1 );
+			p.meshPool.getMesh( p.COUNTDOWN_TEXT_3 ).scale( 1 );
+			p.fill( _countdownColor.toARGB() );
+			p.toxi.mesh( p.meshPool.getMesh( p.COUNTDOWN_TEXT_3 ) );
+			p.meshPool.getMesh( p.COUNTDOWN_TEXT_3 ).scale( 1f / 1 );
+		} else if( _countdownFrames >= 40 && _countdownFrames < 70 ) {
+			if( _countdownFrames == 40 && _gameIndex == 0 ) p.sounds.playSound( p.COUNTDOWN_2 );
+			p.meshPool.getMesh( p.COUNTDOWN_TEXT_2 ).scale( 1 );
+			p.fill( _countdownColor.toARGB() );
+			p.toxi.mesh( p.meshPool.getMesh( p.COUNTDOWN_TEXT_2 ) );
+			p.meshPool.getMesh( p.COUNTDOWN_TEXT_2 ).scale( 1f / 1 );
+		} else if( _countdownFrames >= 70 && _countdownFrames < 100 ) {
+			if( _countdownFrames == 70 && _gameIndex == 0 ) p.sounds.playSound( p.COUNTDOWN_3 );
+			p.meshPool.getMesh( p.COUNTDOWN_TEXT_1 ).scale( 1 );
+			p.fill( _countdownColor.toARGB() );
+			p.toxi.mesh( p.meshPool.getMesh( p.COUNTDOWN_TEXT_1 ) );
+			p.meshPool.getMesh( p.COUNTDOWN_TEXT_1 ).scale( 1f / 1 );
+		} else if( _countdownFrames >= 100 ) {
+			p.setGameMode( p.GAME_ON );
+		}
 		
 		p.popMatrix();
 	}
