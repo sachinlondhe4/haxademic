@@ -49,7 +49,7 @@ extends PAppletHax
 	public Soundtrack soundtrack;
 	
 	// debug 
-	protected boolean _isDebugging = true;
+	protected boolean _isDebugging = false;
 	
 	// dimensions and stuff
 	protected int _stageWidth;
