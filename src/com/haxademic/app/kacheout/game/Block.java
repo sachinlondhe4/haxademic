@@ -40,7 +40,7 @@ public class Block {
 		b = p.random( 0, 0 );
 		
 		// set up color fading
-		_colorStart = color;//new TColor( TColor.GREEN );
+		_colorStart = color;
 		_colorDead = new TColor( TColor.WHITE );
 		_color = new EasingTColor( _colorStart, 0.1f );
 		
