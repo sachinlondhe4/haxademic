@@ -31,7 +31,7 @@ public class Paddle {
 		p = (KacheOut)PAppletHax.getInstance();
 		_xPosPercent = 0.5f;
 		
-		_width = (float)p.gameWidth() / 5f;
+		_width = (float)p.gameWidth() / 6f;
 		_height = (float)p.stageHeight() * 0.025f;
 		
 		_center = ( p.gameWidth() + _width) / 2;
