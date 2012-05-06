@@ -146,7 +146,7 @@ public class IntroScreen {
 			_designJonLoc.setTargetY( -p.stageHeight() );
 			_designRyanLoc.setTargetY( -p.stageHeight() );
 		} else if( _frameCount == _frame8 ) {
-			p.setGameMode( p.GAME_INSTRUCTIONS );
+			p.setGameMode( KacheOut.GAME_INSTRUCTIONS );
 		}
 	}
 	
@@ -177,41 +177,41 @@ public class IntroScreen {
 		
 		
 		// draw create denver text & "presents"
-		drawObjectAtLoc( p.meshPool.getMesh( p.CREATE_DENVER_LOGO ), _cdLogoLoc.valueX(), _cdLogoLoc.valueY(), 0, WHITE.toARGB() );
-		drawObjectAtLoc( p.meshPool.getMesh( p.CREATE_DENVER ), _cdTextLoc.valueX(), _cdTextLoc.valueY(), 0, WHITE.toARGB() );
-		drawObjectAtLoc( p.meshPool.getMesh( p.PRESENTS_TEXT ), _presentsLoc.valueX(), _presentsLoc.valueY(), 0, WHITE.toARGB() );
+		drawObjectAtLoc( p.meshPool.getMesh( KacheOut.CREATE_DENVER_LOGO ), _cdLogoLoc.valueX(), _cdLogoLoc.valueY(), 0, WHITE.toARGB() );
+		drawObjectAtLoc( p.meshPool.getMesh( KacheOut.CREATE_DENVER ), _cdTextLoc.valueX(), _cdTextLoc.valueY(), 0, WHITE.toARGB() );
+		drawObjectAtLoc( p.meshPool.getMesh( KacheOut.PRESENTS_TEXT ), _presentsLoc.valueX(), _presentsLoc.valueY(), 0, WHITE.toARGB() );
 		
 		// draw kacheout logo
 		int kacheOutAnim = p.frameCount % 40;
 		if( kacheOutAnim < 20 ) {
-			drawObjectAtLoc( p.meshPool.getMesh( p.KACHEOUT_LOGO ), _kacheOutLoc.valueX(), _kacheOutLoc.valueY(), 0, WHITE.toARGB() );
+			drawObjectAtLoc( p.meshPool.getMesh( KacheOut.KACHEOUT_LOGO ), _kacheOutLoc.valueX(), _kacheOutLoc.valueY(), 0, WHITE.toARGB() );
 		} else {
-			drawObjectAtLoc( p.meshPool.getMesh( p.KACHEOUT_LOGO_ALT ), _kacheOutLoc.valueX(), _kacheOutLoc.valueY(), 0, WHITE.toARGB() );
+			drawObjectAtLoc( p.meshPool.getMesh( KacheOut.KACHEOUT_LOGO_ALT ), _kacheOutLoc.valueX(), _kacheOutLoc.valueY(), 0, WHITE.toARGB() );
 		}
 		
 		// draw built by: text & ufo
-		drawObjectAtLoc( p.meshPool.getMesh( p.BUILT_BY_TEXT ), _builtByLoc.valueX(), _builtByLoc.valueY(), 0, WHITE.toARGB() );
+		drawObjectAtLoc( p.meshPool.getMesh( KacheOut.BUILT_BY_TEXT ), _builtByLoc.valueX(), _builtByLoc.valueY(), 0, WHITE.toARGB() );
 		int ufoAnim = p.frameCount % 12;
 		if( ufoAnim < 4 ) {
-			drawObjectAtLoc( p.meshPool.getMesh( p.UFO_1 ), _ufoLoc.valueX(), _ufoLoc.valueY(), 0, WHITE.toARGB() );
+			drawObjectAtLoc( p.meshPool.getMesh( KacheOut.UFO_1 ), _ufoLoc.valueX(), _ufoLoc.valueY(), 0, WHITE.toARGB() );
 		} else if( ufoAnim < 8 ) {
-			drawObjectAtLoc( p.meshPool.getMesh( p.UFO_2 ), _ufoLoc.valueX(), _ufoLoc.valueY(), 0, WHITE.toARGB() );
+			drawObjectAtLoc( p.meshPool.getMesh( KacheOut.UFO_2 ), _ufoLoc.valueX(), _ufoLoc.valueY(), 0, WHITE.toARGB() );
 		} else if( ufoAnim <= 12 ) {
-			drawObjectAtLoc( p.meshPool.getMesh( p.UFO_3 ), _ufoLoc.valueX(), _ufoLoc.valueY(), 0, WHITE.toARGB() );
+			drawObjectAtLoc( p.meshPool.getMesh( KacheOut.UFO_3 ), _ufoLoc.valueX(), _ufoLoc.valueY(), 0, WHITE.toARGB() );
 		}
 		
 		// draw mode set logo & text
-		drawObjectAtLoc( p.meshPool.getMesh( p.MODE_SET_LOGO ), _modeSetLogoLoc.valueX(), _modeSetLogoLoc.valueY(), _modeSetLogoZ.val(), MODE_SET_BLUE.toARGB() );
-		drawObjectAtLoc( p.meshPool.getMesh( p.MODE_SET_LOGOTYPE ), _modeSetTextLoc.valueX(), _modeSetTextLoc.valueY(), 0, MODE_SET_GREY.toARGB() );
+		drawObjectAtLoc( p.meshPool.getMesh( KacheOut.MODE_SET_LOGO ), _modeSetLogoLoc.valueX(), _modeSetLogoLoc.valueY(), _modeSetLogoZ.val(), MODE_SET_BLUE.toARGB() );
+		drawObjectAtLoc( p.meshPool.getMesh( KacheOut.MODE_SET_LOGOTYPE ), _modeSetTextLoc.valueX(), _modeSetTextLoc.valueY(), 0, MODE_SET_GREY.toARGB() );
 		
 		// draw cacheflowe logo & text
-		drawObjectAtLoc( p.meshPool.getMesh( p.CACHEFLOWE_LOGO ), _cacheFloweLogoLoc.valueX(), _cacheFloweLogoLoc.valueY(), _cacheFloweLogoLoc.valueZ(), CACHEFLOWE_YELLOW.toARGB() );
-		drawObjectAtLoc( p.meshPool.getMesh( p.CACHEFLOWE_LOGOTYPE), _cacheFloweTextLoc.valueX(), _cacheFloweTextLoc.valueY(), _cacheFloweTextLoc.valueZ(), CACHEFLOWE_YELLOW.toARGB() );
+		drawObjectAtLoc( p.meshPool.getMesh( KacheOut.CACHEFLOWE_LOGO ), _cacheFloweLogoLoc.valueX(), _cacheFloweLogoLoc.valueY(), _cacheFloweLogoLoc.valueZ(), CACHEFLOWE_YELLOW.toARGB() );
+		drawObjectAtLoc( p.meshPool.getMesh( KacheOut.CACHEFLOWE_LOGOTYPE), _cacheFloweTextLoc.valueX(), _cacheFloweTextLoc.valueY(), _cacheFloweTextLoc.valueZ(), CACHEFLOWE_YELLOW.toARGB() );
 		
 		// draw design credits
-		drawObjectAtLoc( p.meshPool.getMesh( p.DESIGN_BY ), _designByLoc.valueX(), _designByLoc.valueY(), _designByLoc.valueZ(), WHITE.toARGB() );
-		drawObjectAtLoc( p.meshPool.getMesh( p.JON_DESIGN), _designJonLoc.valueX(), _designJonLoc.valueY(), _designJonLoc.valueZ(), WHITE.toARGB() );
-		drawObjectAtLoc( p.meshPool.getMesh( p.RYAN_DESIGN), _designRyanLoc.valueX(), _designRyanLoc.valueY(), _designRyanLoc.valueZ(), WHITE.toARGB() );
+		drawObjectAtLoc( p.meshPool.getMesh( KacheOut.DESIGN_BY ), _designByLoc.valueX(), _designByLoc.valueY(), _designByLoc.valueZ(), WHITE.toARGB() );
+		drawObjectAtLoc( p.meshPool.getMesh( KacheOut.JON_DESIGN), _designJonLoc.valueX(), _designJonLoc.valueY(), _designJonLoc.valueZ(), WHITE.toARGB() );
+		drawObjectAtLoc( p.meshPool.getMesh( KacheOut.RYAN_DESIGN), _designRyanLoc.valueX(), _designRyanLoc.valueY(), _designRyanLoc.valueZ(), WHITE.toARGB() );
 		
 		
 		

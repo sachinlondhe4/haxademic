@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import processing.core.PApplet;
 
+import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.game.GamePlay;
 import com.haxademic.app.kacheout.game.Soundtrack;
@@ -22,6 +23,11 @@ import com.haxademic.core.util.DrawUtil;
 public class KacheOut
 extends PAppletHax  
 {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Auto-initialization of the main class.
@@ -153,6 +159,7 @@ extends PAppletHax
 		
 		// init game objects
 		AssetLoader loader = new AssetLoader();
+		loader.createMeshPool();
 		
 		float kinectRangeWidth = KinectWrapper.KWIDTH / 2f * KINECT_GAP_PERCENT;
 		_player1 = new GamePlay( 0, 0, _gameWidth, new FloatRange( 0, kinectRangeWidth ) );
@@ -175,7 +182,7 @@ extends PAppletHax
 	}
 	
 	protected void debugCameraPos() {
-		p.println(-_stageWidth + p.mouseX*2);
+		P.println(-_stageWidth + p.mouseX*2);
 		_curCamera.setPosition( _stageWidth/2, _stageHeight/2, -_stageWidth + p.mouseX*2 );
 	}
 
@@ -295,7 +302,7 @@ extends PAppletHax
 //		drawDebug();
 		
 		if( p.frameCount % ( _fps * 60 ) == 0 ) {
-			p.println( "time: "+p.minute()+":"+p.second() );
+			P.println( "time: "+P.minute()+":"+P.second() );
 		}
 		if( p.frameCount % ( _fps * 15 ) == 0 ) {
 			if( _gameState == GAME_INSTRUCTIONS ) {
@@ -310,7 +317,7 @@ extends PAppletHax
 		p.translate( 0, 0, -1350 );
 		p.fill(255, 255);
 		p.noStroke();
-		p.rect(0, 0, kinectWrapper.KWIDTH*1.1f, kinectWrapper.KHEIGHT*1.1f);
+		p.rect(0, 0, KinectWrapper.KWIDTH*1.1f, KinectWrapper.KHEIGHT*1.1f);
 		p.translate( 0, 0, 100 );
 		p.rotateY( (float)Math.PI );
 //		p.image( _kinectWrapper.getDepthImage(), 0, 0, _kinectWrapper.KWIDTH, _kinectWrapper.KHEIGHT );

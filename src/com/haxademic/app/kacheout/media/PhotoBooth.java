@@ -2,6 +2,7 @@ package com.haxademic.app.kacheout.media;
 
 import processing.core.PImage;
 
+import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.core.util.ImageUtil;
 import com.haxademic.core.util.ScreenUtil;
@@ -19,7 +20,7 @@ public class PhotoBooth {
 		if( p.kinectWrapper.isActive() ) {
 			float screenToOutputWidthRatio = 640f / (float)stageWidth;
 			int screenShotHeight = Math.round( stageHeight * screenToOutputWidthRatio );
-			PImage img = p.createImage(640, 480 + screenShotHeight, p.RGB);
+			PImage img = p.createImage(640, 480 + screenShotHeight, P.RGB);
 
 			// paste 2 images together and save
 			img.copy( ImageUtil.getReversePImage( p.kinectWrapper.getVideoImage() ), 0, 0, 640, 480, 0, 0, 640, 480 );

@@ -6,6 +6,7 @@ import toxi.geom.AABB;
 import toxi.geom.Sphere;
 import toxi.geom.mesh.WETriangleMesh;
 
+import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.data.easing.EasingFloat;
@@ -46,7 +47,7 @@ public class Ball {
 		_color = new EasingTColor( YELLOW, 0.05f );
 		_alpha = new EasingFloat( 0, 7f );
 		
-		_ballSize = p.stageHeight() / 16f;
+		_ballSize = p.stageHeight() / 15f;
 		_ballSizeElastic = new ElasticFloat( 0, 0.66f, 0.48f );
 		_sphere = new Sphere( _ballSize );
 		
@@ -98,10 +99,10 @@ public class Ball {
 			_ballSizeElastic.setTarget( _ballSize );
 			_x = paddle.x();
 			resetY( paddle );
-		} else if( p.gameState() == p.GAME_ON ) {
+		} else if( p.gameState() == KacheOut.GAME_ON ) {
 			_x += _speedX;
 			_y += _speedY;
-		} else if( p.gameState() == p.GAME_OVER ) {
+		} else if( p.gameState() == KacheOut.GAME_OVER ) {
 			_ballSizeElastic.setTarget( 0 );
 		}
 					
@@ -174,7 +175,7 @@ public class Ball {
 	public void bounceOffPaddle( Paddle paddle ) {
 		if( _speedY > 0 ) {
 			_speedX = ( _x - paddle.x() ) / 10;
-			_speedX = p.constrain( _speedX, -_curBaseSpeed * 1.4f, _curBaseSpeed * 1.4f );
+			_speedX = P.constrain( _speedX, -_curBaseSpeed * 1.4f, _curBaseSpeed * 1.4f );
 			bounceY();
 			bounceBall();
 			_color.setCurAndTargetColors( WHITE, YELLOW );

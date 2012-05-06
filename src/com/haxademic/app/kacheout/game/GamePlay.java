@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import toxi.color.TColor;
 
+import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.data.FloatRange;
@@ -136,7 +137,7 @@ public class GamePlay {
 		updateControls();
 		drawGameObjects();
 		drawSpecialModes();
-		if( p.gameState() == p.GAME_ON ) detectCollisions();
+		if( p.gameState() == KacheOut.GAME_ON ) detectCollisions();
 	}
 	
 	protected void positionGameCenter(){
@@ -149,7 +150,7 @@ public class GamePlay {
 		_gameBaseY.update();
 		p.translate( p.gameWidth() / 2 + _gameIndex * p.gameWidth(), _gameBaseY.value(), 0 );
 		// ease the rotation 
-		float rotateExtent = p.PI / 10f;
+		float rotateExtent = P.PI / 10f;
 		_gameRotation.setTarget( rotateExtent * _paddle.xPosPercent() - rotateExtent / 2f );
 		_gameRotation.update();
 		p.rotateY( _gameRotation.value() );
@@ -173,9 +174,9 @@ public class GamePlay {
 		
 		// loop through kinect data within player's control range
 		for ( int x = (int)_kinectRange.min(); x < (int)_kinectRange.max(); x += K_PIXEL_SKIP ) {
-			for ( int y = p.KINECT_TOP; y < p.KINECT_BOTTOM; y += K_PIXEL_SKIP ) { // only use the vertical middle portion of the kinect data
+			for ( int y = KacheOut.KINECT_TOP; y < KacheOut.KINECT_BOTTOM; y += K_PIXEL_SKIP ) { // only use the vertical middle portion of the kinect data
 				depthInMeters = p.kinectWrapper.getDepthMetersForKinectPixel( x, y, true );
-				if( depthInMeters > p.KINECT_MIN_DIST && depthInMeters < p.KINECT_MAX_DIST ) {
+				if( depthInMeters > KacheOut.KINECT_MIN_DIST && depthInMeters < KacheOut.KINECT_MAX_DIST ) {
 					// keep track of kinect range
 					if( minX == -1 || x < minX ) minX = x;
 					if( maxX == -1 || x > maxX ) maxX = x;
@@ -243,7 +244,7 @@ public class GamePlay {
 		// draw other objects
 		_paddle.display();
 		_walls.display();
-		if( p.gameState() == p.GAME_ON ) {
+		if( p.gameState() == KacheOut.GAME_ON ) {
 			_ball.display( _paddle );
 		}
 		drawPlayerKinectPoints();
@@ -253,9 +254,9 @@ public class GamePlay {
 	
 	protected void drawSpecialModes() {
 		_playerReadyTextScale.update();
-		if( p.gameState() == p.GAME_INSTRUCTIONS || p.gameState() == p.GAME_COUNTDOWN ) drawInstructionsMode();
-		if( p.gameState() == p.GAME_COUNTDOWN ) drawCountdownMode();
-		if( p.gameState() == p.GAME_OVER ) drawGameOverMode();
+		if( p.gameState() == KacheOut.GAME_INSTRUCTIONS || p.gameState() == KacheOut.GAME_COUNTDOWN ) drawInstructionsMode();
+		if( p.gameState() == KacheOut.GAME_COUNTDOWN ) drawCountdownMode();
+		if( p.gameState() == KacheOut.GAME_OVER ) drawGameOverMode();
 	}
 	
 	protected void drawInstructionsMode() {
@@ -274,16 +275,16 @@ public class GamePlay {
 				} else {
 					p.fill( _waitingColor.toARGB() );
 				}
-				p.meshPool.getMesh( p.STEP_UP_TEXT ).scale( _playerReadyTextScale.val() );
-				p.toxi.mesh( p.meshPool.getMesh( p.STEP_UP_TEXT ) );
-				p.meshPool.getMesh( p.STEP_UP_TEXT ).scale( 1f / _playerReadyTextScale.val() );
+				p.meshPool.getMesh( KacheOut.STEP_UP_TEXT ).scale( _playerReadyTextScale.val() );
+				p.toxi.mesh( p.meshPool.getMesh( KacheOut.STEP_UP_TEXT ) );
+				p.meshPool.getMesh( KacheOut.STEP_UP_TEXT ).scale( 1f / _playerReadyTextScale.val() );
 			}
 		} else {
 			if( _playerReadyTextScale.val() > 0 ) {
-				p.meshPool.getMesh( p.READY_TEXT ).scale( _playerReadyTextScale.val() );
+				p.meshPool.getMesh( KacheOut.READY_TEXT ).scale( _playerReadyTextScale.val() );
 				p.fill( _readyColor.toARGB() );
-				p.toxi.mesh( p.meshPool.getMesh( p.READY_TEXT ) );
-				p.meshPool.getMesh( p.READY_TEXT ).scale( 1f / _playerReadyTextScale.val() );
+				p.toxi.mesh( p.meshPool.getMesh( KacheOut.READY_TEXT ) );
+				p.meshPool.getMesh( KacheOut.READY_TEXT ).scale( 1f / _playerReadyTextScale.val() );
 			}
 		}
 		
@@ -298,25 +299,25 @@ public class GamePlay {
 		
 		// update win/lose text scale and draw it
 		if( _countdownFrames >= 11 && _countdownFrames < 40 ) {
-			if( _countdownFrames == 11 && _gameIndex == 0 ) p.sounds.playSound( p.COUNTDOWN_1 );
-			p.meshPool.getMesh( p.COUNTDOWN_TEXT_3 ).scale( 1 );
+			if( _countdownFrames == 11 && _gameIndex == 0 ) p.sounds.playSound( KacheOut.COUNTDOWN_1 );
+			p.meshPool.getMesh( KacheOut.COUNTDOWN_TEXT_3 ).scale( 1 );
 			p.fill( _countdownColor.toARGB() );
-			p.toxi.mesh( p.meshPool.getMesh( p.COUNTDOWN_TEXT_3 ) );
-			p.meshPool.getMesh( p.COUNTDOWN_TEXT_3 ).scale( 1f / 1 );
+			p.toxi.mesh( p.meshPool.getMesh( KacheOut.COUNTDOWN_TEXT_3 ) );
+			p.meshPool.getMesh( KacheOut.COUNTDOWN_TEXT_3 ).scale( 1f / 1 );
 		} else if( _countdownFrames >= 40 && _countdownFrames < 70 ) {
-			if( _countdownFrames == 40 && _gameIndex == 0 ) p.sounds.playSound( p.COUNTDOWN_2 );
-			p.meshPool.getMesh( p.COUNTDOWN_TEXT_2 ).scale( 1 );
+			if( _countdownFrames == 40 && _gameIndex == 0 ) p.sounds.playSound( KacheOut.COUNTDOWN_2 );
+			p.meshPool.getMesh( KacheOut.COUNTDOWN_TEXT_2 ).scale( 1 );
 			p.fill( _countdownColor.toARGB() );
-			p.toxi.mesh( p.meshPool.getMesh( p.COUNTDOWN_TEXT_2 ) );
-			p.meshPool.getMesh( p.COUNTDOWN_TEXT_2 ).scale( 1f / 1 );
+			p.toxi.mesh( p.meshPool.getMesh( KacheOut.COUNTDOWN_TEXT_2 ) );
+			p.meshPool.getMesh( KacheOut.COUNTDOWN_TEXT_2 ).scale( 1f / 1 );
 		} else if( _countdownFrames >= 70 && _countdownFrames < 100 ) {
-			if( _countdownFrames == 70 && _gameIndex == 0 ) p.sounds.playSound( p.COUNTDOWN_3 );
-			p.meshPool.getMesh( p.COUNTDOWN_TEXT_1 ).scale( 1 );
+			if( _countdownFrames == 70 && _gameIndex == 0 ) p.sounds.playSound( KacheOut.COUNTDOWN_3 );
+			p.meshPool.getMesh( KacheOut.COUNTDOWN_TEXT_1 ).scale( 1 );
 			p.fill( _countdownColor.toARGB() );
-			p.toxi.mesh( p.meshPool.getMesh( p.COUNTDOWN_TEXT_1 ) );
-			p.meshPool.getMesh( p.COUNTDOWN_TEXT_1 ).scale( 1f / 1 );
+			p.toxi.mesh( p.meshPool.getMesh( KacheOut.COUNTDOWN_TEXT_1 ) );
+			p.meshPool.getMesh( KacheOut.COUNTDOWN_TEXT_1 ).scale( 1f / 1 );
 		} else if( _countdownFrames >= 100 ) {
-			p.setGameMode( p.GAME_ON );
+			p.setGameMode( KacheOut.GAME_ON );
 		}
 		
 		p.popMatrix();
@@ -331,15 +332,15 @@ public class GamePlay {
 		_gameOverTextScale.update();
 		if( _gameOverTextScale.val() > 0 ) {
 			if( _didWin == true ) {
-				p.meshPool.getMesh( p.WIN_TEXT ).scale( _gameOverTextScale.val() );
+				p.meshPool.getMesh( KacheOut.WIN_TEXT ).scale( _gameOverTextScale.val() );
 				p.fill( _winColor.toARGB() );
-				p.toxi.mesh( p.meshPool.getMesh( p.WIN_TEXT ) );
-				p.meshPool.getMesh( p.WIN_TEXT ).scale( 1f / _gameOverTextScale.val() );
+				p.toxi.mesh( p.meshPool.getMesh( KacheOut.WIN_TEXT ) );
+				p.meshPool.getMesh( KacheOut.WIN_TEXT ).scale( 1f / _gameOverTextScale.val() );
 			} else {
-				p.meshPool.getMesh( p.LOSE_TEXT ).scale( _gameOverTextScale.val() );
+				p.meshPool.getMesh( KacheOut.LOSE_TEXT ).scale( _gameOverTextScale.val() );
 				p.fill( _loseColor.toARGB() );
-				p.toxi.mesh( p.meshPool.getMesh( p.LOSE_TEXT ) );
-				p.meshPool.getMesh( p.LOSE_TEXT ).scale( 1f / _gameOverTextScale.val() );
+				p.toxi.mesh( p.meshPool.getMesh( KacheOut.LOSE_TEXT ) );
+				p.meshPool.getMesh( KacheOut.LOSE_TEXT ).scale( 1f / _gameOverTextScale.val() );
 			}
 		}
 		
@@ -352,7 +353,7 @@ public class GamePlay {
 			_gameBaseY.setTarget( p.stageHeight() * 2 );
 		}
 		if( _gameOverFrameCount == 125 ) {
-			p.setGameMode( p.GAME_INTRO );
+			p.setGameMode( KacheOut.GAME_INTRO );
 		}
 
 		// make sure we didn't jack anything up elsewhere
@@ -364,7 +365,7 @@ public class GamePlay {
 		p.pushMatrix();
 		DrawUtil.setCenter( p );
 		p.translate( 0, 0, -600 );
-		p.kinectWrapper.drawPointCloudForRect( p, true, 8, 0.5f, p.KINECT_MIN_DIST, p.KINECT_MAX_DIST, p.KINECT_TOP, (int)_kinectRange.max(), p.KINECT_BOTTOM, (int)_kinectRange.min() );
+		p.kinectWrapper.drawPointCloudForRect( p, true, 8, 0.5f, KacheOut.KINECT_MIN_DIST, KacheOut.KINECT_MAX_DIST, KacheOut.KINECT_TOP, (int)_kinectRange.max(), KacheOut.KINECT_BOTTOM, (int)_kinectRange.min() );
 		p.popMatrix();
 	}
 	
