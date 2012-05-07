@@ -114,6 +114,7 @@ public class Ball {
 				
 		// always fade color
 		_color.update();
+		_color.color().alpha = _alpha.value();
 		p.fill( _color.color().toARGB() );
 		
 		// fade in alpha before relaunching
