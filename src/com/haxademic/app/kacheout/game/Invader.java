@@ -45,14 +45,17 @@ public class Invader {
 		if( _row % 3 == 0 ) {
 			boxes = Meshes.invader1Boxes( 0, _scale );
 			boxesAlt = Meshes.invader1Boxes( 1, _scale );
+			color = TColor.newRGB( 136f/255f, 248f/255f, 56f/255f );
 			color = new TColor( TColor.GREEN );
 		} else if( _row % 3 == 1 ) {
 			boxes = Meshes.invader2Boxes( 0, _scale );
 			boxesAlt = Meshes.invader2Boxes( 1, _scale );
+			color = TColor.newRGB( 248f/255f, 248f/255f, 152f/255f );
 			color = new TColor( TColor.YELLOW );
 		} else if( _row % 3 == 2 ) {
 			boxes = Meshes.invader3Boxes( 0, _scale );
 			boxesAlt = Meshes.invader3Boxes( 1, _scale );
+			color = TColor.newRGB( 255f/255f, 60f/255f, 60f/255f );
 			color = new TColor( TColor.RED );
 		}
 		

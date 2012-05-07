@@ -16,7 +16,7 @@ public class Block {
 	// A cell object knows about its location in the grid as well as its size with the variables x,y,w,h.
 	protected AABB _box, _boxOrigin;
 	float r,g,b;
-	int index;
+	int _index;
 	protected boolean _active;
 	protected EasingTColor _color;
 	protected TColor _colorStart;
@@ -32,7 +32,7 @@ public class Block {
 
 		_box = box;
 		_boxOrigin = _box.copy();
-		this.index = index;
+		_index = index;
 		_scale = scale;
 		
 		// random colors for now
@@ -41,9 +41,9 @@ public class Block {
 		b = p.random( 0, 0 );
 		
 		// set up color fading
-		_colorStart = color;
+		_colorStart = color.copy().darken( 0.35f );
 		_colorDead = new TColor( TColor.WHITE );
-		_colorAudio = new TColor( TColor.BLACK );
+		_colorAudio = _colorStart.copy().getDesaturated( 0.75f ).setBrightness( 1f );//new TColor( TColor.BLACK );
 		_color = new EasingTColor( _colorStart, 0.1f );
 		
 		reset( true );
@@ -102,7 +102,7 @@ public class Block {
 			_box.set( MathUtil.easeTo( _box.x, _boxOrigin.x, 10f ), MathUtil.easeTo( _box.y, _boxOrigin.y, 10f ), 0 );
 			
 			// adjust cell z per brightness
-			float zAdd = 6 + 50f * p._audioInput.getFFT().spectrum[index % 512];
+			float zAdd = 6 + 50f * p._audioInput.getFFT().spectrum[_index+1 % 512];
 			_box.setExtent( new Vec3D( _scale/200f, _scale/200f, zAdd ) );
 			
 			// ease towards white, or default color, depending on which way the audio eq's going
