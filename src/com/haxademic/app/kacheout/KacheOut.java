@@ -96,8 +96,16 @@ extends PAppletHax
 	public static String COUNTDOWN_1 = "COUNTDOWN_1";
 	public static String COUNTDOWN_2 = "COUNTDOWN_2";
 	public static String COUNTDOWN_3 = "COUNTDOWN_3";
+	public static String COUNTDOWN_1_VOX = "COUNTDOWN_1_VOX";
+	public static String COUNTDOWN_2_VOX = "COUNTDOWN_2_VOX";
+	public static String COUNTDOWN_3_VOX = "COUNTDOWN_3_VOX";
 	public static String WIN_SOUND = "WIN_SOUND";
-
+	public static String LAUNCH_SOUND = "LAUNCH_SOUND";
+	public static String READY_SOUND = "READY_SOUND";
+	public static String STEP_UP_SOUND = "STEP_UP_SOUND";
+	public static String LOSE_BALL_SOUND = "LOSE_BALL_SOUND";
+	public static String SFX_DOWN = "SFX_DOWN";
+	
 	// game state
 	protected int _curMode;
 	protected ColorGroup _gameColors;
@@ -141,7 +149,16 @@ extends PAppletHax
 		sounds.loadAudioFile( COUNTDOWN_1, 1, "data/audio/kacheout/sfx/countdown-01.mp3" );
 		sounds.loadAudioFile( COUNTDOWN_2, 1, "data/audio/kacheout/sfx/countdown-02.mp3" );
 		sounds.loadAudioFile( COUNTDOWN_3, 1, "data/audio/kacheout/sfx/countdown-03.mp3" );
-		sounds.loadAudioFile( WIN_SOUND, 1, "data/audio/kacheout/sfx/chirp-bounce.mp3" );
+		sounds.loadAudioFile( COUNTDOWN_1_VOX, 1, "data/audio/kacheout/sfx/robot-1.mp3" );
+		sounds.loadAudioFile( COUNTDOWN_2_VOX, 1, "data/audio/kacheout/sfx/robot-2.mp3" );
+		sounds.loadAudioFile( COUNTDOWN_3_VOX, 1, "data/audio/kacheout/sfx/robot-3.mp3" );
+		sounds.loadAudioFile( WIN_SOUND, 1, "data/audio/kacheout/sfx/win-notes.mp3" );
+		sounds.loadAudioFile( READY_SOUND, 1, "data/audio/kacheout/sfx/ready.mp3" );
+		sounds.loadAudioFile( LAUNCH_SOUND, 1, "data/audio/kacheout/sfx/crunch-kick-verb.mp3" );
+		sounds.loadAudioFile( STEP_UP_SOUND, 1, "data/audio/kacheout/sfx/step-up.mp3" );
+		sounds.loadAudioFile( LOSE_BALL_SOUND, 1, "data/audio/kacheout/sfx/bad-saw.mp3" );
+		sounds.loadAudioFile( SFX_DOWN, 1, "data/audio/kacheout/sfx/efxdown2-faded.mp3" );
+		
 		
 		soundtrack = new Soundtrack();
 //		_soundtrack.playNext();
@@ -229,7 +246,7 @@ extends PAppletHax
 				_gamePlays.get( i ).reset();
 			}
 			soundtrack.stop();
-			sounds.playSound( INSERT_COIN );
+			sounds.playSound( SFX_DOWN );
 			soundtrack.playInstructions();
 		} else if( _gameState == GAME_COUNTDOWN ) {
 			for( int i=0; i < NUM_PLAYERS; i++ ) {

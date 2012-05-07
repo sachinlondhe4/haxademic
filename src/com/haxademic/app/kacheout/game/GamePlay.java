@@ -199,8 +199,12 @@ public class GamePlay {
 		// recognize that a player is in the area
 		if( _playerReady == false ) {
 			_playerDetectedFrames++;
+			if( _playerDetectedFrames == 3 ) {
+				p.sounds.playSound( KacheOut.STEP_UP_SOUND );
+			}
 			if( _playerDetectedFrames > 60 ) {
 				_playerReady = true;
+				p.sounds.playSound( KacheOut.READY_SOUND );
 			}
 		}
 	}
@@ -303,19 +307,28 @@ public class GamePlay {
 		
 		// update win/lose text scale and draw it
 		if( _countdownFrames >= 11 && _countdownFrames < 40 ) {
-			if( _countdownFrames == 11 && _gameIndex == 0 ) p.sounds.playSound( KacheOut.COUNTDOWN_1 );
+			if( _countdownFrames == 11 && _gameIndex == 0 ) {
+				p.sounds.playSound( KacheOut.COUNTDOWN_1 );
+				p.sounds.playSound( KacheOut.COUNTDOWN_3_VOX );
+			}
 			p.meshPool.getMesh( KacheOut.COUNTDOWN_TEXT_3 ).scale( 1 );
 			p.fill( _countdownColor.toARGB() );
 			p.toxi.mesh( p.meshPool.getMesh( KacheOut.COUNTDOWN_TEXT_3 ) );
 			p.meshPool.getMesh( KacheOut.COUNTDOWN_TEXT_3 ).scale( 1f / 1 );
 		} else if( _countdownFrames >= 40 && _countdownFrames < 70 ) {
-			if( _countdownFrames == 40 && _gameIndex == 0 ) p.sounds.playSound( KacheOut.COUNTDOWN_2 );
+			if( _countdownFrames == 40 && _gameIndex == 0 ) {
+				p.sounds.playSound( KacheOut.COUNTDOWN_2 );
+				p.sounds.playSound( KacheOut.COUNTDOWN_2_VOX );
+			}
 			p.meshPool.getMesh( KacheOut.COUNTDOWN_TEXT_2 ).scale( 1 );
 			p.fill( _countdownColor.toARGB() );
 			p.toxi.mesh( p.meshPool.getMesh( KacheOut.COUNTDOWN_TEXT_2 ) );
 			p.meshPool.getMesh( KacheOut.COUNTDOWN_TEXT_2 ).scale( 1f / 1 );
 		} else if( _countdownFrames >= 70 && _countdownFrames < 100 ) {
-			if( _countdownFrames == 70 && _gameIndex == 0 ) p.sounds.playSound( KacheOut.COUNTDOWN_3 );
+			if( _countdownFrames == 70 && _gameIndex == 0 ) {
+				p.sounds.playSound( KacheOut.COUNTDOWN_3 );
+				p.sounds.playSound( KacheOut.COUNTDOWN_1_VOX );
+			}
 			p.meshPool.getMesh( KacheOut.COUNTDOWN_TEXT_1 ).scale( 1 );
 			p.fill( _countdownColor.toARGB() );
 			p.toxi.mesh( p.meshPool.getMesh( KacheOut.COUNTDOWN_TEXT_1 ) );
@@ -355,8 +368,9 @@ public class GamePlay {
 		}
 		if( _gameOverFrameCount == 100 ) {
 			_gameBaseY.setTarget( p.stageHeight() * 2 );
+			if( _gameIndex == 0 ) p.sounds.playSound( KacheOut.INSERT_COIN );
 		}
-		if( _gameOverFrameCount == 125 ) {
+		if( _gameOverFrameCount == 135 ) {
 			p.setGameMode( KacheOut.GAME_INTRO );
 		}
 

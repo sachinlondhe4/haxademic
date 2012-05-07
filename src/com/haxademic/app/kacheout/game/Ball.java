@@ -123,6 +123,7 @@ public class Ball {
 			_waitingToLaunch = false;
 			_speedX = ( MathUtil.randBoolean( p ) == true ) ? _curBaseSpeed : -_curBaseSpeed;
 			_speedY = -_curBaseSpeed;
+			p.sounds.playSound( KacheOut.LAUNCH_SOUND );
 		}
 		
 		// start increasing box size after 40 seconds
