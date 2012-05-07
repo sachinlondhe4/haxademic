@@ -7,6 +7,8 @@ import processing.core.PImage;
 import processing.core.PVector;
 import toxi.geom.Vec3D;
 
+import com.haxademic.app.P;
+
 public class KinectWrapper {
 	
 	protected PApplet p;
@@ -35,7 +37,7 @@ public class KinectWrapper {
 			_kinect.processDepthImage(initDepthImage);
 		} catch (NullPointerException e) {
 			_kinectActive = false;
-			p.println("kinect not kinected");
+			P.println("kinect not kinected");
 		}
 		
 		// Lookup table for all possible depth values (0 - 2047)
@@ -121,13 +123,13 @@ public class KinectWrapper {
 	
 	public void tiltUp() {
 		_hardwareTilt += 5;
-		_hardwareTilt = p.constrain(_hardwareTilt, -20, 30);
+		_hardwareTilt = P.constrain(_hardwareTilt, -20, 30);
 		_kinect.tilt(_hardwareTilt);
 	}
 	
 	public void tiltDown() {
 		_hardwareTilt -= 5;
-		_hardwareTilt = p.constrain(_hardwareTilt, -20, 30);
+		_hardwareTilt = P.constrain(_hardwareTilt, -20, 30);
 		_kinect.tilt(_hardwareTilt);
 	}
 	
