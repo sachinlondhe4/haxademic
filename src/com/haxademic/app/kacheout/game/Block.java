@@ -21,6 +21,7 @@ public class Block {
 	protected EasingTColor _color;
 	protected TColor _colorStart;
 	protected TColor _colorDead;
+	protected TColor _colorAudio;
 	protected ArrayList<Shard> _shards;
 	protected ArrayList<Vec3D> _explodeVecs;
 	protected float _scale, _speedX, _speedY;
@@ -42,6 +43,7 @@ public class Block {
 		// set up color fading
 		_colorStart = color;
 		_colorDead = new TColor( TColor.WHITE );
+		_colorAudio = new TColor( TColor.BLACK );
 		_color = new EasingTColor( _colorStart, 0.1f );
 		
 		reset( true );
@@ -105,7 +107,7 @@ public class Block {
 			
 			// ease towards white, or default color, depending on which way the audio eq's going
 			if( _lastZAdd < zAdd )
-				_color.setTargetColor( _colorDead );
+				_color.setTargetColor( _colorAudio );
 			else
 				_color.setTargetColor( _colorStart );
 			_lastZAdd = zAdd;
