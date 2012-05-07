@@ -23,6 +23,8 @@ public class Paddle {
 	protected EasingTColor _color;
 	protected final TColor GREEN = new TColor( TColor.GREEN );
 	protected final TColor WHITE = new TColor( TColor.WHITE );
+	protected final TColor RED = new TColor( TColor.RED );
+	protected boolean _passedPaddle = false;
 	protected AABB _box;
 	protected KacheOut p;
 
@@ -49,6 +51,7 @@ public class Paddle {
 	public float y() { return _y.val(); }
 	public float height() { return _height; }
 	public float xPosPercent() { return _xPosPercent; }
+	public boolean passedPaddle() { return _passedPaddle; }
 
 	public AABB box() {
 		return _box;
@@ -65,11 +68,24 @@ public class Paddle {
 //		return false;
 //	}
 	
+	public void launch() {
+		_passedPaddle = false;
+	}
+	
 	public void hit() {
 		_color.setCurColor( GREEN );
 		_color.setTargetColor( WHITE );
 		_y.setValue( _baseY + 20f );
 		_y.setTarget( _baseY );
+	}
+	
+	public void ballPassedPaddle() {
+		if( _passedPaddle == false ) {
+			_passedPaddle = true;
+			p.sounds.playSound( KacheOut.LOSE_BALL_SOUND );
+			_color.setCurColor( RED );
+			_color.setTargetColor( WHITE );
+		}
 	}
 
 	public void display() {

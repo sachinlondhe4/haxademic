@@ -421,9 +421,13 @@ public class GamePlay {
 			}
 		}
 		// paddle misses ball
-		if( _ball.y() > p.stageHeight() + 200 ) {
-			_ball.resetY( _paddle );
-			_ball.launch( _paddle );
+		if( _ball.y() > p.stageHeight() ) {
+			_paddle.ballPassedPaddle();
+			if( _ball.y() > p.stageHeight() + 200 ) {
+				_ball.resetY( _paddle );
+				_ball.launch( _paddle );
+				_paddle.launch();
+			}
 		}
 		// walls
 		if( _walls.detectSphere( _ball.sphere() ) == true ) {
