@@ -156,8 +156,8 @@ extends PAppletHax
 		sounds.loadAudioFile( READY_SOUND, 1, "data/audio/kacheout/sfx/ready.mp3" );
 		sounds.loadAudioFile( LAUNCH_SOUND, 1, "data/audio/kacheout/sfx/crunch-kick-verb.mp3" );
 		sounds.loadAudioFile( STEP_UP_SOUND, 1, "data/audio/kacheout/sfx/step-up.mp3" );
-		sounds.loadAudioFile( LOSE_BALL_SOUND, 1, "data/audio/kacheout/sfx/bad-saw.mp3" );
-		sounds.loadAudioFile( SFX_DOWN, 1, "data/audio/kacheout/sfx/efxdown2-faded.mp3" );
+		sounds.loadAudioFile( LOSE_BALL_SOUND, 0.85f, "data/audio/kacheout/sfx/bad-saw.mp3" );
+		sounds.loadAudioFile( SFX_DOWN, 0.85f, "data/audio/kacheout/sfx/efxdown2-faded.mp3" );
 		
 		
 		soundtrack = new Soundtrack();
