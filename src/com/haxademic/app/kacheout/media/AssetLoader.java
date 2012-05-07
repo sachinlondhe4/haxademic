@@ -62,8 +62,8 @@ public class AssetLoader {
 		p.meshPool.addMesh( KacheOut.COUNTDOWN_TEXT_3, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "3", -1, 2, 2f ), 40 ), 1 );
 		
 		// win/lose
-		p.meshPool.addMesh( KacheOut.WIN_TEXT, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "WIN", -1, 2, 0.8f ), 10 ), 1 );
-		p.meshPool.addMesh( KacheOut.LOSE_TEXT, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "LOSE", -1, 2, 0.5f ), 10 ), 1 );
+		p.meshPool.addMesh( KacheOut.WIN_TEXT, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "WIN", -1, 2, 0.7f ), 10 ), 1 );
+		p.meshPool.addMesh( KacheOut.LOSE_TEXT, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "LOSE", -1, 2, 0.45f ), 10 ), 1 );
 
 		
 	}
