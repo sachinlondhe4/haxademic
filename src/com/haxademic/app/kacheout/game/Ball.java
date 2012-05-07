@@ -20,7 +20,7 @@ public class Ball {
 	protected ElasticFloat _ballSizeElastic;
 	protected int BALL_RESOLUTION = 6;
 //	protected Sphere _sphere;
-	protected AABB _sphere;
+	protected AABB _box;
 	protected float _x, _y, _speedX, _speedY;
 	protected float SPEED_UP = 1.001f;
 	
@@ -48,18 +48,18 @@ public class Ball {
 		
 		_ballSize = p.stageHeight() / 20f;
 		_ballSizeElastic = new ElasticFloat( 0, 0.66f, 0.48f );
-		_sphere = new AABB();
-		_sphere.setExtent( new Vec3D( _ballSize, _ballSize, _ballSize/6f ) );
+		_box = new AABB();
+		_box.setExtent( new Vec3D( _ballSize, _ballSize, _ballSize/6f ) );
 		
 		_ballMesh = new WETriangleMesh();
-		_ballMesh.addMesh( _sphere.toMesh() );
+		_ballMesh.addMesh( _box.toMesh() );
 	}
 	
 	public float x() { return _x; }
 	public float y() { return _y; }
 	public float speedX() { return _speedX; }
 	public float speedY() { return _speedY; }
-	public AABB sphere() { return _sphere; }
+	public AABB sphere() { return _box; }
 	public float radius() { return _ballSize; }
 	
 	public void reset() {
@@ -106,7 +106,7 @@ public class Ball {
 		} else if( p.gameState() == KacheOut.GAME_OVER ) {
 			_ballSizeElastic.setTarget( 0 );
 		}
-		_sphere.set( _x, _y, 0 );
+		_box.set( _x, _y, 0 );
 				
 		// always fade color
 		_color.update();
@@ -123,8 +123,8 @@ public class Ball {
 		// update elastic scale and redraw box
 		_ballSizeElastic.update();
 		float ballScale = _ballSizeElastic.val() / _ballSize;		
-		_sphere.setExtent( new Vec3D( _ballSize * ballScale, _ballSize * ballScale, _ballSize/6f * ballScale ) );
-		p.toxi.box( _sphere ); 
+		_box.setExtent( new Vec3D( _ballSize * ballScale, _ballSize * ballScale, _ballSize/6f * ballScale ) );
+		p.toxi.box( _box ); 
 	}
 	
 	public void resetY( Paddle paddle ) {
@@ -155,7 +155,7 @@ public class Ball {
 	public boolean detectBox( AABB box ) {
 //		_wallLeft.intersectsBox( sphere )
 		// speed up a little every time we knock a block off
-		if( box.intersectsBox( _sphere ) ) {
+		if( box.intersectsBox( _box ) ) {
 			_curBaseSpeed *= SPEED_UP;
 			_speedX *= SPEED_UP;
 			_speedY *= SPEED_UP;
