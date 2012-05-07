@@ -60,7 +60,10 @@ public class AudioPool {
 		public ObjItem( PApplet p, float vol, String file ) {
 			_file = file;
 			_vol = vol;
+			_vol *= 50;
+			_vol -= 50;	
 			_sound = _minim.loadFile(file, 512);
+			_sound.setGain( _vol );
 		}
 	}
 }
