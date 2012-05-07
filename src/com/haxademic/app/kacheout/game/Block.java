@@ -15,7 +15,6 @@ public class Block {
 	protected KacheOut p;
 	// A cell object knows about its location in the grid as well as its size with the variables x,y,w,h.
 	protected AABB _box, _boxOrigin;
-	float r,g,b;
 	int _index;
 	protected boolean _active;
 	protected EasingTColor _color;
@@ -34,11 +33,6 @@ public class Block {
 		_boxOrigin = _box.copy();
 		_index = index;
 		_scale = scale;
-		
-		// random colors for now
-		r = p.random( 0, 0 );
-		g = p.random( 200, 255 );
-		b = p.random( 0, 0 );
 		
 		// set up color fading
 		_colorStart = color.copy().darken( 0.35f );
