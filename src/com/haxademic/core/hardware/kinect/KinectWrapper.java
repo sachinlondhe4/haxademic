@@ -131,7 +131,7 @@ public class KinectWrapper {
 		_kinect.tilt(_hardwareTilt);
 	}
 	
-	public void drawPointCloudForRect( PApplet p, boolean mirrored, int pixelSkip, float alpha, float depthClose, float depthFar, int top, int right, int bottom, int left ) {
+	public void drawPointCloudForRect( PApplet p, boolean mirrored, int pixelSkip, float alpha, float scale, float depthClose, float depthFar, int top, int right, int bottom, int left ) {
 		p.pushMatrix();
 
 		// Translate and rotate
@@ -140,7 +140,7 @@ public class KinectWrapper {
 		int rawDepth = 0;
 		
 		// Scale up by 200
-		float scaleFactor = 200;
+		float scaleFactor = scale;
 		float factorM = scaleFactor;//( mirrored == true ) ? -scaleFactor : scaleFactor;
 		
 		p.noStroke();
@@ -159,7 +159,7 @@ public class KinectWrapper {
 					p.translate( v.x * scaleFactor, v.y * scaleFactor, scaleFactor - v.z * factorM/4f );
 					// Draw a point
 					p.point(0, 0);
-					p.rect(0, 0, 4, 4);
+					p.rect(0, 0, 1, 1);
 					p.popMatrix();
 				}
 			}

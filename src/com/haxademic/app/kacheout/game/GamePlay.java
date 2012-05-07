@@ -149,11 +149,13 @@ public class GamePlay {
 		// pivot from center
 		_gameBaseY.update();
 		p.translate( p.gameWidth() / 2 + _gameIndex * p.gameWidth(), _gameBaseY.value(), 0 );
+		
 		// ease the rotation 
 		float rotateExtent = P.PI / 10f;
 		_gameRotation.setTarget( rotateExtent * _paddle.xPosPercent() - rotateExtent / 2f );
 		_gameRotation.update();
 		p.rotateY( _gameRotation.value() );
+		
 		// slide back half width
 		p.translate( -p.gameWidth() / 2 , 0, 0 );
 	}
@@ -246,8 +248,8 @@ public class GamePlay {
 		_walls.display();
 		if( p.gameState() == KacheOut.GAME_ON ) {
 			_ball.display( _paddle );
+			drawPlayerKinectPoints();
 		}
-		drawPlayerKinectPoints();
 		if( p.isDebugging() == true ) drawDebugLines();
 		
 	}
@@ -364,8 +366,13 @@ public class GamePlay {
 		// draw point cloud
 		p.pushMatrix();
 		DrawUtil.setCenter( p );
-		p.translate( 0, 0, -600 );
-		p.kinectWrapper.drawPointCloudForRect( p, true, 8, 0.5f, KacheOut.KINECT_MIN_DIST, KacheOut.KINECT_MAX_DIST, KacheOut.KINECT_TOP, (int)_kinectRange.max(), KacheOut.KINECT_BOTTOM, (int)_kinectRange.min() );
+		float xTravel = p.gameWidth() - KinectWrapper.KWIDTH;
+//		float scale = 200f;
+//		p.translate( 0, 0, -400 );
+		float scale = 22f;
+		p.translate( (_gameIndex*60f) + -_paddle.xPosPercent() * 50f, 26, -100 );
+		
+		p.kinectWrapper.drawPointCloudForRect( p, true, 8, 0.5f, scale, KacheOut.KINECT_MIN_DIST, KacheOut.KINECT_MAX_DIST, KacheOut.KINECT_TOP, (int)_kinectRange.max(), KacheOut.KINECT_BOTTOM, (int)_kinectRange.min() );
 		p.popMatrix();
 	}
 	
