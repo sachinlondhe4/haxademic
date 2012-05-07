@@ -1,13 +1,12 @@
 package com.haxademic.app.kacheout.game;
 
+import toxi.color.TColor;
+import toxi.geom.AABB;
+import toxi.geom.Vec3D;
+
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.draw.color.EasingTColor;
-
-import toxi.color.TColor;
-import toxi.geom.AABB;
-import toxi.geom.Sphere;
-import toxi.geom.Vec3D;
 
 public class Walls {
 	protected KacheOut p;
@@ -49,10 +48,10 @@ public class Walls {
 	public boolean topHit(){ return _wallTopHit; }
 	public boolean rightHit(){ return _wallRightHit; }
 	
-	public boolean detectSphere( Sphere sphere ) {
-		_wallLeftHit = ( _wallLeft.intersectsSphere( sphere ) ) ? true : false;
-		_wallTopHit = ( _wallTop.intersectsSphere( sphere ) ) ? true : false;
-		_wallRightHit = ( _wallRight.intersectsSphere( sphere ) ) ? true : false;
+	public boolean detectSphere( AABB sphere ) {
+		_wallLeftHit = ( _wallLeft.intersectsBox( sphere ) ) ? true : false;
+		_wallTopHit = ( _wallTop.intersectsBox( sphere ) ) ? true : false;
+		_wallRightHit = ( _wallRight.intersectsBox( sphere ) ) ? true : false;
 		if( _wallLeftHit == true || _wallTopHit == true || _wallRightHit == true ) {
 			if( _wallLeftHit == true ) {
 				_colorLeft.setCurColor( GREEN );

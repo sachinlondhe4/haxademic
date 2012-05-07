@@ -2,7 +2,6 @@ package com.haxademic.app.kacheout.game;
 
 import toxi.color.TColor;
 import toxi.geom.AABB;
-import toxi.geom.Sphere;
 import toxi.geom.Vec3D;
 
 import com.haxademic.app.PAppletHax;
@@ -61,10 +60,10 @@ public class Paddle {
 		_x.setTarget( _width + percent * (p.gameWidth() - _width*2f) );
 	}
 
-	public boolean detectSphere( Sphere sphere ) {
-		if( _box.intersectsSphere( sphere ) ) return true;
-		return false;
-	}
+//	public boolean detectSphere( Sphere sphere ) {
+//		if( _box.intersectsSphere( sphere ) ) return true;
+//		return false;
+//	}
 	
 	public void hit() {
 		_color.setCurColor( GREEN );
@@ -79,7 +78,7 @@ public class Paddle {
 		_color.update();
 		
 		_box.set( _x.value(), _y.val(), 0 );
-		_box.rotateX( p.frameCount / 30f );
+//		_box.rotateX( p.frameCount / 30f );
 //		_color.alpha = 0.5f + p._audioInput.getFFT().averages[1];
 		
 		_color.color().alpha = ( p.gameState() == KacheOut.GAME_ON || p.gameState() == KacheOut.GAME_OVER ) ? 1 : 0.4f;

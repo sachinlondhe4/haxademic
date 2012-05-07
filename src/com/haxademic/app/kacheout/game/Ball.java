@@ -1,9 +1,8 @@
 package com.haxademic.app.kacheout.game;
 
-import processing.core.PApplet;
 import toxi.color.TColor;
 import toxi.geom.AABB;
-import toxi.geom.Sphere;
+import toxi.geom.Vec3D;
 import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.app.P;
@@ -12,7 +11,6 @@ import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.data.easing.EasingFloat;
 import com.haxademic.core.data.easing.ElasticFloat;
 import com.haxademic.core.draw.color.EasingTColor;
-import com.haxademic.core.draw.util.DrawMesh;
 import com.haxademic.core.util.MathUtil;
 
 public class Ball {
@@ -21,7 +19,8 @@ public class Ball {
 	protected float _ballSize;
 	protected ElasticFloat _ballSizeElastic;
 	protected int BALL_RESOLUTION = 6;
-	protected Sphere _sphere;
+//	protected Sphere _sphere;
+	protected AABB _sphere;
 	protected float _x, _y, _speedX, _speedY;
 	protected float SPEED_UP = 1.001f;
 	
@@ -47,19 +46,20 @@ public class Ball {
 		_color = new EasingTColor( YELLOW, 0.05f );
 		_alpha = new EasingFloat( 0, 7f );
 		
-		_ballSize = p.stageHeight() / 15f;
+		_ballSize = p.stageHeight() / 20f;
 		_ballSizeElastic = new ElasticFloat( 0, 0.66f, 0.48f );
-		_sphere = new Sphere( _ballSize );
+		_sphere = new AABB();
+		_sphere.setExtent( new Vec3D( _ballSize, _ballSize, _ballSize/6f ) );
 		
 		_ballMesh = new WETriangleMesh();
-		_ballMesh.addMesh( _sphere.toMesh( BALL_RESOLUTION ) );
+		_ballMesh.addMesh( _sphere.toMesh() );
 	}
 	
 	public float x() { return _x; }
 	public float y() { return _y; }
 	public float speedX() { return _speedX; }
 	public float speedY() { return _speedY; }
-	public Sphere sphere() { return _sphere; }
+	public AABB sphere() { return _sphere; }
 	public float radius() { return _ballSize; }
 	
 	public void reset() {
@@ -95,6 +95,7 @@ public class Ball {
 	}
 	
 	public void display( Paddle paddle ) {
+		// set position based on current game mode
 		if( _waitingToLaunch == true ) {
 			_ballSizeElastic.setTarget( _ballSize );
 			_x = paddle.x();
@@ -105,36 +106,25 @@ public class Ball {
 		} else if( p.gameState() == KacheOut.GAME_OVER ) {
 			_ballSizeElastic.setTarget( 0 );
 		}
-					
+		_sphere.set( _x, _y, 0 );
+				
+		// always fade color
 		_color.update();
 		p.fill( _color.color().toARGB() );
-		_alpha.update();
 		
+		// fade in alpha before relaunching
+		_alpha.update();
 		if( _alpha.value() == BASE_ALPHA && _waitingToLaunch == true ) {
 			_waitingToLaunch = false;
 			_speedX = ( MathUtil.randBoolean( p ) == true ) ? _curBaseSpeed : -_curBaseSpeed;
 			_speedY = -_curBaseSpeed;
 		}
 		
-		_sphere.x = _x;
-		_sphere.y = _y;
-		
-		// update elastic scale
+		// update elastic scale and redraw box
 		_ballSizeElastic.update();
-		float ballScale = _ballSizeElastic.val() / _ballSize;
-		_ballMesh.scale( ballScale );
-		
-		p.pushMatrix();
-		p.translate( _x, _y );
-		p.rotateX( p.frameCount * 0.01f );
-		p.rotateY( p.frameCount * 0.01f );
-		p.rotateZ( p.frameCount * 0.01f );
-		DrawMesh.drawMeshWithAudio( (PApplet)p, _ballMesh, p._audioInput, 3f, false, _color.color(), _color.color(), _alpha.value() );
-		p.popMatrix();
-		//p._toxi.sphere( _sphere, BALL_RESOLUTION );
-		
-		// reset elastic scale
-		_ballMesh.scale( 1 / ballScale );
+		float ballScale = _ballSizeElastic.val() / _ballSize;		
+		_sphere.setExtent( new Vec3D( _ballSize * ballScale, _ballSize * ballScale, _ballSize/6f * ballScale ) );
+		p.toxi.box( _sphere ); 
 	}
 	
 	public void resetY( Paddle paddle ) {
@@ -163,7 +153,9 @@ public class Ball {
 	}
 
 	public boolean detectBox( AABB box ) {
-		if( box.intersectsSphere( _sphere ) ) {
+//		_wallLeft.intersectsBox( sphere )
+		// speed up a little every time we knock a block off
+		if( box.intersectsBox( _sphere ) ) {
 			_curBaseSpeed *= SPEED_UP;
 			_speedX *= SPEED_UP;
 			_speedY *= SPEED_UP;

@@ -366,7 +366,7 @@ public class GamePlay {
 		// draw point cloud
 		p.pushMatrix();
 		DrawUtil.setCenter( p );
-		float xTravel = p.gameWidth() - KinectWrapper.KWIDTH;
+//		float xTravel = p.gameWidth() - KinectWrapper.KWIDTH;
 //		float scale = 200f;
 //		p.translate( 0, 0, -400 );
 		float scale = 22f;
@@ -398,7 +398,7 @@ public class GamePlay {
 	
 	public void detectCollisions() {
 		// TODO: don't pass the paddle into ball so much! booo.
-		// paddle
+		// paddle collision
 		if( _ball.detectBox( _paddle.box() ) == true ) {
 			if( _ball.y() < _paddle.y() ) {
 				_ball.bounceOffPaddle( _paddle );
