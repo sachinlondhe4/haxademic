@@ -17,12 +17,14 @@ public class Ball {
 	
 	protected KacheOut p;
 	protected float _ballSize;
+	protected float _ballSizeAdd;
+	protected float _ballSizeAddStartFrame;
 	protected ElasticFloat _ballSizeElastic;
 	protected int BALL_RESOLUTION = 6;
 //	protected Sphere _sphere;
 	protected AABB _box;
 	protected float _x, _y, _speedX, _speedY;
-	protected float SPEED_UP = 1.001f;
+	protected float SPEED_UP = 1.0015f;
 	
 	protected float BASE_ALPHA = 0.8f;
 	protected EasingFloat _alpha;
@@ -65,6 +67,8 @@ public class Ball {
 	public void reset() {
 		_curBaseSpeed = _baseSpeed;
 		_alpha.setTarget( 0 );
+		_ballSizeAdd = 0;
+		_ballSizeAddStartFrame = 0;
 	}
 	
 	public void launch( Paddle paddle ) {
@@ -120,15 +124,21 @@ public class Ball {
 			_speedY = -_curBaseSpeed;
 		}
 		
+		// start increasing box size after 40 seconds
+		_ballSizeAddStartFrame++;
+		if( _ballSizeAddStartFrame > 40 * 30 ) {	
+			if( _ballSizeAdd < 30 ) _ballSizeAdd += 0.1f;
+		}
+		
 		// update elastic scale and redraw box
 		_ballSizeElastic.update();
 		float ballScale = _ballSizeElastic.val() / _ballSize;		
-		_box.setExtent( new Vec3D( _ballSize * ballScale, _ballSize * ballScale, _ballSize/6f * ballScale ) );
+		_box.setExtent( new Vec3D( _ballSize * ballScale + _ballSizeAdd, _ballSize * ballScale + _ballSizeAdd, _ballSize/6f * ballScale ) );
 		p.toxi.box( _box ); 
 	}
 	
 	public void resetY( Paddle paddle ) {
-		_y = paddle.y() - paddle.height() - _ballSize - 10;
+		_y = paddle.y() - paddle.height() - ( _ballSize + _ballSizeAdd ) - 10;
 	}
 	
 	public void detectWalls( boolean leftHit, boolean topHit, boolean rightHit ) {
