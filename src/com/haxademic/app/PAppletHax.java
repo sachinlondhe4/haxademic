@@ -222,7 +222,7 @@ extends PApplet
 	}
 	
 	protected void handleInput( boolean isMidi ) {
-		p.println("YOU MUST OVERRIDE KEYPRESSED");
+//		p.println("YOU MUST OVERRIDE KEYPRESSED");
 	}
 	
 	/**
