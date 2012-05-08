@@ -15,6 +15,7 @@ import com.haxademic.viz.modules.Boxen3D;
 import com.haxademic.viz.modules.CacheRings;
 import com.haxademic.viz.modules.GridAndLinesEQ;
 import com.haxademic.viz.modules.HorizLines;
+import com.haxademic.viz.modules.KaraokeViz;
 import com.haxademic.viz.modules.MasterHax;
 import com.haxademic.viz.modules.MaxCache;
 import com.haxademic.viz.modules.PlusRing;
@@ -77,6 +78,7 @@ extends PAppletHax
 	 */
 	protected void initVizModules() {
 		_modules = new ArrayList<IVizModule>();
+		_modules.add( new KaraokeViz() );
 		_modules.add( new MasterHax() );
 		_modules.add( new Boxen3D() );
 		_modules.add( new Toxi() );
@@ -112,6 +114,7 @@ extends PAppletHax
 //	}
 
 	protected void handleInput( boolean isMidi ) {
+		super.handleInput( isMidi );
 		int prevModule = _curModule;
 		
 		// change programs with midi pads
@@ -185,8 +188,6 @@ extends PAppletHax
 	 */
 	public void drawApp() {
 		
-//		_modules.get( _curModule ).beatDetect( beatDetectArr[0], beatDetectArr[1], beatDetectArr[2], beatDetectArr[3] );
-
 		// switch the program if we actually changed it
 		if( _readyForProgramChangeInt != _curModule )
 		{
@@ -198,8 +199,8 @@ extends PAppletHax
 		}
 		
 //		// detect beats and pass through to current visual module
-//		int[] beatDetectArr = _audioInput.getBeatDetection();
-//		_modules.get( _curModule ).beatDetect( beatDetectArr[0], beatDetectArr[1], beatDetectArr[2], beatDetectArr[3] );
+		int[] beatDetectArr = _audioInput.getBeatDetection();
+		_modules.get( _curModule ).beatDetect( beatDetectArr[0], beatDetectArr[1], beatDetectArr[2], beatDetectArr[3] );
 		
 		// update current visual module
 		try{ _modules.get( _curModule ).update(); }
