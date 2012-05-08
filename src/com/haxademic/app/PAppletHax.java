@@ -21,7 +21,7 @@ import com.haxademic.core.draw.text.DebugText;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.hardware.osc.OscWrapper;
-import com.haxademic.core.render.MidiSequenceRenderer;
+import com.haxademic.core.render.MIDISequenceRenderer;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.util.OpenGLUtil;
 import com.haxademic.viz.launchpad.LaunchpadViz;
@@ -115,7 +115,7 @@ extends PApplet
 	 * Renderer object for saving frames and rendering movies.
 	 */
 	public Renderer _renderer;
-	public MidiSequenceRenderer _midiRenderer;
+	public MIDISequenceRenderer _midiRenderer;
 	
 	/**
 	 * Wraps up MIDI functionality with theMIDIbus library.
@@ -318,7 +318,7 @@ extends PApplet
 				}
 				if( _isRenderingMidi == true ) {
 					try {
-						_midiRenderer = new MidiSequenceRenderer(p);
+						_midiRenderer = new MIDISequenceRenderer(p);
 						_midiRenderer.loadMIDIFile( _appConfig.getString("render_midi_file", ""), 124, 30, -8f );	// bnc: 98  jack-splash: 
 					} catch (InvalidMidiDataException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
 				}

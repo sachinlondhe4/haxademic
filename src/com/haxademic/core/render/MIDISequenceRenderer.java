@@ -18,7 +18,7 @@ import javax.sound.midi.Track;
 
 import processing.core.PApplet;
 
-public class MidiSequenceRenderer {
+public class MIDISequenceRenderer {
 	protected PApplet p;
 
     public static final int NOTE_ON = 0x90;
@@ -36,7 +36,7 @@ public class MidiSequenceRenderer {
     // TODO: make fps configurable
     protected float _renderFPS = 30;
     
-    public MidiSequenceRenderer( PApplet p ) {
+    public MIDISequenceRenderer( PApplet p ) {
     	this.p = p;
     } 
     
