@@ -223,6 +223,10 @@ extends PApplet
 	
 	protected void handleInput( boolean isMidi ) {
 //		p.println("YOU MUST OVERRIDE KEYPRESSED");
+		// audio gain
+		if ( p.key == '.' || _midi.midiPadIsOn( MidiWrapper.PAD_14 ) == 1 ) _audioInput.gainUp(); 
+		if ( p.key == ',' || _midi.midiPadIsOn( MidiWrapper.PAD_13 ) == 1 ) _audioInput.gainDown(); 
+
 	}
 	
 	/**

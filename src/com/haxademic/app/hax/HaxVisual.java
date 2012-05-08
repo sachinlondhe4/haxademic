@@ -161,10 +161,6 @@ extends PAppletHax
 			if ( key == '_' ) _readyForProgramChangeInt = 10; 
 			//if ( key == '+' ) _readyForProgramChangeInt = 11; 
 			
-			// audio gain
-			if ( key == '.' || _midi.midiPadIsOn( MidiWrapper.PAD_14 ) == 1 ) _audioInput.gainUp(); 
-			if ( key == ',' || _midi.midiPadIsOn( MidiWrapper.PAD_13 ) == 1 ) _audioInput.gainDown(); 
-			
 			// big screenshot
 			if ( key == '\\' ) { 
 				ScreenUtil.screenshotHiRes( p, 3, p.P3D, "output/saved_img/" );
