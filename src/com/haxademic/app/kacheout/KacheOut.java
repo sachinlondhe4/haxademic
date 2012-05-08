@@ -39,10 +39,10 @@ extends PAppletHax
 	}
 
 	// input
-//	public static float KINECT_MIN_DIST = 2.0f;
-//	public static float KINECT_MAX_DIST = 3.0f;
-	public static float KINECT_MIN_DIST = 1.5f;
-	public static float KINECT_MAX_DIST = 2.5f;
+	public static float KINECT_MIN_DIST = 2.3f;
+	public static float KINECT_MAX_DIST = 3.3f;
+//	public static float KINECT_MIN_DIST = 1.5f;
+//	public static float KINECT_MAX_DIST = 2.5f;
 	public static int KINECT_TOP = 100;
 	public static int KINECT_BOTTOM = 440;
 	public static float KINECT_GAP_PERCENT = 0.5f;
@@ -188,7 +188,6 @@ extends PAppletHax
 		_gamePlays.add( _player2 );
 		
 		//setGameMode( GAME_INTRO );
-		//setGameMode( GAME_ON );
 		setGameMode( GAME_INSTRUCTIONS );
 	}
 		
