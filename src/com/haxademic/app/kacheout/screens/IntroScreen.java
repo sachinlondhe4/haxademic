@@ -19,7 +19,6 @@ public class IntroScreen {
 	
 	protected EasingFloat3d _cdLogoLoc;
 	protected EasingFloat3d _cdTextLoc;
-//	protected EasingFloat3d _presentsLoc;
 	protected EasingFloat3d _kacheOutLoc;
 	protected EasingFloat3d _builtByLoc;
 	protected EasingFloat3d _ufoLoc;
@@ -41,7 +40,6 @@ public class IntroScreen {
 		// set up easing values for objects to fly onto screen
 		_cdLogoLoc = new EasingFloat3d( 0, 0, 0, 6 );
 		_cdTextLoc = new EasingFloat3d( 0, 0, 0, 4 );
-//		_presentsLoc = new EasingFloat3d( 0, 0, 0, 7 );
 		_kacheOutLoc = new EasingFloat3d( 0, 0, 0, 5 );
 		_builtByLoc = new EasingFloat3d( 0, 0, 0, 5 );
 		_ufoLoc = new EasingFloat3d( 0, 0, 0, 5 );
@@ -57,12 +55,12 @@ public class IntroScreen {
 		// set up keyframes
 		_frame1 = 0;
 		_frame2 = _frame1 + 120;	// create denver
-		_frame3 = _frame2 + 120;// kacheout
-		_frame4 = _frame3 + 90;	// built by
-		_frame5 = _frame4 + 90;	// mode set
-		_frame6 = _frame5 + 50;	// cacheflowe
-		_frame7 = _frame6 + 80;	// designers
-		_frame8 = _frame7 + 20;	// end
+		_frame3 = _frame2 + 120;	// kacheout
+		_frame4 = _frame3 + 90;		// built by
+		_frame5 = _frame4 + 90;		// mode set
+		_frame6 = _frame5 + 50;		// cacheflowe
+		_frame7 = _frame6 + 80;		// designers
+		_frame8 = _frame7 + 20;		// end
 	}
 	
 	public void reset() {
@@ -72,8 +70,6 @@ public class IntroScreen {
 		_cdLogoLoc.setTargetY( p.stageHeight() );
 		_cdTextLoc.setCurrentY( p.stageHeight() );
 		_cdTextLoc.setTargetY( p.stageHeight() );
-//		_presentsLoc.setCurrentY( p.stageHeight() );
-//		_presentsLoc.setTargetY( p.stageHeight() );
 		_kacheOutLoc.setCurrentY( p.stageHeight() );
 		_kacheOutLoc.setTargetY( p.stageHeight() );
 		_builtByLoc.setCurrentY( p.stageHeight() );
@@ -114,11 +110,9 @@ public class IntroScreen {
 		if( _frameCount == _frame1 ) {
 			_cdTextLoc.setTargetY( -140 );
 			_cdLogoLoc.setTargetY( 90 );
-//			_presentsLoc.setTargetY( 220 );
 		} else if( _frameCount == _frame2 ) {
 			_cdLogoLoc.setTargetY( -p.stageHeight() );
 			_cdTextLoc.setTargetY( -p.stageHeight() );
-//			_presentsLoc.setTargetY( -p.stageHeight() );
 			_kacheOutLoc.setTargetY( 0 );
 		} else if( _frameCount == _frame3 ) {
 			_kacheOutLoc.setTargetY( -p.stageHeight() );
@@ -154,7 +148,6 @@ public class IntroScreen {
 		// update eased positions
 		_cdLogoLoc.update();
 		_cdTextLoc.update();
-//		_presentsLoc.update();
 		_kacheOutLoc.update();
 		_builtByLoc.update();
 		_ufoLoc.update();
@@ -179,7 +172,6 @@ public class IntroScreen {
 		// draw create denver text & "presents"
 		drawObjectAtLoc( p.meshPool.getMesh( KacheOut.CREATE_DENVER_LOGO ), _cdLogoLoc.valueX(), _cdLogoLoc.valueY(), 0, WHITE.toARGB() );
 		drawObjectAtLoc( p.meshPool.getMesh( KacheOut.CREATE_DENVER_TEXT ), _cdTextLoc.valueX(), _cdTextLoc.valueY(), 0, WHITE.toARGB() );
-//		drawObjectAtLoc( p.meshPool.getMesh( KacheOut.PRESENTS_TEXT ), _presentsLoc.valueX(), _presentsLoc.valueY(), 0, WHITE.toARGB() );
 		
 		// draw kacheout logo
 		int kacheOutAnim = p.frameCount % 40;
