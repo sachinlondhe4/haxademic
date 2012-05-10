@@ -25,9 +25,9 @@ public class AssetLoader {
 		
 		// "create denver presents"
 		
-		p.meshPool.addMesh( KacheOut.CREATE_DENVER_LOGO, MeshUtil.meshFromSVG( p, "../data/svg/create-denver-logo.svg", -1, 6, 0.35f ), 1 );
-		p.meshPool.addMesh( KacheOut.CREATE_DENVER, MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 0.8f ), 1 );
-		p.meshPool.addMesh( KacheOut.PRESENTS_TEXT, MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "PRESENTS", -1, 2, 0.4f ), 1 );
+		p.meshPool.addMesh( KacheOut.CREATE_DENVER_TEXT, MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, 200, "ANOTHER GOOD IDEA FROM", -1, 2, 0.6f ), 1 );
+		p.meshPool.addMesh( KacheOut.CREATE_DENVER_LOGO, MeshUtil.meshFromSVG( p, "../data/svg/create-denver-logo.svg", -1, 6, 0.6f ), 1 );
+//		p.meshPool.addMesh( KacheOut.CREATE_DENVER, MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 0.8f ), 1 );
 //		_textCreateDenver = MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 1f ), 20 );
 //		_textCreateDenver = MeshUtil.mesh2dFromTextFont( p, _fontHelloDenver, null, -1, "CREATE DENVER", -1, 3, 1f );
 		

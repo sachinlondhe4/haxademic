@@ -66,7 +66,7 @@ extends PAppletHax
 		
 	// mesh IDs
 	public static String CREATE_DENVER_LOGO = "CREATE_DENVER_LOGO";
-	public static String CREATE_DENVER = "CREATE_DENVER";
+	public static String CREATE_DENVER_TEXT = "CREATE_DENVER";
 	public static String PRESENTS_TEXT = "PRESENTS_TEXT";
 	public static String KACHEOUT_LOGO = "KACHEOUT_LOGO";
 	public static String KACHEOUT_LOGO_ALT = "KACHEOUT_LOGO_ALT";
@@ -187,8 +187,8 @@ extends PAppletHax
 		_gamePlays.add( _player1 );
 		_gamePlays.add( _player2 );
 		
-		//setGameMode( GAME_INTRO );
-		setGameMode( GAME_INSTRUCTIONS );
+		setGameMode( GAME_INTRO );
+		//setGameMode( GAME_INSTRUCTIONS );
 	}
 		
 	// HAXADEMIC STUFF --------------------------------------------------------------------------------------
