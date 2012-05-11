@@ -23,6 +23,7 @@ public class AudioInputWrapper
 	final int GAIN_STEP = 3;
 
 	int[] beats = { 0, 0, 0, 0 }; 
+	int[] curBeats = new int[4];
 
 	public Boolean _isRendering = false;
 
@@ -52,7 +53,7 @@ public class AudioInputWrapper
 
 		detector = new BeatDetect(p,_bufferSize,44100);
 		detector.detectMode("FREQ_ENERGY");//SOUND_ENERGY
-			
+
 		// TODO: move this into a sketch so audio and renderer are separate
 		// listen realtime if not rendering
 		p.println("AudioInputWrapper._isRendering = "+_isRendering);
@@ -118,7 +119,6 @@ public class AudioInputWrapper
 		if( detector.isOnset() == true ) beats[3]++;
 
 		// if new beats, transmit the new beat count
-		int[] curBeats = new int[4]; 
 		if( detector.isKick() == true )  curBeats[0] = beats[0]; else curBeats[0] = 0;
 		if( detector.isSnare() == true ) curBeats[1] = beats[1]; else curBeats[1] = 0;
 		if( detector.isHat() == true )   curBeats[2] = beats[2]; else curBeats[2] = 0;
