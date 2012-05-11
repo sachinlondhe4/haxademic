@@ -146,7 +146,6 @@ public class KinectWrapper {
 		float factorM = scaleFactor;//( mirrored == true ) ? -scaleFactor : scaleFactor;
 		
 		p.noStroke();
-		p.fill( 255, alpha * 255f );
 		
 		for (int x = left; x < right; x += pixelSkip) {
 			for (int y = top; y < bottom; y += pixelSkip) {
@@ -157,13 +156,16 @@ public class KinectWrapper {
 
 				// draw a point within the specified depth range
 				if( depthMeters > depthClose && depthMeters < depthFar ) {
-					p.pushMatrix();
-					p.translate( v.x * scaleFactor, v.y * scaleFactor, scaleFactor - v.z * factorM/4f );
-					// Draw a point
-					p.point(0, 0);
-					p.rect(0, 0, 1, 1);
-					p.popMatrix();
+					p.fill( 255, alpha * 255f );
+				} else {
+					p.fill( 255, 0, 0, alpha * 255f );
 				}
+				p.pushMatrix();
+				p.translate( v.x * scaleFactor, v.y * scaleFactor, scaleFactor - v.z * factorM/4f );
+				// Draw a point
+				p.point(0, 0);
+				p.rect(0, 0, 4, 4);
+				p.popMatrix();
 			}
 		}
 		p.popMatrix();

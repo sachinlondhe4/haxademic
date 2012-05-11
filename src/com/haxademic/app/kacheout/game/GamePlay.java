@@ -383,10 +383,10 @@ public class GamePlay {
 		p.pushMatrix();
 		DrawUtil.setCenter( p );
 //		float xTravel = p.gameWidth() - KinectWrapper.KWIDTH;
-//		float scale = 200f;
-//		p.translate( 0, 0, -400 );
-		float scale = 100f;	// 22f
-		p.translate( (_gameIndex*60f) + -_paddle.xPosPercent() * 50f, 26, -400 );
+		float scale = 200f;
+		p.translate( 0, 0, -400 );
+//		float scale = 100f;	// 22f
+//		p.translate( (_gameIndex*60f) + -_paddle.xPosPercent() * 50f, 26, -400 );
 		
 		p.kinectWrapper.drawPointCloudForRect( p, true, 8, 0.5f, scale, KacheOut.KINECT_MIN_DIST, KacheOut.KINECT_MAX_DIST, KacheOut.KINECT_TOP, (int)_kinectRange.max(), KacheOut.KINECT_BOTTOM, (int)_kinectRange.min() );
 		p.popMatrix();
