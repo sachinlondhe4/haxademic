@@ -11,7 +11,6 @@ import com.haxademic.app.kacheout.game.Soundtrack;
 import com.haxademic.app.kacheout.media.AssetLoader;
 import com.haxademic.app.kacheout.media.PhotoBooth;
 import com.haxademic.app.kacheout.screens.IntroScreen;
-import com.haxademic.core.audio.AudioLoopPlayer;
 import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.cameras.CameraDefault;
 import com.haxademic.core.cameras.common.ICamera;
