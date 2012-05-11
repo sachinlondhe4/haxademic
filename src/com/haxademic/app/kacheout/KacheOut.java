@@ -131,12 +131,15 @@ extends PAppletHax
 	public void setup() {
 		_customPropsFile = "../data/properties/kacheout.properties";
 		super.setup();
-		
+		initGame();
+	}
+
+	public void initGame() {
 		_stageWidth = width;
 		_stageHeight = height;
 		_gameWidth = _stageWidth / NUM_PLAYERS;
 //		_cameraZFromHeight = (float)_stageHeight * CAMERA_Z_WIDTH_MULTIPLIER;
-
+		
 		newCamera();
 		
 		_audioInput.setNumAverages( _numAverages );
@@ -151,13 +154,9 @@ extends PAppletHax
 		
 		kinectWrapper.enableDepth( true );
 		kinectWrapper.enableDepthImage( true );
-
+		
 		_screenIntro = new IntroScreen();
-				
-		initGame();
-	}
-
-	public void initGame() {
+		
 		// set flags and props	
 		pickNewColors();
 		
