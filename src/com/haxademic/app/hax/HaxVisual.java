@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import processing.core.PApplet;
 
+import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.core.draw.text.DebugText;
 import com.haxademic.core.hardware.midi.MidiWrapper;
@@ -74,7 +75,7 @@ extends PAppletHax
 	
 	/**
 	 * Initializes all the IVizModules that we've created.
-	 * @TODO: externalize this for different people's implementations
+	 * @TODO: externalize this for different implementations - extend it like a VixCollection subclass?
 	 */
 	protected void initVizModules() {
 		_modules = new ArrayList<IVizModule>();
@@ -95,27 +96,15 @@ extends PAppletHax
 		_modules.get( _curModule ).focus();
 	}
 	
-	/**
-	 * Called by PApplet to run before the first draw() command.
-	 */
 	public void setup () {
 		_customPropsFile = "../data/properties/haxvisual.properties";
 		super.setup();
 		initVizModules();
 	}
-	
-	/**
-	 * Called by PApplet to run before the first draw() command.
-	 */
-//	public void keyPressed () {
-//		super.keyPressed();
-//		
-////		_modules.get( _curModule ).handleKeyboardInput();
-//	}
 
 	protected void handleInput( boolean isMidi ) {
 		super.handleInput( isMidi );
-		int prevModule = _curModule;
+		// int prevModule = _curModule;
 		
 		// change programs with midi pads
 		if( _readyForProgramChange ) {
@@ -166,7 +155,7 @@ extends PAppletHax
 			
 			// big screenshot
 			if ( key == '\\' ) { 
-				ScreenUtil.screenshotHiRes( p, 3, p.P3D, "output/saved_img/" );
+				ScreenUtil.screenshotHiRes( p, 3, P.P3D, "output/saved_img/" );
 			}
 			
 			// toggle autopilot
