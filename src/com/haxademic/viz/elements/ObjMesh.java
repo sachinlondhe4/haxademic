@@ -89,7 +89,7 @@ implements IVizElement {
 		if( _isPoints == true ) {
 			DrawMesh.drawPointsWithAudio( p, _objMesh, _audioData, _colorGradientDivider, 15, _baseColor, _strokeColor, 0f );
 		} else {
-			DrawMesh.drawMeshWithAudio( p, _objMesh, _audioData, 15, _isWireframe, _baseColor, _strokeColor, 0 );
+			DrawMesh.drawMeshWithAudio( p, _objMesh, _audioData, _isWireframe, _baseColor, _strokeColor, 0 );
 		}
 		
 		p.popMatrix();

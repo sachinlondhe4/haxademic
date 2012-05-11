@@ -95,7 +95,7 @@ implements IVizElement {
 				DrawMesh.drawPointsWithAudio( p, ThreeDeeUtil.GetWETriangleMeshFromTriangleMesh( _mesh ), _audioData, 20, 40, _fillColor, _strokeColor, 0.2f );				
 			} else {
 				if( _isWireframe == true ) p.strokeWeight( 3 );
-				DrawMesh.drawMeshWithAudio( p, ThreeDeeUtil.GetWETriangleMeshFromTriangleMesh( _mesh ), _audioData, 20, _isWireframe, _fillColor, _strokeColor, 0.2f );				
+				DrawMesh.drawMeshWithAudio( p, ThreeDeeUtil.GetWETriangleMeshFromTriangleMesh( _mesh ), _audioData, _isWireframe, _fillColor, _strokeColor, 0.2f );				
 			}
 		}
 		

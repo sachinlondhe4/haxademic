@@ -58,17 +58,17 @@ public class InvadersTest
 		rotateY((float)mouseX/100f);
 		
 		WETriangleMesh mesh2 = ( this.round( this.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_02 : _invaderMesh_02_alt;
-		DrawMesh.drawMeshWithAudio( (PApplet)this, mesh2, _audioInput, 3f, false, _fill, _stroke, 0.25f );
+		DrawMesh.drawMeshWithAudio( (PApplet)this, mesh2, _audioInput, false, _fill, _stroke, 0.25f );
 
 		translate(-800f, 0, 0);
 		
 		WETriangleMesh mesh3 = ( this.round( this.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_03 : _invaderMesh_03_alt;
-		DrawMesh.drawMeshWithAudio( (PApplet)this, mesh3, _audioInput, 3f, false, _fill, _stroke, 0.25f );
+		DrawMesh.drawMeshWithAudio( (PApplet)this, mesh3, _audioInput, false, _fill, _stroke, 0.25f );
 		
 		translate(1600f, 0, 0);
 		
 		WETriangleMesh mesh1 = ( this.round( this.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_01 : _invaderMesh_01_alt;
-		DrawMesh.drawMeshWithAudio( (PApplet)this, mesh1, _audioInput, 3f, false, _fill, _stroke, 0.25f );
+		DrawMesh.drawMeshWithAudio( (PApplet)this, mesh1, _audioInput, false, _fill, _stroke, 0.25f );
 }
 	
 	// PApp-level listener for audio input data ------------------------ 

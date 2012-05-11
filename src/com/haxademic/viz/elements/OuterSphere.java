@@ -91,9 +91,9 @@ implements IVizElement {
 	
 		// draw outer spheres
 		if( _isSphere ) {
-			DrawMesh.drawMeshWithAudio( p, _sphereMesh, _audioData, 15, _isWireframe, _baseColor, _strokeColor, 0 );
+			DrawMesh.drawMeshWithAudio( p, _sphereMesh, _audioData, _isWireframe, _baseColor, _strokeColor, 0 );
 		} else {
-			DrawMesh.drawMeshWithAudio( p, _objMesh, _audioData, 15, _isWireframe, _baseColor, _strokeColor, 0 );
+			DrawMesh.drawMeshWithAudio( p, _objMesh, _audioData, _isWireframe, _baseColor, _strokeColor, 0 );
 		}
 		
 		p.popMatrix();

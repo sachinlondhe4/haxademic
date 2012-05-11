@@ -97,20 +97,20 @@ implements IVizElement {
 		p.pushMatrix();
 
 		// draw logo
-		DrawMesh.drawMeshWithAudio( p, _logoMesh, _audioData, 3f, false, _logo_color, _logo_color, 0.25f );
+		DrawMesh.drawMeshWithAudio( p, _logoMesh, _audioData, false, _logo_color, _logo_color, 0.25f );
 		p.translate(1900f, 0, 0);
 
 		// draw invaders
 		WETriangleMesh mesh2 = ( p.round( p.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_02 : _invaderMesh_02_alt;
-		DrawMesh.drawMeshWithAudio( p, mesh2, _audioData, 3f, _invader_02_wireframe, _invader_02_color, _invader_02_color, 0.25f );
+		DrawMesh.drawMeshWithAudio( p, mesh2, _audioData, _invader_02_wireframe, _invader_02_color, _invader_02_color, 0.25f );
 		p.translate(1000f, 0, 0);
 		
 		WETriangleMesh mesh3 = ( p.round( p.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_03 : _invaderMesh_03_alt;
-		DrawMesh.drawMeshWithAudio( p, mesh3, _audioData, 3f, _invader_03_wireframe, _invader_03_color, _invader_03_color, 0.25f );
+		DrawMesh.drawMeshWithAudio( p, mesh3, _audioData, _invader_03_wireframe, _invader_03_color, _invader_03_color, 0.25f );
 		p.translate(1000f, 0, 0);
 		
 		WETriangleMesh mesh1 = ( p.round( p.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_01 : _invaderMesh_01_alt;
-		DrawMesh.drawMeshWithAudio( p, mesh1, _audioData, 3f, _invader_01_wireframe, _invader_01_color, _invader_01_color, 0.25f );
+		DrawMesh.drawMeshWithAudio( p, mesh1, _audioData, _invader_01_wireframe, _invader_01_color, _invader_01_color, 0.25f );
 
 		p.popMatrix();
 	}

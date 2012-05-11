@@ -97,7 +97,7 @@ implements IVizElement {
 		if( _isPoints == true ) {
 			DrawMesh.drawPointsWithAudio( p, ThreeDeeUtil.GetWETriangleMeshFromTriangleMesh(mesh), _audioData, _colorGradientDivider, 15, _baseColor, _strokeColor, 0.3f );
 		} else {
-			DrawMesh.drawMeshWithAudio( p, ThreeDeeUtil.GetWETriangleMeshFromTriangleMesh(mesh), _audioData, _colorGradientDivider, _isWireframe, _baseColor, _strokeColor, 0.3f );
+			DrawMesh.drawMeshWithAudio( p, ThreeDeeUtil.GetWETriangleMeshFromTriangleMesh(mesh), _audioData, _isWireframe, _baseColor, _strokeColor, 0.1f );
 		}
 		
 		p.popMatrix();

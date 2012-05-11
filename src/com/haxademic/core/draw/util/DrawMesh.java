@@ -14,33 +14,36 @@ import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
+import com.haxademic.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 
 public class DrawMesh {
 	public static Matrix4x4 normalMap = new Matrix4x4().translateSelf(128,128,128).scaleSelf(127);
 
-	public static void drawMeshWithAudio( PApplet p, WETriangleMesh mesh, AudioInputWrapper audioData, float spectrumFaceRatio, boolean isWireframe, TColor fillColor, TColor strokeColor, float baseAlpha ) {
+	public static void drawMeshWithAudio( PApplet p, WETriangleMesh mesh, AudioInputWrapper audioInput, boolean isWireframe, TColor fillColor, TColor strokeColor, float baseAlpha ) {
 		p.beginShape(PConstants.TRIANGLES);
 		int faceIndex = 0;
 		int color = fillColor.toARGB();
 		int colorStroke = strokeColor.toARGB();
-		Face f;
 		float alpha;
+		Face f;
 		Vec3D n;
-		baseAlpha = baseAlpha * 255;
-		for (Iterator i = mesh.faces.iterator(); i.hasNext();) {
+
+		int numVertices = mesh.getNumVertices();
+		int eqStep = Math.round( 512f / (float) numVertices );
+
+		for (Iterator<Face> i = mesh.faces.iterator(); i.hasNext();) {
 			// set colors
-			alpha = audioData.getFFT().spectrum[(int)(faceIndex/spectrumFaceRatio) % 512] * 1.3f;
+			alpha = baseAlpha + audioInput.getFFT().spectrum[(faceIndex*eqStep)%512];
 			if( isWireframe ) {
 				p.noFill();
-				p.stroke( colorStroke, baseAlpha + alpha * 255 );
+				p.stroke( colorStroke, ( baseAlpha + alpha ) * 255 );
 			} else {
 				p.noStroke();
-				p.fill( color, baseAlpha + alpha * 255 );
+				p.fill( color, ( baseAlpha + alpha ) * 255 );
 			}
 			
-			f = (Face) i.next();
-			
+			f = i.next();
 			n = normalMap.applyTo(f.a.normal);
 			p.normal(f.a.normal.x, f.a.normal.y, f.a.normal.z);
 			p.vertex(f.a.x, f.a.y, f.a.z);
@@ -51,23 +54,51 @@ public class DrawMesh {
 			p.normal(f.c.normal.x, f.c.normal.y, f.c.normal.z);
 			p.vertex(f.c.x, f.c.y, f.c.z);
 			
-//			p.box( color, baseAlpha + alpha * 255 );
-			
 			faceIndex ++;
 		}
 		p.endShape();
 	}
 	
+	public static void drawMeshWithAudioDeformed( PApplet p, ToxiclibsSupport toxi, WETriangleMesh mesh, AudioInputWrapper audioInput, boolean isWireframe, TColor fillColor, TColor strokeColor, float baseAlpha ) {
+		p.beginShape(PConstants.TRIANGLES);
+		int numVertices = mesh.getNumVertices();
+		int eqStep = Math.round( 512f / (float) numVertices );
+		int color = fillColor.toARGB();
+		int colorStroke = strokeColor.toARGB();
+		Face f;
+		
+		Triangle3D tri;
+		for( int i = 0; i < mesh.faces.size(); i++ ) {
+			float eq = baseAlpha + audioInput.getFFT().spectrum[(i*eqStep)%512];
+			if( isWireframe ) {
+				p.noFill();
+				p.stroke( colorStroke, ( baseAlpha + eq ) * 255 );
+			} else {
+				p.noStroke();
+				p.fill( color, ( baseAlpha + eq ) * 255 );
+			}
+
+			f = mesh.faces.get( i );
+			tri = new Triangle3D( 
+					new Vec3D( f.a.x * eq, f.a.y * eq, f.a.z * eq ), 
+					new Vec3D( f.b.x * eq, f.b.y * eq, f.b.z * eq ), 
+					new Vec3D( f.c.x * eq, f.c.y * eq, f.c.z * eq )
+				);
+			toxi.triangle( tri );
+		}		
+
+		p.endShape();
+	}
+	
 	public static void drawPointsWithAudio( PApplet p, WETriangleMesh mesh, AudioInputWrapper audioData, float spectrumFaceRatio, float pointSize, TColor fillColor, TColor strokeColor, float baseAlpha ) {
-		p.rectMode( p.CENTER );
+		p.rectMode( P.CENTER );
 		int faceIndex = 0;
 		int color = fillColor.toARGB();
 		Face f;
 		float alpha;
-		Vec3D n;
 		baseAlpha = baseAlpha * 255;
 		p.noStroke();
-		for (Iterator i = mesh.faces.iterator(); i.hasNext();) {
+		for (Iterator<Face> i = mesh.faces.iterator(); i.hasNext();) {
 			if( faceIndex % 2 == 0 ) {
 				// set colors
 				alpha = audioData.getFFT().spectrum[(int)(faceIndex/spectrumFaceRatio) % 512] * 1.3f;
