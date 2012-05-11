@@ -47,11 +47,6 @@ extends PAppletHax
 	}
 
 	/**
-	 * Disabled for now - should tell the BeatDetect library to help keep things interesting if there are no MIDI or OSC signals. 
-	 */
-	public Boolean _isAutoPilot = false;
-
-	/**
 	 * The current IVizModule object that receives commands in the main Haxademic draw() loop.
 	 */
 	protected ArrayList<IVizModule> _modules;
@@ -161,11 +156,6 @@ extends PAppletHax
 			// big screenshot
 			if ( key == '\\' ) { 
 				ScreenUtil.screenshotHiRes( p, 3, P.P3D, "output/saved_img/" );
-			}
-			
-			// toggle autopilot
-			if( key == 'a' || key == 'A' ){
-				_isAutoPilot = !_isAutoPilot;
 			}
 		}
 		
