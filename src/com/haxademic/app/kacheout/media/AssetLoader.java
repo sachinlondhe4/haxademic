@@ -5,6 +5,7 @@ import geomerative.RG;
 
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
+import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
 
 public class AssetLoader {
@@ -60,8 +61,24 @@ public class AssetLoader {
 		// win/lose
 		p.meshPool.addMesh( KacheOut.WIN_TEXT, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "WIN", -1, 2, 0.7f ), 10 ), 1 );
 		p.meshPool.addMesh( KacheOut.LOSE_TEXT, MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "LOSE", -1, 2, 0.45f ), 10 ), 1 );
-
-		
+	}
+	
+	public void loadAudio( AudioPool sounds ) {
+		sounds.loadAudioFile( KacheOut.PADDLE_BOUNCE, 1, "data/audio/kacheout/sfx/ball_hit_wall_v03.mp3" );
+		sounds.loadAudioFile( KacheOut.WALL_BOUNCE, 1, "data/audio/kacheout/sfx/ball_hit_wall_v02.mp3" );
+		sounds.loadAudioFile( KacheOut.INSERT_COIN, 1, "data/audio/kacheout/sfx/insert-coin.mp3" );
+		sounds.loadAudioFile( KacheOut.COUNTDOWN_1, 1, "data/audio/kacheout/sfx/countdown-01.mp3" );
+		sounds.loadAudioFile( KacheOut.COUNTDOWN_2, 1, "data/audio/kacheout/sfx/countdown-02.mp3" );
+		sounds.loadAudioFile( KacheOut.COUNTDOWN_3, 1, "data/audio/kacheout/sfx/countdown-03.mp3" );
+		sounds.loadAudioFile( KacheOut.COUNTDOWN_1_VOX, 1, "data/audio/kacheout/sfx/robot-1.mp3" );
+		sounds.loadAudioFile( KacheOut.COUNTDOWN_2_VOX, 1, "data/audio/kacheout/sfx/robot-2.mp3" );
+		sounds.loadAudioFile( KacheOut.COUNTDOWN_3_VOX, 1, "data/audio/kacheout/sfx/robot-3.mp3" );
+		sounds.loadAudioFile( KacheOut.WIN_SOUND, 1, "data/audio/kacheout/sfx/win-notes.mp3" );
+		sounds.loadAudioFile( KacheOut.READY_SOUND, 1, "data/audio/kacheout/sfx/ready.mp3" );
+		sounds.loadAudioFile( KacheOut.LAUNCH_SOUND, 1, "data/audio/kacheout/sfx/crunch-kick-verb.mp3" );
+		sounds.loadAudioFile( KacheOut.STEP_UP_SOUND, 1, "data/audio/kacheout/sfx/step-up.mp3" );
+		sounds.loadAudioFile( KacheOut.LOSE_BALL_SOUND, 0.85f, "data/audio/kacheout/sfx/bad-saw.mp3" );
+		sounds.loadAudioFile( KacheOut.SFX_DOWN, 0.85f, "data/audio/kacheout/sfx/efxdown2-faded.mp3" );
 	}
 
 }

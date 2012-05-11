@@ -49,7 +49,6 @@ extends PAppletHax
 	protected boolean _isDebuggingKinect = false;
 
 	// audio
-	protected AudioLoopPlayer _audio;
 	public AudioPool sounds;
 	public Soundtrack soundtrack;
 	
@@ -143,24 +142,11 @@ extends PAppletHax
 		_audioInput.setDampening( .13f );
 		
 		sounds = new AudioPool( p, p._minim );
-		sounds.loadAudioFile( PADDLE_BOUNCE, 1, "data/audio/kacheout/sfx/ball_hit_wall_v03.mp3" );
-		sounds.loadAudioFile( WALL_BOUNCE, 1, "data/audio/kacheout/sfx/ball_hit_wall_v02.mp3" );
-		sounds.loadAudioFile( INSERT_COIN, 1, "data/audio/kacheout/sfx/insert-coin.mp3" );
-		sounds.loadAudioFile( COUNTDOWN_1, 1, "data/audio/kacheout/sfx/countdown-01.mp3" );
-		sounds.loadAudioFile( COUNTDOWN_2, 1, "data/audio/kacheout/sfx/countdown-02.mp3" );
-		sounds.loadAudioFile( COUNTDOWN_3, 1, "data/audio/kacheout/sfx/countdown-03.mp3" );
-		sounds.loadAudioFile( COUNTDOWN_1_VOX, 1, "data/audio/kacheout/sfx/robot-1.mp3" );
-		sounds.loadAudioFile( COUNTDOWN_2_VOX, 1, "data/audio/kacheout/sfx/robot-2.mp3" );
-		sounds.loadAudioFile( COUNTDOWN_3_VOX, 1, "data/audio/kacheout/sfx/robot-3.mp3" );
-		sounds.loadAudioFile( WIN_SOUND, 1, "data/audio/kacheout/sfx/win-notes.mp3" );
-		sounds.loadAudioFile( READY_SOUND, 1, "data/audio/kacheout/sfx/ready.mp3" );
-		sounds.loadAudioFile( LAUNCH_SOUND, 1, "data/audio/kacheout/sfx/crunch-kick-verb.mp3" );
-		sounds.loadAudioFile( STEP_UP_SOUND, 1, "data/audio/kacheout/sfx/step-up.mp3" );
-		sounds.loadAudioFile( LOSE_BALL_SOUND, 0.85f, "data/audio/kacheout/sfx/bad-saw.mp3" );
-		sounds.loadAudioFile( SFX_DOWN, 0.85f, "data/audio/kacheout/sfx/efxdown2-faded.mp3" );
-		
 		soundtrack = new Soundtrack();
-		_audio = new AudioLoopPlayer( p );
+		
+		AssetLoader loader = new AssetLoader();
+		loader.createMeshPool();
+		loader.loadAudio( sounds );
 		
 		kinectWrapper.enableDepth( true );
 		kinectWrapper.enableDepthImage( true );
@@ -173,10 +159,6 @@ extends PAppletHax
 	public void initGame() {
 		// set flags and props	
 		pickNewColors();
-		
-		// init game objects
-		AssetLoader loader = new AssetLoader();
-		loader.createMeshPool();
 		
 		float kinectRangeWidth = KinectWrapper.KWIDTH / 2f * KINECT_GAP_PERCENT;
 		_player1 = new GamePlay( 0, 0, _gameWidth, new FloatRange( 0, kinectRangeWidth ) );
