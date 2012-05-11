@@ -10,6 +10,7 @@ import processing.core.PConstants;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
+import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.data.easing.EasingFloat3d;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.mesh.MeshPool;
@@ -90,12 +91,13 @@ extends PApplet
 		_meshPool.addMesh( "DIAMOND_2D", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/diamond.svg", -1, 3, 0.5f ), 20 ), 1 );
 		_meshPool.addMesh( "CACHEFLOWE_LOGOTYPE", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/cacheflowe-logotype.svg", -1, 6, 0.7f ), 4 ), 1 );
 		_meshPool.addMesh( "MODE_SET_LOGOTYPE", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/modeset-logotype.svg", -1, 6, 0.7f ), 4 ), 1 );
+		_meshPool.addMesh( "CDW_LOGO", MeshUtil.meshFromSVG( p, "../data/svg/create-denver-logo.svg", -1, 3, 0.6f ), 1 );
 		
 //		_meshPool.addMesh( "BIKE_COMMUTER", MeshUtil.meshFromSVG( p, "../data/svg/bike-commuter.svg", -1, 7, 0.5f ), 1 );
 //		
 //		// img models
 //		_meshPool.addMesh( "KACHEOUT", MeshUtil.meshFromImg( p, "../data/images/kacheout/kacheout.gif", 1f ), 20f );
-//		_meshPool.addMesh( "MUSIC_NOTE", MeshUtil.meshFromImg( p, "../data/images/music.gif", 1f ), 10f );
+//		_meshPool.addMesh( "MUSIC_NOTE", MeshUtil.meshFromImg( p, "../data/images/music.gif", 1f ), 40f );
 //		_meshPool.addMesh( "UFO", MeshUtil.meshFromImg( p, "../data/images/kacheout/invader-01.gif", 1f ), 30f );
 //		
 //		// .obj models
