@@ -290,7 +290,7 @@ extends PApplet
 		killScreensaver();
 		handleRenderingStepthrough();
 		initializeExtraObjectsOn1stFrame();	// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
-		if( keyPressed ) handleInput( false ); // handles overall keyboard commands
+		//if( keyPressed ) handleInput( false ); // handles overall keyboard commands
 		int[] beatDetectArr = _audioInput.getBeatDetection(); // detect beats and pass through to current visual module
 		kinectWrapper.update();
 		
@@ -376,6 +376,7 @@ extends PApplet
 	 * This makes sure only the active IVizModule receives keyboard input
 	 */
 	public void keyPressed() {
+		handleInput( false );
 	}
 
 	/**
