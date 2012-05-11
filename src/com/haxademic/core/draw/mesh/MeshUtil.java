@@ -16,6 +16,7 @@ import toxi.geom.Vec3D;
 import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
 
+import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.util.ImageUtil;
 
 public class MeshUtil {
@@ -180,5 +181,21 @@ public class MeshUtil {
 		// make sure 4 points go in order around the square
 		mesh.addFace( pt1, pt2, pt3 );
 		mesh.addFace( pt3, pt4, pt1 );
+	}
+	
+	public static void deformMeshWithAudio( WETriangleMesh mesh, WETriangleMesh meshDeform, AudioInputWrapper audioInput ) {
+		int numVertices = mesh.getNumVertices();
+		int numDeformedVertices = mesh.getNumVertices();
+		int eqStep = Math.round( 512f / (float) numVertices );
+		if( numVertices == numDeformedVertices ) {
+			for( int i = 0; i < numVertices - 1; i++ ) {
+				float eq = 1 + audioInput.getFFT().spectrum[(i*eqStep)%512];
+				if( mesh.getVertexForID( i ) != null && meshDeform.getVertexForID( i ) != null ) {
+					meshDeform.getVertexForID( i ).x = mesh.getVertexForID( i ).x * eq;
+					meshDeform.getVertexForID( i ).y = mesh.getVertexForID( i ).y * eq;
+					meshDeform.getVertexForID( i ).z = mesh.getVertexForID( i ).z * eq;
+				}
+			}
+		}
 	}
 }
