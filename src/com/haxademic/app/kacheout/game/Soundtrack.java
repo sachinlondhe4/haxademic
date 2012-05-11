@@ -21,6 +21,9 @@ public class Soundtrack {
 		
 		_soundtrackFiles = FileUtil.getFilesInDirOfType( "data/audio/kacheout/soundtrack", ".mp3" );
 		_index = MathUtil.randRange( 0, _soundtrackFiles.size() - 1 );
+		
+		playNext();
+		stop();
 	}
 	
 	public void playNext() {
@@ -41,6 +44,15 @@ public class Soundtrack {
 		if( _backgroundAudio != null ) _backgroundAudio.close();
 		_backgroundAudio = p._minim.loadFile("audio/kacheout/screens/the rip-off artist - bang trim.mp3", 512);
 		_backgroundAudio.loop();
+	}
+	
+	public void mute( boolean mute ) {
+		if( _backgroundAudio != null ) {
+			if( mute == true ) 
+				_backgroundAudio.mute();
+			else
+				_backgroundAudio.unmute();
+		}
 	}
 	
 	public void stop() {

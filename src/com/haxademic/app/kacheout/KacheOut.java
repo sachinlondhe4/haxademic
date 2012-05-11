@@ -159,9 +159,7 @@ extends PAppletHax
 		sounds.loadAudioFile( LOSE_BALL_SOUND, 0.85f, "data/audio/kacheout/sfx/bad-saw.mp3" );
 		sounds.loadAudioFile( SFX_DOWN, 0.85f, "data/audio/kacheout/sfx/efxdown2-faded.mp3" );
 		
-		
 		soundtrack = new Soundtrack();
-//		_soundtrack.playNext();
 		_audio = new AudioLoopPlayer( p );
 		
 		kinectWrapper.enableDepth( true );
@@ -187,8 +185,8 @@ extends PAppletHax
 		_gamePlays.add( _player1 );
 		_gamePlays.add( _player2 );
 		
-		setGameMode( GAME_INTRO );
-		//setGameMode( GAME_INSTRUCTIONS );
+		//setGameMode( GAME_INTRO );
+		setGameMode( GAME_INSTRUCTIONS );
 	}
 		
 	// HAXADEMIC STUFF --------------------------------------------------------------------------------------
@@ -261,6 +259,11 @@ extends PAppletHax
 			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).gameOver();
 			soundtrack.stop();
 			sounds.playSound( WIN_SOUND );
+		}
+		// mute sounds while stress-testing
+		if( _isDebugging == true ) {
+			sounds.mute( true );
+			soundtrack.mute( true );
 		}
 	}
 		
