@@ -22,7 +22,6 @@ import com.haxademic.core.util.DrawUtil;
 public class KacheOut
 extends PAppletHax  
 {
-
 	/**
 	 * 
 	 */

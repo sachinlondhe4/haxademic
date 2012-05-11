@@ -82,6 +82,11 @@ public class PAppletHax
 extends PApplet 
 {
 	/**
+	 * 
+	 */
+	protected static final long serialVersionUID = 1L;
+
+	/**
 	 * Global/static ref to PApplet - any audio-reactive object should be passed this reference, or grabbed from this static ref.
 	 */
 	protected static PAppletHax p;

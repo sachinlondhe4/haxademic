@@ -33,6 +33,11 @@ extends PAppletHax
 	 */
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * Auto-initialization of the main class.
 	 * @param args
 	 */
