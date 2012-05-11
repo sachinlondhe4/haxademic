@@ -44,6 +44,7 @@ implements IVizModule
 	protected ColorGroup _balletColors;
 	
 	protected int _numBigChanges = 0;
+	protected Boolean _isAutoPilot = false;
 	
 	protected float _curCameraZ = 0;
 	
@@ -106,6 +107,8 @@ implements IVizModule
 //		debugDrawColorList();
 		// lets us use the keyboard to funk it up
 //		if( p.keyPressed ) handleKeyboardInput();
+		
+		if( _isAutoPilot == true ) handleAutoPilot();
 	}
 	
 	protected void getNewColorList() {
@@ -134,6 +137,26 @@ implements IVizModule
 	}
 	
 	protected void pickNewColors() {
+		P.println("make sure to override pickNewColors()");
+	}
+	
+	protected void handleAutoPilot() {
+		if( p.frameCount % ( p._fps * 3) == 0 ) {
+			pickNewColors();
+		}
+		if( p.frameCount % ( p._fps * 6) == 0 ) {
+			newLineMode();
+		}
+		if( p.frameCount % ( p._fps * 9) == 0 ) {
+			newCamera();
+		}
+		if( p.frameCount % ( p._fps * 18) == 0 ) {
+			pickMode();
+		}
+		if( p.frameCount % ( p._fps * 30) == 0 ) {
+			pickElements();
+			pickNewColors();
+		}
 	}
 	
 	protected void storeCurColors() {
@@ -144,6 +167,10 @@ implements IVizModule
 	}
 	
 	public void handleKeyboardInput() {
+		if( p.key == 'a' || p.key == 'A' ){
+			_isAutoPilot = !_isAutoPilot;
+			P.println("_isAutoPilot = "+_isAutoPilot);
+		}
 		if ( p.key == 'm' || p.key == 'M' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
 			pickMode();
 			pickNewColors();
