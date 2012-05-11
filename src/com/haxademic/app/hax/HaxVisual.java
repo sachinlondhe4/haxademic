@@ -172,10 +172,9 @@ extends PAppletHax
 			
 
 			// toggle autopilot
-	//		if( key == 'A' )
-	//		{
-	//			_isAutoPilot = !_isAutoPilot;
-	//		}
+			if( key == 'a' || key == 'A' ){
+				_isAutoPilot = !_isAutoPilot;
+			}
 		}
 		
 		// pass input on to module
