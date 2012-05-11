@@ -30,12 +30,15 @@ public class MeshPool {
 		return _models.get( id )._mesh;
 	}
 
+	public int size() {
+		return _models.size();
+	}
+
 	public ArrayList<String> getIds() {
 		ArrayList<String> keyList = new ArrayList<String>();
-		Iterator iter = _models.keySet().iterator();
+		Iterator<String> iter = _models.keySet().iterator();
 	    while (iter.hasNext()) {
 	    	keyList.add( iter.next().toString() );
-	    	System.out.println("Loaded model: "+keyList.get( keyList.size()-1 ));
 	    }
 		return keyList;
 	}
