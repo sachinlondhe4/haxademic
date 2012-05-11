@@ -30,10 +30,20 @@ public class AudioPool {
 	public void playSound( String id ) {
 		_audioPlayers.get( id )._sound.play(0);
 	}
+	
+	public void mute( boolean mute ) {
+		Iterator<String> iter = _audioPlayers.keySet().iterator();
+	    while (iter.hasNext()) {
+	    	if( mute == true ) 
+	    		_audioPlayers.get( iter.next().toString() )._sound.mute();
+	    	else 
+	    		_audioPlayers.get( iter.next().toString() )._sound.unmute();
+	    }
+	}
 
 	public ArrayList<String> getIds() {
 		ArrayList<String> keyList = new ArrayList<String>();
-		Iterator iter = _audioPlayers.keySet().iterator();
+		Iterator<String> iter = _audioPlayers.keySet().iterator();
 	    while (iter.hasNext()) {
 	    	keyList.add( iter.next().toString() );
 	    	System.out.println("Loaded audio: "+keyList.get( keyList.size()-1 ));
