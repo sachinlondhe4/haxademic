@@ -99,6 +99,7 @@ extends PAppletHax
 	 * Called by PApplet to run before the first draw() command.
 	 */
 	public void setup () {
+		_customPropsFile = "../data/properties/haxvisual.properties";
 		super.setup();
 		// init our IVizModules and supporting app-wide objects
 		initVizModules();
