@@ -12,6 +12,7 @@ import com.haxademic.viz.VizCollection;
 import com.haxademic.viz.elements.BarsEQ;
 import com.haxademic.viz.elements.GridEQ;
 import com.haxademic.viz.elements.LinesEQ;
+import com.haxademic.viz.elements.MeshDeform;
 import com.haxademic.viz.elements.ObjMesh;
 import com.haxademic.viz.elements.OuterSphere;
 import com.haxademic.viz.elements.RotatingRings;
@@ -30,17 +31,17 @@ implements IVizModule {
 	}
 	
 	public void addElements() {
-		_bgElements.add( new RotatingRings( p, toxi, _audioData ) );
-		_bgElements.add( new BarsEQ( p, toxi, _audioData ) );
-		_bgElements.add( new LinesEQ( p, toxi, _audioData ) );
-		_bgElements.add( new GridEQ( p, toxi, _audioData ) );
-
+		_fgElements.add( new MeshDeform( p, toxi, _audioData ) );
 		_fgElements.add( new WaveformPlane( p, toxi, _audioData ) );
 		_fgElements.add( new WaveformShapes( p, toxi, _audioData ) );
 		_fgElements.add( new RotatorShapes( p, toxi, _audioData ) );
-		_fgElements.add( new ObjMesh( p, toxi, _audioData ) );
 		_fgElements.add( new SphericalHarmonicsOscillator( p, toxi, _audioData ) );
 		
+		_bgElements.add( new RotatingRings( p, toxi, _audioData ) );
+//		_bgElements.add( new BarsEQ( p, toxi, _audioData ) );
+		_bgElements.add( new LinesEQ( p, toxi, _audioData ) );
+		_bgElements.add( new GridEQ( p, toxi, _audioData ) );
+
 		_ambientElements.add( new SphereClouds( p, toxi, _audioData ) );
 
 		_outerElements.add( new OuterSphere( p, toxi, _audioData ) );
