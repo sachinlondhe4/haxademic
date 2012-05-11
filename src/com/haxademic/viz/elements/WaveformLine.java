@@ -32,7 +32,7 @@ implements IVizElement {
 		_width = 800;
 		_spacing = _width / _waveformData._waveform.length;
 		_amp = 20;
-		_strokeWeight = 3;
+		_strokeWeight = 1;
 	}
 
 	public void setDrawProps(float strokeWeight, float width, float amp) {
