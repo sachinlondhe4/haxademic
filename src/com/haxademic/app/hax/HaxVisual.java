@@ -101,7 +101,6 @@ extends PAppletHax
 	public void setup () {
 		_customPropsFile = "../data/properties/haxvisual.properties";
 		super.setup();
-		// init our IVizModules and supporting app-wide objects
 		initVizModules();
 	}
 	
@@ -170,7 +169,6 @@ extends PAppletHax
 				ScreenUtil.screenshotHiRes( p, 3, p.P3D, "output/saved_img/" );
 			}
 			
-
 			// toggle autopilot
 			if( key == 'a' || key == 'A' ){
 				_isAutoPilot = !_isAutoPilot;
@@ -179,8 +177,6 @@ extends PAppletHax
 		
 		// pass input on to module
 		_modules.get( _curModule ).handleKeyboardInput();
-
-
 	}
 	
 	/**
