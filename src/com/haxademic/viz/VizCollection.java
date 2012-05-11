@@ -252,7 +252,7 @@ implements IVizModule
 	}
 
 	public void beatDetect( int isKickCount, int isSnareCount, int isHatCount, int isOnsetCount ) {
-		P.println("beat detect: "+isKickCount+" "+isSnareCount+" "+isHatCount+" "+isOnsetCount);
+//		P.println("beat detect: "+isKickCount+" "+isSnareCount+" "+isHatCount+" "+isOnsetCount);
 	}
 	
 }
