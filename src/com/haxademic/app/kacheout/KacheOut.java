@@ -129,6 +129,7 @@ extends PAppletHax
 	protected float _cameraZFromHeight = 0;
 	
 	public void setup() {
+		_customPropsFile = "../data/properties/kacheout.properties";
 		super.setup();
 		
 		_stageWidth = width;

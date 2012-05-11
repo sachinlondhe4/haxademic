@@ -5,16 +5,25 @@ import java.util.Properties;
 
 import processing.core.PApplet;
 
+import com.haxademic.app.P;
+
 /**
  * simple convenience wrapper object for the standard
  * Properties class to return pre-typed data
  */
 public class P5Properties extends Properties {
+	
 	protected PApplet p;
+	
 	public P5Properties(PApplet p) {
 		super();
+		this.p = p;
+		loadPropertiesFile( "../data/properties/run.properties" );
+	}
+	
+	public void loadPropertiesFile( String file ) {
 		try {
-			load(p.createInput("../data/run.properties"));
+			load( p.createInput( file ) );
 		} catch(IOException e) {
 			p.println("couldn't read run.properties config file...");
 		}

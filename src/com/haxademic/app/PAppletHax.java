@@ -92,6 +92,11 @@ extends PApplet
 	protected P5Properties _appConfig;
 	
 	/**
+	 * Loads an app-specific project .properties file.
+	 */
+	protected String _customPropsFile = null;
+	
+	/**
 	 * Single instance of Toxiclibs object
 	 */
 	public ToxiclibsSupport toxi;
@@ -203,6 +208,7 @@ extends PApplet
 		if ( !_is_setup ) { 
 			// load external properties and set flag
 			_appConfig = new P5Properties(p);
+			if( _customPropsFile != null ) _appConfig.loadPropertiesFile( _customPropsFile );
 			_is_setup = true;
 			// set screen size and renderer
 			String renderer = ( _appConfig.getBoolean("sunflow", true ) == true ) ? "hipstersinc.P5Sunflow" : p.OPENGL;
