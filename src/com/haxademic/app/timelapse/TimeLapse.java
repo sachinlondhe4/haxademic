@@ -63,9 +63,6 @@ extends PAppletHax
 		_fpi = _appConfig.getInt( "frames_per_image", 2 );
 	}
 		
-		
-	// FRAME LOOP --------------------------------------------------------------------------------------
-	
 	public void drawApp() {
 		p.background(0);
 		
