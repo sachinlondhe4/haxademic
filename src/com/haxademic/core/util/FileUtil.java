@@ -5,6 +5,7 @@ import java.io.FileFilter;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 
+import com.haxademic.app.P;
 import com.haxademic.core.debug.DebugUtil;
 
 public class FileUtil {
@@ -13,10 +14,9 @@ public class FileUtil {
 		String[] children = dir.list();
 		ArrayList<String> filesOfType = new ArrayList<String>();
 		if (children == null) {
-		    // Either dir does not exist or is not a directory
+			P.println("FileUtil error: couldn't find file or directory");
 		} else {
-		    for (int i=0; i<children.length; i++) {
-		        // Get filename of file or directory
+		    for (int i=0; i < children.length; i++) {
 		        String filename = children[i];
 		        if( filename.indexOf( type ) != -1 ) {	
 		        	filesOfType.add( filename );
