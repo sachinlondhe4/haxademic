@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
-import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.FileUtil;
 
 public class TimeLapse
@@ -60,7 +58,6 @@ extends PAppletHax
 	public void initRender() {
 		_imageDir = _appConfig.getString( "image_dir", "" );
 		_imageType = _appConfig.getString( "image_type", ".jpg" );
-		P.println("loading "+_imageType+" images from: "+_imageDir);
 		_images = FileUtil.getFilesInDirOfType( _imageDir, _imageType );
 		_imageIndex = 0;
 		_fpi = _appConfig.getInt( "frames_per_image", 2 );
