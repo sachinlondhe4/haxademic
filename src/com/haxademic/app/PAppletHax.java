@@ -217,7 +217,7 @@ extends PApplet
 			if( _customPropsFile != null ) _appConfig.loadPropertiesFile( _customPropsFile );
 			_is_setup = true;
 			// set screen size and renderer
-			String renderer = ( _appConfig.getBoolean("sunflow", true ) == true ) ? "hipstersinc.P5Sunflow" : p.OPENGL;
+			String renderer = ( _appConfig.getBoolean("sunflow", true ) == true ) ? "hipstersinc.P5Sunflow" : P.OPENGL;
 			if(_appConfig.getBoolean("fills_screen", false)) {
 				p.size(screen.width,screen.height,renderer);
 			} else {
@@ -230,7 +230,7 @@ extends PApplet
 	}
 	
 	protected void drawApp() {
-		p.println("YOU MUST OVERRIDE drawApp()");
+		P.println("YOU MUST OVERRIDE drawApp()");
 	}
 	
 	protected void handleInput( boolean isMidi ) {
@@ -297,7 +297,7 @@ extends PApplet
 		killScreensaver();
 		handleRenderingStepthrough();
 		initializeExtraObjectsOn1stFrame();	// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
-		int[] beatDetectArr = _audioInput.getBeatDetection(); // detect beats and pass through to current visual module
+		_audioInput.getBeatDetection(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr = 
 		kinectWrapper.update();
 		
 		drawApp();

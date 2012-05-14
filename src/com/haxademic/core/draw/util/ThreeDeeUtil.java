@@ -12,6 +12,8 @@ import toxi.geom.mesh.WETriangleMesh;
 import codeanticode.glgraphics.GLGraphics;
 import codeanticode.glgraphics.GLModel;
 
+import com.haxademic.app.P;
+
 public class ThreeDeeUtil {
 
 	public static void SmoothToxiMesh( PApplet p, WETriangleMesh mesh, int numSmoothings ) {
@@ -39,7 +41,7 @@ public class ThreeDeeUtil {
 		int numV = verts.length / 4; // The vertices array from the mesh object has a spacing of 4.
 		float[] norms = mesh.getVertexNormalsAsArray();
 		
-		GLModel glmesh = new GLModel(p, numV, p.TRIANGLES, GLModel.STATIC);
+		GLModel glmesh = new GLModel(p, numV, P.TRIANGLES, GLModel.STATIC);
 		glmesh.beginUpdateVertices();
 		for (int i = 0; i < numV; i++) glmesh.updateVertex(i, verts[4 * i], verts[4 * i + 1], verts[4 * i + 2]);
 		glmesh.endUpdateVertices(); 

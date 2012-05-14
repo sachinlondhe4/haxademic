@@ -4,6 +4,8 @@ import krister.Ess.AudioInput;
 import krister.Ess.FFT;
 import processing.core.PApplet;
 
+import com.haxademic.app.P;
+
 public class BeatDetect
 {
 	PApplet p;
@@ -188,9 +190,9 @@ public class BeatDetect
 			E = average(feBuffer[i]);
 			V = variance(feBuffer[i], E);
 			C = (-0.0025714f*V) + 1.5142857f;
-			diff = p.max(instant - C*E, 0);
+			diff = P.max(instant - C*E, 0);
 			dAvg = specAverage(fdBuffer[i]);
-			diff2 = p.max(diff - dAvg, 0);
+			diff2 = P.max(diff - dAvg, 0);
 			if ( fIsOnset[i] && currFrame == p.frameCount ) fIsOnset[i] = true;
 			else if ( currFrame < p.frameCount && fIsOnset[i] ) fIsOnset[i] = false;
 			else fIsOnset[i] = diff2 > 0 && instant > 2;
@@ -226,7 +228,7 @@ public class BeatDetect
 
 	private void shift(float[] arr, float val)
 	{
-		p.arraycopy(arr, 0, arr, 1, arr.length-1);
+		P.arraycopy(arr, 0, arr, 1, arr.length-1);
 		arr[0] = val;
 	}
 
@@ -257,7 +259,7 @@ public class BeatDetect
 	private float variance(float[] arr, float val)
 	{
 		float V = 0;
-		for (int i = 0; i < arr.length; i++) V += p.pow(arr[i]-val, 2);
+		for (int i = 0; i < arr.length; i++) V += P.pow(arr[i]-val, 2);
 		V /= arr.length;
 		return V;
 	}   

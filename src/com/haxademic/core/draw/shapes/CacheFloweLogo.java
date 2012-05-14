@@ -3,6 +3,8 @@ package com.haxademic.core.draw.shapes;
 import processing.core.PApplet;
 import processing.core.PConstants;
 
+import com.haxademic.app.P;
+
 public class CacheFloweLogo {
 	
 	public static void drawCacheFloweLogo( PApplet p, float scale, float thickness, int c1, int c2 )
@@ -23,10 +25,10 @@ public class CacheFloweLogo {
 	{
 		p.pushMatrix();
 		// draw triangles
-		p.beginShape(p.TRIANGLES);
+		p.beginShape(P.TRIANGLES);
 		
 		// 87.5% around for "C"
-		float segmentCircumference = ( 0.875f * (2f*p.PI) ) / numSegments;
+		float segmentCircumference = ( 0.875f * (2f*P.PI) ) / numSegments;
 		float halfHeight = cylinderHeight / 2;
 		
 		float knobCenterY = 65 * scale;
@@ -44,44 +46,44 @@ public class CacheFloweLogo {
 			p.fill( color );
 			
 			// top disc
-			p.vertex( p.sin( i * segmentCircumference ) * innerRadius, 	p.cos( i * segmentCircumference ) * innerRadius, halfHeight );
-			p.vertex( p.sin( i * segmentCircumference ) * outerRadius, 		p.cos( i * segmentCircumference ) * outerRadius, halfHeight );
-			p.vertex( p.sin( (i + 1) * segmentCircumference ) * outerRadius, p.cos( (i + 1) * segmentCircumference ) * outerRadius, halfHeight );
+			p.vertex( P.sin( i * segmentCircumference ) * innerRadius, 	P.cos( i * segmentCircumference ) * innerRadius, halfHeight );
+			p.vertex( P.sin( i * segmentCircumference ) * outerRadius, 		P.cos( i * segmentCircumference ) * outerRadius, halfHeight );
+			p.vertex( P.sin( (i + 1) * segmentCircumference ) * outerRadius, P.cos( (i + 1) * segmentCircumference ) * outerRadius, halfHeight );
 			
-			p.vertex( p.sin( i * segmentCircumference ) * innerRadius, 			p.cos( i * segmentCircumference ) * innerRadius, halfHeight );
-			p.vertex( p.sin( (i + 1) * segmentCircumference ) * innerRadius, 	p.cos( (i + 1) * segmentCircumference ) * innerRadius, halfHeight );
-			p.vertex( p.sin( (i + 1) * segmentCircumference ) * outerRadius, 		p.cos( (i + 1) * segmentCircumference ) * outerRadius, halfHeight );
+			p.vertex( P.sin( i * segmentCircumference ) * innerRadius, 			P.cos( i * segmentCircumference ) * innerRadius, halfHeight );
+			p.vertex( P.sin( (i + 1) * segmentCircumference ) * innerRadius, 	P.cos( (i + 1) * segmentCircumference ) * innerRadius, halfHeight );
+			p.vertex( P.sin( (i + 1) * segmentCircumference ) * outerRadius, 		P.cos( (i + 1) * segmentCircumference ) * outerRadius, halfHeight );
 			
 			// bottom disc
-			p.vertex( p.sin( i * segmentCircumference ) * innerRadius, 	p.cos( i * segmentCircumference ) * innerRadius, -halfHeight );
-			p.vertex( p.sin( i * segmentCircumference ) * outerRadius, 		p.cos( i * segmentCircumference ) * outerRadius, -halfHeight );
-			p.vertex( p.sin( (i + 1) * segmentCircumference ) * outerRadius, p.cos( (i + 1) * segmentCircumference ) * outerRadius, -halfHeight );
+			p.vertex( P.sin( i * segmentCircumference ) * innerRadius, 	P.cos( i * segmentCircumference ) * innerRadius, -halfHeight );
+			p.vertex( P.sin( i * segmentCircumference ) * outerRadius, 		P.cos( i * segmentCircumference ) * outerRadius, -halfHeight );
+			p.vertex( P.sin( (i + 1) * segmentCircumference ) * outerRadius, P.cos( (i + 1) * segmentCircumference ) * outerRadius, -halfHeight );
 			
-			p.vertex( p.sin( i * segmentCircumference ) * innerRadius, 			p.cos( i * segmentCircumference ) * innerRadius, -halfHeight );
-			p.vertex( p.sin( (i + 1) * segmentCircumference ) * innerRadius, 	p.cos( (i + 1) * segmentCircumference ) * innerRadius, -halfHeight );
-			p.vertex( p.sin( (i + 1) * segmentCircumference ) * outerRadius, 		p.cos( (i + 1) * segmentCircumference ) * outerRadius, -halfHeight );
+			p.vertex( P.sin( i * segmentCircumference ) * innerRadius, 			P.cos( i * segmentCircumference ) * innerRadius, -halfHeight );
+			p.vertex( P.sin( (i + 1) * segmentCircumference ) * innerRadius, 	P.cos( (i + 1) * segmentCircumference ) * innerRadius, -halfHeight );
+			p.vertex( P.sin( (i + 1) * segmentCircumference ) * outerRadius, 		P.cos( (i + 1) * segmentCircumference ) * outerRadius, -halfHeight );
 			
 			
 			// set fill color
 			p.fill( wallcolor );
 			
 			// outer wall
-			p.vertex( p.sin( i * segmentCircumference ) * outerRadius, p.cos( i * segmentCircumference ) * outerRadius, halfHeight );
-			p.vertex( p.sin( i * segmentCircumference ) * outerRadius, p.cos( i * segmentCircumference ) * outerRadius, -halfHeight );
-			p.vertex( p.sin( (i + 1) * segmentCircumference ) * outerRadius, p.cos( (i + 1) * segmentCircumference ) * outerRadius, halfHeight );
+			p.vertex( P.sin( i * segmentCircumference ) * outerRadius, P.cos( i * segmentCircumference ) * outerRadius, halfHeight );
+			p.vertex( P.sin( i * segmentCircumference ) * outerRadius, P.cos( i * segmentCircumference ) * outerRadius, -halfHeight );
+			p.vertex( P.sin( (i + 1) * segmentCircumference ) * outerRadius, P.cos( (i + 1) * segmentCircumference ) * outerRadius, halfHeight );
 			
-			p.vertex( p.sin( i * segmentCircumference ) * outerRadius, p.cos( i * segmentCircumference ) * outerRadius, -halfHeight );
-			p.vertex( p.sin( (i + 1) * segmentCircumference ) * outerRadius, p.cos( (i + 1) * segmentCircumference ) * outerRadius, halfHeight );
-			p.vertex( p.sin( (i + 1) * segmentCircumference ) * outerRadius, p.cos( (i + 1) * segmentCircumference ) * outerRadius, -halfHeight );
+			p.vertex( P.sin( i * segmentCircumference ) * outerRadius, P.cos( i * segmentCircumference ) * outerRadius, -halfHeight );
+			p.vertex( P.sin( (i + 1) * segmentCircumference ) * outerRadius, P.cos( (i + 1) * segmentCircumference ) * outerRadius, halfHeight );
+			p.vertex( P.sin( (i + 1) * segmentCircumference ) * outerRadius, P.cos( (i + 1) * segmentCircumference ) * outerRadius, -halfHeight );
 			
 			// inner wall
-			p.vertex( p.sin( i * segmentCircumference ) * innerRadius, p.cos( i * segmentCircumference ) * innerRadius, halfHeight );
-			p.vertex( p.sin( i * segmentCircumference ) * innerRadius, p.cos( i * segmentCircumference ) * innerRadius, -halfHeight );
-			p.vertex( p.sin( (i + 1) * segmentCircumference ) * innerRadius, p.cos( (i + 1) * segmentCircumference ) * innerRadius, halfHeight );
+			p.vertex( P.sin( i * segmentCircumference ) * innerRadius, P.cos( i * segmentCircumference ) * innerRadius, halfHeight );
+			p.vertex( P.sin( i * segmentCircumference ) * innerRadius, P.cos( i * segmentCircumference ) * innerRadius, -halfHeight );
+			p.vertex( P.sin( (i + 1) * segmentCircumference ) * innerRadius, P.cos( (i + 1) * segmentCircumference ) * innerRadius, halfHeight );
 			
-			p.vertex( p.sin( i * segmentCircumference ) * innerRadius, p.cos( i * segmentCircumference ) * innerRadius, -halfHeight );
-			p.vertex( p.sin( (i + 1) * segmentCircumference ) * innerRadius, p.cos( (i + 1) * segmentCircumference ) * innerRadius, halfHeight );
-			p.vertex( p.sin( (i + 1) * segmentCircumference ) * innerRadius, p.cos( (i + 1) * segmentCircumference ) * innerRadius, -halfHeight );
+			p.vertex( P.sin( i * segmentCircumference ) * innerRadius, P.cos( i * segmentCircumference ) * innerRadius, -halfHeight );
+			p.vertex( P.sin( (i + 1) * segmentCircumference ) * innerRadius, P.cos( (i + 1) * segmentCircumference ) * innerRadius, halfHeight );
+			p.vertex( P.sin( (i + 1) * segmentCircumference ) * innerRadius, P.cos( (i + 1) * segmentCircumference ) * innerRadius, -halfHeight );
 			
 			
 			// handle disc ends' extra segment, from same inner radius point
@@ -93,33 +95,33 @@ public class CacheFloweLogo {
 					p.fill( color );
 					
 					// top disc
-					p.vertex( p.sin( i * segmentCircumference ) * innerRadius, 		 p.cos( i * segmentCircumference ) * innerRadius, halfHeight );
-					p.vertex( p.sin( i * segmentCircumference ) * outerRadius, 		 p.cos( i * segmentCircumference ) * outerRadius, halfHeight );
-					p.vertex( p.sin( (i - 1) * segmentCircumference ) * outerRadius, p.cos( (i - 1) * segmentCircumference ) * outerRadius, halfHeight );
+					p.vertex( P.sin( i * segmentCircumference ) * innerRadius, 		 P.cos( i * segmentCircumference ) * innerRadius, halfHeight );
+					p.vertex( P.sin( i * segmentCircumference ) * outerRadius, 		 P.cos( i * segmentCircumference ) * outerRadius, halfHeight );
+					p.vertex( P.sin( (i - 1) * segmentCircumference ) * outerRadius, P.cos( (i - 1) * segmentCircumference ) * outerRadius, halfHeight );
 					// bottom disc
-					p.vertex( p.sin( i * segmentCircumference ) * innerRadius, 		 p.cos( i * segmentCircumference ) * innerRadius, -halfHeight );
-					p.vertex( p.sin( i * segmentCircumference ) * outerRadius, 		 p.cos( i * segmentCircumference ) * outerRadius, -halfHeight );
-					p.vertex( p.sin( (i - 1) * segmentCircumference ) * outerRadius, p.cos( (i - 1) * segmentCircumference ) * outerRadius, -halfHeight );
+					p.vertex( P.sin( i * segmentCircumference ) * innerRadius, 		 P.cos( i * segmentCircumference ) * innerRadius, -halfHeight );
+					p.vertex( P.sin( i * segmentCircumference ) * outerRadius, 		 P.cos( i * segmentCircumference ) * outerRadius, -halfHeight );
+					p.vertex( P.sin( (i - 1) * segmentCircumference ) * outerRadius, P.cos( (i - 1) * segmentCircumference ) * outerRadius, -halfHeight );
 					
 					p.fill( wallcolor );
 					
 					// draw outer wall for extra triangle
-					p.vertex( p.sin( i * segmentCircumference ) * outerRadius, 		 p.cos( i * segmentCircumference ) * outerRadius, halfHeight );
-					p.vertex( p.sin( (i - 1) * segmentCircumference ) * outerRadius, p.cos( (i - 1) * segmentCircumference ) * outerRadius, halfHeight );
-					p.vertex( p.sin( i * segmentCircumference ) * outerRadius, 		 p.cos( i * segmentCircumference ) * outerRadius, -halfHeight );
+					p.vertex( P.sin( i * segmentCircumference ) * outerRadius, 		 P.cos( i * segmentCircumference ) * outerRadius, halfHeight );
+					p.vertex( P.sin( (i - 1) * segmentCircumference ) * outerRadius, P.cos( (i - 1) * segmentCircumference ) * outerRadius, halfHeight );
+					p.vertex( P.sin( i * segmentCircumference ) * outerRadius, 		 P.cos( i * segmentCircumference ) * outerRadius, -halfHeight );
 					
-					p.vertex( p.sin( (i - 1) * segmentCircumference ) * outerRadius, p.cos( (i - 1) * segmentCircumference ) * outerRadius, halfHeight );
-					p.vertex( p.sin( i * segmentCircumference ) * outerRadius, 		 p.cos( i * segmentCircumference ) * outerRadius, -halfHeight );
-					p.vertex( p.sin( (i - 1) * segmentCircumference ) * outerRadius, p.cos( (i - 1) * segmentCircumference ) * outerRadius, -halfHeight );
+					p.vertex( P.sin( (i - 1) * segmentCircumference ) * outerRadius, P.cos( (i - 1) * segmentCircumference ) * outerRadius, halfHeight );
+					p.vertex( P.sin( i * segmentCircumference ) * outerRadius, 		 P.cos( i * segmentCircumference ) * outerRadius, -halfHeight );
+					p.vertex( P.sin( (i - 1) * segmentCircumference ) * outerRadius, P.cos( (i - 1) * segmentCircumference ) * outerRadius, -halfHeight );
 
 					// draw "C" end cap
-					p.vertex( p.sin( i * segmentCircumference ) * innerRadius, 		 p.cos( i * segmentCircumference ) * innerRadius, halfHeight );
-					p.vertex( p.sin( (i - 1) * segmentCircumference ) * outerRadius, p.cos( (i - 1) * segmentCircumference ) * outerRadius, halfHeight );
-					p.vertex( p.sin( (i - 1) * segmentCircumference ) * outerRadius, p.cos( (i - 1) * segmentCircumference ) * outerRadius, -halfHeight );
+					p.vertex( P.sin( i * segmentCircumference ) * innerRadius, 		 P.cos( i * segmentCircumference ) * innerRadius, halfHeight );
+					p.vertex( P.sin( (i - 1) * segmentCircumference ) * outerRadius, P.cos( (i - 1) * segmentCircumference ) * outerRadius, halfHeight );
+					p.vertex( P.sin( (i - 1) * segmentCircumference ) * outerRadius, P.cos( (i - 1) * segmentCircumference ) * outerRadius, -halfHeight );
 					
-					p.vertex( p.sin( i * segmentCircumference ) * innerRadius, 		 p.cos( i * segmentCircumference ) * innerRadius, halfHeight );
-					p.vertex( p.sin( i * segmentCircumference ) * innerRadius, 		 p.cos( i * segmentCircumference ) * innerRadius, -halfHeight );
-					p.vertex( p.sin( (i - 1) * segmentCircumference ) * outerRadius, p.cos( (i - 1) * segmentCircumference ) * outerRadius, -halfHeight );
+					p.vertex( P.sin( i * segmentCircumference ) * innerRadius, 		 P.cos( i * segmentCircumference ) * innerRadius, halfHeight );
+					p.vertex( P.sin( i * segmentCircumference ) * innerRadius, 		 P.cos( i * segmentCircumference ) * innerRadius, -halfHeight );
+					p.vertex( P.sin( (i - 1) * segmentCircumference ) * outerRadius, P.cos( (i - 1) * segmentCircumference ) * outerRadius, -halfHeight );
 				}
 				if( j == numSegments - 1 )
 				{
@@ -127,33 +129,33 @@ public class CacheFloweLogo {
 					p.fill( color );
 					
 					// top disc
-					p.vertex( p.sin( (i + 1) * segmentCircumference ) * innerRadius, p.cos( (i + 1) * segmentCircumference ) * innerRadius, halfHeight );
-					p.vertex( p.sin( (i + 1) * segmentCircumference ) * outerRadius, p.cos( (i + 1) * segmentCircumference ) * outerRadius, halfHeight );
-					p.vertex( p.sin( (i + 2) * segmentCircumference ) * outerRadius, p.cos( (i + 2) * segmentCircumference ) * outerRadius, halfHeight );
+					p.vertex( P.sin( (i + 1) * segmentCircumference ) * innerRadius, P.cos( (i + 1) * segmentCircumference ) * innerRadius, halfHeight );
+					p.vertex( P.sin( (i + 1) * segmentCircumference ) * outerRadius, P.cos( (i + 1) * segmentCircumference ) * outerRadius, halfHeight );
+					p.vertex( P.sin( (i + 2) * segmentCircumference ) * outerRadius, P.cos( (i + 2) * segmentCircumference ) * outerRadius, halfHeight );
 					// bottom disc
-					p.vertex( p.sin( (i + 1) * segmentCircumference ) * innerRadius, p.cos( (i + 1) * segmentCircumference ) * innerRadius, -halfHeight );
-					p.vertex( p.sin( (i + 1) * segmentCircumference ) * outerRadius, p.cos( (i + 1) * segmentCircumference ) * outerRadius, -halfHeight );
-					p.vertex( p.sin( (i + 2) * segmentCircumference ) * outerRadius, p.cos( (i + 2) * segmentCircumference ) * outerRadius, -halfHeight );
+					p.vertex( P.sin( (i + 1) * segmentCircumference ) * innerRadius, P.cos( (i + 1) * segmentCircumference ) * innerRadius, -halfHeight );
+					p.vertex( P.sin( (i + 1) * segmentCircumference ) * outerRadius, P.cos( (i + 1) * segmentCircumference ) * outerRadius, -halfHeight );
+					p.vertex( P.sin( (i + 2) * segmentCircumference ) * outerRadius, P.cos( (i + 2) * segmentCircumference ) * outerRadius, -halfHeight );
 
 					p.fill( wallcolor );
 					
 					// draw outer wall for extra triangle
-					p.vertex( p.sin( (i + 2) * segmentCircumference ) * outerRadius, p.cos( (i + 2) * segmentCircumference ) * outerRadius, halfHeight );
-					p.vertex( p.sin( (i + 1) * segmentCircumference ) * outerRadius, p.cos( (i + 1) * segmentCircumference ) * outerRadius, halfHeight );
-					p.vertex( p.sin( (i + 2) * segmentCircumference ) * outerRadius, p.cos( (i + 2) * segmentCircumference ) * outerRadius, -halfHeight );
+					p.vertex( P.sin( (i + 2) * segmentCircumference ) * outerRadius, P.cos( (i + 2) * segmentCircumference ) * outerRadius, halfHeight );
+					p.vertex( P.sin( (i + 1) * segmentCircumference ) * outerRadius, P.cos( (i + 1) * segmentCircumference ) * outerRadius, halfHeight );
+					p.vertex( P.sin( (i + 2) * segmentCircumference ) * outerRadius, P.cos( (i + 2) * segmentCircumference ) * outerRadius, -halfHeight );
 					
-					p.vertex( p.sin( (i + 1) * segmentCircumference ) * outerRadius, p.cos( (i + 1) * segmentCircumference ) * outerRadius, halfHeight );
-					p.vertex( p.sin( (i + 2) * segmentCircumference ) * outerRadius, p.cos( (i + 2) * segmentCircumference ) * outerRadius, -halfHeight );
-					p.vertex( p.sin( (i + 1) * segmentCircumference ) * outerRadius, p.cos( (i + 1) * segmentCircumference ) * outerRadius, -halfHeight );
+					p.vertex( P.sin( (i + 1) * segmentCircumference ) * outerRadius, P.cos( (i + 1) * segmentCircumference ) * outerRadius, halfHeight );
+					p.vertex( P.sin( (i + 2) * segmentCircumference ) * outerRadius, P.cos( (i + 2) * segmentCircumference ) * outerRadius, -halfHeight );
+					p.vertex( P.sin( (i + 1) * segmentCircumference ) * outerRadius, P.cos( (i + 1) * segmentCircumference ) * outerRadius, -halfHeight );
 					
 					// draw "C" end cap
-					p.vertex( p.sin( (i + 1) * segmentCircumference ) * innerRadius, p.cos( (i + 1) * segmentCircumference ) * innerRadius, halfHeight );
-					p.vertex( p.sin( (i + 2) * segmentCircumference ) * outerRadius, p.cos( (i + 2) * segmentCircumference ) * outerRadius, halfHeight );
-					p.vertex( p.sin( (i + 2) * segmentCircumference ) * outerRadius, p.cos( (i + 2) * segmentCircumference ) * outerRadius, -halfHeight );
+					p.vertex( P.sin( (i + 1) * segmentCircumference ) * innerRadius, P.cos( (i + 1) * segmentCircumference ) * innerRadius, halfHeight );
+					p.vertex( P.sin( (i + 2) * segmentCircumference ) * outerRadius, P.cos( (i + 2) * segmentCircumference ) * outerRadius, halfHeight );
+					p.vertex( P.sin( (i + 2) * segmentCircumference ) * outerRadius, P.cos( (i + 2) * segmentCircumference ) * outerRadius, -halfHeight );
 					
-					p.vertex( p.sin( (i + 1) * segmentCircumference ) * innerRadius, p.cos( (i + 1) * segmentCircumference ) * innerRadius, -halfHeight );
-					p.vertex( p.sin( (i + 2) * segmentCircumference ) * outerRadius, p.cos( (i + 2) * segmentCircumference ) * outerRadius, -halfHeight );
-					p.vertex( p.sin( (i + 1) * segmentCircumference ) * innerRadius, p.cos( (i + 1) * segmentCircumference ) * innerRadius, halfHeight );
+					p.vertex( P.sin( (i + 1) * segmentCircumference ) * innerRadius, P.cos( (i + 1) * segmentCircumference ) * innerRadius, -halfHeight );
+					p.vertex( P.sin( (i + 2) * segmentCircumference ) * outerRadius, P.cos( (i + 2) * segmentCircumference ) * outerRadius, -halfHeight );
+					p.vertex( P.sin( (i + 1) * segmentCircumference ) * innerRadius, P.cos( (i + 1) * segmentCircumference ) * innerRadius, halfHeight );
 				}
 			}			
 		}
@@ -178,7 +180,7 @@ public class CacheFloweLogo {
 		p.fill( wallcolor );
 
 		p.pushMatrix();
-		p.rotateY( p.radians(90.0f) );
+		p.rotateY( P.radians(90.0f) );
 		p.translate( 0, 0, -halfKnobWidth );
 		p.rect( -halfHeight, -halfKnobWidth, cylinderHeight, knobWidth );
 		p.translate( 0, 0, knobWidth );
@@ -187,7 +189,7 @@ public class CacheFloweLogo {
 		
 		// top cap
 		p.pushMatrix();
-		p.rotateX( p.radians(90.0f) );
+		p.rotateX( P.radians(90.0f) );
 		p.translate( 0, 0, halfKnobWidth );
 		p.rect( -halfKnobWidth, -halfHeight, knobWidth, cylinderHeight );
 		p.popMatrix();
@@ -212,7 +214,7 @@ public class CacheFloweLogo {
 		p.fill( wallcolor );
 
 		p.pushMatrix();
-		p.rotateY( p.radians(90.0f) );
+		p.rotateY( P.radians(90.0f) );
 		p.translate( 0, 0, -halfKnobWidth );
 		p.rect( -halfHeight, -halfKnobWidth, cylinderHeight, knobWidth );
 		p.translate( 0, 0, knobWidth );
@@ -221,7 +223,7 @@ public class CacheFloweLogo {
 		
 		// top cap
 		p.pushMatrix();
-		p.rotateX( p.radians(-90.0f) );
+		p.rotateX( P.radians(-90.0f) );
 		p.translate( 0, 0, halfKnobWidth );
 		p.rect( -halfKnobWidth, -halfHeight, knobWidth, cylinderHeight );
 		p.popMatrix();

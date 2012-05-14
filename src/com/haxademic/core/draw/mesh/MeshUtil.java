@@ -69,7 +69,7 @@ public class MeshUtil {
 		RGroup grp = rSvg.toGroup( file );
 		grp.centerIn( p.g );  // this centers the shape in the screen
 		
-		RPoint[] pnts = grp.getPoints();
+		//RPoint[] pnts = grp.getPoints();
 
 		RMesh rMesh = grp.toMesh();
 		WETriangleMesh mesh = rMeshToToxiMesh( rMesh );
@@ -83,7 +83,7 @@ public class MeshUtil {
 		// build from font path or a passed-in RFont
 		if( font == null ) font = new RFont( fontPath, fontSize, RFont.CENTER);
 		RGroup grp = font.toGroup( text );
-		RPoint[] pnts = grp.getPoints();
+		//RPoint[] pnts = grp.getPoints();
 
 		RMesh rMesh = grp.toMesh();
 		WETriangleMesh mesh = rMeshToToxiMesh( rMesh );

@@ -6,10 +6,12 @@ import processing.core.PConstants;
 import toxi.color.TColor;
 import toxi.geom.mesh.WETriangleMesh;
 
+import com.haxademic.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.shapes.Meshes;
 import com.haxademic.core.draw.util.DrawMesh;
 
+@SuppressWarnings("serial")
 public class InvadersTest
 	extends PApplet
 {
@@ -53,22 +55,22 @@ public class InvadersTest
 		background( 0 );
 		
 		translate( width/2, height/2, -400 );
-		rotateX(this.PI/8f);
+		rotateX(P.PI/8f);
 //		rotateY(0.5f + frameCount/100f);
 		rotateY((float)mouseX/100f);
 		
-		WETriangleMesh mesh2 = ( this.round( this.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_02 : _invaderMesh_02_alt;
-		DrawMesh.drawMeshWithAudio( (PApplet)this, mesh2, _audioInput, false, _fill, _stroke, 0.25f );
+		WETriangleMesh mesh2 = ( P.round( this.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_02 : _invaderMesh_02_alt;
+		DrawMesh.drawMeshWithAudio( this, mesh2, _audioInput, false, _fill, _stroke, 0.25f );
 
 		translate(-800f, 0, 0);
 		
-		WETriangleMesh mesh3 = ( this.round( this.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_03 : _invaderMesh_03_alt;
-		DrawMesh.drawMeshWithAudio( (PApplet)this, mesh3, _audioInput, false, _fill, _stroke, 0.25f );
+		WETriangleMesh mesh3 = ( P.round( this.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_03 : _invaderMesh_03_alt;
+		DrawMesh.drawMeshWithAudio( this, mesh3, _audioInput, false, _fill, _stroke, 0.25f );
 		
 		translate(1600f, 0, 0);
 		
-		WETriangleMesh mesh1 = ( this.round( this.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_01 : _invaderMesh_01_alt;
-		DrawMesh.drawMeshWithAudio( (PApplet)this, mesh1, _audioInput, false, _fill, _stroke, 0.25f );
+		WETriangleMesh mesh1 = ( P.round( this.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_01 : _invaderMesh_01_alt;
+		DrawMesh.drawMeshWithAudio( this, mesh1, _audioInput, false, _fill, _stroke, 0.25f );
 }
 	
 	// PApp-level listener for audio input data ------------------------ 

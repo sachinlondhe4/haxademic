@@ -11,7 +11,10 @@ import com.haxademic.app.P;
  * simple convenience wrapper object for the standard
  * Properties class to return pre-typed data
  */
-public class P5Properties extends Properties {
+@SuppressWarnings("serial")
+public class P5Properties 
+extends Properties 
+{
 	
 	protected PApplet p;
 	
@@ -25,7 +28,7 @@ public class P5Properties extends Properties {
 		try {
 			load( p.createInput( file ) );
 		} catch(IOException e) {
-			p.println("couldn't read run.properties config file...");
+			P.println("couldn't read run.properties config file...");
 		}
 	}
  

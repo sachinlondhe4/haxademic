@@ -5,6 +5,8 @@ import krister.Ess.Ess;
 import krister.Ess.FFT;
 import processing.core.PApplet;
 
+import com.haxademic.app.P;
+
 public class AudioInputWrapper
 {
 
@@ -56,7 +58,7 @@ public class AudioInputWrapper
 
 		// TODO: move this into a sketch so audio and renderer are separate
 		// listen realtime if not rendering
-		p.println("AudioInputWrapper._isRendering = "+_isRendering);
+		P.println("AudioInputWrapper._isRendering = "+_isRendering);
 		if( _isRendering == false ) {
 			_myInput.start();
 		}

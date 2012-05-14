@@ -27,7 +27,6 @@ public class DrawMesh {
 		int colorStroke = strokeColor.toARGB();
 		float alpha;
 		Face f;
-		Vec3D n;
 
 		int numVertices = mesh.getNumVertices();
 		int eqStep = Math.round( 512f / (float) numVertices );
@@ -44,13 +43,13 @@ public class DrawMesh {
 			}
 			
 			f = i.next();
-			n = normalMap.applyTo(f.a.normal);
+			normalMap.applyTo(f.a.normal);
 			p.normal(f.a.normal.x, f.a.normal.y, f.a.normal.z);
 			p.vertex(f.a.x, f.a.y, f.a.z);
-			n = normalMap.applyTo(f.b.normal);
+			normalMap.applyTo(f.b.normal);
 			p.normal(f.b.normal.x, f.b.normal.y, f.b.normal.z);
 			p.vertex(f.b.x, f.b.y, f.b.z);
-			n = normalMap.applyTo(f.c.normal);
+			normalMap.applyTo(f.c.normal);
 			p.normal(f.c.normal.x, f.c.normal.y, f.c.normal.z);
 			p.vertex(f.c.x, f.c.y, f.c.z);
 			

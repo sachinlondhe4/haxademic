@@ -3,6 +3,8 @@ package com.haxademic.core.draw.text;
 import processing.core.PApplet;
 import processing.core.PFont;
 
+import com.haxademic.app.P;
+
 public class DebugText {
 	
 	protected PApplet p;
@@ -18,7 +20,7 @@ public class DebugText {
 	}
 	
 	protected void createFont() {
-		p.textMode( p.SCREEN );
+		p.textMode( P.SCREEN );
 		_debugFont = p.createFont("Arial",30);
 	}
 	

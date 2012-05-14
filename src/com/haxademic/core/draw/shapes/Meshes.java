@@ -74,7 +74,6 @@ public class Meshes {
 	
 	public static WETriangleMesh invader1( int state, float scale ) {
 		// setup / objects
-		AABB boxMesh = new AABB( scale );
 		WETriangleMesh mesh = new WETriangleMesh();
 		
 		// TODO: store this box array in a stativ var and check for it before creating again
@@ -162,7 +161,6 @@ public class Meshes {
 	
 	public static WETriangleMesh invader2( int state, float scale ) {
 		// setup / objects
-		AABB boxMesh = new AABB( scale );
 		WETriangleMesh mesh = new WETriangleMesh();
 		
 		// TODO: store this box array in a stativ var and check for it before creating again
@@ -274,7 +272,6 @@ public class Meshes {
 
 	public static WETriangleMesh invader3( int state, float scale ) {
 		// setup / objects
-		AABB boxMesh = new AABB( scale );
 		WETriangleMesh mesh = new WETriangleMesh();
 		
 		// TODO: store this box array in a stativ var and check for it before creating again

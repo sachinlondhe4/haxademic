@@ -1,6 +1,9 @@
 package com.haxademic.core.audio;
 
 import processing.core.PApplet;
+
+import com.haxademic.app.P;
+
 import ddf.minim.AudioMetaData;
 import ddf.minim.AudioOutput;
 import ddf.minim.AudioPlayer;
@@ -41,21 +44,21 @@ public class AudioLoopPlayer {
 //		// groove.mp3 would be in the sketches data folder
 		_audioPlayer = _minim.loadFile("wav/JackSplash.wav", 512);
 		_meta = _audioPlayer.getMetaData();
-		p.println("File Name: " + _meta.fileName());
-		p.println("Length (in milliseconds): " + _meta.length());
-		p.println("Title: " + _meta.title());
-		p.println("Author: " + _meta.author());
-		p.println("Album: " + _meta.album());
-		p.println("Date: " + _meta.date());
-		p.println("Comment: " + _meta.comment());
-		p.println("Track: " + _meta.track());
-		p.println("Genre: " + _meta.genre());
-		p.println("Copyright: " + _meta.copyright());
-		p.println("Disc: " + _meta.disc());
-		p.println("Composer: " + _meta.composer());
-		p.println("Orchestra: " + _meta.orchestra());
-		p.println("Publisher: " + _meta.publisher());
-		p.println("Encoded: " + _meta.encoded());
+		P.println("File Name: " + _meta.fileName());
+		P.println("Length (in milliseconds): " + _meta.length());
+		P.println("Title: " + _meta.title());
+		P.println("Author: " + _meta.author());
+		P.println("Album: " + _meta.album());
+		P.println("Date: " + _meta.date());
+		P.println("Comment: " + _meta.comment());
+		P.println("Track: " + _meta.track());
+		P.println("Genre: " + _meta.genre());
+		P.println("Copyright: " + _meta.copyright());
+		P.println("Disc: " + _meta.disc());
+		P.println("Composer: " + _meta.composer());
+		P.println("Orchestra: " + _meta.orchestra());
+		P.println("Publisher: " + _meta.publisher());
+		P.println("Encoded: " + _meta.encoded());
 		_audioPlayer.play();
 
 	}

@@ -2,6 +2,8 @@ package com.haxademic.core.debug;
 
 import processing.core.PApplet;
 
+import com.haxademic.app.P;
+
 public class Stats {
 	
 	protected PApplet p;
@@ -71,7 +73,7 @@ public class Stats {
 	}
 	
 	public void printStats() {
-		p.println( _ms + " MS (" + _msMin + "-" + _msMax + ")" );
-		p.println( _fps + " FPS (" + _fpsMin + "-" + _fpsMax + ")" );
+		P.println( _ms + " MS (" + _msMin + "-" + _msMax + ")" );
+		P.println( _fps + " FPS (" + _fpsMin + "-" + _fpsMax + ")" );
 	}
 }
