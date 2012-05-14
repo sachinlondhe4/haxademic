@@ -5,8 +5,6 @@ import krister.Ess.Ess;
 import krister.Ess.FFT;
 import processing.core.PApplet;
 
-import com.haxademic.app.P;
-
 public class AudioInputWrapper
 {
 
@@ -14,7 +12,6 @@ public class AudioInputWrapper
 
 	PApplet p;
 	public int _bufferSize=512;
-	int _steps;
 	float _limitDiff;
 	int _numAverages;
 	float _myDamp = .13f;
@@ -50,7 +47,6 @@ public class AudioInputWrapper
 		_myFFT.damp( _myDamp );
 		
 		setNumAverages( 13 );
-		_steps = _bufferSize / _numAverages;
 		_limitDiff = _maxLimit - _minLimit;
 
 		detector = new BeatDetect(p,_bufferSize,44100);
@@ -58,7 +54,7 @@ public class AudioInputWrapper
 
 		// TODO: move this into a sketch so audio and renderer are separate
 		// listen realtime if not rendering
-		P.println("AudioInputWrapper._isRendering = "+_isRendering);
+		// P.println("AudioInputWrapper._isRendering = "+_isRendering);
 		if( _isRendering == false ) {
 			_myInput.start();
 		}
