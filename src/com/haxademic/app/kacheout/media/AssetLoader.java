@@ -3,7 +3,7 @@ package com.haxademic.app.kacheout.media;
 import geomerative.RFont;
 import geomerative.RG;
 
-import com.haxademic.app.PAppletHax;
+import com.haxademic.app.P;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
@@ -13,7 +13,7 @@ public class AssetLoader {
 	protected KacheOut p;
 	
 	public AssetLoader() {
-		p = (KacheOut)PAppletHax.getInstance();
+		p = (KacheOut) P.p;
 	}
 	
 	public void createMeshPool() {

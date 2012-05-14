@@ -4,7 +4,7 @@ import toxi.color.TColor;
 import toxi.geom.AABB;
 import toxi.geom.Vec3D;
 
-import com.haxademic.app.PAppletHax;
+import com.haxademic.app.P;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.data.easing.EasingFloat;
 import com.haxademic.core.data.easing.ElasticFloat;
@@ -29,7 +29,7 @@ public class Paddle {
 	protected KacheOut p;
 
 	public Paddle() {
-		p = (KacheOut)PAppletHax.getInstance();
+		p = (KacheOut) P.p;
 		_xPosPercent = 0.5f;
 		
 		_width = (float)p.gameWidth() / 6f;

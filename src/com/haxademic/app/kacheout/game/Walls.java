@@ -4,7 +4,7 @@ import toxi.color.TColor;
 import toxi.geom.AABB;
 import toxi.geom.Vec3D;
 
-import com.haxademic.app.PAppletHax;
+import com.haxademic.app.P;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.draw.color.EasingTColor;
 
@@ -20,7 +20,7 @@ public class Walls {
 	protected final TColor WHITE = new TColor( TColor.WHITE );
 
 	public Walls() {
-		p = (KacheOut)PAppletHax.getInstance();
+		p = (KacheOut) P.p;
 		_colorLeft = new EasingTColor( WHITE, 0.03f );
 		_colorTop = new EasingTColor( WHITE, 0.03f );
 		_colorRight = new EasingTColor( WHITE, 0.03f );

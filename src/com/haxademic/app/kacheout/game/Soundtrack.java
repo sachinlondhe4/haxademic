@@ -2,7 +2,7 @@ package com.haxademic.app.kacheout.game;
 
 import java.util.ArrayList;
 
-import com.haxademic.app.PAppletHax;
+import com.haxademic.app.P;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.util.FileUtil;
 import com.haxademic.core.util.MathUtil;
@@ -17,7 +17,7 @@ public class Soundtrack {
 	protected int _index = 0;
 	
 	public Soundtrack() {
-		p = (KacheOut)PAppletHax.getInstance();
+		p = (KacheOut) P.p;
 		
 		_soundtrackFiles = FileUtil.getFilesInDirOfType( "data/audio/kacheout/soundtrack", ".mp3" );
 		_index = MathUtil.randRange( 0, _soundtrackFiles.size() - 1 );

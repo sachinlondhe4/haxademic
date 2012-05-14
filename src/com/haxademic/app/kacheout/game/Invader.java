@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import toxi.color.TColor;
 import toxi.geom.AABB;
 
-import com.haxademic.app.PAppletHax;
+import com.haxademic.app.P;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.draw.shapes.Meshes;
 import com.haxademic.core.util.MathUtil;
@@ -25,7 +25,7 @@ public class Invader {
 	
 
 	public Invader( int x, int y, float scale, int row ) {
-		p = (KacheOut)PAppletHax.getInstance();
+		p = (KacheOut) P.p;
 		
 		_x = x;
 		_y = y;

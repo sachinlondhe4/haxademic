@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import toxi.color.TColor;
 
 import com.haxademic.app.P;
-import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.data.FloatRange;
 import com.haxademic.core.data.easing.EasingFloat;
@@ -57,7 +56,7 @@ public class GamePlay {
 	protected int _gameOverFrameCount = 0;
 
 	public GamePlay( int gameIndex, int gameLeft, int gameRight, FloatRange kinectRange ) {
-		p = (KacheOut)PAppletHax.getInstance();
+		p = (KacheOut) P.p;
 		_gameIndex = gameIndex;
 		_gameLeft = gameLeft;
 		_gameRight = gameRight;

@@ -6,7 +6,7 @@ import toxi.color.TColor;
 import toxi.geom.AABB;
 import toxi.geom.Vec3D;
 
-import com.haxademic.app.PAppletHax;
+import com.haxademic.app.P;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.draw.color.EasingTColor;
 import com.haxademic.core.util.MathUtil;
@@ -27,7 +27,7 @@ public class Block {
 	protected float _lastZAdd = 0;
 	
 	public Block( AABB box, int index, float scale, TColor color ) {
-		p = (KacheOut)PAppletHax.getInstance();
+		p = (KacheOut) P.p;
 
 		_box = box;
 		_boxOrigin = _box.copy();

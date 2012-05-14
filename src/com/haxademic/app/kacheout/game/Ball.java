@@ -6,7 +6,6 @@ import toxi.geom.Vec3D;
 import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.app.P;
-import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.data.easing.EasingFloat;
 import com.haxademic.core.data.easing.ElasticFloat;
@@ -39,7 +38,7 @@ public class Ball {
 	protected WETriangleMesh _ballMesh;
 	
 	public Ball() {
-		p = (KacheOut)PAppletHax.getInstance();
+		p = (KacheOut) P.p;
 		// TODO: convert speed to use radians
 		_baseSpeed = p.stageHeight() / 80f;
 		_speedX = ( MathUtil.randBoolean( p ) == true ) ? _baseSpeed : -_baseSpeed;

@@ -3,7 +3,7 @@ package com.haxademic.app.kacheout.screens;
 import toxi.color.TColor;
 import toxi.geom.mesh.WETriangleMesh;
 
-import com.haxademic.app.PAppletHax;
+import com.haxademic.app.P;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.data.easing.EasingFloat3d;
 import com.haxademic.core.data.easing.ElasticFloat;
@@ -35,7 +35,7 @@ public class IntroScreen {
 	protected int _frame1, _frame2, _frame3, _frame4, _frame5, _frame6, _frame7, _frame8;	// horrible, but whatever
 
 	public IntroScreen() {
-		p = (KacheOut)PAppletHax.getInstance();
+		p = (KacheOut) P.p;
 		
 		// set up easing values for objects to fly onto screen
 		_cdLogoLoc = new EasingFloat3d( 0, 0, 0, 6 );
