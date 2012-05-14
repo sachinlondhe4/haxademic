@@ -17,6 +17,7 @@ import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.MathUtil;
 import com.haxademic.viz.IAudioTexture;
 import com.haxademic.viz.textures.ColumnAudioTexture;
+import com.haxademic.viz.textures.EQGridTexture;
 import com.haxademic.viz.textures.EQSquareTexture;
 import com.haxademic.viz.textures.WindowShadeTexture;
 
@@ -93,7 +94,7 @@ extends PApplet
 	}
 	
 	protected void newTexture() {
-		int randy = MathUtil.randRange( 0, 2 );
+		int randy = MathUtil.randRange( 3, 3 );
 		switch( randy ) {
 			case 0 : 
 				_texture = new ColumnAudioTexture( _numEq );
@@ -104,6 +105,10 @@ extends PApplet
 			case 2 : 
 				_texture = new WindowShadeTexture( _numEq, _numEq );
 				break;
+			case 3 : 
+				_texture = new EQGridTexture( _numEq, _numEq );
+				break;
+				
 		}
 	}
 	
