@@ -28,6 +28,7 @@ implements IAudioTexture
 		_graphics.background( 0 );
 		_graphics.rectMode( P.CENTER );
 		_graphics.noStroke();
+		_graphics.noSmooth();
 		for( int i=0; i < _width; i++ ) {
 			eqVal = audioInput.getFFT().spectrum[ ( i * eqStep ) % 512 ];
 			color = eqVal * 255f;
@@ -36,7 +37,6 @@ implements IAudioTexture
 			_graphics.beginDraw();
 			_graphics.fill( P.p.color( color, alpha ) );
 			_graphics.rect( i, _height/2, 1, _height * eqVal);
-//			_graphics.line(i, _height/2, i, _height * eqVal );
 			_graphics.endDraw();
 		}
 	}
