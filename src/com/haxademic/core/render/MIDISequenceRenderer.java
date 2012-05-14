@@ -18,6 +18,8 @@ import javax.sound.midi.Track;
 
 import processing.core.PApplet;
 
+import com.haxademic.app.P;
+
 public class MIDISequenceRenderer {
 	protected PApplet p;
 
@@ -43,10 +45,10 @@ public class MIDISequenceRenderer {
     public void loadMIDIFile( String midiFile, float midiBpm, float renderFPS, float frameOffset ) throws InvalidMidiDataException, IOException {
     	// load file
         Sequence sequence = MidiSystem.getSequence(new File(midiFile));
-        p.println("sequence.getMicrosecondLength() = " + sequence.getMicrosecondLength());
-        p.println("sequence.getTickLength() = " + sequence.getTickLength());
-        p.println("sequence.getResolution() = " + sequence.getResolution());
-        p.println("sequence.getDivisionType() = " + sequence.getDivisionType());
+        P.println("sequence.getMicrosecondLength() = " + sequence.getMicrosecondLength());
+        P.println("sequence.getTickLength() = " + sequence.getTickLength());
+        P.println("sequence.getResolution() = " + sequence.getResolution());
+        P.println("sequence.getDivisionType() = " + sequence.getDivisionType());
         
         // calculate midi event timing
         _frameOffset = frameOffset;
@@ -55,17 +57,17 @@ public class MIDISequenceRenderer {
     	_ticksPerMin = _bpm * sequence.getResolution();
     	_ticksPerSecond = _ticksPerMin / 60f;
     	_tickInMilliseconds = _ticksPerSecond / 1000.f;
-        p.println("_bpm = " + _bpm);
-        p.println("_ticksPerMin = " + _ticksPerMin);
-        p.println("_ticksPerSecond = " + _ticksPerSecond);
-        p.println("_tickInMilliseconds = " + _tickInMilliseconds);
+        P.println("_bpm = " + _bpm);
+        P.println("_ticksPerMin = " + _ticksPerMin);
+        P.println("_ticksPerSecond = " + _ticksPerSecond);
+        P.println("_tickInMilliseconds = " + _tickInMilliseconds);
 
         int trackNumber = 0;
         _messages = new Vector<MidiSequenceEvent>();
         for (Track track :  sequence.getTracks()) {
             trackNumber++;
-            p.println("Track " + trackNumber + ": size = " + track.size() + ": ticks = " + track.ticks());
-            p.println();
+            P.println("Track " + trackNumber + ": size = " + track.size() + ": ticks = " + track.ticks());
+            P.println();
             for (int i=0; i < track.size(); i++) { 
                 MidiEvent event = track.get(i);
                 System.out.print("@" + event.getTick() + " ");
@@ -81,7 +83,7 @@ public class MIDISequenceRenderer {
                         int note = key % 12;
                         String noteName = NOTE_NAMES[note];
                         int velocity = sm.getData2();
-                        p.println("Note on, " + noteName + octave + " key=" + key + " velocity: " + velocity + " tick: " + event.getTick() + " tickTime: " + tickTime);
+                        P.println("Note on, " + noteName + octave + " key=" + key + " velocity: " + velocity + " tick: " + event.getTick() + " tickTime: " + tickTime);
                     } else if (sm.getCommand() == NOTE_OFF) {
                     	_messages.add( new MidiSequenceEvent( event, sm, tickTime ) );
                     	int key = sm.getData1();
@@ -89,15 +91,15 @@ public class MIDISequenceRenderer {
                         int note = key % 12;
                         String noteName = NOTE_NAMES[note];
                         int velocity = sm.getData2();
-                        p.println("Note on, " + noteName + octave + " key=" + key + " velocity: " + velocity + " tick: " + event.getTick() + " tickTime: " + tickTime);
+                        P.println("Note on, " + noteName + octave + " key=" + key + " velocity: " + velocity + " tick: " + event.getTick() + " tickTime: " + tickTime);
                     } else {
-                        p.println("Command:" + sm.getCommand());
+                        P.println("Command:" + sm.getCommand());
                     }
                 } else {
-                    p.println("Other message: " + message.getClass());
+                    P.println("Other message: " + message.getClass());
                 }
             }
-            p.println();
+            P.println();
         }
     }
     

@@ -3,6 +3,8 @@ package com.haxademic.core.render;
 import krister.Ess.AudioChannel;
 import processing.core.PApplet;
 import processing.video.MovieMaker;
+
+import com.haxademic.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.util.SystemUtil;
 
@@ -98,7 +100,7 @@ public class Renderer
 		if( _outputType == OUTPUT_TYPE_MOVIE ) {
 			_mm = new MovieMaker( p, p.width, p.height, _outputDir+"render-"+_timestamp+".mov", _framesPerSecond, MovieMaker.ANIMATION, MovieMaker.HIGH );
 //			_mm = new MovieMaker( p, p.width, p.height, "output/render-"+_timestamp+".mov", _framesPerSecond, MovieMaker.H263, MovieMaker.HIGH );
-			p.println("new MovieMaker success :: "+_timestamp);
+			P.println("new MovieMaker success :: "+_timestamp);
 		}
 		
 		// set rendering flag
@@ -134,7 +136,7 @@ public class Renderer
 		if( _isRendering == true ) {
 			// print a message every 100 frames
 			if ((_frameNumber%100) == 0) {
-				p.println( "Working on frame number " + _frameNumber );
+				P.println( "Working on frame number " + _frameNumber );
 			}
 			
 			// if movie, add frame to MovieMaker file
@@ -145,7 +147,7 @@ public class Renderer
 				
 			// otherwise, save an image
 			} else {
-				p.saveFrame( "output/img_" + _timestamp+ p.nf( _frameNumber, 8 ) + ".jpg" );
+				p.saveFrame( "output/img_" + _timestamp+ P.nf( _frameNumber, 8 ) + ".jpg" );
 			}
 			
 			// keep track of rendered frame count
@@ -165,7 +167,7 @@ public class Renderer
 		_chn.cue(pos);
 		if ((_frameNumber%100) == 0) {
 //			p.println( "Audio position: " + pos + " fps: " + _framesPerSecond + " seconds: " + seconds + " _chn.sampleRate = " + _chn.sampleRate + "  position in file: " + pos + " / " + _chn.samples.length );
-			p.println( "Audio seconds: " + seconds + "  Progress: " + Math.round(100f*((float)pos/(float)_chn.samples.length)) + "%" );
+			P.println( "Audio seconds: " + seconds + "  Progress: " + Math.round(100f*((float)pos/(float)_chn.samples.length)) + "%" );
 		}
 		
 		// make sure we're still in bounds - kept getting data run-out errors

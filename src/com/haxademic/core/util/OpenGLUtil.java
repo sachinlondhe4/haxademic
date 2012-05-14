@@ -5,6 +5,8 @@ import javax.media.opengl.GL;
 import processing.core.PApplet;
 import processing.opengl.PGraphicsOpenGL;
 
+import com.haxademic.app.P;
+
 public class OpenGLUtil {
 	
 	public static final int MEDIUM = 1;
@@ -16,17 +18,17 @@ public class OpenGLUtil {
 		GL gl = pgl.gl;
 		switch ( quality ) {
 			case MEDIUM :
-				p.hint(p.ENABLE_OPENGL_2X_SMOOTH);
-				gl.glHint (gl.GL_LINE_SMOOTH_HINT, gl.GL_FASTEST);
-				gl.glHint (gl.GL_POINT_SMOOTH_HINT, gl.GL_FASTEST);
-				gl.glHint (gl.GL_POLYGON_SMOOTH_HINT, gl.GL_FASTEST);
+				p.hint(P.ENABLE_OPENGL_2X_SMOOTH);
+				gl.glHint (GL.GL_LINE_SMOOTH_HINT, GL.GL_FASTEST);
+				gl.glHint (GL.GL_POINT_SMOOTH_HINT, GL.GL_FASTEST);
+				gl.glHint (GL.GL_POLYGON_SMOOTH_HINT, GL.GL_FASTEST);
 				break;
 			case HIGH :
-				p.hint(p.ENABLE_OPENGL_4X_SMOOTH);
-				gl.glHint (gl.GL_LINE_SMOOTH_HINT, gl.GL_NICEST);
-				gl.glHint (gl.GL_POINT_SMOOTH_HINT, gl.GL_NICEST);
-				gl.glHint (gl.GL_POLYGON_SMOOTH_HINT, gl.GL_NICEST);
-				gl.glEnable (gl.GL_LINE_SMOOTH);
+				p.hint(P.ENABLE_OPENGL_4X_SMOOTH);
+				gl.glHint (GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
+				gl.glHint (GL.GL_POINT_SMOOTH_HINT, GL.GL_NICEST);
+				gl.glHint (GL.GL_POLYGON_SMOOTH_HINT, GL.GL_NICEST);
+				gl.glEnable (GL.GL_LINE_SMOOTH);
 				break;
 		}
 	}

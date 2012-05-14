@@ -3,6 +3,8 @@ package com.haxademic.core.util;
 import processing.core.PApplet;
 import processing.core.PFont;
 
+import com.haxademic.app.P;
+
 public class FontUtil {
 	
 	/*
@@ -11,7 +13,7 @@ public class FontUtil {
 	*/
 	public static PFont FontLoad(PApplet p, String fontName, int fontSize) {
 		char[]   mCharset;
-		PFont    mFont;
+		// PFont    mFont;
 
 		int index = 0;
 		int count = 0;
@@ -29,12 +31,12 @@ public class FontUtil {
 		}
 
 		// creating font
-		p.print("Creating font " + fontName + "  " + fontSize + "... please wait... ");
+		P.print("Creating font " + fontName + "  " + fontSize + "... please wait... ");
 		return p.createFont(fontName, fontSize, true, mCharset);
 	}
 	
 	public static void listfonts( PApplet p ) {
-		p.println( PFont.list() );
+		P.println( PFont.list() );
 	}
 	
 }

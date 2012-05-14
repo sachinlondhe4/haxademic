@@ -51,7 +51,7 @@ public class FileUtil {
 
 
 		// The list of files can also be retrieved as File objects
-		File[] files = dir.listFiles();
+		// File[] files = dir.listFiles();
 
 		// This filter only returns directories
 		FileFilter fileFilter = new FileFilter() {
@@ -59,7 +59,7 @@ public class FileUtil {
 		        return file.isDirectory();
 		    }
 		};
-		files = dir.listFiles(fileFilter);
-
+		File[] files = dir.listFiles(fileFilter);
+		P.println( files.length );
 	}
 }

@@ -1,8 +1,11 @@
 package com.haxademic.core.hardware.midi;
 
 import java.util.Hashtable;
+
 import processing.core.PApplet;
 import themidibus.MidiBus;
+
+import com.haxademic.app.P;
 
 public class MidiWrapper
 {
@@ -65,17 +68,17 @@ public class MidiWrapper
 	public MidiWrapper( PApplet p5, String in_device_name, String out_device_name )
 	{
 		p = p5;
-		p.println("Available MIDI devices:");
+		P.println("Available MIDI devices:");
 		MidiBus.list();
 		if(in_device_name != "") {
-			p.println("MIDI connection:");
+			P.println("MIDI connection:");
 			if( in_device_name != "" || out_device_name != "" ) {
 				myBus = new MidiBus( p, in_device_name, out_device_name);
 			} else {
 				myBus = new MidiBus( p );
 			}
 		} else {
-			p.println("No MIDI connected");
+			P.println("No MIDI connected");
 		}
 		
 		// init notes on array

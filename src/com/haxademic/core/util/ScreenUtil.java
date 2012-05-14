@@ -4,6 +4,8 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
+import com.haxademic.app.P;
+
 public class ScreenUtil {
 	
 	public static String screenshotToJPG( PApplet p, String outputDir ) {
@@ -27,7 +29,7 @@ public class ScreenUtil {
 	public static PImage getScreenAsPImage( PApplet p ) {
 //		PImage screenshot = null;
 		
-		PGraphics screenshot = p.createGraphics(p.width, p.height, p.P3D );
+		PGraphics screenshot = p.createGraphics(p.width, p.height, P.P3D );
 		p.beginRecord(screenshot);
 //		p.smooth();
 		p.draw();

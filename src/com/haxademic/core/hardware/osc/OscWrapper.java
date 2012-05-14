@@ -6,6 +6,8 @@ import netP5.NetAddress;
 import oscP5.OscP5;
 import processing.core.PApplet;
 
+import com.haxademic.app.P;
+
 public class OscWrapper {
 	
 	protected PApplet p;
@@ -53,7 +55,7 @@ public class OscWrapper {
 	}
 	
 	public int oscMsgIsOn( String oscMessage ) {
-		p.print("check: "+oscMessage);
+		P.print("check: "+oscMessage);
 		if( oscMsgMap.containsKey( oscMessage ) ) {
 			if( oscMsgMap.get( oscMessage ) == 1 ) {
 				return 1;

@@ -3,6 +3,8 @@ package com.haxademic.core.util;
 import processing.core.PApplet;
 import processing.core.PConstants;
 
+import com.haxademic.app.P;
+
 public class DrawUtil {
 	/**
 	 * Clears all drawing properties so we may always have the same starting
@@ -12,7 +14,7 @@ public class DrawUtil {
 	 */
 	public static void resetGlobalProps(PApplet p) {
 		p.resetMatrix();
-		p.colorMode( p.RGB, 255, 255, 255, 255 );
+		p.colorMode( P.RGB, 255, 255, 255, 255 );
 		p.fill( 0, 255, 0, 127 );
 		p.stroke( 0, 255, 0, 127 );
 		p.strokeWeight( 1 );
