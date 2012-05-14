@@ -4,6 +4,7 @@ import krister.Ess.AudioInput;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
+import toxi.geom.AABB;
 import toxi.geom.Sphere;
 import toxi.geom.Vec2D;
 import toxi.geom.Vec3D;
@@ -60,8 +61,9 @@ extends PApplet
 		}
 		
 		_sphere = new Sphere( 100 );
+		AABB box = new AABB( 100 );
 		_sphereMesh = new WETriangleMesh();
-		_sphereMesh.addMesh( _sphere.toMesh( 20 ) );
+		_sphereMesh.addMesh( box.toMesh() );
 //		_sphereMesh.computeVertexNormals();
 
 		_sphereOuter = new Sphere( 1250 );
@@ -87,14 +89,14 @@ extends PApplet
 		calcTextureCoordinates( _sphereMesh );
 
 		drawToxiMesh( p, _toxi, _sphereMesh, _texture.getTexture() );
-//		drawToxiMesh( p, _toxi, _sphereOuterMesh, _texture.getTexture() );
-		drawToxiFaces( p, _toxi, _sphereOuterMesh, _texture.getTexture() );
+		drawToxiMesh( p, _toxi, _sphereOuterMesh, _texture.getTexture() );
+//		drawToxiFaces( p, _toxi, _sphereOuterMesh, _texture.getTexture() );
 		
 		if( p.frameCount % 150 == 0 ) newTexture();
 	}
 	
 	protected void newTexture() {
-		int randy = MathUtil.randRange( 3, 3 );
+		int randy = MathUtil.randRange( 0, 3 );
 		switch( randy ) {
 			case 0 : 
 				_texture = new ColumnAudioTexture( _numEq );
