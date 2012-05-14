@@ -14,6 +14,7 @@ import toxi.processing.ToxiclibsSupport;
 import com.haxademic.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.util.MathUtil;
 import com.haxademic.viz.IAudioTexture;
 import com.haxademic.viz.textures.ColumnAudioTexture;
 import com.haxademic.viz.textures.EQSquareTexture;
@@ -52,9 +53,7 @@ extends PApplet
 		if( _useAudio == false ) {
 			_image = p.loadImage("../data/images/globe-square.jpg");
 		} else {
-			_texture = new ColumnAudioTexture( _numEq );
-			_texture = new EQSquareTexture( _numEq, _numEq );
-			_texture = new WindowShadeTexture( _numEq, _numEq );
+			newTexture();
 //			_image = new PImage( 1, _numEq );
 //			_graphics = p.createGraphics( _numEq, _numEq, P.P3D );
 		}
@@ -86,32 +85,49 @@ extends PApplet
 		
 		calcTextureCoordinates( _sphereMesh );
 
-		drawToxiMesh( p, _toxi, _sphereMesh );
-		drawToxiMesh( p, _toxi, _sphereOuterMesh );
+		drawToxiMesh( p, _toxi, _sphereMesh, _texture.getTexture() );
+//		drawToxiMesh( p, _toxi, _sphereOuterMesh, _texture.getTexture() );
+		drawToxiFaces( p, _toxi, _sphereOuterMesh, _texture.getTexture() );
+		
+		if( p.frameCount % 150 == 0 ) newTexture();
+	}
+	
+	protected void newTexture() {
+		int randy = MathUtil.randRange( 0, 2 );
+		switch( randy ) {
+			case 0 : 
+				_texture = new ColumnAudioTexture( _numEq );
+				break;
+			case 1 : 
+				_texture = new EQSquareTexture( _numEq, _numEq );
+				break;
+			case 2 : 
+				_texture = new WindowShadeTexture( _numEq, _numEq );
+				break;
+		}
 	}
 	
 	public void updateWithAudio() {
 		_texture.updateTexture( _audioInput );
 	}
 	
-	public void drawToxiMesh( PApplet p, ToxiclibsSupport toxi, WETriangleMesh mesh ) {
+	public void drawToxiMesh( PApplet p, ToxiclibsSupport toxi, WETriangleMesh mesh, PImage image ) {
 		p.textureMode(P.NORMAL);
-		_toxi.texturedMesh( mesh.toWEMesh(), _texture.getTexture(), true );
-//		_toxi.texturedMesh( mesh.toWEMesh(), _graphics, true );
+		_toxi.texturedMesh( mesh.toWEMesh(), image, true );
 	}
 	
-	public void drawToxiFaces( PApplet p, ToxiclibsSupport toxi, WETriangleMesh mesh ) {
+	public void drawToxiFaces( PApplet p, ToxiclibsSupport toxi, WETriangleMesh mesh, PImage image ) {
 		p.textureMode(P.IMAGE);
 		p.beginShape( P.TRIANGLES );
-		p.texture( _image );
+		p.texture( image );
 
 		// draw vertices, mapping PImage
 		// http://en.wikipedia.org/wiki/UV_mapping
 		// uv points spread out from the center of the image - use standard sphere UV mapping locations to multiply from there
-		float halfW = (float)_image.width / 2f;
-		float halfH = (float)_image.height / 2f;
-		float mapW = (float)_image.width;
-		float mapH = (float)_image.height;
+		float halfW = (float)image.width / 2f;
+		float halfH = (float)image.height / 2f;
+		float mapW = (float)image.width;
+		float mapH = (float)image.height;
 
 		// loop through model's vertices
 		for( Face f : mesh.getFaces() ) {
