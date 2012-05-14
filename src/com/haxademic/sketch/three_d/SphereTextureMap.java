@@ -3,7 +3,6 @@ package com.haxademic.sketch.three_d;
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
 import processing.core.PConstants;
-import processing.core.PGraphics;
 import processing.core.PImage;
 import toxi.geom.Sphere;
 import toxi.geom.Vec2D;
@@ -15,6 +14,9 @@ import toxi.processing.ToxiclibsSupport;
 import com.haxademic.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.util.DrawUtil;
+import com.haxademic.viz.IAudioTexture;
+import com.haxademic.viz.textures.ColumnAudioTexture;
+import com.haxademic.viz.textures.EQSquareTexture;
 
 @SuppressWarnings("serial")
 public class SphereTextureMap
@@ -23,8 +25,9 @@ extends PApplet
 	
 	PApplet p;
 	ToxiclibsSupport _toxi;
+	IAudioTexture _texture;
 	PImage _image;
-	PGraphics _graphics;
+//	PGraphics _graphics;
 	Sphere _sphere, _sphereOuter;
 	WETriangleMesh _sphereMesh, _sphereOuterMesh;
 	AudioInputWrapper _audioInput;
@@ -36,6 +39,7 @@ extends PApplet
 	}
 	
 	public void setup() {
+		P.p = this;
 		p.size( 800, 600, OPENGL );
 		p.frameRate( 30 );
 		p.colorMode( PConstants.RGB, 255, 255, 255, 1 );
@@ -47,8 +51,10 @@ extends PApplet
 		if( _useAudio == false ) {
 			_image = p.loadImage("../data/images/globe-square.jpg");
 		} else {
-			_image = new PImage( 1, _numEq );
-			_graphics = p.createGraphics( _numEq, _numEq, P.P3D );
+			_texture = new ColumnAudioTexture( _numEq );
+			_texture = new EQSquareTexture( _numEq, _numEq );
+//			_image = new PImage( 1, _numEq );
+//			_graphics = p.createGraphics( _numEq, _numEq, P.P3D );
 		}
 		
 		_sphere = new Sphere( 100 );
@@ -83,24 +89,13 @@ extends PApplet
 	}
 	
 	public void updateWithAudio() {
-		_graphics.background( 0 );
-
-		for( int i=0; i < _numEq; i++ ) {
-//			P.println(_audioInput.getFFT().spectrum[i]);
-			int color = p.color( _audioInput.getFFT().averages[i] * 255, _audioInput.getFFT().averages[i] );
-			
-			_image.set( 0, i, color ); 
-			
-			_graphics.beginDraw();
-			_graphics.stroke(255);
-			_graphics.line(i, 0, i, _numEq * _audioInput.getFFT().averages[i] * 2 );
-			_graphics.endDraw();
-		}
+		_texture.updateTexture( _audioInput );
 	}
 	
 	public void drawToxiMesh( PApplet p, ToxiclibsSupport toxi, WETriangleMesh mesh ) {
 		p.textureMode(P.NORMAL);
-		_toxi.texturedMesh( mesh.toWEMesh(), _graphics, true );
+		_toxi.texturedMesh( mesh.toWEMesh(), _texture.getTexture(), true );
+//		_toxi.texturedMesh( mesh.toWEMesh(), _graphics, true );
 	}
 	
 	public void drawToxiFaces( PApplet p, ToxiclibsSupport toxi, WETriangleMesh mesh ) {
