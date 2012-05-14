@@ -210,7 +210,7 @@ extends PApplet
 	 * Called by PApplet to run before the first draw() command.
 	 */
 	public void setup () {
-		p = this;
+		P.p = p = this;
 		if ( !_is_setup ) { 
 			// load external properties and set flag
 			_appConfig = new P5Properties(p);
