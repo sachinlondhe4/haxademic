@@ -218,7 +218,7 @@ extends PApplet
 			_is_setup = true;
 			// set screen size and renderer
 			String renderer = ( _appConfig.getBoolean("sunflow", true ) == true ) ? "hipstersinc.P5Sunflow" : P.OPENGL;
-			if(_appConfig.getBoolean("fills_screen", false)) {
+			if( _appConfig.getBoolean("fills_screen", false) == true || _appConfig.getBoolean("fullscreen", false) == true ) {
 				p.size(screen.width,screen.height,renderer);
 			} else {
 				p.size(_appConfig.getInt("width", 800),_appConfig.getInt("height", 600),renderer);
@@ -282,6 +282,7 @@ extends PApplet
 		_debugText = new DebugText( p );
 		if( _showStats == true ) _stats = new Stats( p );
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
+		if( _appConfig.getBoolean( "fullscreen", true ) ) launchFullScreen();
 	}
 	
 	protected void initializeExtraObjectsOn1stFrame() {
@@ -362,15 +363,15 @@ extends PApplet
 
 	}
 	
-/////**
-////* Inits the full-screen object and launches it.
-////*/
-////protected void launchFullScreen() {
-////	// add fullscreen - use fs.enter(); to make it happen immediately, or use cmd + F to toggle fullscreen manually 
-////	fs = new FullScreen(this); 
-//////	fs.setResolution( width, height );
-////	fs.enter();
-////}
+	/**
+	 * Inits the full-screen object and launches it.
+	 */
+	protected void launchFullScreen() {
+		// add fullscreen - use fs.enter(); to make it happen immediately, or use cmd + F to toggle fullscreen manually 
+		//	fs.setResolution( width, height );
+		fs = new FullScreen(this); 
+		fs.enter();
+	}
 	
 	protected void killScreensaver(){
 		// keep screensaver off - hit shift every 1000 frames
