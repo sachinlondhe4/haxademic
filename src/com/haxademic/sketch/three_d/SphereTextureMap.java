@@ -17,6 +17,7 @@ import com.haxademic.core.util.DrawUtil;
 import com.haxademic.viz.IAudioTexture;
 import com.haxademic.viz.textures.ColumnAudioTexture;
 import com.haxademic.viz.textures.EQSquareTexture;
+import com.haxademic.viz.textures.WindowShadeTexture;
 
 @SuppressWarnings("serial")
 public class SphereTextureMap
@@ -53,6 +54,7 @@ extends PApplet
 		} else {
 			_texture = new ColumnAudioTexture( _numEq );
 			_texture = new EQSquareTexture( _numEq, _numEq );
+			_texture = new WindowShadeTexture( _numEq, _numEq );
 //			_image = new PImage( 1, _numEq );
 //			_graphics = p.createGraphics( _numEq, _numEq, P.P3D );
 		}
