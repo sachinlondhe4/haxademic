@@ -49,6 +49,7 @@ import fullscreen.FullScreen;
  * minim 
  * Geomerative 
  * 
+ * @TODO: Create PGraphics & PImage audio-reactive textures to apply to meshes across sketches/apps. See SphereTextureMap and abstracts some of the goodness. !!! - add current texture and iVizTextureDraw classes to VizCollection Module
  * @TODO: Use a static Haxademic.support( PApplet ) type static instance to let us gain access to the applet without passing it everywhere. Look at Geomerative & Toxiclibs to see how they did it.
  * @TODO: ^^^ General cleanup of PAppletHax references throughout codebase
  * @TODO: Make sure it's cool to post all the 3rd-party code within. potentially rewrite these bits
