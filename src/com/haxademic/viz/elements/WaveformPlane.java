@@ -145,9 +145,9 @@ implements IVizElement {
 	
 	public void updateCamera() {
 		// random 45 degree angles
-		_rotation.setTargetX( _ninteyDeg/2f * MathUtil.randRange( 0, 8 ) );
-		_rotation.setTargetY( _ninteyDeg/2f * MathUtil.randRange( 0, 8 ) );
-		_rotation.setTargetZ( _ninteyDeg/2f * MathUtil.randRange( 0, 8 ) );
+		_rotation.setTargetX( _ninteyDeg * MathUtil.randRange( 0, 3 ) );
+		_rotation.setTargetY( _ninteyDeg * MathUtil.randRange( 0, 3 ) );
+		_rotation.setTargetZ( _ninteyDeg * MathUtil.randRange( 0, 3 ) );
 	}
 	
 	public void updateLineMode() {
