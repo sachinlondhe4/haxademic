@@ -26,6 +26,8 @@ While the code has been open-sourced, this library is not quite ready for genera
 	* Shatter a box or sphere with randomized Voronoi3D calculations (soon to work on any mesh)
 	* Some basic shape-drawing code
 	* Mesh smoothing
+	* Mesh deform from audio input
+	* Apply off-screen audio-reactive textures to a 3D mesh
 * Image processing
 	* PImage reversal
 	* Multiple screenshot methods
@@ -47,9 +49,10 @@ While the code has been open-sourced, this library is not quite ready for genera
 	* Directory searching for specific filetypes
 	* Automatic screensaver disabling while running
 	* True full-screen mode on OS X
-* Demo apps
-	* HaxVisual - a modular VJ system
-	* KacheOut - a 2-player Kinect-based video game 
+* Apps
+	* HaxVisual - A modular VJ system
+	* KacheOut - A 2-player Kinect-based video game 
+	* TimeLapse - Renders a .mov video from an image sequence in a directory
 
 ## Todo
 * Comment the codebase and generate docs
