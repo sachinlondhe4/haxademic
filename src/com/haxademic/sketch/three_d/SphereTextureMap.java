@@ -14,6 +14,7 @@ import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.MathUtil;
 import com.haxademic.viz.IAudioTexture;
@@ -31,7 +32,6 @@ extends PApplet
 	ToxiclibsSupport _toxi;
 	IAudioTexture _texture;
 	PImage _image;
-//	PGraphics _graphics;
 	Sphere _sphere, _sphereOuter;
 	WETriangleMesh _sphereMesh, _sphereOuterMesh;
 	AudioInputWrapper _audioInput;
@@ -60,10 +60,10 @@ extends PApplet
 //			_graphics = p.createGraphics( _numEq, _numEq, P.P3D );
 		}
 		
-		_sphere = new Sphere( 100 );
-		AABB box = new AABB( 100 );
+		_sphere = new Sphere( 200 );
+		AABB box = new AABB( 200 );
 		_sphereMesh = new WETriangleMesh();
-		_sphereMesh.addMesh( box.toMesh() );
+		_sphereMesh.addMesh( _sphere.toMesh( 30 ) );
 //		_sphereMesh.computeVertexNormals();
 
 		_sphereOuter = new Sphere( 1250 );
@@ -71,8 +71,8 @@ extends PApplet
 		_sphereOuterMesh.addMesh( _sphereOuter.toMesh( 30 ) );
 //		_sphereOuterMesh.computeVertexNormals();
 
-		calcTextureCoordinates( _sphereMesh );
-		calcTextureCoordinates( _sphereOuterMesh );
+		MeshUtil.calcTextureCoordinates( _sphereMesh );
+		MeshUtil.calcTextureCoordinates( _sphereOuterMesh );
 	}
 	
 	public void draw() {
@@ -86,10 +86,10 @@ extends PApplet
 		p.rotateY( p.mouseX/100f );
 		p.rotateX( p.mouseY/100f );
 		
-		calcTextureCoordinates( _sphereMesh );
+		MeshUtil.calcTextureCoordinates( _sphereMesh );
 
-		drawToxiMesh( p, _toxi, _sphereMesh, _texture.getTexture() );
-		drawToxiMesh( p, _toxi, _sphereOuterMesh, _texture.getTexture() );
+		MeshUtil.drawToxiMesh( p, _toxi, _sphereMesh, _texture.getTexture() );
+		MeshUtil.drawToxiMesh( p, _toxi, _sphereOuterMesh, _texture.getTexture() );
 //		drawToxiFaces( p, _toxi, _sphereOuterMesh, _texture.getTexture() );
 		
 		if( p.frameCount % 150 == 0 ) newTexture();
@@ -116,11 +116,6 @@ extends PApplet
 	
 	public void updateWithAudio() {
 		_texture.updateTexture( _audioInput );
-	}
-	
-	public void drawToxiMesh( PApplet p, ToxiclibsSupport toxi, WETriangleMesh mesh, PImage image ) {
-		p.textureMode(P.NORMAL);
-		_toxi.texturedMesh( mesh.toWEMesh(), image, true );
 	}
 	
 	public void drawToxiFaces( PApplet p, ToxiclibsSupport toxi, WETriangleMesh mesh, PImage image ) {
@@ -156,27 +151,7 @@ extends PApplet
 		
 		p.endShape();
 	}
-	
-	void calcTextureCoordinates(WETriangleMesh mesh) {
-		for( Face f : mesh.getFaces() ) {
-			f.computeNormal();
-			f.uvA = calcUV(f.a);
-			f.uvB = calcUV(f.b);
-			f.uvC = calcUV(f.c);
-		}
-	}
-	
-	Vec2D calcUV(Vec3D pos) {
-		Vec3D s = pos.copy().toSpherical();
-		Vec2D uv = new Vec2D( s.y / P.TWO_PI, ( 1.0f - ( s.z / P.PI + 0.5f ) ) );
-		// make sure longitude is always within 0.0 ... 1.0 interval
-		if (uv.x < 0) uv.x += 1f;
-		else if (uv.x > 1) uv.x -= 1f;
-		uv.x = P.abs(uv.x);
-//		uv.x = P.constrain( uv.x, 0.000001f, 0.9999999f );
-		return uv;
-	}
-	
+		
 	public float mapBoundsW( float num ) {
 		return P.constrain( num, 0, _image.width );
 	}

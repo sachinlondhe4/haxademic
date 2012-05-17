@@ -12,10 +12,13 @@ import processing.core.PImage;
 import processing.core.PVector;
 import saito.objloader.OBJModel;
 import toxi.geom.AABB;
+import toxi.geom.Vec2D;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
+import toxi.processing.ToxiclibsSupport;
 
+import com.haxademic.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.util.ImageUtil;
 
@@ -198,4 +201,30 @@ public class MeshUtil {
 			}
 		}
 	}
+	
+	public static void calcTextureCoordinates(WETriangleMesh mesh) {
+		for( Face f : mesh.getFaces() ) {
+			f.computeNormal();
+			f.uvA = calcUV(f.a);
+			f.uvB = calcUV(f.b);
+			f.uvC = calcUV(f.c);
+		}
+	}
+	
+	public static Vec2D calcUV(Vec3D pos) {
+		Vec3D s = pos.copy().toSpherical();
+		Vec2D uv = new Vec2D( s.y / P.TWO_PI, ( 1.0f - ( s.z / P.PI + 0.5f ) ) );
+		// make sure longitude is always within 0.0 ... 1.0 interval
+		if (uv.x < 0) uv.x += 1f;
+		else if (uv.x > 1) uv.x -= 1f;
+		uv.x = P.abs(uv.x);
+//		uv.x = P.constrain( uv.x, 0.000001f, 0.9999999f );
+		return uv;
+	}
+
+	public static void drawToxiMesh( PApplet p, ToxiclibsSupport toxi, WETriangleMesh mesh, PImage image ) {
+		p.textureMode(P.NORMAL);
+		toxi.texturedMesh( mesh.toWEMesh(), image, true );
+	}
+
 }
