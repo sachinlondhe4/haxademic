@@ -215,7 +215,7 @@ implements IVizModule
 		_outerElement = ( P.round( p.random( 0, 3 ) ) == 1 ) ? null : _outerElement;
 		
 		// pick ambient element
-		if( _numBigChanges > 4 ) {
+		if( _numBigChanges > 4 && _ambientElements.size() > 0 ) {
 			int curAmbientIndex = _ambientElements.indexOf( _ambientElement );
 			curAmbientIndex = ( curAmbientIndex < _ambientElements.size() - 1 ) ? curAmbientIndex + 1 : 0;
 			_ambientElement = _ambientElements.get( curAmbientIndex );
