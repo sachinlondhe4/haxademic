@@ -80,9 +80,9 @@ extends PAppletHax
 	 */
 	protected void initVizModules() {
 		_modules = new ArrayList<IVizModule>();
+		_modules.add( new MasterHax() );
 		_modules.add( new BrimLiski() );
 		_modules.add( new KaraokeViz() );
-		_modules.add( new MasterHax() );
 		_modules.add( new Boxen3D() );
 		_modules.add( new Toxi() );
 		_modules.add( new Spheres() );
