@@ -56,8 +56,8 @@ implements IVizElement {
 		_meshPool.addMesh( "MODE_SET", MeshUtil.meshFromOBJ( p, "../data/models/mode-set.obj", 1f ), 250 * scaleMult );
 		_meshPool.addMesh( "CACHEFLOWE", MeshUtil.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 150 * scaleMult );
 				
-		_meshPool.addMesh( "CDW_LOGO", MeshUtil.meshFromSVG( p, "../data/svg/create-denver-logo.svg", -1, 2, 0.8f ), 1 );
-//		_meshPool.addMesh( "DIAMOND_2D", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/diamond.svg", -1, 3, 0.5f ), 20 ), 1 );
+//		_meshPool.addMesh( "CDW_LOGO", MeshUtil.meshFromSVG( p, "../data/svg/create-denver-logo.svg", -1, 2, 0.8f ), 1 );
+		_meshPool.addMesh( "DIAMOND_2D", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/diamond.svg", -1, 3, 0.5f ), 20 ), 1 );
 
 		WETriangleMesh sphere = new WETriangleMesh();
 		sphere.addMesh( (new Sphere(200)).toMesh( 15 ) );
