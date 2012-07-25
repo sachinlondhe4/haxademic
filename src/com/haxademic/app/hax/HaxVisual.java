@@ -10,6 +10,7 @@ import com.haxademic.core.draw.text.DebugText;
 import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.util.ScreenUtil;
 import com.haxademic.viz.IVizModule;
+import com.haxademic.viz.modules.AmbientViz;
 import com.haxademic.viz.modules.AudioTubes;
 import com.haxademic.viz.modules.BlobSheet;
 import com.haxademic.viz.modules.Boxen3D;
@@ -80,6 +81,7 @@ extends PAppletHax
 	 */
 	protected void initVizModules() {
 		_modules = new ArrayList<IVizModule>();
+		_modules.add( new AmbientViz() );
 		_modules.add( new MasterHax() );
 		_modules.add( new BrimLiski() );
 		_modules.add( new KaraokeViz() );
