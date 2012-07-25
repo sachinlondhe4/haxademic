@@ -29,7 +29,7 @@ implements IAudioTexture
 		for( int i=0; i < _width; i++ ) {
 			eqVal = audioInput.getFFT().spectrum[ ( i * eqStep ) % 512 ];
 			color = eqVal * 255f;
-			alpha = eqVal;
+			alpha = eqVal * 255f;
 			
 			_graphics.beginDraw();
 			_graphics.stroke( P.p.color( color, alpha ) );

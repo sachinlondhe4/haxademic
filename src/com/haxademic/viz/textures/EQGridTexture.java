@@ -38,7 +38,7 @@ implements IAudioTexture
 			for( int j=0; j < _rows; j++ ) {
 				eqVal = audioInput.getFFT().spectrum[ ( index * eqStep ) % 512 ];
 				color = eqVal * 255f;
-				alpha = eqVal;
+				alpha = eqVal * 255f;
 				
 				_graphics.beginDraw();
 				_graphics.fill( P.p.color( color, alpha ) );

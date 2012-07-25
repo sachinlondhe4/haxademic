@@ -26,7 +26,7 @@ implements IAudioTexture
 		for( int i=0; i < _rows; i++ ) {
 			color = audioInput.getFFT().spectrum[ ( i * eqStep ) % 512 ] * 255f;
 			alpha = audioInput.getFFT().spectrum[ ( i * eqStep ) % 512 ];
-			_image.set( 0, i, P.p.color( color, alpha ) ); 
+			_image.set( 0, i, P.p.color( color, 255 ) ); 	// alpha - bad for performance??
 		}
 	}
 	
