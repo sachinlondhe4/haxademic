@@ -141,19 +141,20 @@ implements IVizModule
 	}
 	
 	protected void handleAutoPilot() {
-		if( p.frameCount % ( p._fps * 3) == 0 ) {
+		int multiplier = 2;
+		if( p.frameCount % ( p._fps * 3 * multiplier) == 0 ) {
 			pickNewColors();
 		}
-		if( p.frameCount % ( p._fps * 6) == 0 ) {
+		if( p.frameCount % ( p._fps * 6 * multiplier) == 0 ) {
 			newLineMode();
 		}
-		if( p.frameCount % ( p._fps * 9) == 0 ) {
+		if( p.frameCount % ( p._fps * 9 * multiplier) == 0 ) {
 			newCamera();
 		}
-		if( p.frameCount % ( p._fps * 18) == 0 ) {
+		if( p.frameCount % ( p._fps * 18 * multiplier) == 0 ) {
 			pickMode();
 		}
-		if( p.frameCount % ( p._fps * 30) == 0 ) {
+		if( p.frameCount % ( p._fps * 30 * multiplier) == 0 ) {
 			pickElements();
 			pickNewColors();
 		}
@@ -220,7 +221,7 @@ implements IVizModule
 			curAmbientIndex = ( curAmbientIndex < _ambientElements.size() - 1 ) ? curAmbientIndex + 1 : 0;
 			_ambientElement = _ambientElements.get( curAmbientIndex );
 		}
-		_ambientElement = ( MathUtil.randBoolean( p ) == true ) ? null : _ambientElement;
+		// _ambientElement = ( MathUtil.randBoolean( p ) == true ) ? null : _ambientElement;
 		
 		// keep track of changes
 		_numBigChanges++;
