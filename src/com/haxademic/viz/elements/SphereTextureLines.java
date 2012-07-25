@@ -38,7 +38,9 @@ implements IVizElement {
 
 	public void init() {
 		setDrawProps( 200 );
-		_texture = new ColumnAudioTexture( 512 );
+		_texture = new ColumnAudioTexture( 32 );
+//		 _texture = new EQGridTexture( 512, 512 );
+//		 _texture = new EQSquareTexture( 512, 512 );
 	}
 	
 	public void setDrawProps( float baseRadius ) {
