@@ -327,7 +327,7 @@ extends PApplet
 	protected void handleRenderingStepthrough() {
 		// analyze & init audio if stepping through a render
 		if( _isRendering == true ) {
-			if( p.frameCount == 2 ) {
+			if( p.frameCount == 1 ) {
 				if( _isRenderingAudio == true ) {
 					_renderer.startRendererForAudio( _appConfig.getString("render_audio_file", ""), _audioInput );
 					_audioInput.gainDown();
@@ -344,13 +344,13 @@ extends PApplet
 				}
 			}
 			
-			if( p.frameCount > 1 ) {
+//			if( p.frameCount > 1 ) {
 				// have renderer step through audio, then special call to update the single WaveformData storage object				
 				if( _isRenderingAudio == true ) {
 					_renderer.analyzeAudio();				
 					_waveformData.updateWaveformDataForRender( _renderer, _audioInput.getAudioInput(), _audioInput._bufferSize );
 				}
-			}
+//			}
 			
 			if( _midiRenderer != null ) {
 				boolean doneCheckingForMidi = false;
