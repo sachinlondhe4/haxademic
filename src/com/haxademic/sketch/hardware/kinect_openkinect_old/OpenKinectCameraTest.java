@@ -1,11 +1,11 @@
-package com.haxademic.sketch.hardware;
+package com.haxademic.sketch.hardware.kinect_openkinect_old;
 
 import org.openkinect.processing.Kinect;
 
 import processing.core.PApplet;
 import processing.core.PFont;
 
-public class KinectTest2 extends PApplet {
+public class OpenKinectCameraTest extends PApplet {
 	Kinect kinect;
 	boolean depth = true;
 	boolean rgb = false;
@@ -21,16 +21,6 @@ public class KinectTest2 extends PApplet {
 		kinect.enableRGB(rgb);
 		kinect.enableIR(ir);
 		kinect.tilt(deg);
-	}
-
-	/**
-	 * Auto-initialization of the root class.
-	 * 
-	 * @param args
-	 */
-	public static void main(String args[]) {
-		PApplet.main(new String[] { "--present", "--hide-stop",
-				"--bgcolor=000000", "com.haxademic.sketch.kinect.KinectTest" });
 	}
 
 	public void draw() {

@@ -1,11 +1,11 @@
-package com.haxademic.sketch.hardware;
+package com.haxademic.sketch.hardware.kinect_openkinect_old;
 
 import org.openkinect.processing.Kinect;
 
 import processing.core.PApplet;
 import processing.core.PVector;
 
-public class KinectTest3 extends PApplet {
+public class KinectPointCloudDemo extends PApplet {
 	// Kinect Library object
 	Kinect kinect;
 
@@ -29,16 +29,6 @@ public class KinectTest3 extends PApplet {
 		for (int i = 0; i < depthLookUp.length; i++) {
 			depthLookUp[i] = rawDepthToMeters(i);
 		}
-	}
-
-	/**
-	 * Auto-initialization of the root class.
-	 * 
-	 * @param args
-	 */
-	public static void main(String args[]) {
-		PApplet.main(new String[] { "--present", "--hide-stop",
-				"--bgcolor=000000", "com.haxademic.sketch.kinect.KinectTest" });
 	}
 
 	public void draw() {

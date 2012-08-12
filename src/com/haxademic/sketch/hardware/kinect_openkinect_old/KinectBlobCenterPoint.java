@@ -1,4 +1,4 @@
-package com.haxademic.sketch.hardware;
+package com.haxademic.sketch.hardware.kinect_openkinect_old;
 
 import org.openkinect.processing.Kinect;
 
@@ -7,7 +7,7 @@ import processing.core.PConstants;
 import processing.core.PImage;
 import processing.core.PVector;
 
-public class KinectCache extends PApplet {
+public class KinectBlobCenterPoint extends PApplet {
 
 	KinectTracker tracker;
 	// Kinect Library object
@@ -18,16 +18,6 @@ public class KinectCache extends PApplet {
 		kinect = new Kinect(this);
 		tracker = new KinectTracker();
 		
-	}
-
-	/**
-	 * Auto-initialization of the root class.
-	 * 
-	 * @param args
-	 */
-	public static void main(String args[]) {
-		PApplet.main(new String[] { "--present", "--hide-stop",
-				"--bgcolor=000000", "com.haxademic.sketch.kinect.KinectTest" });
 	}
 
 	public void draw() {

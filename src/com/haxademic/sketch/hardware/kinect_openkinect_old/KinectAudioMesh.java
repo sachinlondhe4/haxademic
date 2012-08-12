@@ -1,4 +1,4 @@
-package com.haxademic.sketch.hardware;
+package com.haxademic.sketch.hardware.kinect_openkinect_old;
 
 import krister.Ess.AudioInput;
 
@@ -17,7 +17,7 @@ import com.haxademic.core.cameras.CameraOscillate;
 import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.render.Renderer;
 
-public class KinectCache2 extends PApplet {
+public class KinectAudioMesh extends PApplet {
 
 	protected Kinect _kinect;
 	protected KinectTracker _tracker;
@@ -78,16 +78,6 @@ public class KinectCache2 extends PApplet {
 //		_render.startRenderer();
 		//_render.startRendererForAudio( "wav/cacheflowe-intro-id.wav", _audioInput );
 
-	}
-
-	/**
-	 * Auto-initialization of the root class.
-	 * 
-	 * @param args
-	 */
-	public static void main(String args[]) {
-		PApplet.main(new String[] { "--present", "--hide-stop",
-				"--bgcolor=000000", "com.haxademic.sketch.kinect.KinectTest" });
 	}
 
 	public void draw() {
