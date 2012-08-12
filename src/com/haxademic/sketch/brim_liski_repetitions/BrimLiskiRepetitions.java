@@ -4,8 +4,13 @@ import java.util.ArrayList;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
+import processing.core.PImage;
 import processing.video.Movie;
 import toxi.color.TColor;
+import toxi.geom.Vec2D;
+import toxi.geom.Vec3D;
+import toxi.geom.mesh.Face;
+import toxi.geom.mesh.WETriangleMesh;
 import toxi.math.noise.PerlinNoise;
 
 import com.haxademic.app.P;
@@ -77,7 +82,11 @@ extends PAppletHax
 	 */
 	protected FrameRadians _finalFrame;
 
-	protected int NUM_PARTICLES = 500;
+	protected int NUM_PARTICLES = 50000;
+	
+	// Mesh version =====================================
+	protected WETriangleMesh _mesh;
+	protected WETriangleMesh _meshDeform;
 	
 	public void setup() {
 		_customPropsFile = "../data/properties/brimliskirepetitions.properties";
@@ -106,6 +115,8 @@ extends PAppletHax
 		for( int i = 0; i < NUM_PARTICLES; i++ ) {
 			_particles.get(i).reset();
 		}
+		
+		createMesh();
 	}
 	
 	protected void buildRadiansForFrames() {
@@ -144,6 +155,28 @@ extends PAppletHax
 		
 		_finalFrame = new FrameRadians( 3, 13, 0.66f, -1 );
 	}
+	
+	protected void createMesh() {
+		float quadSize = 20;
+		_mesh = new WETriangleMesh();
+		
+		int cols = Math.round( p.width / quadSize );
+		int rows = Math.round( p.height / quadSize );
+		
+		for ( int i = 0; i < cols - 1; i++) {
+			for ( int j = 0; j < rows - 1; j++) {
+				// position mesh out from center
+				float x = i * quadSize;
+				float y = j * quadSize;
+				// create 2 faces and their UV texture coordinates
+				_mesh.addFace( new Vec3D( x, y, 0 ), new Vec3D( x+quadSize, y, 0 ), new Vec3D( x+quadSize, y+quadSize, 0 ), new Vec2D( x, y ), new Vec2D( x+quadSize, y ), new Vec2D( x+quadSize, y+quadSize ) );
+				_mesh.addFace( new Vec3D( x, y, 0 ), new Vec3D( x+quadSize, y+quadSize, 0 ), new Vec3D( x, y+quadSize, 0 ), new Vec2D( x, y ), new Vec2D( x+quadSize, y+quadSize ), new Vec2D( x, y+quadSize ) );
+			}
+		}
+
+		_meshDeform = _mesh.copy();
+	}
+
 		
 	// FRAME LOOP RENDERING ===================================================================================
 	public void drawApp() {
@@ -153,6 +186,7 @@ extends PAppletHax
 		p.noStroke();
 		p.rectMode( PConstants.CENTER );
 		
+		//DrawUtil.resetGlobalProps( p );
 		DrawUtil.setBasicLights( p );
 		
 		if( _myMovie != null ) _myMovie.read();
@@ -160,11 +194,16 @@ extends PAppletHax
 			setWindRadiansPerClip();		
 			seekAndDrawMovieFrame();
 			
+			// DRAW PARTICLES
 			for( int i = 0; i < NUM_PARTICLES; i++ ) {
 				_particles.get(i).update();
 			}
-
+			// DRAW texture MESH
+//			drawTexturedMesh();
+			// DRAW Mosaic MESH
+//			drawColorMesh();
 		}
+		
 		// step to next image
 		_frameIndex++;
 		
@@ -178,7 +217,14 @@ extends PAppletHax
 		_windRadians.update();
 		if( _frameRadiansIndex < _frameRadians.size() && _frameRadians.get( _frameRadiansIndex ).frame == _frameIndex ) {
 			_windRadians.setTarget( _frameRadians.get( _frameRadiansIndex ).radians );
+			_windRadians.setCurrent( _frameRadians.get( _frameRadiansIndex ).radians );
 			_frameRadiansIndex++;
+			
+			// immediately set color
+			for( int i = 0; i < NUM_PARTICLES; i++ ) {
+				_particles.get(i).setColorFromPosition();
+			}
+
 		}
 	}
 		
@@ -186,6 +232,8 @@ extends PAppletHax
 	protected void seekAndDrawMovieFrame() {
 		seekTo( (float) p.frameCount / 30f );
 		_myMovie.read();
+		_myMovie.pause();
+
 //		p.image( _myMovie, 0, 0 );
 	}
 	
@@ -195,6 +243,7 @@ extends PAppletHax
 	
 	public void seekTo( float time ) {
 		_myMovie.jump( time );
+		_myMovie.pause();
 	}
 	
 	// Called every time a new frame is available to read
@@ -229,16 +278,17 @@ extends PAppletHax
 			_color.setTargetColor( TColor.newARGB( ImageUtil.getPixelColor( _myMovie, Math.round( _x ), Math.round( _y ) ) ) );
 			_color.update();
 			
-			float amp = 0.5f + p.getAudio().getFFT().spectrum[_index % 512] * 2;
+			float amp = 0.2f + p.getAudio().getFFT().spectrum[_index % 512] * 5;
 			
 			p.fill( _color.color().toARGB() );
-//			p.ellipse( _x, _y, _size * amp, _size * amp );
+			// draw 2d circle
+			p.ellipse( _x, _y, _size * amp, _size * amp );
 //			p.rect( _x, _y, _size * amp, _size * amp );
-
-			p.pushMatrix();
-			p.translate( _x, _y );
-			p.sphere( _size * amp );
-			p.popMatrix();
+			// draw spheres
+//			p.pushMatrix();
+//			p.translate( _x, _y );
+//			p.sphere( _size * amp );
+//			p.popMatrix();
 		}
 		
 		public void checkBoundaries() {
@@ -254,20 +304,21 @@ extends PAppletHax
 			_x = MathUtil.randRange( 0, p.width - 1 );
 			_y = MathUtil.randRange( 0, p.height - 1 );
 			
-//			_speed = MathUtil.randRangeDecimel( 4, 12 );
-			_size = MathUtil.randRangeDecimel( 10, 50 );
-			_speed = _size/4;
+//			_size = MathUtil.randRangeDecimel( 10, 50 );
+//			_speed = _size/4;
+			_size = MathUtil.randRangeDecimel( 1, 4 );
+			_speed = MathUtil.randRangeDecimel( 2, 5 );
 			
 			setColorFromPosition();
 		}
 		
-		protected void setColorFromPosition() {
+		public void setColorFromPosition() {
 			TColor curColor = TColor.newARGB( ImageUtil.getPixelColor( _myMovie, (int) _x, (int) _y ) );
 			_color.setCurAndTargetColors( curColor, curColor );
 		}
 	}
 	
-	// PARTICLE CLASS ===========================================================================================	
+	// FRAME / RADIANS ===========================================================================================	
 	public class FrameRadians {
 		public int frame;
 		public float radians;
@@ -284,6 +335,137 @@ extends PAppletHax
 		protected float angleToRadians( float angle ) {
 			return  angle * (float) Math.PI / 180f; 
 		}
+	}
+	
+	// MESH DRAWING
+	protected void drawTexturedMesh() {
+		if( _mesh == null ) createMesh();
+		PImage img = _myMovie;
+
+		// set draw props to draw texture mesh properly
+		p.fill( 0 );
+		p.noStroke();
+//		p.stroke(255);
+		
+		p.translate( 12, 12, 12 );
+		
+		// iterate over all mesh triangles
+		// and add their vertices
+		p.beginShape(P.TRIANGLES);
+		p.texture(img);
+		float brightA, brightB, brightC = 0;
+		for( Face f : _mesh.getFaces() ) {
+			p.fill( ImageUtil.getPixelColor( _myMovie, (int)f.a.x, (int)f.a.y ) );
+			//P.println(ImageUtil.getPixelColor( img, (int)f.a.x, (int)f.a.y ));
+
+			// get z-depth
+			brightA = getBrightnessForTextureLoc( img, f.uvA.x, f.uvA.y ) * 3;
+			brightB = getBrightnessForTextureLoc( img, f.uvB.x, f.uvB.y ) * 3;
+			brightC = getBrightnessForTextureLoc( img, f.uvC.x, f.uvC.y ) * 3;
+			// draw vertices
+			p.vertex(f.a.x,f.a.y,f.a.z+brightA,f.uvA.x,f.uvA.y);
+			p.vertex(f.b.x,f.b.y,f.b.z+brightB,f.uvB.x,f.uvB.y);
+			p.vertex(f.c.x,f.c.y,f.c.z+brightC,f.uvC.x,f.uvC.y);
+	   	}
+		p.endShape();
+	}
+
+	protected void drawColorMesh() {
+		if( _mesh == null ) createMesh();
+		PImage img = _myMovie;
+
+		// set draw props to draw texture mesh properly
+		p.fill( 0 );
+		p.noStroke();
+		
+		p.translate( 12, 12, 12 );
+		
+		deformWithAudio();
+		
+		// iterate over all mesh triangles
+		// and add their vertices
+		p.beginShape(P.TRIANGLES);
+		int index = 0;	// use to traverse eq spectrum
+		if( _myMovie.pixels.length > 100 ) {
+
+			for( Face f : _meshDeform.getFaces() ) {
+//				P.println((int)f.a.x+","+(int)f.a.y);
+				p.fill( ImageUtil.getPixelColor( img, (int)f.a.x, (int)f.a.y ) );
+//				P.println(ImageUtil.getPixelColor( img, (int)f.a.x, (int)f.a.y ));
+				
+				// get z-depth
+	//			brightA = getBrightnessForTextureLoc( img, f.uvA.x, f.uvA.y ) * 3;
+	//			brightB = getBrightnessForTextureLoc( img, f.uvB.x, f.uvB.y ) * 3;
+	//			brightC = getBrightnessForTextureLoc( img, f.uvC.x, f.uvC.y ) * 3;
+				// draw vertices
+	//			float amp = 0.5f + p.getAudio().getFFT().spectrum[index % 512] * 10;
+				
+				p.vertex(f.a.x,f.a.y,f.a.z);
+				p.vertex(f.b.x,f.b.y,f.b.z);
+				p.vertex(f.c.x,f.c.y,f.c.z);
+				
+				index++;
+		   	}
+		}
+		p.endShape();
+	}
+	
+	protected void deformWithAudio() {
+		int numVertices = _mesh.getNumVertices();
+		int eqStep = Math.round( (float) numVertices / 512f );
+		for( int i = 0; i < numVertices; i++ ) {
+			float eq = p.getAudio().getFFT().spectrum[Math.round(i/eqStep) % 64];
+			eq *= 2f;
+			
+			if( _mesh.getVertexForID( i ) != null ) {
+				_meshDeform.getVertexForID( i ).x = _mesh.getVertexForID( i ).x;
+				_meshDeform.getVertexForID( i ).y = _mesh.getVertexForID( i ).y;
+				_meshDeform.getVertexForID( i ).z = 100 * eq;
+			}
+		}
 
 	}
+
+
+//	void drawNativeMesh() {
+//		PImage img = _myMovie;
+//		int x, y, color;
+//		p.beginShape(P.TRIANGLES);
+//		for ( int i = 0; i < _camW - 1; i++) {
+//			for ( int j = 0; j < _camH - 1; j++) {
+//				x = i;  // x position
+//				y = j;  // y position
+//				color = ImageUtil.getPixelColor( img, x, y );
+//
+//				float z = p.brightness(color) / 10f;
+//				
+//				p.fill(color);
+//				p.stroke(0);
+//				p.strokeWeight(1);
+//
+//				// draw grid out from center
+//				x = -img.width/2 + x;
+//				y = -img.height/2 + y;
+//				
+//				// draw trianges 
+//				p.vertex( x, y, z );
+//				p.vertex( x+1, y, z );
+//				p.vertex( x+1, y+1, z );
+//				
+//				p.vertex( x, y, z );
+//				p.vertex( x, y+1, z );
+//				p.vertex( x+1, y+1, z );
+//
+//			}
+//		}
+//		p.endShape();
+//	}
+
+	
+	protected float getBrightnessForTextureLoc( PImage img, float x, float y ) {
+		float loc = x + y * img.width;  //  p.Pixel array location
+		int c = img.pixels[(int)loc];  // Grab the color
+		return p.brightness(c) * 0.1f;
+	}
+
 }
