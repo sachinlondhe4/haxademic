@@ -31,7 +31,7 @@ public class WebCamTest extends PApplet {
 		p = this;
 		// set up stage and drawing properties
 		p.size( 640, 480, PConstants.OPENGL );
-		OpenGLUtil.SetQuality( p, OpenGLUtil.HIGH );
+		OpenGLUtil.setQuality( p, OpenGLUtil.HIGH );
 		p.frameRate( 30 );
 		p.smooth();
 

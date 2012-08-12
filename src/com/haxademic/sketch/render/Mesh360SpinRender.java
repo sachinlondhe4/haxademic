@@ -41,7 +41,7 @@ extends PApplet
 			p.size( 1280, 720, "hipstersinc.P5Sunflow" );
 		} else {
 			p.size( 1280, 720, PConstants.OPENGL );
-			OpenGLUtil.SetQuality( p, OpenGLUtil.HIGH );
+			OpenGLUtil.setQuality( p, OpenGLUtil.HIGH );
 		}
 		
 		p.frameRate( 30 );

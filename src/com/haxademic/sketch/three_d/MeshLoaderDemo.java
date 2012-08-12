@@ -46,7 +46,7 @@ extends PApplet
 			p.size( 1200, 800, "hipstersinc.P5Sunflow" );				//size(screen.width,screen.height,P3D);
 		} else {
 			p.size( 1200, 800, PConstants.OPENGL );				//size(screen.width,screen.height,P3D);
-			OpenGLUtil.SetQuality( p, OpenGLUtil.MEDIUM );
+			OpenGLUtil.setQuality( p, OpenGLUtil.MEDIUM );
 		}
 		p.frameRate( 30 );
 		p.colorMode( PConstants.RGB, 255, 255, 255, 255 );
@@ -127,7 +127,7 @@ extends PApplet
 //		ThreeDeeUtil.SmoothToxiMesh( p, _mesh, 2 );
 		
 		DebugUtil.showMemoryUsage();
-		if( isSunflow == false ) OpenGLUtil.SetQuality( p, OpenGLUtil.HIGH );
+		if( isSunflow == false ) OpenGLUtil.setQuality( p, OpenGLUtil.HIGH );
 	}
 	
 	public void keyPressed() {
