@@ -9,6 +9,7 @@ import javax.sound.midi.InvalidMidiDataException;
 import krister.Ess.AudioInput;
 import oscP5.OscMessage;
 import processing.core.PApplet;
+import processing.opengl.PGraphicsOpenGL;
 import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.core.audio.AudioInputWrapper;
@@ -224,9 +225,11 @@ extends PApplet
 				p.size(_appConfig.getInt("width", 800),_appConfig.getInt("height", 600),renderer);
 			}
 		}
+		P.gl=((PGraphicsOpenGL)g).gl;
 		frame.setBackground(new java.awt.Color(0,0,0));
 		setAppletProps();
 		initHaxademicObjects();
+
 	}
 	
 	protected void drawApp() {
@@ -259,10 +262,10 @@ extends PApplet
 		if( _isRendering == true ) {
 			// prevents an error
 //			hint(DISABLE_OPENGL_2X_SMOOTH);
-			hint(ENABLE_OPENGL_4X_SMOOTH); 
+			hint(ENABLE_OPENGL_2X_SMOOTH); 
 		} else {
 			if( _appConfig.getBoolean("sunflow", true ) == false ) { 
-				OpenGLUtil.SetQuality(p, OpenGLUtil.MEDIUM);
+				OpenGLUtil.setQuality(p, OpenGLUtil.MEDIUM);
 			}
 		}
 

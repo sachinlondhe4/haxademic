@@ -8,14 +8,18 @@ import processing.opengl.PGraphicsOpenGL;
 import com.haxademic.app.P;
 
 public class OpenGLUtil {
+
+	public static GL getGlFromP( PApplet p ) {
+		PGraphicsOpenGL pgl = (PGraphicsOpenGL) p.g;
+		return pgl.gl;
+	}
 	
 	public static final int MEDIUM = 1;
 	public static final int HIGH = 2;
-	
-	public static void SetQuality( PApplet p, int quality ) {
-//		p.hint(p.DISABLE_DEPTH_SORT);
-		PGraphicsOpenGL pgl = (PGraphicsOpenGL) p.g;
-		GL gl = pgl.gl;
+
+	public static void setQuality( PApplet p, int quality ) {
+		//		p.hint(p.DISABLE_DEPTH_SORT);
+		GL gl = ( P.p != null ) ? getGlFromP( P.p ) : getGlFromP( p );
 		switch ( quality ) {
 			case MEDIUM :
 				p.hint(P.ENABLE_OPENGL_2X_SMOOTH);
@@ -32,5 +36,27 @@ public class OpenGLUtil {
 				break;
 		}
 	}
+
+	public static final int NORMAL = 10;
+	public static final int ADDITIVE = 11;
+
+	public static void enableBlending( PApplet p, boolean isBlending ) {
+		GL gl = ( P.p != null ) ? getGlFromP( P.p ) : getGlFromP( p );
+		if( isBlending == true ) 
+			gl.glEnable( GL.GL_BLEND );
+		else 
+			gl.glDisable( GL.GL_BLEND );
+	}
 	
+	public static void setBlendMode( PApplet p, int blendMode ) {
+		GL gl = ( P.p != null ) ? getGlFromP( P.p ) : getGlFromP( p );
+		switch ( blendMode ) {
+			case NORMAL :
+				gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+				gl.glBlendEquation(GL.GL_FUNC_ADD);
+			case ADDITIVE :
+				gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE);
+		}
+	}
+
 }
