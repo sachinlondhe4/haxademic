@@ -71,7 +71,8 @@ Java & Processing libraries:
 
 * Processing
 * Krister.ESS
-* Openkinect
+* Openkinect (deprecating this in favor of OpenNI)
+* OpenNI
 * Toxiclibs
 * p5sunflow
 * OBJLoader
