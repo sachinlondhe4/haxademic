@@ -12,6 +12,7 @@ import com.haxademic.core.data.easing.ElasticFloat;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.MathUtil;
+import com.haxademic.core.util.OpenGLUtil;
 import com.haxademic.viz.elements.GridEQ;
 
 public class GamePlay {
@@ -233,6 +234,9 @@ public class GamePlay {
 	protected void drawGameObjects() {
 		p.pushMatrix();
 		
+		OpenGLUtil.enableBlending( p, true );
+		OpenGLUtil.setBlendMode( p, OpenGLUtil.ADDITIVE );
+		
 		// draw the blocks
 		int index = 0;
 		int numActiveBlocks = 0;
@@ -245,6 +249,9 @@ public class GamePlay {
 		}
 		if( numActiveBlocks == 0 ) _hasClearedBoard = true;
 		p.popMatrix();
+		
+		OpenGLUtil.enableBlending( p, false );
+		OpenGLUtil.setBlendMode( p, OpenGLUtil.NORMAL );
 		
 		// draw other objects
 		_paddle.display();

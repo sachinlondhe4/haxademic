@@ -2,6 +2,8 @@ package com.haxademic.app.kacheout;
 
 import java.util.ArrayList;
 
+import javax.media.opengl.GL;
+
 import processing.core.PApplet;
 
 import com.haxademic.app.P;
@@ -256,7 +258,7 @@ extends PAppletHax
 		p.shininess(1000f); 
 		p.lights();
 		p.background(0);
-		
+				
 		_curCamera.update();
 
 		if( _gameState != _gameStateQueued ) swapGameMode();
