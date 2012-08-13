@@ -50,7 +50,6 @@
 	<classpathentry kind="lib" path="lib/hemesh/library/quickhull3d.jar"/>
 	<classpathentry kind="lib" path="lib/geomerative/library/batikfont.jar"/>
 	<classpathentry kind="lib" path="lib/geomerative/library/geomerative.jar"/>
-	<classpathentry kind="lib" path="lib/SimpleOpenNI/library/SimpleOpenNI.jar"/>
 	<classpathentry kind="lib" path="lib/SimpleOpenNI/library/SimpleOpenNI.jar">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/SimpleOpenNI/library"/>
