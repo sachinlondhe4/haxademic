@@ -9,6 +9,10 @@ import com.haxademic.app.P;
 import com.haxademic.core.debug.DebugUtil;
 
 public class FileUtil {
+	public static String getProjectAbsolutePath() {
+		return new java.io.File("").getAbsolutePath();
+	}
+	
 	public static ArrayList<String> getFilesInDirOfType( String directory, String type ) {
 		File dir = new File( directory );
 		String[] children = dir.list();
