@@ -5,6 +5,10 @@ import processing.core.PApplet;
 import com.haxademic.app.P;
 
 public class SystemUtil {
+	
+	public static String getJavaVersion() {
+		return System.getProperty("java.version");
+	}
 
 	public static String getTimestamp( PApplet p ) {
 		// use P.nf to pad date components to 2 digits for more consistent ordering across systems

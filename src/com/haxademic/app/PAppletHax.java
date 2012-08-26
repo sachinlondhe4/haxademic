@@ -25,6 +25,7 @@ import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.render.MIDISequenceRenderer;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.util.OpenGLUtil;
+import com.haxademic.core.util.SystemUtil;
 import com.haxademic.viz.launchpad.LaunchpadViz;
 
 import ddf.minim.Minim;
@@ -229,7 +230,6 @@ extends PApplet
 		frame.setBackground(new java.awt.Color(0,0,0));
 		setAppletProps();
 		initHaxademicObjects();
-
 	}
 	
 	protected void drawApp() {
@@ -297,6 +297,7 @@ extends PApplet
 	
 	protected void initializeExtraObjectsOn1stFrame() {
 		if( p.frameCount == 1 ){
+			P.println("Using Java version: "+SystemUtil.getJavaVersion());
 			if( _appConfig.getString("midi_device_in", "") != "" ) {
 				_midi = new MidiWrapper( p, _appConfig.getString("midi_device_in", ""), _appConfig.getString("midi_device_out", "") );
 			}
