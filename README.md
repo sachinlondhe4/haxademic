@@ -49,6 +49,7 @@ While the code has been open-sourced, this library is not quite ready for genera
 	* Directory searching for specific filetypes
 	* Automatic screensaver disabling while running
 	* True full-screen mode on OS X
+	* Hides the window chrome on a non-fullscreen applet
 * Apps
 	* HaxVisual - A modular VJ system
 	* KacheOut - A 2-player Kinect-based video game 
