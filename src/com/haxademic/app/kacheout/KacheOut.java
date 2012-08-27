@@ -39,10 +39,8 @@ extends PAppletHax
 	}
 
 	// input
-//	public static float KINECT_MIN_DIST = 2.3f * 1000f;
-//	public static float KINECT_MAX_DIST = 3.3f * 1000f;
-	public static float KINECT_MIN_DIST = 1.5f * 1000f;
-	public static float KINECT_MAX_DIST = 2.0f * 1000f;
+	public static float KINECT_MIN_DIST = 1500;
+	public static float KINECT_MAX_DIST = 2000;
 	public static int KINECT_TOP = 0;
 	public static int KINECT_BOTTOM = 150;
 	public static float KINECT_GAP_PERCENT = 0.5f;
@@ -139,6 +137,13 @@ extends PAppletHax
 		_stageHeight = height;
 		_gameWidth = _stageWidth / NUM_PLAYERS;
 //		_cameraZFromHeight = (float)_stageHeight * CAMERA_Z_WIDTH_MULTIPLIER;
+		
+		// default kinect camera distance is for up-close indoor testing. not good for real games - suggested use is 2300-3300
+		// default pixel rows are the center 200 kinect data rows
+		KINECT_MIN_DIST = _appConfig.getInt( "kinect_min_mm", 1500 );
+		KINECT_MAX_DIST = _appConfig.getInt( "kinect_max_mm", 2000 );
+		KINECT_TOP = _appConfig.getInt( "kinect_top_pixel", 240 );
+		KINECT_BOTTOM = _appConfig.getInt( "kinect_bottom_pixel", 400 );
 		
 		newCamera();
 		
