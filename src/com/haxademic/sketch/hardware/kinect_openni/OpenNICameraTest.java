@@ -1,35 +1,39 @@
+
 package com.haxademic.sketch.hardware.kinect_openni;
 
 import processing.core.PApplet;
-import SimpleOpenNI.SimpleOpenNI;
+
+import com.haxademic.core.hardware.kinect.KinectWrapper;
 
 public class OpenNICameraTest extends PApplet {
 
-	SimpleOpenNI context;
-
+	//	SimpleOpenNI context;
+	KinectWrapper _kinect;
+	/**
+	 * Auto-initialization of the main class.
+	 * @param args
+	 */
+	public static void main(String args[]) {
+		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.sketch.hardware.kinect_openni.OpenNICameraTest" });
+	}
 	public void setup()
 	{
-	  context = new SimpleOpenNI(this);
-	   
-	  // enable depthMap generation 
-	  context.enableDepth();
-	  
-	  // enable camera image generation
-	  context.enableRGB();
-	 
-	  background(200,0,0);
-	  size(context.depthWidth() + context.rgbWidth() + 10, context.rgbHeight()); 
+		//		super.setup();
+
+		_kinect = new KinectWrapper( this, true, true, true );
+
+		background(200,0,0);
+		size(_kinect.openni().depthWidth() + _kinect.openni().rgbWidth() + 10, _kinect.openni().rgbHeight()); 
 	}
 
 	public void draw()
 	{
-	  // update the cam
-	  context.update();
-	  
-	  // draw depthImageMap
-	  image(context.depthImage(),0,0);
-	  
-	  // draw camera
-	  image(context.rgbImage(),context.depthWidth() + 10,0);
+		// update the cam
+		_kinect.update();
+		// draw depthImageMap
+		image(_kinect.openni().depthImage(),0,0);
+
+		// draw camera
+		image(_kinect.openni().rgbImage(), KinectWrapper.KWIDTH + 10,0);
 	}
 }
