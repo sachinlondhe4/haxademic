@@ -152,7 +152,7 @@ extends PAppletHax
 		loader.createMeshPool();
 		loader.loadAudio( sounds );
 		
-		kinectWrapper.setMirror( true );
+		if(kinectWrapper != null) kinectWrapper.setMirror( true );
 		
 		_screenIntro = new IntroScreen();
 		
