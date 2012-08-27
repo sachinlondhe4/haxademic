@@ -14,7 +14,7 @@ While the code has been open-sourced, this library is not quite ready for genera
 	* MIDI input (both realtime and step-through for rendering)
 		* Cached MIDI input to avoid thread-unsafe operations
 	* OSC input
-	* Kinect input
+	* Kinect input, with skeleton data via OpenNI
 * 3D Tools (using Toxiclibs WETriangleMesh objects as the common format)
 	* Convert SVG files to 2D meshes
 	* Create a 2D mesh from text with a custom .ttf font
