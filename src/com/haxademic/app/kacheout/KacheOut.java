@@ -11,6 +11,7 @@ import com.haxademic.app.kacheout.game.Soundtrack;
 import com.haxademic.app.kacheout.media.AssetLoader;
 import com.haxademic.app.kacheout.media.PhotoBooth;
 import com.haxademic.app.kacheout.screens.IntroScreen;
+import com.haxademic.app.kacheout.screens.IntroScreenWedding;
 import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.cameras.CameraDefault;
 import com.haxademic.core.cameras.common.ICamera;
@@ -110,7 +111,7 @@ extends PAppletHax
 	protected GamePlay _player2;
 	
 	// non-gameplay screens
-	protected IntroScreen _screenIntro;
+	protected IntroScreenWedding _screenIntro;
 	
 	// game state
 	protected int _gameState;
@@ -146,7 +147,7 @@ extends PAppletHax
 		loader.createMeshPool();
 		loader.loadAudio( sounds );		
 		
-		_screenIntro = new IntroScreen();
+		_screenIntro = new IntroScreenWedding();
 		
 		// set flags and props	
 		pickNewColors();
