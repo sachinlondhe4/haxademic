@@ -166,8 +166,12 @@ extends PAppletHax
 		_gamePlays.add( _player1 );
 		_gamePlays.add( _player2 );
 		
-		//setGameMode( GAME_INTRO );
-		setGameMode( GAME_INSTRUCTIONS );
+		// it's opposite day, since game mode triggers the next action
+		if( _appConfig.getBoolean( "starts_on_game", true ) == true ) {
+			setGameMode( GAME_INSTRUCTIONS );
+		} else {
+			setGameMode( GAME_INTRO );
+		}
 	}
 		
 	// HAXADEMIC STUFF --------------------------------------------------------------------------------------
