@@ -120,7 +120,7 @@ public class KinectWrapper {
 					p.fill( 255, 0, 0, alpha * 255f );
 				}
 				p.pushMatrix();
-				p.translate( x * scaleFactor, y * scaleFactor, scaleFactor * curZ );
+				p.translate( x * scaleFactor, y * scaleFactor, scaleFactor * curZ/40f );
 				// Draw a point
 				p.point(0, 0);
 				p.rect(0, 0, 4, 4);

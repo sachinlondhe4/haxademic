@@ -12,7 +12,6 @@ import com.haxademic.core.data.easing.ElasticFloat;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.MathUtil;
-import com.haxademic.core.util.OpenGLUtil;
 import com.haxademic.viz.elements.GridEQ;
 
 public class GamePlay {
@@ -170,21 +169,20 @@ public class GamePlay {
 	
 	protected void findKinectCenterX() {
 		// loop through point grid and skip over pixels on an interval, finding the horizonal extents of an object in the appropriate range
-		float depthInMeters = 0;
+		int pixelDepth;
 		float minX = -1f;
 		float maxX = -1f;
 		
 		// loop through kinect data within player's control range
 		for ( int x = (int)_kinectRange.min(); x < (int)_kinectRange.max(); x += K_PIXEL_SKIP ) {
 			for ( int y = KacheOut.KINECT_TOP; y < KacheOut.KINECT_BOTTOM; y += K_PIXEL_SKIP ) { // only use the vertical middle portion of the kinect data
-				depthInMeters = p.kinectWrapper.getDepthMetersForKinectPixel( x, y, true );
-				if( depthInMeters > KacheOut.KINECT_MIN_DIST && depthInMeters < KacheOut.KINECT_MAX_DIST ) {
+				pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
+				if( pixelDepth != 0 && pixelDepth > KacheOut.KINECT_MIN_DIST && pixelDepth < KacheOut.KINECT_MAX_DIST ) {
 					// keep track of kinect range
 					if( minX == -1 || x < minX ) minX = x;
 					if( maxX == -1 || x > maxX ) maxX = x;
 				}
 			}
-//			p.println("min/max : "+minX+" "+ maxX);
 		}
 		_kinectCurrent.set( minX, maxX );
 		
@@ -234,8 +232,8 @@ public class GamePlay {
 	protected void drawGameObjects() {
 		p.pushMatrix();
 		
-		OpenGLUtil.enableBlending( p, true );
-		OpenGLUtil.setBlendMode( p, OpenGLUtil.ADDITIVE );
+//		OpenGLUtil.enableBlending( p, true );
+//		OpenGLUtil.setBlendMode( p, OpenGLUtil.ADDITIVE );
 		
 		// draw the blocks
 		int index = 0;
@@ -250,8 +248,8 @@ public class GamePlay {
 		if( numActiveBlocks == 0 ) _hasClearedBoard = true;
 		p.popMatrix();
 		
-		OpenGLUtil.enableBlending( p, false );
-		OpenGLUtil.setBlendMode( p, OpenGLUtil.NORMAL );
+//		OpenGLUtil.enableBlending( p, false );
+//		OpenGLUtil.setBlendMode( p, OpenGLUtil.NORMAL );
 		
 		// draw other objects
 		_paddle.display();
@@ -389,13 +387,17 @@ public class GamePlay {
 		p.pushMatrix();
 		DrawUtil.setCenter( p );
 //		float xTravel = p.gameWidth() - KinectWrapper.KWIDTH;
-		float scale = 200f;
-		p.translate( 0, 0, -400 );
+		float scale = 1;
+		p.translate( -KinectWrapper.KWIDTH/2f, 0, -1000 );
 //		float scale = 100f;	// 22f
 //		p.translate( (_gameIndex*60f) + -_paddle.xPosPercent() * 50f, 26, -400 );
 		
 		p.kinectWrapper.drawPointCloudForRect( p, true, 8, 0.5f, scale, KacheOut.KINECT_MIN_DIST, KacheOut.KINECT_MAX_DIST, KacheOut.KINECT_TOP, (int)_kinectRange.max(), KacheOut.KINECT_BOTTOM, (int)_kinectRange.min() );
 		p.popMatrix();
+		
+//		p.image(p.kinectWrapper.getRgbImage(),0,0);
+//		p.image(p.kinectWrapper.getIRImage(),0,0);
+//		p.image(p.kinectWrapper.getDepthImage(),0,0);
 	}
 	
 	protected void drawDebugLines() {
