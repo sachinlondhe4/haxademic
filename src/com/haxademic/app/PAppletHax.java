@@ -234,7 +234,7 @@ extends PApplet
 		}
 		_graphicsMode = p.g.getClass().getName();
 		if(_graphicsMode == P.OPENGL) P.gl=((PGraphicsOpenGL)g).gl;
-		frame.setBackground(new java.awt.Color(0,0,0));
+		if( frame != null ) frame.setBackground(new java.awt.Color(0,0,0));
 		setAppletProps();
 		initHaxademicObjects();
 	}
@@ -279,6 +279,16 @@ extends PApplet
 		_fps = _appConfig.getInt("fps", 30);
 		p.frameRate(_fps);
 		p.noCursor();
+	}
+	
+	public void init() {
+		// frame only exists on Java Applications, not Applets
+		if( frame != null ) {
+			frame.removeNotify(); 
+			frame.setUndecorated(true); 
+			frame.addNotify(); 
+		}
+		super.init();
 	}
 	
 	/**
