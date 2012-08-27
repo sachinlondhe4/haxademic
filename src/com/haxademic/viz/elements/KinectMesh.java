@@ -89,7 +89,7 @@ implements IVizElement {
 		if( _mapsCamera ) {
 			p.noStroke();
 			p.fill( 1, 1 );
-			toxi.texturedMesh(_mesh, _kinectInterface.getVideoImage(), false);
+			toxi.texturedMesh(_mesh, _kinectInterface.getRgbImage(), false);
 		} else {
 			if( _isPoints == true ) {
 				DrawMesh.drawPointsWithAudio( p, ThreeDeeUtil.GetWETriangleMeshFromTriangleMesh( _mesh ), _audioData, 20, 40, _fillColor, _strokeColor, 0.2f );				

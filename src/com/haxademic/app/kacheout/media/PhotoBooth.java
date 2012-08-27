@@ -19,7 +19,7 @@ public class PhotoBooth {
 		if( p.kinectWrapper.isActive() ) {
 			// save normal kinect image
 			String projectPath = FileUtil.getProjectAbsolutePath();
-			p.kinectWrapper.getVideoImage().save( projectPath + "/bin/output/kacheout/kacheout-" + SystemUtil.getTimestampFine( p ) + "-rgb.png" );
+			p.kinectWrapper.getRgbImage().save( projectPath + "/bin/output/kacheout/kacheout-" + SystemUtil.getTimestampFine( p ) + "-rgb.png" );
 
 			// create composite image
 			float screenToOutputWidthRatio = 640f / (float)stageWidth;
@@ -27,7 +27,7 @@ public class PhotoBooth {
 			PImage img = p.createImage(640, 480 + screenShotHeight, P.RGB);
 
 			// paste 2 images together and save
-			img.copy( ImageUtil.getReversePImage( p.kinectWrapper.getVideoImage() ), 0, 0, 640, 480, 0, 0, 640, 480 );
+			img.copy( ImageUtil.getReversePImage( p.kinectWrapper.getRgbImage() ), 0, 0, 640, 480, 0, 0, 640, 480 );
 			img.copy( screenshot, 0, 0, stageWidth, stageHeight, 0, 481, 640, screenShotHeight );
 			img.save( projectPath + "/bin/output/kacheout/kacheout-" + SystemUtil.getTimestampFine( p ) + "-comp.png" );
 		}

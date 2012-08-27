@@ -2,8 +2,6 @@ package com.haxademic.app.kacheout;
 
 import java.util.ArrayList;
 
-import javax.media.opengl.GL;
-
 import processing.core.PApplet;
 
 import com.haxademic.app.P;
@@ -20,6 +18,8 @@ import com.haxademic.core.data.FloatRange;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.util.ColorGroup;
 import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.util.FileUtil;
+import com.haxademic.core.util.SystemUtil;
 
 public class KacheOut
 extends PAppletHax  
@@ -39,10 +39,10 @@ extends PAppletHax
 	}
 
 	// input
-	public static float KINECT_MIN_DIST = 2.3f;
-	public static float KINECT_MAX_DIST = 3.3f;
-//	public static float KINECT_MIN_DIST = 1.5f;
-//	public static float KINECT_MAX_DIST = 2.5f;
+//	public static float KINECT_MIN_DIST = 2.3f * 1000f;
+//	public static float KINECT_MAX_DIST = 3.3f * 1000f;
+	public static float KINECT_MIN_DIST = 1.5f * 1000f;
+	public static float KINECT_MAX_DIST = 2.0f * 1000f;
 	public static int KINECT_TOP = 0;
 	public static int KINECT_BOTTOM = 150;
 	public static float KINECT_GAP_PERCENT = 0.5f;
@@ -152,8 +152,7 @@ extends PAppletHax
 		loader.createMeshPool();
 		loader.loadAudio( sounds );
 		
-		kinectWrapper.enableDepth( true );
-		kinectWrapper.enableDepthImage( true );
+		kinectWrapper.setMirror( true );
 		
 		_screenIntro = new IntroScreen();
 		
@@ -194,7 +193,7 @@ extends PAppletHax
 		if ( p.key == 'd' || p.key == 'D' ) {
 			_isDebugging = !_isDebugging;
 			kinectWrapper.enableRGB( !_isDebugging );
-			kinectWrapper.enableDepthImage( !_isDebugging );
+			kinectWrapper.enableDepth( !_isDebugging );
 		}
 	}
 	
