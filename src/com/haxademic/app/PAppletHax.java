@@ -192,6 +192,12 @@ extends PApplet
 	 */
 	public DebugText _debugText;
 	
+	
+	/**
+	 * Graphical render mode
+	 */
+	public String _graphicsMode;
+
 	/**
 	 * Helps the Renderer object work with minimal reconfiguration. Maybe this should be moved at some point... 
 	 */
@@ -206,7 +212,7 @@ extends PApplet
 	 * Helps the Renderer object work without trying to read a MIDI file
 	 */
 	protected Boolean _isRenderingMidi = true;
-
+	
 	// OVERRIDE THE FOLLOWING METHODS 
 	/**
 	 * Called by PApplet to run before the first draw() command.
@@ -226,7 +232,8 @@ extends PApplet
 				p.size(_appConfig.getInt("width", 800),_appConfig.getInt("height", 600),renderer);
 			}
 		}
-		P.gl=((PGraphicsOpenGL)g).gl;
+		_graphicsMode = p.g.getClass().getName();
+		if(_graphicsMode == P.OPENGL) P.gl=((PGraphicsOpenGL)g).gl;
 		frame.setBackground(new java.awt.Color(0,0,0));
 		setAppletProps();
 		initHaxademicObjects();
@@ -259,12 +266,12 @@ extends PApplet
 		_isRenderingAudio = _appConfig.getBoolean("render_audio", false);
 		_isRenderingMidi = _appConfig.getBoolean("render_midi", false);
 		_showStats = _appConfig.getBoolean("show_stats", false);
-		if( _isRendering == true ) {
-			// prevents an error
-//			hint(DISABLE_OPENGL_2X_SMOOTH);
-			hint(ENABLE_OPENGL_2X_SMOOTH); 
-		} else {
-			if( _appConfig.getBoolean("sunflow", true ) == false ) { 
+		if(_graphicsMode == P.OPENGL) {
+			if( _isRendering == true ) {
+				// prevents an error
+	//			hint(DISABLE_OPENGL_2X_SMOOTH);
+				hint(ENABLE_OPENGL_2X_SMOOTH); 
+			} else {
 				OpenGLUtil.setQuality(p, OpenGLUtil.MEDIUM);
 			}
 		}
