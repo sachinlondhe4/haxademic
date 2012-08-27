@@ -72,7 +72,6 @@ Java & Processing libraries:
 
 * Processing
 * Krister.ESS
-* Openkinect (deprecating this in favor of OpenNI)
 * OpenNI
 * Toxiclibs
 * p5sunflow
@@ -87,7 +86,6 @@ Java & Processing libraries:
 
 Use the following VM Arguments when running the Java Application
 
-* -d32
 * -Xmx1024M
 * -Xms1024M
 
