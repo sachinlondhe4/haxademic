@@ -7,16 +7,13 @@ import toxi.geom.Sphere;
 import toxi.geom.Vec3D;
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.viz.IVizModule;
-import com.haxademic.viz.ModuleBase;
 import com.haxademic.core.cameras.CameraBasic;
 import com.haxademic.core.cameras.CameraOscillate;
-import com.haxademic.core.cameras.CameraSpotter;
-import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.hardware.midi.MidiWrapper;
-import com.haxademic.core.render.Renderer;
+import com.haxademic.viz.IVizModule;
+import com.haxademic.viz.ModuleBase;
 
 public class MaxCache extends ModuleBase implements IVizModule {
 	
@@ -218,10 +215,10 @@ public class MaxCache extends ModuleBase implements IVizModule {
 					rawDepthD = _depthArray[_offsetD];
 					rawDepthRD = _depthArray[_offsetRD];
 					
-					_curPixelDepth = _kinectinterface.depthToWorld(x, y, rawDepth);
-					_rightPixelDepth = _kinectinterface.depthToWorld(nextX, y, rawDepthR);
-					_rightDownPixelDepth = _kinectinterface.depthToWorld(nextX, nextY, rawDepthRD);
-					_downPixelDepth = _kinectinterface.depthToWorld(x, nextY, rawDepthD);
+					_rightPixelDepth = new PVector( x, y, p.kinectWrapper.getMillimetersDepthForKinectPixel(nextX, y) );
+					_curPixelDepth = new PVector( x, y, p.kinectWrapper.getMillimetersDepthForKinectPixel(x, y) );
+					_rightDownPixelDepth = new PVector( x, y, p.kinectWrapper.getMillimetersDepthForKinectPixel(nextX, nextY) );
+					_downPixelDepth = new PVector( x, y, p.kinectWrapper.getMillimetersDepthForKinectPixel(x, nextY) );
 					
 					// draw if within threshold
 					if (_curPixelDepth.z < _thresholdHigh && _rightPixelDepth.z < _thresholdHigh && _curPixelDepth.z < _thresholdHigh && _downPixelDepth.z < _thresholdHigh) {

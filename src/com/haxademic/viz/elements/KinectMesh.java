@@ -146,10 +146,10 @@ implements IVizElement {
 						}
 						
 						// get depth for neighbor cells
-						_curPixelDepth = _kinectInterface.depthToWorldToxi(x, y, _depthArray[_offsetC], -1);
-						_rightPixelDepth = _kinectInterface.depthToWorldToxi(nextX, y, _depthArray[_offsetR], -1);
-						_rightDownPixelDepth = _kinectInterface.depthToWorldToxi(nextX, nextY, _depthArray[_offsetRD], -1);
-						_downPixelDepth = _kinectInterface.depthToWorldToxi(x, nextY, _depthArray[_offsetD], -1);
+						_rightPixelDepth = new Vec3D( x, y, _kinectInterface.getMillimetersDepthForKinectPixel(nextX, y) );
+						_curPixelDepth = new Vec3D( x, y, _kinectInterface.getMillimetersDepthForKinectPixel(x, y) );
+						_rightDownPixelDepth = new Vec3D( x, y, _kinectInterface.getMillimetersDepthForKinectPixel(nextX, nextY) );
+						_downPixelDepth = new Vec3D( x, y, _kinectInterface.getMillimetersDepthForKinectPixel(x, nextY) );
 						
 						// draw if within threshold
 						if (_curPixelDepth.z > -_thresholdHigh && _rightPixelDepth.z > -_thresholdHigh && _curPixelDepth.z > -_thresholdHigh && _downPixelDepth.z > -_thresholdHigh) {
