@@ -18,8 +18,6 @@ import com.haxademic.core.data.FloatRange;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.util.ColorGroup;
 import com.haxademic.core.util.DrawUtil;
-import com.haxademic.core.util.FileUtil;
-import com.haxademic.core.util.SystemUtil;
 
 public class KacheOut
 extends PAppletHax  
@@ -137,16 +135,7 @@ extends PAppletHax
 		_stageHeight = height;
 		_gameWidth = _stageWidth / NUM_PLAYERS;
 //		_cameraZFromHeight = (float)_stageHeight * CAMERA_Z_WIDTH_MULTIPLIER;
-		
-		// default kinect camera distance is for up-close indoor testing. not good for real games - suggested use is 2300-3300
-		// default pixel rows are the center 200 kinect data rows
-		KINECT_MIN_DIST = _appConfig.getInt( "kinect_min_mm", 1500 );
-		KINECT_MAX_DIST = _appConfig.getInt( "kinect_max_mm", 2000 );
-		KINECT_TOP = _appConfig.getInt( "kinect_top_pixel", 240 );
-		KINECT_BOTTOM = _appConfig.getInt( "kinect_bottom_pixel", 400 );
-		
-		newCamera();
-		
+				
 		_audioInput.setNumAverages( _numAverages );
 		_audioInput.setDampening( .13f );
 		
@@ -155,14 +144,21 @@ extends PAppletHax
 		
 		AssetLoader loader = new AssetLoader();
 		loader.createMeshPool();
-		loader.loadAudio( sounds );
-		
-		if(kinectWrapper != null) kinectWrapper.setMirror( true );
+		loader.loadAudio( sounds );		
 		
 		_screenIntro = new IntroScreen();
 		
 		// set flags and props	
 		pickNewColors();
+		newCamera();
+		
+		// default kinect camera distance is for up-close indoor testing. not good for real games - suggested use is 2300-3300
+		// default pixel rows are the center 200 kinect data rows
+		KINECT_MIN_DIST = _appConfig.getInt( "kinect_min_mm", 1500 );
+		KINECT_MAX_DIST = _appConfig.getInt( "kinect_max_mm", 2000 );
+		KINECT_TOP = _appConfig.getInt( "kinect_top_pixel", 240 );
+		KINECT_BOTTOM = _appConfig.getInt( "kinect_bottom_pixel", 400 );
+		if(kinectWrapper != null) kinectWrapper.setMirror( true );
 		
 		float kinectRangeWidth = KinectWrapper.KWIDTH / 2f * KINECT_GAP_PERCENT;
 		_player1 = new GamePlay( 0, 0, _gameWidth, new FloatRange( 0, kinectRangeWidth ) );
