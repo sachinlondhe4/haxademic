@@ -38,9 +38,11 @@ public class KinectWrapper {
 	
 	public void update() {
 		// Get the raw depth as array of integers
-		_kinect.update();
-		_depthArray = _kinect.depthMap();
-		_realWorldMap = _kinect.depthMapRealWorld();
+		if( _kinectActive == true ) {
+			_kinect.update();
+			_depthArray = _kinect.depthMap();
+			_realWorldMap = _kinect.depthMapRealWorld();
+		}
 	}
 	
 	public PImage getDepthImage() {
