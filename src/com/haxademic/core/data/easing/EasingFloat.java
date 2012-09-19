@@ -17,6 +17,10 @@ implements IEasingValue {
 		return _val;
 	}
 	
+	public float target() {
+		return _target;
+	}
+	
 	public void setCurrent( float value ) {
 		_val = value;
 	}
