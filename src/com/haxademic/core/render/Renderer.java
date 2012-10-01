@@ -115,6 +115,7 @@ public class Renderer
 	public void startRendererForAudio( String audioFile, AudioInputWrapper audioWrapper ) 
 	{
 		// store audio analysis object
+		P.println("Rendering with audio: "+audioFile);
 		_audioData = audioWrapper;
 		
 		// fire it up
