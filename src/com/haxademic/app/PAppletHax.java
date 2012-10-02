@@ -222,7 +222,10 @@ extends PApplet
 		if ( !_is_setup ) { 
 			// load external properties and set flag
 			_appConfig = new P5Properties(p);
-			if( _customPropsFile != null ) _appConfig.loadPropertiesFile( _customPropsFile );
+			if( _customPropsFile != null ) 
+				_appConfig.loadPropertiesFile( _customPropsFile );
+			else 
+				overridePropsFile();
 			_is_setup = true;
 			// set screen size and renderer
 			String renderer = ( _appConfig.getBoolean("sunflow", true ) == true ) ? "hipstersinc.P5Sunflow" : P.OPENGL;
@@ -237,6 +240,10 @@ extends PApplet
 		if( frame != null ) frame.setBackground(new java.awt.Color(0,0,0));
 		setAppletProps();
 		initHaxademicObjects();
+	}
+	
+	protected void overridePropsFile() {
+		P.println("YOU SHOULD OVERRIDE overridePropsFile()");
 	}
 	
 	protected void drawApp() {
