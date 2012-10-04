@@ -93,7 +93,9 @@ extends PApplet
 		_meshPool.addMesh( "CACHEFLOWE_LOGOTYPE", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/cacheflowe-logotype.svg", -1, 6, 0.7f ), 4 ), 1 );
 		_meshPool.addMesh( "MODE_SET_LOGOTYPE", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/modeset-logotype.svg", -1, 6, 0.7f ), 4 ), 1 );
 		_meshPool.addMesh( "CDW_LOGO", MeshUtil.meshFromSVG( p, "../data/svg/create-denver-logo.svg", -1, 3, 0.6f ), 1 );
-		
+
+		_meshPool.addMesh( "GUICEWORKS_LOGO", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/guiceworks-logo.svg", -1, 20, 0.7f ), 20 ), 1 );
+
 		_meshPool.addMesh( "BIKE_COMMUTER", MeshUtil.meshFromSVG( p, "../data/svg/bike-commuter.svg", -1, 7, 0.5f ), 1 );
 		
 		// img models
@@ -161,9 +163,10 @@ extends PApplet
 			p.stroke(255,249,0, 255);	// cacheflowe yellow
 			p.noFill();
 		} else {
-			p.fill(255, 255);		// white
+//			p.fill(255, 255);		// white
 //			p.fill(0,200,234, 255);	// mode set blue
 //			p.fill(255,249,0, 255);	// cacheflowe yellow
+			p.fill(237,30,121, 255);// guiceworks pink	#ed1e79
 			p.noStroke();
 		}
 
