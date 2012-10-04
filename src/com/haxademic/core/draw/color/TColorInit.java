@@ -1,7 +1,5 @@
 package com.haxademic.core.draw.color;
 
-import com.haxademic.app.P;
-
 import toxi.color.TColor;
 
 public class TColorInit {
