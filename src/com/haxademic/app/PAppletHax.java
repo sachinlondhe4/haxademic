@@ -39,7 +39,7 @@ import fullscreen.FullScreen;
  * 
  * Processing
  * Krister.ESS
- * Openkinect
+ * OpenNI
  * Toxiclibs
  * p5sunflow
  * OBJLoader
@@ -51,7 +51,15 @@ import fullscreen.FullScreen;
  * minim 
  * Geomerative 
  * 
+ * @TODO: Refactor MIDI input for easier switching between ableton & akai pad control
+ * @TODO: Add MIDI debug flag in .properties
+ * @TODO: 2D scene masking - add this as a HaxVisual layer?
+ * @TODO: Mesh traversal drawing
+ * @TODO: Handle MIDI CC / Allow more than just note_on messages from PAppletHax base. should be able to respond to any midi data
+ * @TODO: Implement new viz ideas from sketchbook
+ * @TODO: Add SVG animation class
  * @TODO: Create PGraphics & PImage audio-reactive textures to apply to meshes across sketches/apps. See SphereTextureMap and abstracts some of the goodness. !!! - add current texture and iVizTextureDraw classes to VizCollection Module
+ * 
  * @TODO: Use a static Haxademic.support( PApplet ) type static instance to let us gain access to the applet without passing it everywhere. Look at Geomerative & Toxiclibs to see how they did it.
  * @TODO: ^^^ General cleanup of PAppletHax references throughout codebase
  * @TODO: Make sure it's cool to post all the 3rd-party code within. potentially rewrite these bits
@@ -62,8 +70,6 @@ import fullscreen.FullScreen;
  * @TODO: Mesh traversal drawing: more configurable. generative options - implement mesh drawing strategy pattern
  * @TODO: Finish converting old modules into new Elements: AudioTubes, Blobsheet, cacheRings outer rings, GridEQ w/lines, MaxCache outer rings, PlusRing, more spheres
  * @TODO: Create more abstract user/hardware input system that routes different inputs into certain types of commands.
- * @TODO: Allow more than just note_on messages from PAppletHax base. should be able to respond to any midi data
- * @TODO: Port .js MathUtil methods in MathUtil
  * @TODO: Fix stepping through audio for WaveformData - this was hacked for BNC video rendering but shouldn't have to play & cue() the audio to capture the data
  * @TODO: Figure out why publish/output directory weirdness is happening, and why generated .class files need to be there...
  * @TODO: Don't initialize MIDI object if not defined in run.properties. Will need to prevent attempting to detect MIDI input on handleKeyboardInput() methods
