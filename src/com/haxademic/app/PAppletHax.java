@@ -58,7 +58,6 @@ import fullscreen.FullScreen;
  * @TODO: Handle MIDI CC / Allow more than just note_on messages from PAppletHax base. should be able to respond to any midi data
  * @TODO: Implement new viz ideas from sketchbook
  * @TODO: Add SVG animation class
- * @TODO: Make chromeless window optional - right now all apps are chromeless and you can't move the window
  * @TODO: Build in a better pathing configuration for sketches & apps. .properties?
  * @TODO: Create PGraphics & PImage audio-reactive textures to apply to meshes across sketches/apps. See SphereTextureMap and abstracts some of the goodness. !!! - add current texture and iVizTextureDraw classes to VizCollection Module
  * 
@@ -180,6 +179,11 @@ extends PApplet
 	protected Boolean _is_setup = false;
 	
 	/**
+	 * Override this in a subclass of PAppletHax if you want to remove the window chrome 
+	 */
+	protected static Boolean _hasChrome = true;
+	
+	/**
 	 * Executable's target frames per second. 
 	 * This value is set in .properties file.
 	 */
@@ -298,7 +302,7 @@ extends PApplet
 	
 	public void init() {
 		// frame only exists on Java Applications, not Applets
-		if( frame != null ) {
+		if( frame != null && _hasChrome == false ) {
 			frame.removeNotify(); 
 			frame.setUndecorated(true); 
 			frame.addNotify(); 

@@ -27,13 +27,14 @@ extends PAppletHax
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Auto-initialization of the main class.
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		// "--present", 
+		// "--present",
+		_hasChrome = false;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.kacheout.KacheOut" });
 	}
 
