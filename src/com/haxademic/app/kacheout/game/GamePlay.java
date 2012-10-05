@@ -399,7 +399,7 @@ public class GamePlay {
 //		float scale = 100f;	// 22f
 //		p.translate( (_gameIndex*60f) + -_paddle.xPosPercent() * 50f, 26, -400 );
 		
-		p.kinectWrapper.drawPointCloudForRect( p, true, 8, 0.5f, scale, KacheOut.KINECT_MIN_DIST, KacheOut.KINECT_MAX_DIST, KacheOut.KINECT_TOP, (int)_kinectRange.max(), KacheOut.KINECT_BOTTOM, (int)_kinectRange.min() );
+		if( p.kinectWrapper != null ) p.kinectWrapper.drawPointCloudForRect( p, true, 8, 0.5f, scale, KacheOut.KINECT_MIN_DIST, KacheOut.KINECT_MAX_DIST, KacheOut.KINECT_TOP, (int)_kinectRange.max(), KacheOut.KINECT_BOTTOM, (int)_kinectRange.min() );
 		p.popMatrix();
 		
 //		p.image(p.kinectWrapper.getRgbImage(),0,0);

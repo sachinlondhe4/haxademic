@@ -16,7 +16,7 @@ public class PhotoBooth {
 		String screenshotFile = ScreenUtil.screenshotToJPG( p, projectPath + "/bin/output/kacheout/kacheout-" );
 		PImage screenshot = p.loadImage( screenshotFile );
 
-		if( p.kinectWrapper.isActive() ) {
+		if( p.kinectWrapper != null && p.kinectWrapper.isActive() ) {
 			// save normal kinect image
 			p.kinectWrapper.getRgbImage().save( projectPath + "/bin/output/kacheout/kacheout-" + SystemUtil.getTimestampFine( p ) + "-rgb.png" );
 
