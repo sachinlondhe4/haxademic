@@ -218,7 +218,7 @@ public class GamePlay {
 		// update keyboard or Kinect, and pass the value to the paddle
 		float paddleX = 0.5f;
 		boolean inputDetected = false;
-		if( p.kinectWrapper.isActive() == true ) {
+		if( p.kinectWrapper != null && p.kinectWrapper.isActive() == true ) {
 			findKinectCenterX();
 			// send kinect data to games - calculate based off number of games vs. kinect width
 			if( _playerReady == false ) {	// _kinectCurrent.center() == -1 || 
