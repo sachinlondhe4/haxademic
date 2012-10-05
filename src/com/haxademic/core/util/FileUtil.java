@@ -22,8 +22,8 @@ public class FileUtil {
 		} else {
 		    for (int i=0; i < children.length; i++) {
 		        String filename = children[i];
-		        P.println(filename);
 		        if( filename.indexOf( type ) != -1 ) {	
+		        	P.println(filename);
 		        	filesOfType.add( filename );
 		        }
 		    }
