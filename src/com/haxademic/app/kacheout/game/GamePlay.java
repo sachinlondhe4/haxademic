@@ -54,11 +54,9 @@ public class GamePlay {
 	protected boolean _didWin = false;
 	protected ElasticFloat _gameOverTextScale;
 	protected int _gameOverFrameCount = 0;
-	
-	// wedding mode
 	protected int _gameNum = 0;
-	protected int _tieGames = 3;
 
+	
 	public GamePlay( int gameIndex, int gameLeft, int gameRight, FloatRange kinectRange ) {
 		p = (KacheOut) P.p;
 		_gameIndex = gameIndex;
@@ -119,8 +117,6 @@ public class GamePlay {
 			_invaders.get( i ).gameOver();
 		}
 		_gameOverTextScale.setTarget( 1 );
-		// wedding mode
-		if( _gameNum < _tieGames ) _didWin = true;
 		_gameNum++;
 	}
 	
