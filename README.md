@@ -1,8 +1,8 @@
 # Haxademic
-Haxademic is a multimedia platform, built in Java and [Processing](http://processing.org/). It's a starting point for interactive visuals, giving you a unified environment for both realtime and rendering modes. It loads several Java libraries and wraps them up to play nicely with each other, all within the context of Haxademic. It solves a number of problems faced by thread-unsafe inputs, and a number of hardware inputs like audio, Kinect, MIDI and OSC.
+Haxademic is a multimedia platform, built in Java and [Processing](http://processing.org/). It's a starting point for interactive visuals, giving you a unified environment for both realtime and rendering modes. It loads several Java libraries and wraps them up to play nicely with each other. It solves a number of problems faced by (potentially) thread-unsafe hardware inputs like audio, Kinect, MIDI and OSC. To view some projects created with the library, check out the [Haxademic Tumblr](http://haxademic.com/).
 
-## Pre-Alpha State
-While the code has been open-sourced, this library is not quite ready for general use, but I'm trying to get it there. There's plenty of interesting code within, and I fully endorse borrowing it however you see fit in the meantime. If you're interested in collaborating, please contact me via my [GitHub account](http://github.com/cacheflowe), or my [web site](http://cacheflowe.com/?page=contact). If you're interested in getting the project running, let me know and I can help for now.
+## Alpha State
+While the code has been open-sourced, I haven't had time to write much (any) documentation, but I'm trying to get it there. You can see the example apps and sketches to get an idea of how to use various features, and the big hangup right now is that you'll have to find and install the 3rd-party libraries on your own. Even without fully installing everything, there's plenty of interesting code within, and I fully endorse borrowing it however you see fit in the meantime. If you're interested in collaborating, please contact me via my [GitHub account](http://github.com/cacheflowe), or my [web site](http://cacheflowe.com/?page=contact). If you'd like help getting the project running, let me know and I can personally assist for now.
 
 ## Features / Capabilities
 * Inputs
@@ -18,7 +18,7 @@ While the code has been open-sourced, this library is not quite ready for genera
 * 3D Tools (using Toxiclibs WETriangleMesh objects as the common format)
 	* Convert SVG files to 2D meshes
 	* Create a 2D mesh from text with a custom .ttf font
-	* Simple extrusion of 2D meshes
+	* Simple 3D extrusion of 2D meshes
 	* Load and convert .obj files to WETriangleMesh
 	* Mesh pool object to load and hold instance of any number of meshes
 	* Base Camera type, with simple camera subclasses (needs work) 
@@ -47,9 +47,9 @@ While the code has been open-sourced, this library is not quite ready for genera
 * General Environment
 	* .properties file loader with overridable defaults
 	* Directory searching for specific filetypes
-	* Automatic screensaver disabling while running
+	* Automatic system screensaver disabling while running
 	* True full-screen mode on OS X
-	* Hides the window chrome on a non-fullscreen applet
+	* Toggles the window chrome on a non-fullscreen applet
 * Apps
 	* HaxVisual - A modular VJ system
 	* KacheOut - A 2-player Kinect-based video game 
