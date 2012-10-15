@@ -23,7 +23,8 @@ public class Ball {
 //	protected Sphere _sphere;
 	protected AABB _box;
 	protected float _x, _y, _speedX, _speedY;
-	protected float SPEED_UP = 1.0015f;
+//	protected float SPEED_UP = 1.0015f;
+	protected float SPEED_UP = 1.0007f;
 	
 	protected float BASE_ALPHA = 0.8f;
 	protected EasingFloat _alpha;

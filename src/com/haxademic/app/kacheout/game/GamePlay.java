@@ -20,7 +20,7 @@ public class GamePlay {
 	// game dimensions
 	protected int _gameLeft, _gameRight, _gameWidth;
 	protected int _cols = 4;
-	protected int _rows = 3;
+	protected int _rows = 6;
 	
 	// main game objects
 	protected Ball _ball;
