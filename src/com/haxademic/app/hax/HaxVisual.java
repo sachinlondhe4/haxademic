@@ -45,7 +45,7 @@ extends PAppletHax
 	 */
 	public static void main(String args[]) {
 		// "--present", 
-		PApplet.main(new String[] { "--present", "--hide-stop", "--bgcolor=000000", "com.haxademic.app.hax.HaxVisual" });
+		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.hax.HaxVisual" });
 	}
 
 	/**
