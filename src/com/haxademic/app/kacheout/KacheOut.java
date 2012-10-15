@@ -249,8 +249,8 @@ extends PAppletHax
 		}
 		// mute sounds while stress-testing
 		if( _isDebugging == true ) {
-			sounds.mute( true );
-			soundtrack.mute( true );
+//			sounds.mute( true );
+//			soundtrack.mute( true );
 		}
 	}
 		
