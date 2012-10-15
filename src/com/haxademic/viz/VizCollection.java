@@ -35,11 +35,13 @@ implements IVizModule
 	protected IVizElement _bgElement = null;
 	protected IVizElement _fgElement = null;
 	protected IVizElement _ambientElement = null;
+	protected IVizElement _2dElement = null;
 	
 	protected Vector<IVizElement> _bgElements;
 	protected Vector<IVizElement> _fgElements;
 	protected Vector<IVizElement> _ambientElements;
 	protected Vector<IVizElement> _outerElements;
+	protected Vector<IVizElement> _2dElements;
 	
 	protected ColorGroup _balletColors;
 	
@@ -57,12 +59,13 @@ implements IVizModule
 	public void init() {
 		_curCamera = new CameraBasic( p, 0, 0, (int)_curCameraZ );
 		_curCamera.reset();
-		_curCamera.setTarget( 0, 0, 300 );
+		_curCamera.setTarget( 0, 0, 0 );
 
 		_bgElements = new Vector<IVizElement>();
 		_fgElements = new Vector<IVizElement>();
 		_ambientElements = new Vector<IVizElement>();
 		_outerElements = new Vector<IVizElement>();
+		_2dElements = new Vector<IVizElement>();
 		
 		addElements();
 		pickElements();
@@ -96,7 +99,10 @@ implements IVizModule
 		if( _outerElement != null ) _outerElement.update();
 		if( _bgElement != null ) _bgElement.update();
 		if( _fgElement != null ) _fgElement.update();
-		if( _ambientElement != null ) _ambientElement.update();		
+		if( _ambientElement != null ) _ambientElement.update();	
+		p.hint( P.DISABLE_DEPTH_TEST );
+		if( _2dElement != null ) _2dElement.update();		
+		p.hint( P.ENABLE_DEPTH_TEST );
 
 		// set camera
 		_curCameraZ = MathUtil.easeTo(_curCameraZ, 0, 10);
@@ -165,6 +171,7 @@ implements IVizModule
 		if( _bgElement != null ) _bgElement.updateColorSet( _balletColors );
 		if( _fgElement != null ) _fgElement.updateColorSet( _balletColors );
 		if( _ambientElement != null ) _ambientElement.updateColorSet( _balletColors );		
+		if( _2dElement != null ) _2dElement.updateColorSet( _balletColors );		
 	}
 	
 	public void handleKeyboardInput() {
@@ -194,21 +201,21 @@ implements IVizModule
 	protected void pickElements() {
 		// stagger swapping on FG and BG elements - find cur index and increment to next
 		// pick bg element
-		if( _numBigChanges % 2 == 1 ) {
+		if( _numBigChanges % 2 == 1 && _bgElements.size() > 0 ) {
 			int curBGIndex = _bgElements.indexOf( _bgElement );
 			curBGIndex = ( curBGIndex < _bgElements.size() - 1 ) ? curBGIndex + 1 : 0;
 			_bgElement = _bgElements.get( curBGIndex );
 		}
 		
 		// pick fg element
-		if( _numBigChanges % 2 == 0 ) {
+		if( _numBigChanges % 2 == 0 && _fgElements.size() > 0 ) {
 			int curFGIndex = _fgElements.indexOf( _fgElement );
 			curFGIndex = ( curFGIndex < _fgElements.size() - 1 ) ? curFGIndex + 1 : 0;
 			_fgElement = _fgElements.get( curFGIndex );
 		}
 		
 		// pick outer element - randomly turn it off
-		if( _numBigChanges > 3 ) {
+		if( _numBigChanges > 3 && _outerElements.size() > 0 ) {
 			int curOuterIndex = _outerElements.indexOf( _outerElement );
 			curOuterIndex = ( curOuterIndex < _outerElements.size() - 1 ) ? curOuterIndex + 1 : 0;
 			_outerElement = _outerElements.get( curOuterIndex );
@@ -223,6 +230,13 @@ implements IVizModule
 		}
 		// _ambientElement = ( MathUtil.randBoolean( p ) == true ) ? null : _ambientElement;
 		
+		// pick 2D element
+		if( _numBigChanges % 1 == 0 && _2dElements.size() > 0 ) {
+			int cur2dIndex = _2dElements.indexOf( _2dElement );
+			cur2dIndex = ( cur2dIndex < _2dElements.size() - 1 ) ? cur2dIndex + 1 : 0;
+			_2dElement = _2dElements.get( cur2dIndex );
+		}
+
 		// keep track of changes
 		_numBigChanges++;
 	}
@@ -232,6 +246,7 @@ implements IVizModule
 		if( _bgElement != null && MathUtil.randBoolean( p ) == true ) _bgElement.updateCamera();
 		if( _fgElement != null && MathUtil.randBoolean( p ) == true ) _fgElement.updateCamera();
 		if( _ambientElement != null && MathUtil.randBoolean( p ) == true ) _ambientElement.updateCamera();
+		if( _2dElement != null && MathUtil.randBoolean( p ) == true ) _2dElement.updateCamera();
 	}
 	
 	protected void newLineMode() {
@@ -239,6 +254,7 @@ implements IVizModule
 		if( _bgElement != null && MathUtil.randBoolean( p ) == true ) _bgElement.updateLineMode();
 		if( _fgElement != null && MathUtil.randBoolean( p ) == true ) _fgElement.updateLineMode();
 		if( _ambientElement != null && MathUtil.randBoolean( p ) == true ) _ambientElement.updateLineMode();
+		if( _2dElement != null && MathUtil.randBoolean( p ) == true ) _2dElement.updateLineMode();
 	}
 	
 	protected void pickMode() {
@@ -247,6 +263,7 @@ implements IVizModule
 		if( _bgElement != null ) _bgElement.reset();
 		if( _fgElement != null ) _fgElement.reset();
 		if( _ambientElement != null ) _ambientElement.reset();
+		if( _2dElement != null ) _2dElement.reset();
 				
 		_curCameraZ = -200;
 		_curCamera.setPosition(0, 0, (int)_curCameraZ);

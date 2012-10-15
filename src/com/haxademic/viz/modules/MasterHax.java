@@ -6,14 +6,15 @@ import toxi.color.TColor;
 import toxi.color.theory.ColorTheoryStrategy;
 import toxi.color.theory.CompoundTheoryStrategy;
 
+import com.haxademic.app.P;
 import com.haxademic.core.util.ColorGroup;
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.VizCollection;
-import com.haxademic.viz.elements.BarsEQ;
+import com.haxademic.viz.elements.AppFrame2d;
+import com.haxademic.viz.elements.BarsEQ2d;
 import com.haxademic.viz.elements.GridEQ;
 import com.haxademic.viz.elements.LinesEQ;
 import com.haxademic.viz.elements.MeshDeform;
-import com.haxademic.viz.elements.ObjMesh;
 import com.haxademic.viz.elements.OuterSphere;
 import com.haxademic.viz.elements.RotatingRings;
 import com.haxademic.viz.elements.RotatorShapes;
@@ -54,6 +55,9 @@ implements IVizModule {
 //		_fgElements.add( new KinectMesh( p, toxi, _audioData, p._kinectWrapper ) );
 		
 		_ambientElements.add( new SphereClouds( p, toxi, _audioData ) );
+		
+		_2dElements.add( new BarsEQ2d( p, toxi, _audioData ) );
+		_2dElements.add( new AppFrame2d( p, toxi, _audioData ) );
 
 		_outerElements.add( new OuterSphere( p, toxi, _audioData ) );
 		SphereTextureLines sphereLines = new SphereTextureLines( p, toxi, _audioData );
