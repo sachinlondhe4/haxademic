@@ -81,8 +81,8 @@ extends PAppletHax
 	 */
 	protected void initVizModules() {
 		_modules = new ArrayList<IVizModule>();
-		_modules.add( new AmbientViz() );
 		_modules.add( new MasterHax() );
+		_modules.add( new AmbientViz() );
 		_modules.add( new BrimLiski() );
 		_modules.add( new KaraokeViz() );
 		_modules.add( new Boxen3D() );
