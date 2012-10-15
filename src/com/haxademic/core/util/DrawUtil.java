@@ -20,7 +20,7 @@ public class DrawUtil {
 		p.strokeWeight( 1 );
 		p.imageMode( PConstants.CENTER );
 		p.rectMode( PConstants.CENTER );
-		
+		p.camera();
 	}
 
 	public static void setCenter(PApplet p) {
