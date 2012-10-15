@@ -198,8 +198,10 @@ extends PAppletHax
 		super.handleInput( isMidi );
 		if ( p.key == 'd' || p.key == 'D' ) {
 			_isDebugging = !_isDebugging;
-			kinectWrapper.enableRGB( !_isDebugging );
-			kinectWrapper.enableDepth( !_isDebugging );
+			if( kinectWrapper != null ) {
+				kinectWrapper.enableRGB( !_isDebugging );
+				kinectWrapper.enableDepth( !_isDebugging );
+			}
 		}
 	}
 	
