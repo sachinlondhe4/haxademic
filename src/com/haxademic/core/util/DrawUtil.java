@@ -40,5 +40,16 @@ public class DrawUtil {
 		p.ambientLight(0.2f,0.2f,0.2f, 0, 0, 6000);
 		p.ambientLight(0.2f,0.2f,0.2f, 0, 0, -6000);
 	}
+
+	
+	public static void setDrawCorner( PApplet p ) {
+		p.imageMode( PConstants.CORNER );
+		p.rectMode( PConstants.CORNER );
+	}
+	
+	public static void setDrawCenter( PApplet p ) {
+		p.imageMode( PConstants.CENTER );
+		p.rectMode( PConstants.CENTER );
+	}
 	
 }
