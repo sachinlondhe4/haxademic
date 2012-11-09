@@ -28,6 +28,8 @@ public class MatchGameControls {
 	protected PVector _utilPVec = new PVector();
 	protected PVector _utilPVec2 = new PVector();
 	
+	protected PImage testImg;
+	
 	public MatchGameControls( MatchGame p ) {
 		this.p = p;
 		init();
@@ -48,6 +50,8 @@ public class MatchGameControls {
 		_controlsRatio = (float)p.width / (float)_kinectContext.depthWidth();
 		_handLeft = new EasingFloat3d( p.width/2, p.height/2, 0, 4 );
 		_handRight = new EasingFloat3d( p.width/2, p.height/2, 0, 4 );
+		
+		testImg = p.loadImage( "../data/images/smiley-big.png" );
 	}
 
 	/** 
@@ -71,8 +75,9 @@ public class MatchGameControls {
 		// draw the skeletons for debugging
 //		drawSkeletons();
 //		drawUserBlobs();
-
+		
 		DrawUtil.setDrawCenter(p);
+		drawHead( _curUserId );
 	}
 	
 	protected boolean userIsInGameArea() {
@@ -155,6 +160,15 @@ public class MatchGameControls {
 	public void drawHands() {
 		p.ellipse( _handLeft.valueX(), _handLeft.valueY(), 35, 35);
 		p.ellipse( _handRight.valueX(), _handRight.valueY(), 35, 35);
+	}
+	
+ 	public void drawHead( int userId )
+	{
+		float confidence = _kinectContext.getJointPositionSkeleton( userId, SimpleOpenNI.SKEL_HEAD, _utilPVec );
+		_kinectContext.convertRealWorldToProjective(_utilPVec,_utilPVec2);
+		if (confidence > 0.001f) {
+			p.image( testImg, _utilPVec2.x, _utilPVec2.y + testImg.height/2 );
+		}
 	}
 	
 	protected void drawUserBlobs() {
