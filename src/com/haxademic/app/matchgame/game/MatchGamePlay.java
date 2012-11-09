@@ -22,8 +22,7 @@ public class MatchGamePlay {
 	 * Main game play update loop
 	 */
 	public void update() {
-		p.translate(0, 0, -p.mouseX);
-		p.fill(0,255,0);
-		p.box(100,100,100);
+//		p.fill(0,255,0);
+//		p.box(100,100,100);
 	}
 }

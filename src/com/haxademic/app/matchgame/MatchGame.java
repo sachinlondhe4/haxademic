@@ -30,10 +30,12 @@ extends PAppletHax
 	}
 
 	// input
-	public static float KINECT_MIN_DIST = 1500;
-	public static float KINECT_MAX_DIST = 2000;
-	public static int KINECT_TOP = 0;
-	public static int KINECT_BOTTOM = 150;
+	public static float KINECT_MIN_DIST;
+	public static float KINECT_MAX_DIST;
+	public static float KINECT_WIDTH_PERCENT;
+	public static int KINECT_TOP;
+	public static int KINECT_BOTTOM;
+	public static float K_PIXEL_SKIP = 6;
 	protected boolean _isDebuggingKinect = false;
 	
 	// debug 
@@ -62,7 +64,6 @@ extends PAppletHax
 	public static int GAME_INTRO = 5;
 	public static int GAME_INSTRUCTIONS = 6;
 	
-	protected final float CAMERA_Z_WIDTH_MULTIPLIER = 0.888888f;	// 1280x720
 	protected float _cameraZFromHeight = 0;
 	
 	public void setup() {
@@ -93,6 +94,7 @@ extends PAppletHax
 		// default pixel rows are the center 200 kinect data rows
 		KINECT_MIN_DIST = _appConfig.getInt( "kinect_min_mm", 1500 );
 		KINECT_MAX_DIST = _appConfig.getInt( "kinect_max_mm", 2000 );
+		KINECT_WIDTH_PERCENT = _appConfig.getFloat( "kinect_width_percent", 0.5f );
 		KINECT_TOP = _appConfig.getInt( "kinect_top_pixel", 240 );
 		KINECT_BOTTOM = _appConfig.getInt( "kinect_bottom_pixel", 400 );
 		if(kinectWrapper != null) kinectWrapper.setMirror( true );

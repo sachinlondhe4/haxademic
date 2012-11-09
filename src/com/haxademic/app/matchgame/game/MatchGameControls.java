@@ -1,11 +1,14 @@
 package com.haxademic.app.matchgame.game;
 
-import processing.core.PConstants;
+import processing.core.PImage;
 import processing.core.PVector;
 import SimpleOpenNI.SimpleOpenNI;
 
 import com.haxademic.app.P;
+import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.app.matchgame.MatchGame;
+import com.haxademic.core.data.easing.EasingFloat3d;
+import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.util.DrawUtil;
 
 public class MatchGameControls {
@@ -13,7 +16,17 @@ public class MatchGameControls {
 	protected MatchGame p;
 	
 	public SimpleOpenNI  _kinectContext;
-
+	protected int _userLeftPixel;
+	protected int _userRightPixel;
+	protected int _curUserId = -1;
+	protected float _controlsRatio = 1;
+	protected EasingFloat3d _handLeft;
+	protected EasingFloat3d _handRight;
+	
+	protected boolean _userInGameArea = false;
+		
+	protected PVector _utilPVec = new PVector();
+	protected PVector _utilPVec2 = new PVector();
 	
 	public MatchGameControls( MatchGame p ) {
 		this.p = p;
@@ -21,67 +34,165 @@ public class MatchGameControls {
 	}
 	
 	protected void init() {
-		// Connect to Kinect
-		// enable depthMap generation 
-		// enable skeleton generation for all joints
-//		_kinectContext = new SimpleOpenNI( p, SimpleOpenNI.RUN_MODE_MULTI_THREADED );
-//		_kinectContext.enableDepth();
+		// Set Kinect user/skeleton tracking - most of the setup and updating happens in PAppletHax
 		_kinectContext = p.kinectWrapper.openni(); 
 		_kinectContext.enableUser( SimpleOpenNI.SKEL_PROFILE_ALL, this );	// optional `this` routes OPENNI callbacks here instead of PApplet. nice.
-
-//		size(_kinectContext.depthWidth(), _kinectContext.depthHeight()); 
-
+		_kinectContext.setSmoothingSkeleton(0.1f);
+		
+		// get kinect player rectangle range
+		float halfKinectW = KinectWrapper.KWIDTH / 2f;
+		_userLeftPixel =  P.round( halfKinectW - halfKinectW * MatchGame.KINECT_WIDTH_PERCENT );
+		_userRightPixel = P.round( halfKinectW + halfKinectW * MatchGame.KINECT_WIDTH_PERCENT );
+		
+		// set ratio of controls based on screen size vs kinect depth
+		_controlsRatio = (float)p.width / (float)_kinectContext.depthWidth();
+		_handLeft = new EasingFloat3d( p.width/2, p.height/2, 0, 4 );
+		_handRight = new EasingFloat3d( p.width/2, p.height/2, 0, 4 );
 	}
 
 	/** 
 	 * Main game play update loop
 	 */
 	public void update() {
-		// update the cam
-//		_kinectContext.update();
-
-		// draw depthImageMap
 		DrawUtil.setDrawCorner(p);
-		p.image(_kinectContext.depthImage(),0,0);
 		
-		P.println("_kinectContext.getNumberOfUsers() :: "+_kinectContext.getNumberOfUsers());
-//		P.println("_kinectContext.getUsers() :: "+_kinectContext.getUsers());
+		p.fill( 255, 255, 255, 255 );
+		p.image(_kinectContext.rgbImage(),0,0);
+		
+		P.println("userIsInGameArea() :: "+userIsInGameArea());
+		
+		// find closest skeleton and only use that one
+		getClosestUser();
+		
+		// find hands & ease position
+		getHands( _curUserId );
+		drawHands();
 
-		// draw the skeleton if it's available
-		if(_kinectContext.isTrackingSkeleton(1))
-			drawSkeleton(1);
-		if(_kinectContext.isTrackingSkeleton(2))
-			drawSkeleton(2);
-		if(_kinectContext.isTrackingSkeleton(3))
-			drawSkeleton(3);
+		// draw the skeletons for debugging
+//		drawSkeletons();
+//		drawUserBlobs();
 
 		DrawUtil.setDrawCenter(p);
 	}
-
-	// draw the skeleton with the selected joints
-	public void drawSkeleton(int userId)
-	{
-		// find and project the hand positions to 2d space
-		PVector jointPos = new PVector();
-		PVector jointPosProjected = new PVector();
+	
+	protected boolean userIsInGameArea() {
+		// loop through point grid and skip over pixels on an interval, finding the horizonal extents of an object in the appropriate range
+		int pixelDepth;
+		boolean objectInRect = false;
+		
+		// loop through kinect data within player's control range
+		for ( int x = _userLeftPixel; x < _userRightPixel; x += MatchGame.K_PIXEL_SKIP ) {
+			for ( int y = MatchGame.KINECT_TOP; y < MatchGame.KINECT_BOTTOM; y += MatchGame.K_PIXEL_SKIP ) {
+				if( objectInRect == false ) {
+					pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
+					if( pixelDepth != 0 && pixelDepth > MatchGame.KINECT_MIN_DIST && pixelDepth < MatchGame.KINECT_MAX_DIST ) {
+						objectInRect = true;
+						break;
+					}
+				}
+			}
+		}
+		return objectInRect;
+	}
+	
+	public void getClosestUser() {
+		int[] users = _kinectContext.getUsers();
+		if( users.length == 0 ) {
+			_curUserId = -1;
+		} else {
+			// find & track closest user that is still on-screen userHasHands()
+			float zDist = 999999f;
+			for(int i=0; i < users.length; i++) { 
+				_kinectContext.getCoM( users[i], _utilPVec );	// PVec comes back with `z` in millimeters
+				if( _utilPVec.z < zDist && userHasHands( users[i] ) ) {
+					_curUserId = users[i];
+					zDist = _utilPVec.z;
+					// P.println( "closest user: "+users[i]+" at "+zDist );
+				}
+			}
+		}
+		// P.println("curUser: "+_curUserId+" of "+_kinectContext.getUsers().length);
+	}
+	
+	// returns true if OpenNI says we've got a left hand
+	public boolean userHasHands( int userId ) {
+		if( _kinectContext.getJointPositionSkeleton( userId, SimpleOpenNI.SKEL_LEFT_HAND, _utilPVec ) > 0.001f ) {
+			return true;
+		} else {
+			// P.println("USER GONE!");
+			return false;
+		}
+	}
+	
+	// find and project the hand positions to 2d space
+	public void getHands( int userId ) {
+		// PVecs are returned from SimpleOpenNI API
+		PVector _utilPVec = new PVector();	// limb PVec in 3D space
+		PVector _utilPVec2 = new PVector();	// limb PVec in 2D space
 		float confidence = 0f;
 		p.fill(0,255,255);
-
 		DrawUtil.setDrawCorner(p);
-		confidence = _kinectContext.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_LEFT_HAND,jointPos);
-		if (confidence > 0.001f) {			
-			_kinectContext.convertRealWorldToProjective(jointPos,jointPosProjected);
-			p.ellipse(jointPosProjected.x, jointPosProjected.y, 35, 35);
-		}
-		P.println("left: "+jointPosProjected.x+","+jointPosProjected.y);
-		
-		confidence = _kinectContext.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_RIGHT_HAND,jointPos);
-		if (confidence > 0.001f) {			
-			_kinectContext.convertRealWorldToProjective(jointPos,jointPosProjected);
-			p.ellipse(jointPosProjected.x, jointPosProjected.y, 35, 35);
-		}
-		P.println("right: "+jointPosProjected.x+","+jointPosProjected.y);
 
+		// left hand
+		confidence = _kinectContext.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_LEFT_HAND,_utilPVec);
+		if (confidence > 0.001f) {			
+			_kinectContext.convertRealWorldToProjective(_utilPVec,_utilPVec2);
+			_handLeft.setTargetX( _utilPVec2.x * _controlsRatio );
+			_handLeft.setTargetY( _utilPVec2.y * _controlsRatio );
+		}
+		_handLeft.update();
+		
+		// right hand
+		confidence = _kinectContext.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_RIGHT_HAND,_utilPVec);
+		if (confidence > 0.001f) {			
+			_kinectContext.convertRealWorldToProjective(_utilPVec,_utilPVec2);
+			_handRight.setTargetX( _utilPVec2.x * _controlsRatio );
+			_handRight.setTargetY( _utilPVec2.y * _controlsRatio );
+		}
+		_handRight.update();
+	}
+	
+	public void drawHands() {
+		p.ellipse( _handLeft.valueX(), _handLeft.valueY(), 35, 35);
+		p.ellipse( _handRight.valueX(), _handRight.valueY(), 35, 35);
+	}
+	
+	protected void drawUserBlobs() {
+		int[] users = _kinectContext.getUsers();
+		for(int i=0; i < users.length; i++) {
+			if( _curUserId == users[i] ) {
+				drawUserBlob( users[i], p.color(0, 255, 0, 255) );
+			} else {
+				drawUserBlob( users[i], p.color(0, 0, 0, 255) );
+			}
+		}
+	}
+	
+	protected void drawUserBlob( int user, int userColor ) {
+		PImage userImg = p.createImage(640, 480, P.ARGB);
+		int[] kinectPixels = _kinectContext.getUsersPixels( user );
+		for ( int i = 0; i < userImg.pixels.length; i++ ) {
+			if( kinectPixels[i] == 1 ) userImg.pixels[i] = userColor;  
+		}
+		p.image( userImg, 0, 0 );
+	}
+	
+	protected void drawSkeletons() {
+		int[] users = _kinectContext.getUsers();
+		for(int i=0; i < users.length; i++) {
+			if( _curUserId == users[i] ) {
+				p.stroke( 0, 255, 0 );
+			} else {
+				p.stroke( 255, 0, 0 );
+			}
+			drawSkeleton( users[i] );
+		}
+	}
+
+
+	// draw the skeleton with the selected joints
+	public void drawSkeleton( int userId )
+	{
 		// default limb drawing
 		_kinectContext.drawLimb(userId, SimpleOpenNI.SKEL_HEAD, SimpleOpenNI.SKEL_NECK);
 
