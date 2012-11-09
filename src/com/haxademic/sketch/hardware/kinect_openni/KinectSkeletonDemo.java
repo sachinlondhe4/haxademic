@@ -37,22 +37,41 @@ public class KinectSkeletonDemo extends PApplet {
 
 		// draw depthImageMap
 		image(context.depthImage(),0,0);
+		
+		println("context.getNumberOfUsers() :: "+context.getNumberOfUsers());
+		println("context.getUsers() :: "+context.getUsers());
 
 		// draw the skeleton if it's available
 		if(context.isTrackingSkeleton(1))
 			drawSkeleton(1);
+		if(context.isTrackingSkeleton(2))
+			drawSkeleton(2);
+		if(context.isTrackingSkeleton(3))
+			drawSkeleton(3);
 	}
 
 	// draw the skeleton with the selected joints
 	public void drawSkeleton(int userId)
 	{
-		// to get the 3d joint data
-		
-		  PVector jointPos = new PVector();
-		  context.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_NECK,jointPos);
-		  println(jointPos);
-		 
+		// find and project the hand positions to 2d space
+		PVector jointPos = new PVector();
+		PVector jointPosProjected = new PVector();
+		float confidence = 0f;
+		fill(0,255,0);
 
+		confidence = context.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_LEFT_HAND,jointPos);
+		if (confidence > 0.001f) {			
+			context.convertRealWorldToProjective(jointPos,jointPosProjected);
+			ellipse(jointPosProjected.x, jointPosProjected.y, 35, 35);
+		}
+		
+		confidence = context.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_RIGHT_HAND,jointPos);
+		if (confidence > 0.001f) {			
+			context.convertRealWorldToProjective(jointPos,jointPosProjected);
+			ellipse(jointPosProjected.x, jointPosProjected.y, 35, 35);
+		}
+
+		// default limb drawing
 		context.drawLimb(userId, SimpleOpenNI.SKEL_HEAD, SimpleOpenNI.SKEL_NECK);
 
 		context.drawLimb(userId, SimpleOpenNI.SKEL_NECK, SimpleOpenNI.SKEL_LEFT_SHOULDER);
@@ -84,6 +103,7 @@ public class KinectSkeletonDemo extends PApplet {
 		println("  start pose detection");
 
 		context.startPoseDetection("Psi",userId);
+		context.requestCalibrationSkeleton(userId,true);
 	}
 
 	public void onLostUser(int userId)
