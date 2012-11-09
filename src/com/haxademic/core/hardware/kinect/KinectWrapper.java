@@ -23,7 +23,7 @@ public class KinectWrapper {
 	public KinectWrapper( PApplet p, boolean initDepth, boolean initRGB, boolean initDepthImage ) {
 		this.p = p;
 
-		_kinect = new SimpleOpenNI(p);
+		_kinect = new SimpleOpenNI( p, SimpleOpenNI.RUN_MODE_MULTI_THREADED );
 		_kinect.enableDepth();
 		_kinect.enableRGB();
 //		_kinect.enableIR();	// IR doesn't like being enabled off the bat - it kills the RGB camera?!
