@@ -1,11 +1,12 @@
 package com.haxademic.app.matchgame.game;
 
+import java.awt.Rectangle;
+
 import processing.core.PImage;
 import processing.core.PVector;
 import SimpleOpenNI.SimpleOpenNI;
 
 import com.haxademic.app.P;
-import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.app.matchgame.MatchGame;
 import com.haxademic.core.data.easing.EasingFloat3d;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
@@ -22,16 +23,19 @@ public class MatchGameControls {
 	protected float _controlsRatio = 1;
 	protected EasingFloat3d _handLeft;
 	protected EasingFloat3d _handRight;
+	public Rectangle handLeftRect;
+	public Rectangle handRightRect;
 	
 	protected boolean _userInGameArea = false;
 		
 	protected PVector _utilPVec = new PVector();
 	protected PVector _utilPVec2 = new PVector();
 	
-	protected PImage testImg;
+	protected PImage testHead;
+	protected PImage testHand;
 	
-	public MatchGameControls( MatchGame p ) {
-		this.p = p;
+	public MatchGameControls() {
+		p = (MatchGame) P.p;
 		init();
 	}
 	
@@ -50,8 +54,11 @@ public class MatchGameControls {
 		_controlsRatio = (float)p.width / (float)_kinectContext.depthWidth();
 		_handLeft = new EasingFloat3d( p.width/2, p.height/2, 0, 4 );
 		_handRight = new EasingFloat3d( p.width/2, p.height/2, 0, 4 );
+		handLeftRect = new Rectangle( 0, 0, 1, 1 );
+		handRightRect = new Rectangle( 0, 0, 1, 1 );
 		
-		testImg = p.loadImage( "../data/images/smiley-big.png" );
+		testHead = p.loadImage( "../data/images/smiley-big.png" );
+		testHand = p.loadImage( "../data/images/cursor-finger-trans.png" );
 	}
 
 	/** 
@@ -63,21 +70,33 @@ public class MatchGameControls {
 		p.fill( 255, 255, 255, 255 );
 		p.image(_kinectContext.rgbImage(),0,0);
 		
-		P.println("userIsInGameArea() :: "+userIsInGameArea());
+//		P.println("userIsInGameArea() :: "+userIsInGameArea());
 		
 		// find closest skeleton and only use that one
 		getClosestUser();
 		
 		// find hands & ease position
 		getHands( _curUserId );
-		drawHands();
 
 		// draw the skeletons for debugging
 //		drawSkeletons();
-//		drawUserBlobs();
+		drawUserBlobs();
 		
 		DrawUtil.setDrawCenter(p);
+	}
+	
+	public void drawControls() {
+		DrawUtil.setDrawCenter(p);
 		drawHead( _curUserId );
+		drawHands();		
+	}
+	
+	public EasingFloat3d getRightHandPos() {
+		return _handRight;
+	}
+	
+	public EasingFloat3d getLeftHandPos() {
+		return _handLeft;
 	}
 	
 	protected boolean userIsInGameArea() {
@@ -155,11 +174,19 @@ public class MatchGameControls {
 			_handRight.setTargetY( _utilPVec2.y * _controlsRatio );
 		}
 		_handRight.update();
+		
+		handLeftRect.x = (int) _handLeft.valueX();
+		handLeftRect.y = (int) _handLeft.valueY();
+		handRightRect.x = (int) _handRight.valueX();
+		handRightRect.y = (int) _handRight.valueY();
 	}
 	
 	public void drawHands() {
-		p.ellipse( _handLeft.valueX(), _handLeft.valueY(), 35, 35);
-		p.ellipse( _handRight.valueX(), _handRight.valueY(), 35, 35);
+		p.fill( 255, 255, 255, 255 );
+		p.image( testHand, _handLeft.valueX(), _handLeft.valueY() + testHand.height/2 );
+		p.image( testHand, _handRight.valueX(), _handRight.valueY() + testHand.height/2 );
+//		p.ellipse( _handLeft.valueX(), _handLeft.valueY(), 35, 35);
+//		p.ellipse( _handRight.valueX(), _handRight.valueY(), 35, 35);
 	}
 	
  	public void drawHead( int userId )
@@ -167,7 +194,8 @@ public class MatchGameControls {
 		float confidence = _kinectContext.getJointPositionSkeleton( userId, SimpleOpenNI.SKEL_HEAD, _utilPVec );
 		_kinectContext.convertRealWorldToProjective(_utilPVec,_utilPVec2);
 		if (confidence > 0.001f) {
-			p.image( testImg, _utilPVec2.x, _utilPVec2.y + testImg.height/2 );
+			p.fill( 255, 255, 255, 255 );
+			p.image( testHead, _utilPVec2.x, _utilPVec2.y + testHead.height/2 );
 		}
 	}
 	
@@ -175,7 +203,7 @@ public class MatchGameControls {
 		int[] users = _kinectContext.getUsers();
 		for(int i=0; i < users.length; i++) {
 			if( _curUserId == users[i] ) {
-				drawUserBlob( users[i], p.color(0, 255, 0, 255) );
+				drawUserBlob( users[i], p.color(0, 0, 0, 255) );
 			} else {
 				drawUserBlob( users[i], p.color(0, 0, 0, 255) );
 			}
@@ -188,6 +216,7 @@ public class MatchGameControls {
 		for ( int i = 0; i < userImg.pixels.length; i++ ) {
 			if( kinectPixels[i] == 1 ) userImg.pixels[i] = userColor;  
 		}
+		p.fill( 255, 255, 255, 255 );
 		p.image( userImg, 0, 0 );
 	}
 	

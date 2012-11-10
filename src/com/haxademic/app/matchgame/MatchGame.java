@@ -102,8 +102,8 @@ extends PAppletHax
 
 	void buildGameObjects() {
 		MatchGameAssets loader = new MatchGameAssets();
-		_controls = new MatchGameControls( this );
-		_gamePlay = new MatchGamePlay( this, _controls );
+		_controls = new MatchGameControls();
+		_gamePlay = new MatchGamePlay( _controls );
 	}
 	
 	// HAXADEMIC STUFF --------------------------------------------------------------------------------------
