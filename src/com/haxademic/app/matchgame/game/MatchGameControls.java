@@ -69,7 +69,7 @@ public class MatchGameControls {
 		DrawUtil.setDrawCorner(p);
 		
 		p.fill( 255, 255, 255, 255 );
-		p.image(_kinectContext.rgbImage(),0,0);
+//		p.image(_kinectContext.rgbImage(),0,0);
 		
 //		P.println("userIsInGameArea() :: "+userIsInGameArea());
 		
@@ -81,7 +81,7 @@ public class MatchGameControls {
 
 		// draw the skeletons for debugging
 //		drawSkeletons();
-		drawUserBlobs();
+//		drawUserBlobs();
 		
 		DrawUtil.setDrawCenter(p);
 	}

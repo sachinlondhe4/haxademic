@@ -135,7 +135,7 @@ public class MatchGamePlay {
 	}
 	
 	protected void piecesMatched( boolean didMatch ) {
-		// kill selected pieces
+		// kill or keep selected pieces
 		for( int i=0; i < _pieces.size(); i++ ) {
 			if( _pieces.get( i ).index() == _cursorLeftPieceID || _pieces.get( i ).index() == _cursorRightPieceID ) {
 				// check actual match between piece IDs)
