@@ -25,6 +25,7 @@ public class MatchGameControls {
 	protected EasingFloat3d _handRight;
 	public Rectangle handLeftRect;
 	public Rectangle handRightRect;
+	protected float CURSOR_RADIUS = 70;
 	
 	protected boolean _userInGameArea = false;
 		
@@ -184,14 +185,14 @@ public class MatchGameControls {
 	public void drawHands( float heldTimePercent ) {
 		if( heldTimePercent > 0 ) {
 			p.fill(255,255,0);
-			p.arc( _handLeft.valueX(), _handLeft.valueY(), 70, 70, 0, heldTimePercent * (float) P.TWO_PI );
-			p.arc( _handRight.valueX(), _handRight.valueY(), 70, 70, 0, heldTimePercent * (float) P.TWO_PI );
+			p.arc( _handLeft.valueX(), _handLeft.valueY(), CURSOR_RADIUS, CURSOR_RADIUS, 0, heldTimePercent * (float) P.TWO_PI );
+			p.arc( _handRight.valueX(), _handRight.valueY(), CURSOR_RADIUS, CURSOR_RADIUS, 0, heldTimePercent * (float) P.TWO_PI );
 		} else {			
-			p.fill( 255, 255, 255, 255 );
-			p.image( testHand, _handLeft.valueX(), _handLeft.valueY() + testHand.height/2 );
-			p.image( testHand, _handRight.valueX(), _handRight.valueY() + testHand.height/2 );
-//		p.ellipse( _handLeft.valueX(), _handLeft.valueY(), 35, 35);
-//		p.ellipse( _handRight.valueX(), _handRight.valueY(), 35, 35);
+			p.fill( 180, 180, 255, 100 );
+//			p.image( testHand, _handLeft.valueX(), _handLeft.valueY() + testHand.height/2 );
+//			p.image( testHand, _handRight.valueX(), _handRight.valueY() + testHand.height/2 );
+			p.arc( _handLeft.valueX(), _handLeft.valueY(), CURSOR_RADIUS, CURSOR_RADIUS, 0, P.TWO_PI );
+			p.arc( _handRight.valueX(), _handRight.valueY(), CURSOR_RADIUS, CURSOR_RADIUS, 0, P.TWO_PI );
 		}
 	}
 	
