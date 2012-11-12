@@ -85,10 +85,10 @@ public class MatchGameControls {
 		DrawUtil.setDrawCenter(p);
 	}
 	
-	public void drawControls() {
+	public void drawControls( float heldTimePercent ) {
 		DrawUtil.setDrawCenter(p);
 		drawHead( _curUserId );
-		drawHands();		
+		drawHands( heldTimePercent );		
 	}
 	
 	public EasingFloat3d getRightHandPos() {
@@ -181,12 +181,18 @@ public class MatchGameControls {
 		handRightRect.y = (int) _handRight.valueY();
 	}
 	
-	public void drawHands() {
-		p.fill( 255, 255, 255, 255 );
-		p.image( testHand, _handLeft.valueX(), _handLeft.valueY() + testHand.height/2 );
-		p.image( testHand, _handRight.valueX(), _handRight.valueY() + testHand.height/2 );
+	public void drawHands( float heldTimePercent ) {
+		if( heldTimePercent > 0 ) {
+			p.fill(255,255,0);
+			p.arc( _handLeft.valueX(), _handLeft.valueY(), 70, 70, 0, heldTimePercent * (float) P.TWO_PI );
+			p.arc( _handRight.valueX(), _handRight.valueY(), 70, 70, 0, heldTimePercent * (float) P.TWO_PI );
+		} else {			
+			p.fill( 255, 255, 255, 255 );
+			p.image( testHand, _handLeft.valueX(), _handLeft.valueY() + testHand.height/2 );
+			p.image( testHand, _handRight.valueX(), _handRight.valueY() + testHand.height/2 );
 //		p.ellipse( _handLeft.valueX(), _handLeft.valueY(), 35, 35);
 //		p.ellipse( _handRight.valueX(), _handRight.valueY(), 35, 35);
+		}
 	}
 	
  	public void drawHead( int userId )

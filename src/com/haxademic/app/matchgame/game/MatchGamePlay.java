@@ -17,7 +17,9 @@ public class MatchGamePlay {
 	protected int _cursorLeftPieceID = -1;
 	protected int _cursorRightPieceID = -1;
 	protected boolean _twoPiecesSelected = false;
-	protected int _matchHeldCount = 0;
+	
+	protected float _matchHeldStartTime = 0f;
+	protected float MATCH_HELD_TIME = 2000f;
 	
 	public MatchGamePlay( MatchGameControls controls ) {
 		p = (MatchGame) P.p;
@@ -65,17 +67,18 @@ public class MatchGamePlay {
 			if( _twoPiecesSelected ) unselectedTwoPieces();
 		}
 		
-		// draw hand cursor controls
-		_controls.drawControls();
 		
 		// count up held match
+		float controlDrawPercent = 0;
 		if( _twoPiecesSelected == true ) {
-			_matchHeldCount++;
-			P.println("_matchHeldCount = "+_matchHeldCount);
-			if( _matchHeldCount == 20 ) {
+			if( p.millis() - _matchHeldStartTime > MATCH_HELD_TIME ) {
 				matchSuccess();
 			}
+			controlDrawPercent = ( (float) p.millis() - _matchHeldStartTime ) / MATCH_HELD_TIME;
 		}
+
+		// draw hand cursor controls with percentage complete
+		_controls.drawControls( controlDrawPercent );
 	}
 	
 	protected void selectedTwoPieces() {
@@ -83,12 +86,13 @@ public class MatchGamePlay {
 		if( _twoPiecesSelected == true ) unselectedTwoPieces();
 		P.println("2 pieces selected!");
 		_twoPiecesSelected = true;
-		_matchHeldCount = 0;
+		_matchHeldStartTime = p.millis();
 	}
 	
 	protected void unselectedTwoPieces() {
 		P.println("2 UNselected");
 		_twoPiecesSelected = false;
+		_matchHeldStartTime = 0;
 	}
 	
 	protected void matchSuccess() {
