@@ -10,8 +10,9 @@ public class MatchGamePiece {
 
 	protected MatchGame p;
 	
-	public static int BOX_SIZE = 100; 
-	public static int TOP_LEFT_PADDING = 50; 
+	public static int BOX_SIZE = 140; 
+	public static int BOX_PADDING = 10; 
+	public static int TOP_LEFT_PADDING = 70; 
 	
 	protected int _col = -1;
 	protected int _row = -1;
@@ -28,7 +29,12 @@ public class MatchGamePiece {
 		_index = index;
 		_col = col;
 		_row = row;
-		rect = new Rectangle( TOP_LEFT_PADDING + _col * BOX_SIZE, TOP_LEFT_PADDING + _row * BOX_SIZE, BOX_SIZE - 10, BOX_SIZE - 10 );
+		rect = new Rectangle( 
+				TOP_LEFT_PADDING + _col * BOX_SIZE + BOX_PADDING, 
+				TOP_LEFT_PADDING + _row * BOX_SIZE + BOX_PADDING, 
+				BOX_SIZE, 
+				BOX_SIZE 
+		);
 		init();
 	}
 	
@@ -75,13 +81,15 @@ public class MatchGamePiece {
 			p.pushMatrix();
 			if( cursorOver ) {
 				_isOver = true;
-				p.fill(0,255,0, 127);
+//				p.fill(0,255,0, 127);
+				p.image( MatchGameAssets.PIECE_IMAGES.get( _matchID ), rect.x, rect.y );
 			} else {
 				_isOver = false;
-				p.fill(0,0,255/6f * _matchID, 255);
+//				p.fill(0,0,255/6f * _matchID, 255);
+				p.image( MatchGameAssets.PIECE_BACKFACE, rect.x, rect.y );
 			}
-			p.stroke(255,255,255, 127);
-			p.rect( rect.x, rect.y, rect.width, rect.height );
+//			p.stroke(255,255,255, 127);
+//			p.rect( rect.x, rect.y, rect.width, rect.height );
 			p.popMatrix();
 			DrawUtil.setDrawCenter(p);
 		}
