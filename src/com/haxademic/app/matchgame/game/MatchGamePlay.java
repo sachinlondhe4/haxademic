@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.app.P;
 import com.haxademic.app.matchgame.MatchGame;
+import com.haxademic.core.util.MathUtil;
 
 public class MatchGamePlay {
 	
@@ -12,6 +13,7 @@ public class MatchGamePlay {
 	protected int ROWS = 3;
 	protected int COLS = 4;
 	protected ArrayList<MatchGamePiece> _pieces;
+	protected int[] _pieceMatchIDs;
 	
 	protected MatchGameControls _controls;
 	protected int _cursorLeftPieceID = -1;
@@ -28,6 +30,7 @@ public class MatchGamePlay {
 	}
 	
 	protected void init() {
+		
 		// build game pieces
 		_pieces = new ArrayList<MatchGamePiece>();
 		int i = 0;
@@ -36,6 +39,39 @@ public class MatchGamePlay {
 				_pieces.add( new MatchGamePiece( i, x, y ) );
 				i++;
 			}
+		}
+		
+		// set up array to distribute piece IDs 
+		_pieceMatchIDs = new int[_pieces.size()];
+		int curID = -1;
+		for( i=0; i < _pieceMatchIDs.length; i++ ) {
+			if( i % 2 == 0 ) curID++;
+			_pieceMatchIDs[i] = curID;
+		}
+		
+		// randomize and reset props
+		reset();
+	}
+	
+	public void reset() {
+		// give game pieces new match IDs
+		randomizeIntArray( _pieceMatchIDs );
+		for( int i=0; i < _pieceMatchIDs.length; i++ ) {
+			_pieces.get( i ).setMatchID( _pieceMatchIDs[i] );
+		}
+
+//		debug to make sure IDs are randomized and good
+//		for( int i=0; i < _pieceMatchIDs.length; i++ ) {
+//			P.println("match ID: "+_pieceMatchIDs[i]);
+//		}
+	}
+
+	protected void randomizeIntArray( int[] arr ) {
+		for( int i=0; i < arr.length; i++ ) {
+			int tmp = arr[i];
+			int randomNum = MathUtil.randRange(0, arr.length - 1);
+			arr[i] = arr[randomNum];
+			arr[randomNum] = tmp;
 		}
 	}
 
@@ -72,7 +108,10 @@ public class MatchGamePlay {
 		float controlDrawPercent = 0;
 		if( _twoPiecesSelected == true ) {
 			if( p.millis() - _matchHeldStartTime > MATCH_HELD_TIME ) {
-				matchSuccess();
+				if( _pieces.get( _cursorLeftPieceID ).matchID() == _pieces.get( _cursorRightPieceID ).matchID() )
+					piecesMatched( true );
+				else
+					piecesMatched( false );
 			}
 			controlDrawPercent = ( (float) p.millis() - _matchHeldStartTime ) / MATCH_HELD_TIME;
 		}
@@ -95,11 +134,12 @@ public class MatchGamePlay {
 		_matchHeldStartTime = 0;
 	}
 	
-	protected void matchSuccess() {
+	protected void piecesMatched( boolean didMatch ) {
 		// kill selected pieces
 		for( int i=0; i < _pieces.size(); i++ ) {
 			if( _pieces.get( i ).index() == _cursorLeftPieceID || _pieces.get( i ).index() == _cursorRightPieceID ) {
-				_pieces.get( i ).done();
+				// check actual match between piece IDs)
+				_pieces.get( i ).matched( didMatch );
 			}
 		}
 		// reset cursor hover IDs

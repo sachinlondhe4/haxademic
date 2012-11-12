@@ -16,6 +16,7 @@ public class MatchGamePiece {
 	protected int _col = -1;
 	protected int _row = -1;
 	protected int _index;
+	protected int _matchID = -1;
 	
 	protected boolean _isActive = false;
 	protected boolean _isOver = false;
@@ -40,6 +41,14 @@ public class MatchGamePiece {
 		_isOver = false;
 	}
 	
+	public void setMatchID( int matchID ) {
+		_matchID = matchID;
+	}
+
+	public int matchID() {
+		return _matchID;
+	}
+
 	public int index() {
 		return _index;
 	}
@@ -52,9 +61,9 @@ public class MatchGamePiece {
 		return _isOver;
 	}
 	
-	public void done() {
+	public void matched( boolean didMatch ) {
 		_isOver = false;
-		_isActive = false;
+		if( didMatch == true ) _isActive = false;
 	}
 
 	/** 
@@ -69,7 +78,7 @@ public class MatchGamePiece {
 				p.fill(0,255,0, 127);
 			} else {
 				_isOver = false;
-				p.fill(0,0,255, 127);
+				p.fill(0,0,255/6f * _matchID, 255);
 			}
 			p.stroke(255,255,255, 127);
 			p.rect( rect.x, rect.y, rect.width, rect.height );
