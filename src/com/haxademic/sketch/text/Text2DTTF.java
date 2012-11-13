@@ -2,46 +2,26 @@
 package com.haxademic.sketch.text;
 
 import processing.core.PApplet;
-import processing.core.PFont;
-import processing.core.PGraphics;
-import processing.core.PImage;
+
+import com.haxademic.app.P;
+import com.haxademic.core.draw.text.CustomFontText2D;
 
 public class Text2DTTF
 extends PApplet {
-
-	PFont ff;
-	PImage ww;
-	String sentence;
-	int fontSize = 40;
-	PGraphics pg;
-	PImage w;
+	CustomFontText2D _fontRenderer;
 	
 	public void setup()
 	{
 		size(800, 600, P3D);
-		ff = createFont("../data/fonts/HelloDenverDisplay-Regular.ttf",fontSize);	//"Arial"
-		sentence = "HELLO. WHAT'S UP?";
-		pg = createGraphics(400,50,JAVA2D);
+		_fontRenderer = new CustomFontText2D( this, "../data/fonts/bitlow.ttf", 70.0f, color(0,255,0), 450, 100 );
 	}
 
 	public void draw() {
-		background(255);
-		lights();
+		background(0);
 		translate(mouseX, height/2, 0); 
-		crImage();
-		image(pg, 0, 0);
+		_fontRenderer.updateText( frameCount+"" );
+		image( _fontRenderer.getTextPImage(), 0, 0 );
 	}
 
-	PImage crImage() {
-		
-		pg.beginDraw();
-		pg.background(255);
-		pg.fill(250,0,0);
-		pg.textAlign(CENTER);
-		pg.textFont(ff, fontSize);
-		pg.text(sentence, 0, 0, 400, 50);
-		pg.endDraw();
-		return w;
-	}
 
 }
