@@ -52,4 +52,8 @@ public class DrawUtil {
 		p.rectMode( PConstants.CENTER );
 	}
 	
+	public static void setColorForPImage( PApplet p ) {
+		p.fill( 255, 255, 255, 255 );
+	}
+	
 }
