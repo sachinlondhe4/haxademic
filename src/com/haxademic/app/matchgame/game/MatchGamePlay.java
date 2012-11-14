@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.app.P;
 import com.haxademic.app.matchgame.MatchGame;
+import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.MathUtil;
 
 public class MatchGamePlay {
@@ -23,9 +24,11 @@ public class MatchGamePlay {
 	protected boolean _twoPiecesSelected = false;
 	
 	protected float _matchHeldStartTime = 0f;
-	protected float MATCH_HELD_TIME = 2000f;
+	protected float MATCH_HELD_TIME = 1300f;
 	
 	protected int _gameStartTime = 0;
+	protected int _gameBestTimeSeconds = 99999999;
+	protected String _bestGameTimeString = null;
 	
 	public MatchGamePlay( MatchGameControls controls ) {
 		p = (MatchGame) P.p;
@@ -93,28 +96,14 @@ public class MatchGamePlay {
 		checkForTwoPiecesSelected();
 		checkForMatchComplete();
 		drawTimer();
+		drawBestTime();
 		checkGameIsDone();
-		
-		
-		
-//		// test text
-//		p.fill( 255 );
-//		p.textFont(MatchGameAssets.TEST_FONT, 48);
-//		p.text("YO WORD", 10, 50);
-//		
-////		_fontRenderer = new CustomFontText2D( this, "../data/fonts/bitlow.ttf", 70.0f, color(0,255,0), 450, 100 );
-////	}
-////
-////	public void draw() {
-////		background(0);
-////		translate(mouseX, height/2, 0); 
-////		_fontRenderer.updateText( frameCount+"" );
-////		image( _fontRenderer.getTextPImage(), 0, 0 );
-
 	}
 	
+	/**
+	 * Update pieces and reset/check collisions with the 2 cursors
+	 */
 	protected void updateGamePieces() {
-		// update game pieces and reset/check hand cursor collisions
 		p.pushMatrix();
 		_lastCursorLeftPieceID = _cursorLeftPieceID;
 		_lastCursorRightPieceID = _cursorRightPieceID;
@@ -212,14 +201,28 @@ public class MatchGamePlay {
 	 * Draws the current game's time elapsed
 	 */
 	protected void drawTimer() {
+		DrawUtil.setDrawCorner(p);
 		int seconds = P.round( ( p.millis() - _gameStartTime ) * 0.001f );
+		p.image( MatchGameAssets.UI_YOUR_TIME, 862, 680 );
+		MatchGameAssets.TIME_FONT_RENDERER.updateText( formatTimeFromSeconds( seconds ) );
+		p.image( MatchGameAssets.TIME_FONT_RENDERER.getTextPImage(), 830, 705 );
+	}
+	
+	protected void drawBestTime() {
+		if( _bestGameTimeString != null ) {
+			DrawUtil.setDrawCorner(p);
+			p.image( MatchGameAssets.UI_BEST_TIME, 43, 39 );
+			MatchGameAssets.BEST_TIME_FONT_RENDERER.updateText( _bestGameTimeString );
+			p.image( MatchGameAssets.BEST_TIME_FONT_RENDERER.getTextPImage(), 28, 58 );
+		}
+	}
+	
+	protected String formatTimeFromSeconds( int seconds ) {
 		int minutes = P.floor( seconds / 60f );
 		int secondsOnly = seconds % 60;
 		String secondsText = ( secondsOnly < 10 ) ? "0"+secondsOnly : ""+secondsOnly;
 		String minutesText = ( minutes < 10 ) ? "0"+minutes : ""+minutes;
-		p.image( MatchGameAssets.UI_YOUR_TIME, 862, 680 );
-		MatchGameAssets.TIME_FONT_RENDERER.updateText( minutesText+":"+secondsText );
-		p.image( MatchGameAssets.TIME_FONT_RENDERER.getTextPImage(), 830, 700 );
+		return minutesText+":"+secondsText;
 	}
 	
 	/**
@@ -231,7 +234,26 @@ public class MatchGamePlay {
 			if( _pieces.get( i ).isActive() == true ) numIncompletePieces++;
 		}
 		if( numIncompletePieces == 0 ) {
-			reset();
+			finishGame();
+		}
+	}
+	
+	/**
+	 * Run final game cleanup
+	 */
+	protected void finishGame() {
+		storeBestGameTime();
+		reset();
+	}
+	
+	/**
+	 * If time is best, store the formatted time string
+	 */
+	protected void storeBestGameTime() {
+		int seconds = P.round( ( p.millis() - _gameStartTime ) * 0.001f );
+		if( seconds < _gameBestTimeSeconds ) {
+			_gameBestTimeSeconds = seconds;
+			_bestGameTimeString = formatTimeFromSeconds( seconds );
 		}
 	}
 }

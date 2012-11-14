@@ -38,6 +38,7 @@ public class MatchGameAssets {
 	
 	// custom font rendering
 	public static CustomFontText2D TIME_FONT_RENDERER;
+	public static CustomFontText2D BEST_TIME_FONT_RENDERER;
 	
 	
 	public MatchGameAssets() {
@@ -80,6 +81,7 @@ public class MatchGameAssets {
 		
 		// The font must be located in the sketch's "data" directory to load successfully
 		TIME_FONT_RENDERER = new CustomFontText2D( p, "../data/fonts/bitlow.ttf", 20.0f, DARK_BLUE.toARGB(), CustomFontText2D.ALIGN_RIGHT, 100, 25 );
+		BEST_TIME_FONT_RENDERER = new CustomFontText2D( p, "../data/fonts/bitlow.ttf", 40.0f, TColor.WHITE.toARGB(), CustomFontText2D.ALIGN_RIGHT, 120, 40 );
 
 	}
 
