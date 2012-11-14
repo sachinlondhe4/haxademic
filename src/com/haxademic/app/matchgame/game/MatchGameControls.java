@@ -81,14 +81,14 @@ public class MatchGameControls {
 
 		// draw the skeletons for debugging
 //		drawSkeletons();
-//		drawUserBlobs();
+		drawUserBlobs();
 		
 		DrawUtil.setDrawCenter(p);
 	}
 	
 	public void drawControls( float heldTimePercent ) {
 		DrawUtil.setDrawCenter(p);
-		drawHead( _curUserId );
+//		drawHead( _curUserId );
 		drawHands( heldTimePercent );		
 	}
 	
@@ -191,9 +191,11 @@ public class MatchGameControls {
 			p.fill( 180, 180, 255, 100 );
 //			p.image( testHand, _handLeft.valueX(), _handLeft.valueY() + testHand.height/2 );
 //			p.image( testHand, _handRight.valueX(), _handRight.valueY() + testHand.height/2 );
-			p.arc( _handLeft.valueX(), _handLeft.valueY(), CURSOR_RADIUS, CURSOR_RADIUS, 0, P.TWO_PI );
-			p.arc( _handRight.valueX(), _handRight.valueY(), CURSOR_RADIUS, CURSOR_RADIUS, 0, P.TWO_PI );
+//			p.arc( _handLeft.valueX(), _handLeft.valueY(), CURSOR_RADIUS, CURSOR_RADIUS, 0, P.TWO_PI );
+//			p.arc( _handRight.valueX(), _handRight.valueY(), CURSOR_RADIUS, CURSOR_RADIUS, 0, P.TWO_PI );
 		}
+		p.image( MatchGameAssets.UI_CURSOR, _handLeft.valueX(), _handLeft.valueY() );
+		p.image( MatchGameAssets.UI_CURSOR, _handRight.valueX(), _handRight.valueY() );
 	}
 	
  	public void drawHead( int userId )
@@ -210,9 +212,9 @@ public class MatchGameControls {
 		int[] users = _kinectContext.getUsers();
 		for(int i=0; i < users.length; i++) {
 			if( _curUserId == users[i] ) {
-				drawUserBlob( users[i], p.color(0, 0, 0, 255) );
+				drawUserBlob( users[i], p.color(0, 255, 0, 255) );
 			} else {
-				drawUserBlob( users[i], p.color(0, 0, 0, 255) );
+				drawUserBlob( users[i], p.color(0, 255, 0, 255) );
 			}
 		}
 	}
@@ -224,7 +226,7 @@ public class MatchGameControls {
 			if( kinectPixels[i] == 1 ) userImg.pixels[i] = userColor;  
 		}
 		p.fill( 255, 255, 255, 255 );
-		p.image( userImg, 0, 0 );
+		p.image( userImg, 0, p.height - 480 );
 	}
 	
 	protected void drawSkeletons() {
