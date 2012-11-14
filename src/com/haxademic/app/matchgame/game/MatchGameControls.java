@@ -81,7 +81,7 @@ public class MatchGameControls {
 
 		// draw the skeletons for debugging
 //		drawSkeletons();
-		drawUserBlobs();
+//		drawUserBlobs();
 		
 		DrawUtil.setDrawCenter(p);
 	}

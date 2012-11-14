@@ -12,8 +12,8 @@ public class MatchGamePiece {
 	
 	public static int BOX_SIZE = 140; 
 	public static int BOX_PADDING = 10; 
-	public static int TOP_PADDING = 312;
-	public static int LEFT_PADDING = 244;
+	public static int TOP_PADDING = 312 - 10;
+	public static int LEFT_PADDING = 244 - 10;
 	
 	protected int _col = -1;
 	protected int _row = -1;
@@ -77,23 +77,21 @@ public class MatchGamePiece {
 	 * Main gameplay update loop. Draws the piece based on current state.
 	 */
 	public void update( boolean cursorOver ) {
+		DrawUtil.setDrawCorner(p);
+		DrawUtil.setColorForPImage(p);
+		p.pushMatrix();
 		if( _isActive == true ) {
-			DrawUtil.setDrawCorner(p);
-			p.pushMatrix();
 			if( cursorOver ) {
 				_isOver = true;
-//				p.fill(0,255,0, 127);
 				p.image( MatchGameAssets.PIECE_IMAGES.get( _matchID ), rect.x, rect.y );
 			} else {
 				_isOver = false;
-//				p.fill(0,0,255/6f * _matchID, 255);
 				p.image( MatchGameAssets.PIECE_BACKFACE, rect.x, rect.y );
 			}
-//			p.stroke(255,255,255, 127);
-//			p.rect( rect.x, rect.y, rect.width, rect.height );
-			p.popMatrix();
-			DrawUtil.setDrawCenter(p);
+		} else {
+			p.image( MatchGameAssets.PIECE_COMPLETE, rect.x, rect.y );
 		}
+		p.popMatrix();
 	}
 
 }

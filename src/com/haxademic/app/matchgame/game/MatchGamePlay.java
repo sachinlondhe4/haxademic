@@ -86,10 +86,9 @@ public class MatchGamePlay {
 		_cursorLeftPieceID = -1;
 		_cursorRightPieceID = -1;
 		for( int i=0; i < _pieces.size(); i++ ) {
-			if( _pieces.get( i ).isActive() == true ) {
-				boolean collision = checkCollisions( _pieces.get( i ) );
-				_pieces.get( i ).update( collision );
-			}
+			boolean collision = false;
+			if( _pieces.get( i ).isActive() == true ) collision = checkCollisions( _pieces.get( i ) );
+			_pieces.get( i ).update( collision );
 		}
 		p.popMatrix();
 		
