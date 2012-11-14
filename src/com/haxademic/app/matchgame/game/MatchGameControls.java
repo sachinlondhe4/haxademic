@@ -25,7 +25,7 @@ public class MatchGameControls {
 	protected EasingFloat3d _handRight;
 	public Rectangle handLeftRect;
 	public Rectangle handRightRect;
-	protected float CURSOR_RADIUS = 70;
+	protected float CURSOR_RADIUS = 36;
 	
 	protected boolean _userInGameArea = false;
 		
@@ -184,16 +184,12 @@ public class MatchGameControls {
 	
 	public void drawHands( float heldTimePercent ) {
 		if( heldTimePercent > 0 ) {
-			p.fill(255,255,0);
+			p.fill( MatchGameAssets.CONTROLS_COLOR.toARGB() );
 			p.arc( _handLeft.valueX(), _handLeft.valueY(), CURSOR_RADIUS, CURSOR_RADIUS, 0, heldTimePercent * (float) P.TWO_PI );
 			p.arc( _handRight.valueX(), _handRight.valueY(), CURSOR_RADIUS, CURSOR_RADIUS, 0, heldTimePercent * (float) P.TWO_PI );
-		} else {			
-			p.fill( 180, 180, 255, 100 );
-//			p.image( testHand, _handLeft.valueX(), _handLeft.valueY() + testHand.height/2 );
-//			p.image( testHand, _handRight.valueX(), _handRight.valueY() + testHand.height/2 );
-//			p.arc( _handLeft.valueX(), _handLeft.valueY(), CURSOR_RADIUS, CURSOR_RADIUS, 0, P.TWO_PI );
-//			p.arc( _handRight.valueX(), _handRight.valueY(), CURSOR_RADIUS, CURSOR_RADIUS, 0, P.TWO_PI );
 		}
+		// always draw outer cursor circle
+		DrawUtil.setColorForPImage( p );
 		p.image( MatchGameAssets.UI_CURSOR, _handLeft.valueX(), _handLeft.valueY() );
 		p.image( MatchGameAssets.UI_CURSOR, _handRight.valueX(), _handRight.valueY() );
 	}
@@ -203,7 +199,7 @@ public class MatchGameControls {
 		float confidence = _kinectContext.getJointPositionSkeleton( userId, SimpleOpenNI.SKEL_HEAD, _utilPVec );
 		_kinectContext.convertRealWorldToProjective(_utilPVec,_utilPVec2);
 		if (confidence > 0.001f) {
-			p.fill( 255, 255, 255, 255 );
+			DrawUtil.setColorForPImage( p );
 			p.image( testHead, _utilPVec2.x, _utilPVec2.y + testHead.height/2 );
 		}
 	}

@@ -181,12 +181,19 @@ extends PAppletHax
 	
 	public void drawApp() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
+		DrawUtil.setTopLeft( p );
 		p.shininess(1000f); 
 		p.lights();
-		p.background(0);	
+		p.background(255);	
 		p.camera();
 //		_curCamera.update();
+		
+		// draw bg
+		DrawUtil.setColorForPImage( p );
+		DrawUtil.setDrawCorner( p );
+		p.image( MatchGameAssets.UI_BACKGROUND, 0, 0 );
+		p.image( MatchGameAssets.UI_GAME_LOGO, 244, 261 );
+//		DrawUtil.setCenter( p );
 
 		if( _gameState != _gameStateQueued ) swapGameMode();
 		if( _gameState == GAME_INTRO ) {

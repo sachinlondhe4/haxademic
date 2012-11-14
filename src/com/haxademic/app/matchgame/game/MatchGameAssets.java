@@ -2,8 +2,8 @@ package com.haxademic.app.matchgame.game;
 
 import java.util.ArrayList;
 
-import processing.core.PFont;
 import processing.core.PImage;
+import toxi.color.TColor;
 
 import com.haxademic.app.P;
 import com.haxademic.app.matchgame.MatchGame;
@@ -11,6 +11,8 @@ import com.haxademic.core.draw.text.CustomFontText2D;
 
 public class MatchGameAssets {
 	protected MatchGame p;
+	
+	public static TColor CONTROLS_COLOR;
 	
 	public static PImage PIECE_BACKFACE;
 	public static PImage PIECE_COMPLETE;
@@ -40,6 +42,9 @@ public class MatchGameAssets {
 	
 	public MatchGameAssets() {
 		p = (MatchGame) P.p;
+		
+		// colors
+		CONTROLS_COLOR = TColor.newHex("00457c");
 
 		// game match pieces
 		PIECE_BACKFACE =	p.loadImage( "../data/images/match-game/match-piece-backface.png" );
