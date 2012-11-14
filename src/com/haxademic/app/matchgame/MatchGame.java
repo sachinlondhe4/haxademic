@@ -25,7 +25,7 @@ extends PAppletHax
 	 */
 	public static void main(String args[]) {
 		// "--present",
-		_hasChrome = true;
+		_hasChrome = false;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.matchgame.MatchGame" });
 	}
 
