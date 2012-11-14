@@ -213,7 +213,7 @@ public class MatchGamePlay {
 			DrawUtil.setDrawCorner(p);
 			p.image( MatchGameAssets.UI_BEST_TIME, 43, 39 );
 			MatchGameAssets.BEST_TIME_FONT_RENDERER.updateText( _bestGameTimeString );
-			p.image( MatchGameAssets.BEST_TIME_FONT_RENDERER.getTextPImage(), 28, 58 );
+			p.image( MatchGameAssets.BEST_TIME_FONT_RENDERER.getTextPImage(), 18, 58 );
 		}
 	}
 	
