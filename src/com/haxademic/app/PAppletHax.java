@@ -51,9 +51,9 @@ import fullscreen.FullScreen;
  * minim 
  * Geomerative 
  * 
+ * @TODO: Add better Processing lights() situation
  * @TODO: Refactor MIDI input for easier switching between ableton & akai pad control
  * @TODO: Add MIDI debug flag in .properties
- * @TODO: 2D scene masking - add this as a HaxVisual layer?
  * @TODO: Mesh traversal drawing
  * @TODO: Handle MIDI CC / Allow more than just note_on messages from PAppletHax base. should be able to respond to any midi data
  * @TODO: Implement new viz ideas from sketchbook
@@ -179,7 +179,7 @@ extends PApplet
 	protected Boolean _is_setup = false;
 	
 	/**
-	 * Override this in a subclass of PAppletHax if you want to remove the window chrome 
+	 * Override this in a subclass of PAppletHax if you want to remove the window chrome . Must be published as an Application, not an Applet.
 	 */
 	protected static Boolean _hasChrome = true;
 	
