@@ -13,7 +13,7 @@ extends PApplet {
 	public void setup()
 	{
 		size(800, 600, P3D);
-		_fontRenderer = new CustomFontText2D( this, "../data/fonts/bitlow.ttf", 70.0f, color(0,255,0), 450, 100 );
+		_fontRenderer = new CustomFontText2D( this, "../data/fonts/bitlow.ttf", 70.0f, color(0,255,0), CustomFontText2D.ALIGN_CENTER, 450, 100 );
 	}
 
 	public void draw() {
