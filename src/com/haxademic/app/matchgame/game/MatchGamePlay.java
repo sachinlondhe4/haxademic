@@ -25,7 +25,7 @@ public class MatchGamePlay {
 	protected float _matchHeldStartTime = 0f;
 	protected float MATCH_HELD_TIME = 2000f;
 	
-	protected int _curGameTime = 0;
+	protected int _gameStartTime = 0;
 	
 	public MatchGamePlay( MatchGameControls controls ) {
 		p = (MatchGame) P.p;
@@ -64,6 +64,7 @@ public class MatchGamePlay {
 			_pieces.get( i ).setMatchID( _pieceMatchIDs[i] );
 			_pieces.get( i ).reset();
 		}
+		_gameStartTime = p.millis();
 
 //		debug to make sure IDs are randomized and good
 //		for( int i=0; i < _pieceMatchIDs.length; i++ ) {
@@ -72,7 +73,7 @@ public class MatchGamePlay {
 	}
 	
 	public void startGame() {
-		_curGameTime = 0;
+//		_curGameTime = 0;
 	}
 
 	protected void randomizeIntArray( int[] arr ) {
@@ -91,6 +92,7 @@ public class MatchGamePlay {
 		updateGamePieces();
 		checkForTwoPiecesSelected();
 		checkForMatchComplete();
+		drawTimer();
 		checkGameIsDone();
 		
 		
@@ -204,6 +206,20 @@ public class MatchGamePlay {
 			return true;
 		else
 			return false;
+	}
+	
+	/**
+	 * Draws the current game's time elapsed
+	 */
+	protected void drawTimer() {
+		int seconds = P.round( ( p.millis() - _gameStartTime ) * 0.001f );
+		int minutes = P.floor( seconds / 60f );
+		int secondsOnly = seconds % 60;
+		String secondsText = ( secondsOnly < 10 ) ? "0"+secondsOnly : ""+secondsOnly;
+		String minutesText = ( minutes < 10 ) ? "0"+minutes : ""+minutes;
+		p.image( MatchGameAssets.UI_YOUR_TIME, 862, 680 );
+		MatchGameAssets.TIME_FONT_RENDERER.updateText( minutesText+":"+secondsText );
+		p.image( MatchGameAssets.TIME_FONT_RENDERER.getTextPImage(), 830, 700 );
 	}
 	
 	/**
