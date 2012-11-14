@@ -12,7 +12,7 @@ import com.haxademic.core.draw.text.CustomFontText2D;
 public class MatchGameAssets {
 	protected MatchGame p;
 	
-	public static TColor CONTROLS_COLOR;
+	public static TColor DARK_BLUE;
 	
 	public static PImage PIECE_BACKFACE;
 	public static PImage PIECE_COMPLETE;
@@ -44,7 +44,7 @@ public class MatchGameAssets {
 		p = (MatchGame) P.p;
 		
 		// colors
-		CONTROLS_COLOR = TColor.newHex("00457c");
+		DARK_BLUE = TColor.newHex("00457c");
 
 		// game match pieces
 		PIECE_BACKFACE =	p.loadImage( "../data/images/match-game/match-piece-backface.png" );
@@ -79,7 +79,7 @@ public class MatchGameAssets {
 		UI_WINNER_CONGRATS	= p.loadImage( "../data/images/match-game/ui-winner-congrats.png" );
 		
 		// The font must be located in the sketch's "data" directory to load successfully
-		TIME_FONT_RENDERER = new CustomFontText2D( p, "../data/fonts/bitlow.ttf", 70.0f, p.color(0,0,255), 450, 70 );
+		TIME_FONT_RENDERER = new CustomFontText2D( p, "../data/fonts/bitlow.ttf", 20.0f, DARK_BLUE.toARGB(), CustomFontText2D.ALIGN_RIGHT, 100, 25 );
 
 	}
 

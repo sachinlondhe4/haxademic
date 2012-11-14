@@ -184,7 +184,7 @@ public class MatchGameControls {
 	
 	public void drawHands( float heldTimePercent ) {
 		if( heldTimePercent > 0 ) {
-			p.fill( MatchGameAssets.CONTROLS_COLOR.toARGB() );
+			p.fill( MatchGameAssets.DARK_BLUE.toARGB() );
 			p.arc( _handLeft.valueX(), _handLeft.valueY(), CURSOR_RADIUS, CURSOR_RADIUS, 0, heldTimePercent * (float) P.TWO_PI );
 			p.arc( _handRight.valueX(), _handRight.valueY(), CURSOR_RADIUS, CURSOR_RADIUS, 0, heldTimePercent * (float) P.TWO_PI );
 		}
