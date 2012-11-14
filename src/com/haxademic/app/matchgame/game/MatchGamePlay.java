@@ -58,6 +58,7 @@ public class MatchGamePlay {
 		randomizeIntArray( _pieceMatchIDs );
 		for( int i=0; i < _pieceMatchIDs.length; i++ ) {
 			_pieces.get( i ).setMatchID( _pieceMatchIDs[i] );
+			_pieces.get( i ).reset();
 		}
 
 //		debug to make sure IDs are randomized and good
@@ -158,6 +159,17 @@ public class MatchGamePlay {
 		
 		// if either cursor intersected the piece, return true
 		if( _cursorLeftPieceID == piece.index() || _cursorRightPieceID == piece.index() )
+			return true;
+		else
+			return false;
+	}
+	
+	protected boolean checkGameIsDone() {
+		int numIncompletePieces = 0;
+		for( int i=0; i < _pieces.size(); i++ ) {
+			if( _pieces.get( i ).isActive() == true ) numIncompletePieces++;
+		}
+		if( numIncompletePieces == 0 )
 			return true;
 		else
 			return false;
