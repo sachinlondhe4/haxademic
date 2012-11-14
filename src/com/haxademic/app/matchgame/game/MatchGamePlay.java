@@ -18,10 +18,14 @@ public class MatchGamePlay {
 	protected MatchGameControls _controls;
 	protected int _cursorLeftPieceID = -1;
 	protected int _cursorRightPieceID = -1;
+	protected int _lastCursorRightPieceID = -1;
+	protected int _lastCursorLeftPieceID = -1;
 	protected boolean _twoPiecesSelected = false;
 	
 	protected float _matchHeldStartTime = 0f;
 	protected float MATCH_HELD_TIME = 2000f;
+	
+	protected int _curGameTime = 0;
 	
 	public MatchGamePlay( MatchGameControls controls ) {
 		p = (MatchGame) P.p;
@@ -30,7 +34,7 @@ public class MatchGamePlay {
 	}
 	
 	protected void init() {
-		
+				
 		// build game pieces
 		_pieces = new ArrayList<MatchGamePiece>();
 		int i = 0;
@@ -66,6 +70,10 @@ public class MatchGamePlay {
 //			P.println("match ID: "+_pieceMatchIDs[i]);
 //		}
 	}
+	
+	public void startGame() {
+		_curGameTime = 0;
+	}
 
 	protected void randomizeIntArray( int[] arr ) {
 		for( int i=0; i < arr.length; i++ ) {
@@ -80,10 +88,34 @@ public class MatchGamePlay {
 	 * Main game play update loop
 	 */
 	public void update() {
+		updateGamePieces();
+		checkForTwoPiecesSelected();
+		checkForMatchComplete();
+		checkGameIsDone();
+		
+		
+		
+//		// test text
+//		p.fill( 255 );
+//		p.textFont(MatchGameAssets.TEST_FONT, 48);
+//		p.text("YO WORD", 10, 50);
+//		
+////		_fontRenderer = new CustomFontText2D( this, "../data/fonts/bitlow.ttf", 70.0f, color(0,255,0), 450, 100 );
+////	}
+////
+////	public void draw() {
+////		background(0);
+////		translate(mouseX, height/2, 0); 
+////		_fontRenderer.updateText( frameCount+"" );
+////		image( _fontRenderer.getTextPImage(), 0, 0 );
+
+	}
+	
+	protected void updateGamePieces() {
 		// update game pieces and reset/check hand cursor collisions
 		p.pushMatrix();
-		int lastCursorLeftPieceID = _cursorLeftPieceID;
-		int lastCursorRightPieceID = _cursorRightPieceID;
+		_lastCursorLeftPieceID = _cursorLeftPieceID;
+		_lastCursorRightPieceID = _cursorRightPieceID;
 		_cursorLeftPieceID = -1;
 		_cursorRightPieceID = -1;
 		for( int i=0; i < _pieces.size(); i++ ) {
@@ -92,19 +124,43 @@ public class MatchGamePlay {
 			_pieces.get( i ).update( collision );
 		}
 		p.popMatrix();
-		
-		// if both cursors are over two different pieces, or it's a new pair of pieces, start the match timer
+	}
+	
+	/**
+	 * If both cursors are over two different pieces, or it's a new pair of pieces, start the match timer.
+	 * Keeps track of the selected and unselected states of the pieces, and sets flags for further piece-matching.
+	 */
+	protected void checkForTwoPiecesSelected() {
 		if( _cursorLeftPieceID != -1 && _cursorRightPieceID != -1 && _cursorLeftPieceID != _cursorRightPieceID ) {
-			boolean isNewPair = ( lastCursorLeftPieceID != _cursorLeftPieceID || lastCursorRightPieceID != _cursorRightPieceID );
+			boolean isNewPair = ( _lastCursorLeftPieceID != _cursorLeftPieceID || _lastCursorRightPieceID != _cursorRightPieceID );
 			if( !_twoPiecesSelected || isNewPair ) {
 				selectedTwoPieces();
 			} 
 		} else {
 			if( _twoPiecesSelected ) unselectedTwoPieces();
 		}
-		
-		
-		// count up held match
+	}
+	
+	protected void selectedTwoPieces() {
+		// if we had 2 selected, reset stuff so we can start this new pair fresh
+		if( _twoPiecesSelected == true ) unselectedTwoPieces();
+		// P.println("2 pieces selected!");
+		_twoPiecesSelected = true;
+		_matchHeldStartTime = p.millis();
+	}
+	
+	protected void unselectedTwoPieces() {
+		// P.println("2 UNselected");
+		_twoPiecesSelected = false;
+		_matchHeldStartTime = 0;
+	}
+	
+	/**
+	 * Check to see if two pieces have matched after the match timeout has been reached.
+	 * Also, draw controls... not sure if this should always be here...
+	 */
+	protected void checkForMatchComplete() {
+		// check for a match timeout
 		float controlDrawPercent = 0;
 		if( _twoPiecesSelected == true ) {
 			if( p.millis() - _matchHeldStartTime > MATCH_HELD_TIME ) {
@@ -115,25 +171,13 @@ public class MatchGamePlay {
 			}
 			controlDrawPercent = ( (float) p.millis() - _matchHeldStartTime ) / MATCH_HELD_TIME;
 		}
-
 		// draw hand cursor controls with percentage complete
 		_controls.drawControls( controlDrawPercent );
 	}
 	
-	protected void selectedTwoPieces() {
-		// if we had 2 selected, reset stuff so we can start this new pair fresh
-		if( _twoPiecesSelected == true ) unselectedTwoPieces();
-		P.println("2 pieces selected!");
-		_twoPiecesSelected = true;
-		_matchHeldStartTime = p.millis();
-	}
-	
-	protected void unselectedTwoPieces() {
-		P.println("2 UNselected");
-		_twoPiecesSelected = false;
-		_matchHeldStartTime = 0;
-	}
-	
+	/**
+	 * Tell the pieces that were selected and attempted to match whether they match or not
+	 */
 	protected void piecesMatched( boolean didMatch ) {
 		// kill or keep selected pieces
 		for( int i=0; i < _pieces.size(); i++ ) {
@@ -149,8 +193,6 @@ public class MatchGamePlay {
 	
 	/**
 	 * Check to see if two hand cursors are inside game pieces
-	 * @param piece
-	 * @return
 	 */
 	protected boolean checkCollisions( MatchGamePiece piece ) {
 		
@@ -164,14 +206,16 @@ public class MatchGamePlay {
 			return false;
 	}
 	
-	protected boolean checkGameIsDone() {
+	/**
+	 * Reset game if all pieces are cleared
+	 */
+	protected void checkGameIsDone() {
 		int numIncompletePieces = 0;
 		for( int i=0; i < _pieces.size(); i++ ) {
 			if( _pieces.get( i ).isActive() == true ) numIncompletePieces++;
 		}
-		if( numIncompletePieces == 0 )
-			return true;
-		else
-			return false;
+		if( numIncompletePieces == 0 ) {
+			reset();
+		}
 	}
 }
