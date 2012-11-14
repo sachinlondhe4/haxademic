@@ -10,6 +10,7 @@ public class ColorGroup {
 	public static int NONE = -1;
 	public static int BALLET = 0;
 	public static int KACHE_OUT = 1;
+	public static int NEON = 2;
 
 	public ColorGroup( int set ) {
 		getColors( set );
@@ -19,6 +20,7 @@ public class ColorGroup {
 		_colorSets = new Vector<Vector<TColor>>();
 		if( set == BALLET ) getBallet();
 		if( set == KACHE_OUT ) getKacheOut();
+		if( set == NEON ) getNeon();
 		if( set != NONE ) setRandomGroup();
 	}
 	
@@ -80,6 +82,13 @@ public class ColorGroup {
 		_colorSets.add( createGroupWithHexes( "9c2c63", "d073a2", "e5a8ff", "fffde2", "cebf6d" ) );
 		_colorSets.add( createGroupWithHexes( "c67dff", "807bbf", "4e6c7f", "40a293", "ab322a" ) );
 		_colorSets.add( createGroupWithHexes( "f2f2f2", "f4d88b", "dcb88e", "c3844c", "ab322a" ) );
+	}
+	
+	public void getNeon() {
+		_colorSets = new Vector<Vector<TColor>>();
+		_colorSets.add( createGroupWithHexes( "02ffff", "00fa00", "fdfd04", "fd5002", "fe007c" ) );
+		_colorSets.add( createGroupWithHexes( "d865fe", "00fffe", "28fb00", "feff02", "ff00ff" ) );
+		_colorSets.add( createGroupWithHexes( "02b8ff", "fffa02", "ff0091", "858585", "c182f4" ) );
 	}
 	
 }
