@@ -54,7 +54,7 @@ public class IntroScreen {
 		
 		// set up keyframes
 		_frame1 = 0;
-		_frame2 = _frame1 + 120;	// create denver
+		_frame2 = _frame1 + 1;	// create denver
 		_frame3 = _frame2 + 120;	// kacheout
 		_frame4 = _frame3 + 90;		// built by
 		_frame5 = _frame4 + 90;		// mode set
@@ -108,11 +108,13 @@ public class IntroScreen {
 	protected void updateAnimationsOnFrameCount() {
 		// animate on certain frames
 		if( _frameCount == _frame1 ) {
-			_cdTextLoc.setTargetY( -140 );
-			_cdLogoLoc.setTargetY( 90 );
+//			_cdTextLoc.setTargetY( -140 );
+//			_cdLogoLoc.setTargetY( 90 );
+			_cdTextLoc.setTargetY( 9999 );
+			_cdLogoLoc.setTargetY( 9999 );
 		} else if( _frameCount == _frame2 ) {
-			_cdLogoLoc.setTargetY( -p.stageHeight() );
-			_cdTextLoc.setTargetY( -p.stageHeight() );
+			_cdTextLoc.setTargetY( 9999 );
+			_cdLogoLoc.setTargetY( 9999 );
 			_kacheOutLoc.setTargetY( 0 );
 		} else if( _frameCount == _frame3 ) {
 			_kacheOutLoc.setTargetY( -p.stageHeight() );
