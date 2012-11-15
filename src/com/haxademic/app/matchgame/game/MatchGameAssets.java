@@ -91,7 +91,7 @@ public class MatchGameAssets {
 		UI_LOADER			= p.loadImage( "../data/images/match-game/ui-loader.png" );
 		
 		// The font must be located in the sketch's "data" directory to load successfully
-		TIME_FONT_RENDERER = new CustomFontText2D( p, "../data/fonts/GothamBold.ttf", 20.0f, DARK_BLUE.toARGB(), CustomFontText2D.ALIGN_RIGHT, 100, 25 );
+		TIME_FONT_RENDERER = new CustomFontText2D( p, "../data/fonts/GothamBold.ttf", 25.0f, DARK_BLUE.toARGB(), CustomFontText2D.ALIGN_RIGHT, 100, 25 );
 		BEST_TIME_FONT_RENDERER = new CustomFontText2D( p, "../data/fonts/GothamBold.ttf", 40.0f, TColor.WHITE.toARGB(), CustomFontText2D.ALIGN_RIGHT, 130, 40 );
 
 	}

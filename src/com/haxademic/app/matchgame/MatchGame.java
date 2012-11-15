@@ -193,7 +193,7 @@ extends PAppletHax
 		if( _gameState != _gameStateQueued ) swapGameMode();
 		if( _gameState == GAME_PLAYER_DETECT ) {
 			// draw "step up" image
-			p.image( MatchGameAssets.UI_STEP_UP, 260, 386 );
+			p.image( MatchGameAssets.UI_STEP_UP, 262, 386 );
 			// check for player in game area box
 			boolean playerIsInArea = _controls.userIsInGameArea();
 			if( playerIsInArea == true ) {
@@ -213,12 +213,12 @@ extends PAppletHax
 				setGameMode( GAME_COUNTDOWN );
 			}
 		} else if( _gameState == GAME_ON || _gameState == GAME_COUNTDOWN ) {
-			p.image( MatchGameAssets.UI_GAME_LOGO, 244, 261 );
+			p.image( MatchGameAssets.UI_GAME_LOGO, 244, 262 );
 			_controls.update();
 			_gamePlay.update();
 		} else if( _gameState == GAME_OVER ) {
-			p.image( MatchGameAssets.UI_GAME_LOGO, 244, 261 );
-			p.image( MatchGameAssets.UI_WINNER_CONGRATS, 247, 172 );
+			p.image( MatchGameAssets.UI_GAME_LOGO, 244, 262 );
+			p.image( MatchGameAssets.UI_WINNER_CONGRATS, 246, 172 );
 			p.image( _winRGBImage, 243, 313, 540, 406 );
 			if( p.millis() - _gameOverStartTime > 6000 ) setGameMode( GAME_PLAYER_DETECT );
 		}
@@ -229,7 +229,7 @@ extends PAppletHax
 	protected void drawLoader() {
 		DrawUtil.setDrawCenter(p);
 		p.pushMatrix();
-		p.translate( 487, 538 );
+		p.translate( 515, 567 );
 		p.rotate( ( P.TWO_PI / 10f ) * (float) p.frameCount );
 		p.image( MatchGameAssets.UI_LOADER, 0, 0 );
 		p.popMatrix();

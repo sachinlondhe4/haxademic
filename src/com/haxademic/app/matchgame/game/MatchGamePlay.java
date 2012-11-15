@@ -129,11 +129,11 @@ public class MatchGamePlay {
 			p.setGameMode( MatchGame.GAME_ON );
 			reset();
 		} else if( p.millis() - _countdownStartTime > 2000 ) {
-			p.image( MatchGameAssets.UI_COUNTDOWN_1, 346, 346 );
+			p.image( MatchGameAssets.UI_COUNTDOWN_1, 345, 348 );
 		} else if( p.millis() - _countdownStartTime > 1000 ) {
-			p.image( MatchGameAssets.UI_COUNTDOWN_2, 346, 346 );
+			p.image( MatchGameAssets.UI_COUNTDOWN_2, 345, 348 );
 		} else if( p.millis() - _countdownStartTime > 0 ) {
-			p.image( MatchGameAssets.UI_COUNTDOWN_3, 346, 346 );
+			p.image( MatchGameAssets.UI_COUNTDOWN_3, 345, 348 );
 		}
 	}
 	
@@ -263,17 +263,17 @@ public class MatchGamePlay {
 	protected void drawTimer() {
 		DrawUtil.setDrawCorner(p);
 		int seconds = P.round( ( p.millis() - _gameStartTime ) * 0.001f );
-		p.image( MatchGameAssets.UI_YOUR_TIME, 862, 680 );
+		p.image( MatchGameAssets.UI_YOUR_TIME, 839, 682 );
 		MatchGameAssets.TIME_FONT_RENDERER.updateText( formatTimeFromSeconds( seconds ) );
-		p.image( MatchGameAssets.TIME_FONT_RENDERER.getTextPImage(), 830, 705 );
+		p.image( MatchGameAssets.TIME_FONT_RENDERER.getTextPImage(), 809, 704 );
 	}
 	
 	protected void drawBestTime() {
 		if( _bestGameTimeString != null ) {
 			DrawUtil.setDrawCorner(p);
-			p.image( MatchGameAssets.UI_BEST_TIME, 43, 39 );
+			p.image( MatchGameAssets.UI_BEST_TIME, 43, 40 );
 			MatchGameAssets.BEST_TIME_FONT_RENDERER.updateText( _bestGameTimeString );
-			p.image( MatchGameAssets.BEST_TIME_FONT_RENDERER.getTextPImage(), 18, 58 );
+			p.image( MatchGameAssets.BEST_TIME_FONT_RENDERER.getTextPImage(), 30, 60 );
 		}
 	}
 	

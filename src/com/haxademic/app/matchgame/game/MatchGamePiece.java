@@ -10,10 +10,10 @@ public class MatchGamePiece {
 
 	protected MatchGame p;
 	
-	public static int BOX_SIZE = 140; 
-	public static int BOX_PADDING = 10; 
-	public static int TOP_PADDING = 312 - 10;
-	public static int LEFT_PADDING = 244 - 10;
+	public static int BOX_SIZE = 128; 
+	public static int BOX_PADDING = 9; 
+	public static int TOP_PADDING = 311;
+	public static int LEFT_PADDING = 242;
 	
 	protected int _col = -1;
 	protected int _row = -1;
@@ -31,8 +31,8 @@ public class MatchGamePiece {
 		_col = col;
 		_row = row;
 		rect = new Rectangle( 
-				LEFT_PADDING + _col * BOX_SIZE + BOX_PADDING, 
-				TOP_PADDING + _row * BOX_SIZE + BOX_PADDING, 
+				LEFT_PADDING + _col * ( BOX_SIZE + BOX_PADDING ), 
+				TOP_PADDING + _row * ( BOX_SIZE + BOX_PADDING ), 
 				BOX_SIZE, 
 				BOX_SIZE 
 		);
