@@ -263,9 +263,9 @@ public class MatchGamePlay {
 	protected void drawTimer() {
 		DrawUtil.setDrawCorner(p);
 		int seconds = P.round( ( p.millis() - _gameStartTime ) * 0.001f );
-		p.image( MatchGameAssets.UI_YOUR_TIME, 839, 682 );
+		p.image( MatchGameAssets.UI_YOUR_TIME, 839, 672 );
 		MatchGameAssets.TIME_FONT_RENDERER.updateText( formatTimeFromSeconds( seconds ) );
-		p.image( MatchGameAssets.TIME_FONT_RENDERER.getTextPImage(), 809, 704 );
+		p.image( MatchGameAssets.TIME_FONT_RENDERER.getTextPImage(), 809, 694 );
 	}
 	
 	protected void drawBestTime() {
