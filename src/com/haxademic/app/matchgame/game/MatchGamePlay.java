@@ -25,10 +25,13 @@ public class MatchGamePlay {
 	
 	protected float _matchHeldStartTime = 0f;
 	protected float MATCH_HELD_TIME = 1300f;
+	float _controlDrawPercent = 0;
 	
 	protected int _gameStartTime = 0;
 	protected int _gameBestTimeSeconds = 99999999;
 	protected String _bestGameTimeString = null;
+	
+	protected int _countdownStartTime = -1;
 	
 	public MatchGamePlay( MatchGameControls controls ) {
 		p = (MatchGame) P.p;
@@ -78,6 +81,10 @@ public class MatchGamePlay {
 	public void startGame() {
 //		_curGameTime = 0;
 	}
+	
+	public void startCountdown() {
+		_countdownStartTime = p.millis();
+	}
 
 	protected void randomizeIntArray( int[] arr ) {
 		for( int i=0; i < arr.length; i++ ) {
@@ -92,18 +99,39 @@ public class MatchGamePlay {
 	 * Main game play update loop
 	 */
 	public void update() {
-		updateGamePieces();
-		checkForTwoPiecesSelected();
-		checkForMatchComplete();
-		drawTimer();
+		boolean isActive = ( p.getGameMode() == MatchGame.GAME_ON );
+		_controlDrawPercent = 0;
+
+		updateGamePieces( isActive );
+		if( isActive == true ) {
+			checkForTwoPiecesSelected();
+			checkForMatchComplete();
+			drawTimer();
+			checkGameIsDone();
+		} else if( p.getGameMode() == MatchGame.GAME_COUNTDOWN ) {
+			drawCountdown();
+		}
 		drawBestTime();
-		checkGameIsDone();
+		_controls.drawControls( _controlDrawPercent );
+	}
+	
+	protected void drawCountdown() {
+		if( p.millis() - _countdownStartTime > 3000 ) {
+			p.setGameMode( MatchGame.GAME_ON );
+			reset();
+		} else if( p.millis() - _countdownStartTime > 2000 ) {
+			p.image( MatchGameAssets.UI_COUNTDOWN_1, 346, 346 );
+		} else if( p.millis() - _countdownStartTime > 1000 ) {
+			p.image( MatchGameAssets.UI_COUNTDOWN_2, 346, 346 );
+		} else if( p.millis() - _countdownStartTime > 0 ) {
+			p.image( MatchGameAssets.UI_COUNTDOWN_3, 346, 346 );
+		}
 	}
 	
 	/**
 	 * Update pieces and reset/check collisions with the 2 cursors
 	 */
-	protected void updateGamePieces() {
+	protected void updateGamePieces( boolean isActive ) {
 		p.pushMatrix();
 		_lastCursorLeftPieceID = _cursorLeftPieceID;
 		_lastCursorRightPieceID = _cursorRightPieceID;
@@ -112,7 +140,7 @@ public class MatchGamePlay {
 		for( int i=0; i < _pieces.size(); i++ ) {
 			boolean collision = false;
 			if( _pieces.get( i ).isActive() == true ) collision = checkCollisions( _pieces.get( i ) );
-			_pieces.get( i ).update( collision );
+			_pieces.get( i ).update( collision, isActive );
 		}
 		p.popMatrix();
 	}
@@ -152,7 +180,6 @@ public class MatchGamePlay {
 	 */
 	protected void checkForMatchComplete() {
 		// check for a match timeout
-		float controlDrawPercent = 0;
 		if( _twoPiecesSelected == true ) {
 			if( p.millis() - _matchHeldStartTime > MATCH_HELD_TIME ) {
 				if( _pieces.get( _cursorLeftPieceID ).matchID() == _pieces.get( _cursorRightPieceID ).matchID() )
@@ -160,10 +187,8 @@ public class MatchGamePlay {
 				else
 					piecesMatched( false );
 			}
-			controlDrawPercent = ( (float) p.millis() - _matchHeldStartTime ) / MATCH_HELD_TIME;
+			_controlDrawPercent = ( (float) p.millis() - _matchHeldStartTime ) / MATCH_HELD_TIME;
 		}
-		// draw hand cursor controls with percentage complete
-		_controls.drawControls( controlDrawPercent );
 	}
 	
 	/**
@@ -244,6 +269,7 @@ public class MatchGamePlay {
 	protected void finishGame() {
 		storeBestGameTime();
 		reset();
+		p.setGameMode( MatchGame.GAME_OVER );
 	}
 	
 	/**

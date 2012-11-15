@@ -76,12 +76,12 @@ public class MatchGamePiece {
 	/** 
 	 * Main gameplay update loop. Draws the piece based on current state.
 	 */
-	public void update( boolean cursorOver ) {
+	public void update( boolean cursorOver, boolean isGameActive ) {
 		DrawUtil.setDrawCorner(p);
 		DrawUtil.setColorForPImage(p);
 		p.pushMatrix();
 		if( _isActive == true ) {
-			if( cursorOver ) {
+			if( cursorOver && isGameActive == true ) {
 				_isOver = true;
 				p.image( MatchGameAssets.PIECE_IMAGES.get( _matchID ), rect.x, rect.y );
 			} else {

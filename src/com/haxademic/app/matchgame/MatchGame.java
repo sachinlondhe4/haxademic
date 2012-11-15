@@ -1,6 +1,7 @@
 package com.haxademic.app.matchgame;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
@@ -52,6 +53,12 @@ extends PAppletHax
 	// game state
 	protected int _curMode;
 	
+	// more game state - screen transition / detection
+	protected int _playerDetectStartTime = -1;
+	protected int _skeletonDetectStartTime = -1;
+	protected int _gameOverStartTime = -1;
+	protected PImage _winRGBImage;
+	
 	// game objects
 	protected MatchGamePlay _gamePlay;
 	protected MatchGameControls _controls;
@@ -61,8 +68,10 @@ extends PAppletHax
 	protected int _gameStateQueued;	// wait until beginning on the next frame to switch modes to avoid mid-frame conflicts
 	public static int GAME_ON = 3;
 	public static int GAME_OVER = 4;
-	public static int GAME_INTRO = 5;
-	public static int GAME_INSTRUCTIONS = 6;
+	public static int GAME_PLAYER_DETECT = 5;
+	public static int GAME_SKELETON_DETECT = 6;
+	public static int GAME_COUNTDOWN = 7;
+
 	
 	protected float _cameraZFromHeight = 0;
 	
@@ -85,7 +94,7 @@ extends PAppletHax
 		if( _appConfig.getBoolean( "starts_on_game", true ) == true ) {
 			setGameMode( GAME_ON );
 		} else {
-			setGameMode( GAME_INSTRUCTIONS );
+			setGameMode( GAME_PLAYER_DETECT );
 		}
 	}
 	
@@ -101,7 +110,7 @@ extends PAppletHax
 	}
 
 	void buildGameObjects() {
-		MatchGameAssets loader = new MatchGameAssets();
+		MatchGameAssets.initAssets();
 		_controls = new MatchGameControls();
 		_gamePlay = new MatchGamePlay( _controls );
 	}
@@ -112,11 +121,6 @@ extends PAppletHax
 //		_curCamera.setPosition( _stageWidth/2f, _stageHeight/2f, 0 );	// _cameraZFromHeight
 //		_curCamera.setTarget( _stageWidth/2f, _stageHeight/2f, 0 );
 //		_curCamera.reset();
-	}
-	
-	protected void debugCameraPos() {
-		P.println(-_stageWidth + p.mouseX*2);
-//		_curCamera.setPosition( _stageWidth/2, _stageHeight/2, -_stageWidth + p.mouseX*2 );
 	}
 	
 	// INPUT --------------------------------------------------------------------------------------
@@ -148,33 +152,26 @@ extends PAppletHax
 		_gameStateQueued = mode;
 	}
 	
+	public int getGameMode() {
+		return _gameState;
+	}
+	
 	public void swapGameMode() {
 		_gameState = _gameStateQueued;
-//		if( _gameState == GAME_INTRO ) {
-//			_screenIntro.reset();
-//			soundtrack.playIntro();
-//		} else if( _gameState == GAME_INSTRUCTIONS ) {
-//			for( int i=0; i < NUM_PLAYERS; i++ ) {
-//				_gamePlays.get( i ).reset();
-//			}
-//			soundtrack.stop();
-//			sounds.playSound( SFX_DOWN );
-//			soundtrack.playInstructions();
-//		} else if( _gameState == GAME_COUNTDOWN ) {
-//			for( int i=0; i < NUM_PLAYERS; i++ ) {
-//				_gamePlays.get( i ).startCountdown();
-//			}
-//			soundtrack.stop();
-//		} else if( _gameState == GAME_ON ) {
-//			for( int i=0; i < NUM_PLAYERS; i++ ) {
-//				_gamePlays.get( i ).launchBall();
-//			}
-//			soundtrack.playNext();
-//		} else if( _gameState == GAME_OVER ) {
-//			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).gameOver();
-//			soundtrack.stop();
-//			sounds.playSound( WIN_SOUND );
-//		}
+		if( _gameState == GAME_PLAYER_DETECT ) {
+
+		} else if( _gameState == GAME_SKELETON_DETECT ) {
+			_controls.stopTrackingAllUsers();
+			_controls.enableSkeletonTracking();
+			_skeletonDetectStartTime = p.millis();
+		} else if( _gameState == GAME_COUNTDOWN ) {
+			_gamePlay.startCountdown();
+		} else if( _gameState == GAME_ON ) {
+
+		} else if( _gameState == GAME_OVER ) {
+			_winRGBImage = p.kinectWrapper.getRgbImage();
+			_gameOverStartTime = p.millis();
+		}
 	}
 		
 	// FRAME LOOP --------------------------------------------------------------------------------------
@@ -192,18 +189,54 @@ extends PAppletHax
 		DrawUtil.setColorForPImage( p );
 		DrawUtil.setDrawCorner( p );
 		p.image( MatchGameAssets.UI_BACKGROUND, 0, 0 );
-		p.image( MatchGameAssets.UI_GAME_LOGO, 244, 261 );
-//		DrawUtil.setCenter( p );
+		
 
 		if( _gameState != _gameStateQueued ) swapGameMode();
-		if( _gameState == GAME_INTRO ) {
-//			_screenIntro.update();
-		} else if( _gameState == GAME_ON ) {
+		if( _gameState == GAME_PLAYER_DETECT ) {
+			// draw "step up" image
+			p.image( MatchGameAssets.UI_STEP_UP, 260, 386 );
+			// check for player in game area box
+			boolean playerIsInArea = _controls.userIsInGameArea();
+			if( playerIsInArea == true ) {
+				if( _playerDetectStartTime == -1 ) _playerDetectStartTime = p.millis();
+				drawLoader();
+				if( p.millis() - _playerDetectStartTime > 3000 ) { 
+					setGameMode( GAME_SKELETON_DETECT );
+					_playerDetectStartTime = -1;
+				}
+			} else {
+				_playerDetectStartTime = -1;
+			}
+		} else if( _gameState == GAME_SKELETON_DETECT ) {
+			p.image( MatchGameAssets.UI_PLAYER_DETECT, 193, 242 );
+			drawLoader();
+			P.println("_controls.hasASkeleton() = "+_controls.hasASkeleton());
+			P.println("p.millis() - _skeletonDetectStartTime = "+(p.millis() - _skeletonDetectStartTime));
+			if( _controls.hasASkeleton() == true && p.millis() - _skeletonDetectStartTime > 3000 ) {
+				setGameMode( GAME_COUNTDOWN );
+			}
+		} else if( _gameState == GAME_ON || _gameState == GAME_COUNTDOWN ) {
+			p.image( MatchGameAssets.UI_GAME_LOGO, 244, 261 );
 			_controls.update();
 			_gamePlay.update();
+		} else if( _gameState == GAME_OVER ) {
+			p.image( MatchGameAssets.UI_GAME_LOGO, 244, 261 );
+			p.image( MatchGameAssets.UI_WINNER_CONGRATS, 247, 172 );
+			p.image( _winRGBImage, 243, 313, 540, 406 );
+			if( p.millis() - _gameOverStartTime > 6000 ) setGameMode( GAME_PLAYER_DETECT );
 		}
 		
-		if( _isDebugging == true ) displayDebug();
+//		if( _isDebugging == true ) displayDebug();
+	}
+	
+	protected void drawLoader() {
+		DrawUtil.setDrawCenter(p);
+		p.pushMatrix();
+		p.translate( 487, 538 );
+		p.rotate( ( P.TWO_PI / 10f ) * (float) p.frameCount );
+		p.image( MatchGameAssets.UI_LOADER, 0, 0 );
+		p.popMatrix();
+		DrawUtil.setDrawCorner(p);
 	}
 			
 	protected void displayDebug() {
