@@ -148,7 +148,6 @@ extends PAppletHax
 	// GAME LOGIC --------------------------------------------------------------------------------------
 	
 	public void setGameMode( int mode ) {
-//		p.println("next mode: "+mode);
 		_gameStateQueued = mode;
 	}
 	
@@ -210,8 +209,6 @@ extends PAppletHax
 		} else if( _gameState == GAME_SKELETON_DETECT ) {
 			p.image( MatchGameAssets.UI_PLAYER_DETECT, 193, 242 );
 			drawLoader();
-			P.println("_controls.hasASkeleton() = "+_controls.hasASkeleton());
-			P.println("p.millis() - _skeletonDetectStartTime = "+(p.millis() - _skeletonDetectStartTime));
 			if( _controls.hasASkeleton() == true && p.millis() - _skeletonDetectStartTime > 3000 ) {
 				setGameMode( GAME_COUNTDOWN );
 			}

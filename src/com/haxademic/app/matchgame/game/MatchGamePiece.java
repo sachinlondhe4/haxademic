@@ -76,14 +76,18 @@ public class MatchGamePiece {
 	/** 
 	 * Main gameplay update loop. Draws the piece based on current state.
 	 */
-	public void update( boolean cursorOver, boolean isGameActive ) {
+	public void update( boolean cursorOver, boolean isGameActive, boolean isFlipped ) {
 		DrawUtil.setDrawCorner(p);
 		DrawUtil.setColorForPImage(p);
 		p.pushMatrix();
 		if( _isActive == true ) {
-			if( cursorOver && isGameActive == true ) {
+			if( isFlipped == true ) {
 				_isOver = true;
 				p.image( MatchGameAssets.PIECE_IMAGES.get( _matchID ), rect.x, rect.y );
+			} else if( cursorOver == true ) { 
+				DrawUtil.setPImageAlpha( p, 0.5f );
+				p.image( MatchGameAssets.PIECE_BACKFACE, rect.x, rect.y );
+				DrawUtil.resetPImageAlpha(p);
 			} else {
 				_isOver = false;
 				p.image( MatchGameAssets.PIECE_BACKFACE, rect.x, rect.y );

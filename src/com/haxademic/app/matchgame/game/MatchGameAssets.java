@@ -13,6 +13,7 @@ public class MatchGameAssets {
 	protected static MatchGame p;
 	
 	public static TColor DARK_BLUE;
+	public static TColor DARK_BLUE_TRANS;
 	
 	public static PImage PIECE_BACKFACE;
 	public static PImage PIECE_COMPLETE;
@@ -52,6 +53,8 @@ public class MatchGameAssets {
 		
 		// colors
 		DARK_BLUE = TColor.newHex("00457c");
+		DARK_BLUE_TRANS = DARK_BLUE.copy();
+		DARK_BLUE_TRANS.alpha = 0.5f;
 
 		// game match pieces
 		PIECE_BACKFACE =	p.loadImage( "../data/images/match-game/match-piece-backface.png" );

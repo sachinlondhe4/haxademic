@@ -81,10 +81,10 @@ public class MatchGameControls {
 		DrawUtil.setDrawCenter(p);
 	}
 	
-	public void drawControls( float heldTimePercent ) {
+	public void drawControls( float heldTimePercent, boolean controlsActive ) {
 		DrawUtil.setDrawCenter(p);
 //		drawHead( _curUserId );
-		drawHands( heldTimePercent );		
+		drawHands( heldTimePercent, controlsActive );		
 	}
 	
 	public EasingFloat3d getRightHandPos() {
@@ -195,7 +195,7 @@ public class MatchGameControls {
 		handRightRect.y = (int) _handRight.valueY();
 	}
 	
-	public void drawHands( float heldTimePercent ) {
+	public void drawHands( float heldTimePercent, boolean controlsActive ) {
 		if( heldTimePercent > 0 ) {
 			p.fill( MatchGameAssets.DARK_BLUE.toARGB() );
 			p.arc( _handLeft.valueX(), _handLeft.valueY(), CURSOR_DIAMETER, CURSOR_DIAMETER, 0, heldTimePercent * (float) P.TWO_PI );
@@ -203,8 +203,10 @@ public class MatchGameControls {
 		}
 		// always draw outer cursor circle
 		DrawUtil.setColorForPImage( p );
+		if( controlsActive == false ) DrawUtil.setPImageAlpha( p, 0.3f );
 		p.image( MatchGameAssets.UI_CURSOR, _handLeft.valueX(), _handLeft.valueY() );
 		p.image( MatchGameAssets.UI_CURSOR, _handRight.valueX(), _handRight.valueY() );
+		DrawUtil.resetPImageAlpha( p );
 	}
 	
  	public void drawHead( int userId )
@@ -234,7 +236,7 @@ public class MatchGameControls {
 		for ( int i = 0; i < userImg.pixels.length; i++ ) {
 			if( kinectPixels[i] == 1 ) userImg.pixels[i] = userColor;  
 		}
-		p.fill( 255, 255, 255, 255 );
+		DrawUtil.setColorForPImage(p);
 		p.image( userImg, 0, p.height - 480 );
 	}
 	

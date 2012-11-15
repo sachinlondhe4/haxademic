@@ -23,8 +23,11 @@ public class MatchGamePlay {
 	protected int _lastCursorLeftPieceID = -1;
 	protected boolean _twoPiecesSelected = false;
 	
-	protected float _matchHeldStartTime = 0f;
+	protected float _matchHeldStartTime = -1;
 	protected float MATCH_HELD_TIME = 1300f;
+	protected float MATCH_SHOW_TIME = 1700f;
+	protected float _matchTriggeredStartTime = -1;
+	protected boolean _piecesMatched = false;
 	float _controlDrawPercent = 0;
 	
 	protected int _gameStartTime = 0;
@@ -100,22 +103,28 @@ public class MatchGamePlay {
 	 */
 	public void update() {
 		boolean isActive = ( p.getGameMode() == MatchGame.GAME_ON );
+		boolean isControlActive = ( _matchTriggeredStartTime == -1 );
 		_controlDrawPercent = 0;
 
-		updateGamePieces( isActive );
 		if( isActive == true ) {
-			checkForTwoPiecesSelected();
-			checkForMatchComplete();
+			if( isControlActive == true ) {
+				getCursorCollisionPieceIDs();
+				checkForTwoPiecesSelected();
+				checkForMatchComplete();
+			}
 			drawTimer();
 			checkGameIsDone();
-		} else if( p.getGameMode() == MatchGame.GAME_COUNTDOWN ) {
-			drawCountdown();
 		}
+		checkFinishMatchDisplay();
+		updateGamePieces( isActive, isControlActive );
 		drawBestTime();
-		_controls.drawControls( _controlDrawPercent );
+		if( p.getGameMode() == MatchGame.GAME_COUNTDOWN ) drawCountdown();
+		_controls.drawControls( _controlDrawPercent, isControlActive );
 	}
 	
 	protected void drawCountdown() {
+		DrawUtil.setColorForPImage( p );
+		DrawUtil.setDrawCorner(p);
 		if( p.millis() - _countdownStartTime > 3000 ) {
 			p.setGameMode( MatchGame.GAME_ON );
 			reset();
@@ -131,18 +140,46 @@ public class MatchGamePlay {
 	/**
 	 * Update pieces and reset/check collisions with the 2 cursors
 	 */
-	protected void updateGamePieces( boolean isActive ) {
+	protected void updateGamePieces( boolean isGameActive, boolean isControlActive ) {
 		p.pushMatrix();
+		boolean collision, isFlipped;
+		for( int i=0; i < _pieces.size(); i++ ) {
+			collision = false;
+			if( _pieces.get( i ).isActive() == true ) collision = checkPieceForCollision( _pieces.get( i ) );
+			isFlipped = ( isControlActive == false && collision == true ); 
+			_pieces.get( i ).update( collision, isGameActive, isFlipped );
+		}
+		p.popMatrix();
+	}
+	
+	/**
+	 * Store current pieces IDs if they're under either cursor
+	 */
+	protected void getCursorCollisionPieceIDs() {
+		// store last cursor collisions to see if they change
 		_lastCursorLeftPieceID = _cursorLeftPieceID;
 		_lastCursorRightPieceID = _cursorRightPieceID;
 		_cursorLeftPieceID = -1;
 		_cursorRightPieceID = -1;
+		
+		// find current cursor piece collisions
 		for( int i=0; i < _pieces.size(); i++ ) {
-			boolean collision = false;
-			if( _pieces.get( i ).isActive() == true ) collision = checkCollisions( _pieces.get( i ) );
-			_pieces.get( i ).update( collision, isActive );
+			if( _pieces.get( i ).isActive() == true ) {
+				if( _pieces.get( i ).rect.intersects( _controls.handLeftRect ) ) _cursorLeftPieceID = _pieces.get( i ).index();
+				if( _pieces.get( i ).rect.intersects( _controls.handRightRect ) ) _cursorRightPieceID = _pieces.get( i ).index();
+			}
 		}
-		p.popMatrix();
+	}
+	
+	/**
+	 * Check to see if an individual game piece is selected by either cursor
+	 */
+	protected boolean checkPieceForCollision( MatchGamePiece piece ) {
+		// if either cursor intersected the piece, return true
+		if( _cursorLeftPieceID == piece.index() || _cursorRightPieceID == piece.index() )
+			return true;
+		else
+			return false;
 	}
 	
 	/**
@@ -176,16 +213,15 @@ public class MatchGamePlay {
 	
 	/**
 	 * Check to see if two pieces have matched after the match timeout has been reached.
-	 * Also, draw controls... not sure if this should always be here...
 	 */
 	protected void checkForMatchComplete() {
 		// check for a match timeout
 		if( _twoPiecesSelected == true ) {
 			if( p.millis() - _matchHeldStartTime > MATCH_HELD_TIME ) {
 				if( _pieces.get( _cursorLeftPieceID ).matchID() == _pieces.get( _cursorRightPieceID ).matchID() )
-					piecesMatched( true );
+					piecesHeldComplete( true );
 				else
-					piecesMatched( false );
+					piecesHeldComplete( false );
 			}
 			_controlDrawPercent = ( (float) p.millis() - _matchHeldStartTime ) / MATCH_HELD_TIME;
 		}
@@ -194,32 +230,31 @@ public class MatchGamePlay {
 	/**
 	 * Tell the pieces that were selected and attempted to match whether they match or not
 	 */
-	protected void piecesMatched( boolean didMatch ) {
-		// kill or keep selected pieces
-		for( int i=0; i < _pieces.size(); i++ ) {
-			if( _pieces.get( i ).index() == _cursorLeftPieceID || _pieces.get( i ).index() == _cursorRightPieceID ) {
-				// check actual match between piece IDs)
-				_pieces.get( i ).matched( didMatch );
-			}
-		}
-		// reset cursor hover IDs
-		_cursorLeftPieceID = -1;
-		_cursorRightPieceID = -1;
+	protected void piecesHeldComplete( boolean didMatch ) {
+		// start timer to re-enable cursor controls
+		_matchTriggeredStartTime = p.millis();
+		_piecesMatched = didMatch;
 	}
 	
 	/**
-	 * Check to see if two hand cursors are inside game pieces
+	 * Dismiss pieces after they've been displayed 
 	 */
-	protected boolean checkCollisions( MatchGamePiece piece ) {
-		
-		if( piece.rect.intersects( _controls.handLeftRect ) ) _cursorLeftPieceID = piece.index();
-		if( piece.rect.intersects( _controls.handRightRect ) ) _cursorRightPieceID = piece.index();
-		
-		// if either cursor intersected the piece, return true
-		if( _cursorLeftPieceID == piece.index() || _cursorRightPieceID == piece.index() )
-			return true;
-		else
-			return false;
+	protected void checkFinishMatchDisplay() {
+		if( _matchTriggeredStartTime != -1 && p.millis() - _matchTriggeredStartTime > MATCH_SHOW_TIME ) {
+			// kill or keep selected pieces
+			for( int i=0; i < _pieces.size(); i++ ) {
+				// check actual match between piece IDs)
+				if( _pieces.get( i ).index() == _cursorLeftPieceID || _pieces.get( i ).index() == _cursorRightPieceID ) {
+					_pieces.get( i ).matched( _piecesMatched );
+				}
+			}
+			// reset cursor hover IDs
+			_cursorLeftPieceID = -1;
+			_cursorRightPieceID = -1;
+			// reset matched flag and timer
+			_piecesMatched = false;
+			_matchTriggeredStartTime = -1;
+		}
 	}
 	
 	/**
