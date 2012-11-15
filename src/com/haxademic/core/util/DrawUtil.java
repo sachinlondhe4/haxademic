@@ -56,4 +56,12 @@ public class DrawUtil {
 		p.fill( 255, 255, 255, 255 );
 	}
 	
+	public static void setPImageAlpha( PApplet p, float alpha ) {
+		p.tint( 255, alpha * 255 );
+	}
+	
+	public static void resetPImageAlpha( PApplet p ) {
+		p.tint( 255 );
+	}
+	
 }
