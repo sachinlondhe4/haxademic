@@ -52,6 +52,7 @@ extends PAppletHax
 	
 	// game state
 	protected int _curMode;
+	public static boolean KIDS_MODE;
 	
 	// more game state - screen transition / detection
 	protected int _playerDetectStartTime = -1;
@@ -89,8 +90,8 @@ extends PAppletHax
 		initKinectOptions();
 		buildGameObjects();
 		
-				
-		// it's opposite day, since game mode triggers the next action
+		// external config
+		KIDS_MODE = _appConfig.getBoolean( "kids_mode", false );
 		if( _appConfig.getBoolean( "starts_on_game", true ) == true ) {
 			setGameMode( GAME_ON );
 		} else {
