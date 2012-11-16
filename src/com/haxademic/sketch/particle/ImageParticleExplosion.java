@@ -1,4 +1,4 @@
-package com.haxademic.sketch.image_test;
+package com.haxademic.sketch.particle;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -11,7 +11,7 @@ import com.haxademic.core.render.Renderer;
  * @author justin
  *
  */
-public class ImageTest
+public class ImageParticleExplosion
 	extends PApplet
 {
 	// global vars
