@@ -18,14 +18,14 @@ public class ImageTest
 	protected int _fps = 30;
 	protected ImageParticle[] _particles;
 	protected int _numParticles = 60;
-	protected Renderer _render;
+//	protected Renderer _render;
 
 	public void setup ()
 	{
 		// set up stage and drawing properties
-		size( screen.width,screen.height, OPENGL );				//size(screen.width,screen.height,P3D);
+		size( 800, 600, OPENGL );
 		frameRate( _fps );
-		colorMode( PConstants.RGB, 1, 1, 1, 1 );
+		colorMode( PConstants.RGB, 255, 255, 255, 255 );
 		background( 0 );
 //		noSmooth();
 //		shininess(1000); 
@@ -36,19 +36,18 @@ public class ImageTest
 		
 		// set up image
 		PImage image;
-		image = loadImage("img/cache.png");
+		image = loadImage("../data/images/cache.png");
 		imageMode( PConstants.CENTER );
 		
 		// create particles
 		_particles = new ImageParticle[_numParticles];
-		for( int i = 0; i < _numParticles; i++ )
-		{
+		for( int i = 0; i < _numParticles; i++ ) {
 			_particles[i] = new ImageParticle( width/2, height/4, image );
 		}
 		
 		// set up renderer
-		_render = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
-		_render.startRenderer();
+//		_render = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
+//		_render.startRenderer();
 	}
 
 	public void draw() 
@@ -65,7 +64,7 @@ public class ImageTest
 	 */
 	public void keyPressed()
 	{
-		if( key == 'p' ) _render.renderFrame();
+//		if( key == 'p' ) _render.renderFrame();
 	}  
 	
 	public void mouseClicked()
@@ -129,12 +128,14 @@ public class ImageTest
 			// draw
 			pushMatrix();
 			
-			tint( _tintR, _tintG, _tintB, _tintAlpha ); 
+			tint( _tintR * 255f, _tintG * 255f, _tintB * 255f, _tintAlpha * 255f ); 
 			
 			//rotate( _rot );
-			
-			image( _image, _x, _y, _w, _h );
-			blend( _image, (int)_x, (int)_y, (int)_w, (int)_h, (int)_x, (int)_y, (int)_w, (int)_h, ADD);
+			translate( _x, _y );
+			fill(255,255);
+			image( _image, 0, 0, _w, _h );
+//			blend( _image, (int)_x, (int)_y, (int)_w, (int)_h, (int)_x, (int)_y, (int)_w, (int)_h, ADD);
+//			rect(0,0,10,10);
 			popMatrix();
 			
 			// increment values
