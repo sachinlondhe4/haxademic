@@ -31,9 +31,7 @@ public class MatchGamePlay {
 	float _controlDrawPercent = 0;
 	
 	protected int _gameStartTime = 0;
-	protected int _gameBestTimeSeconds = 99999999;
-	protected String _bestGameTimeString = null;
-	
+	protected int _gameBestTimeSeconds = 99999999;	
 	protected int _countdownStartTime = -1;
 	
 	public MatchGamePlay( MatchGameControls controls ) {
@@ -117,7 +115,6 @@ public class MatchGamePlay {
 		}
 		checkFinishMatchDisplay();
 		updateGamePieces( isActive, isControlActive );
-		drawBestTime();
 		if( p.getGameMode() == MatchGame.GAME_COUNTDOWN ) drawCountdown();
 		_controls.drawControls( _controlDrawPercent, isControlActive );
 	}
@@ -269,15 +266,6 @@ public class MatchGamePlay {
 		p.image( MatchGameAssets.TIME_FONT_RENDERER.getTextPImage(), 809, 694 );
 	}
 	
-	protected void drawBestTime() {
-		if( _bestGameTimeString != null ) {
-			DrawUtil.setDrawCorner(p);
-			p.image( MatchGameAssets.UI_BEST_TIME, 43, 40 );
-			MatchGameAssets.BEST_TIME_FONT_RENDERER.updateText( _bestGameTimeString );
-			p.image( MatchGameAssets.BEST_TIME_FONT_RENDERER.getTextPImage(), 30, 60 );
-		}
-	}
-	
 	protected String formatTimeFromSeconds( int seconds ) {
 		int minutes = P.floor( seconds / 60f );
 		int secondsOnly = seconds % 60;
@@ -315,7 +303,7 @@ public class MatchGamePlay {
 		int seconds = P.round( ( p.millis() - _gameStartTime ) * 0.001f );
 		if( seconds < _gameBestTimeSeconds ) {
 			_gameBestTimeSeconds = seconds;
-			_bestGameTimeString = formatTimeFromSeconds( seconds );
+			p.setBestTime( formatTimeFromSeconds( seconds ) );
 		}
 	}
 }

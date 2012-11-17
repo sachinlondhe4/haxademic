@@ -60,6 +60,7 @@ extends PAppletHax
 	protected int _skeletonDetectStartTime = -1;
 	protected int _gameOverStartTime = -1;
 	protected PImage _winRGBImage;
+	protected String _bestGameTimeString = null;
 	
 	// game objects
 	protected MatchGamePlay _gamePlay;
@@ -224,6 +225,7 @@ extends PAppletHax
 			if( p.millis() - _gameOverStartTime > 10000 ) setGameMode( GAME_PLAYER_DETECT );
 		}
 		
+		drawBestTime();
 		_confetti.update();
 		
 //		if( _isDebugging == true ) displayDebug();
@@ -238,7 +240,20 @@ extends PAppletHax
 		p.popMatrix();
 		DrawUtil.setDrawCorner(p);
 	}
-			
+
+	public void setBestTime( String bestTime ) {
+		_bestGameTimeString = bestTime;
+	}
+	
+	protected void drawBestTime() {
+		if( _bestGameTimeString != null ) {
+			DrawUtil.setDrawCorner(p);
+			p.image( MatchGameAssets.UI_BEST_TIME, 43, 40 );
+			MatchGameAssets.BEST_TIME_FONT_RENDERER.updateText( _bestGameTimeString );
+			p.image( MatchGameAssets.BEST_TIME_FONT_RENDERER.getTextPImage(), 30, 60 );
+		}
+	}
+		
 	protected void displayDebug() {
 		if( p.frameCount % ( _fps * 60 ) == 0 ) {
 			P.println( "time: "+P.minute()+":"+P.second() );
