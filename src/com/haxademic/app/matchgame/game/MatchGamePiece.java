@@ -85,12 +85,13 @@ public class MatchGamePiece {
 				_isOver = true;
 				p.image( MatchGameAssets.PIECE_IMAGES.get( _matchID ), rect.x, rect.y );
 			} else if( cursorOver == true ) { 
-				DrawUtil.setPImageAlpha( p, 0.6f );
-				if( MatchGame.KIDS_MODE == true )
+				if( MatchGame.KIDS_MODE == true ) {
 					p.image( MatchGameAssets.PIECE_IMAGES.get( _matchID ), rect.x, rect.y );
-				else
+				} else {
+					DrawUtil.setPImageAlpha( p, 0.6f );
 					p.image( MatchGameAssets.PIECE_BACKFACE, rect.x, rect.y );
-				DrawUtil.resetPImageAlpha(p);
+					DrawUtil.resetPImageAlpha(p);
+				}
 			} else {
 				_isOver = false;
 				p.image( MatchGameAssets.PIECE_BACKFACE, rect.x, rect.y );

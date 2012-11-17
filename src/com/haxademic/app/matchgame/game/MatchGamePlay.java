@@ -240,7 +240,8 @@ public class MatchGamePlay {
 	 * Dismiss pieces after they've been displayed 
 	 */
 	protected void checkFinishMatchDisplay() {
-		if( _matchTriggeredStartTime != -1 && p.millis() - _matchTriggeredStartTime > MATCH_SHOW_TIME ) {
+		boolean showPiecesTimeOut = ( MatchGame.KIDS_MODE == true ) ? true : ( p.millis() - _matchTriggeredStartTime > MATCH_SHOW_TIME );
+		if( _matchTriggeredStartTime != -1 && showPiecesTimeOut ) {
 			// kill or keep selected pieces
 			for( int i=0; i < _pieces.size(); i++ ) {
 				// check actual match between piece IDs)
