@@ -13,6 +13,20 @@ public class FileUtil {
 		return new java.io.File("").getAbsolutePath();
 	}
 	
+	public static void createDir( String path ) {
+		File f = new File( path );
+		try {
+		    if( f.mkdir() ) { 
+		        P.println("Directory created: "+path);
+		    } else {
+		        P.println("Directory was not created"+path);
+		    }
+		} catch(Exception e){
+		    e.printStackTrace();
+		} 
+
+	}
+	
 	public static ArrayList<String> getFilesInDirOfType( String directory, String type ) {
 		File dir = new File( directory );
 		String[] children = dir.list();
