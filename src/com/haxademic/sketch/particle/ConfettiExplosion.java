@@ -181,6 +181,7 @@ public class ConfettiExplosion
 			// color and draw confetti
 			fill( _color.toARGB() );
 			rect(0,0,_w,_w*0.5f);
+//			box(_w, _h, _h);
 			popMatrix();
 			
 			// increment movement values
