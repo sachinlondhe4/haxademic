@@ -6,6 +6,7 @@ import processing.core.PImage;
 import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.app.matchgame.game.MatchGameAssets;
+import com.haxademic.app.matchgame.game.MatchGameConfetti;
 import com.haxademic.app.matchgame.game.MatchGameControls;
 import com.haxademic.app.matchgame.game.MatchGamePlay;
 import com.haxademic.core.cameras.common.ICamera;
@@ -63,6 +64,7 @@ extends PAppletHax
 	// game objects
 	protected MatchGamePlay _gamePlay;
 	protected MatchGameControls _controls;
+	protected MatchGameConfetti _confetti;
 
 	// game state
 	protected int _gameState;
@@ -92,11 +94,7 @@ extends PAppletHax
 		
 		// external config
 		KIDS_MODE = _appConfig.getBoolean( "kids_mode", false );
-		if( _appConfig.getBoolean( "starts_on_game", true ) == true ) {
-			setGameMode( GAME_ON );
-		} else {
-			setGameMode( GAME_PLAYER_DETECT );
-		}
+		setGameMode( GAME_PLAYER_DETECT );
 	}
 	
 	void initKinectOptions() {
@@ -114,6 +112,7 @@ extends PAppletHax
 		MatchGameAssets.initAssets();
 		_controls = new MatchGameControls();
 		_gamePlay = new MatchGamePlay( _controls );
+		_confetti = new MatchGameConfetti( 300 );
 	}
 	
 	// HAXADEMIC STUFF --------------------------------------------------------------------------------------
@@ -171,6 +170,7 @@ extends PAppletHax
 		} else if( _gameState == GAME_OVER ) {
 			_winRGBImage = p.kinectWrapper.getRgbImage();
 			_gameOverStartTime = p.millis();
+			_confetti.explode();
 		}
 	}
 		
@@ -221,8 +221,10 @@ extends PAppletHax
 			p.image( MatchGameAssets.UI_GAME_LOGO, 244, 262 );
 			p.image( MatchGameAssets.UI_WINNER_CONGRATS, 246, 172 );
 			p.image( _winRGBImage, 243, 313, 540, 406 );
-			if( p.millis() - _gameOverStartTime > 6000 ) setGameMode( GAME_PLAYER_DETECT );
+			if( p.millis() - _gameOverStartTime > 10000 ) setGameMode( GAME_PLAYER_DETECT );
 		}
+		
+		_confetti.update();
 		
 //		if( _isDebugging == true ) displayDebug();
 	}
