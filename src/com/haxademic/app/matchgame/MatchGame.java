@@ -12,6 +12,8 @@ import com.haxademic.app.matchgame.game.MatchGamePlay;
 import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.util.FileUtil;
+import com.haxademic.core.util.SystemUtil;
 
 public class MatchGame
 extends PAppletHax  
@@ -170,6 +172,8 @@ extends PAppletHax
 
 		} else if( _gameState == GAME_OVER ) {
 			_winRGBImage = p.kinectWrapper.getRgbImage();
+			FileUtil.createDir( FileUtil.getProjectAbsolutePath() + "/bin/output/matchgame/" );
+			_winRGBImage.save( FileUtil.getProjectAbsolutePath() + "/bin/output/matchgame/matchgame-" + SystemUtil.getTimestampFine( p ) + "-rgb.png" );
 			_gameOverStartTime = p.millis();
 			_confetti.explode();
 		}
