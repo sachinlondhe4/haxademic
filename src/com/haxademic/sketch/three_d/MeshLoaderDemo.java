@@ -77,6 +77,11 @@ extends PApplet
 		
 		_meshPool.addMesh( "PRESENTS_TEXT", MeshUtil.mesh2dFromTextFont( p, bitLowFont, null, 200, "MODE SET", -1, 2, 0.4f ), 1 );
 
+		_meshPool.addMesh( "POLY_HOLE_PENT", MeshUtil.meshFromOBJ( p, "../data/models/poly-hole-penta.obj", 1f ), 70f );
+		_meshPool.addMesh( "POLY_HOLE_SQUARE", MeshUtil.meshFromOBJ( p, "../data/models/poly-hole-square.obj", 1f ), 70f );
+		_meshPool.addMesh( "POLY_HOLE_TRI", MeshUtil.meshFromOBJ( p, "../data/models/poly-hole-tri.obj", 1f ), 70f );
+
+		
 //		_meshPool.addMesh( "DESIGN_BY", MeshUtil.mesh2dFromTextFont( p, bitLowFont, null, 200, "DESIGN BY:", -1, 2, 0.3f ), 1 );
 //		_meshPool.addMesh( "JON_DESIGN", MeshUtil.mesh2dFromTextFont( p, bitLowFont, null, 200, "JON TRAISTER", -1, 2, 0.4f ), 1 );
 //		_meshPool.addMesh( "RYAN_DESIGN", MeshUtil.mesh2dFromTextFont( p, bitLowFont, null, 200, "RYAN POLICKY", -1, 2, 0.4f ), 1 );
