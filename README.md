@@ -15,11 +15,10 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 		* Cached MIDI input to avoid thread-unsafe operations
 	* OSC input
 	* Kinect input, with skeleton data via OpenNI
-* 3D Tools (using Toxiclibs WETriangleMesh objects as the common format)
+* 3D tools (using Toxiclibs WETriangleMesh objects as the common format)
 	* Convert SVG files to 2D meshes
-	* Create a 2D mesh from text with a custom .ttf font
 	* Simple 3D extrusion of 2D meshes
-	* Load and convert .obj files to WETriangleMesh
+	* Load and convert .obj, .gif & .svg files to WETriangleMesh
 	* Mesh pool object to load and hold instance of any number of meshes
 	* Base Camera type, with simple camera subclasses (needs work) 
 	* Draw a mesh with incoming Audio data spread across the faces
@@ -28,6 +27,9 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 	* Mesh smoothing
 	* Mesh deform from audio input
 	* Apply off-screen audio-reactive textures to a 3D mesh
+* Text tools
+	* Create a 2D or extruded 3D mesh from text with a custom .ttf font
+	* Draw 2D text with a custom .ttf font
 * Image processing
 	* PImage reversal
 	* Multiple screenshot methods
