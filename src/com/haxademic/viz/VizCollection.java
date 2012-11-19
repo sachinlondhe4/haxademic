@@ -90,11 +90,10 @@ implements IVizModule
 		// start drawing at center
 		DrawUtil.resetGlobalProps( p );
 		DrawUtil.setCenter( p );
-		DrawUtil.setBasicLights( p );
 		
 		// clear screen and set camera
 		p.background(0,0,0,255f);
-		
+				
 		// draw shapes
 		if( _outerElement != null ) _outerElement.update();
 		if( _bgElement != null ) _bgElement.update();
