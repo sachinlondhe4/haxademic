@@ -204,7 +204,7 @@ public class MeshUtil {
 	
 	public static void calcTextureCoordinates(WETriangleMesh mesh) {
 		for( Face f : mesh.getFaces() ) {
-			f.computeNormal();
+//			f.computeNormal();
 			f.uvA = calcUV(f.a);
 			f.uvB = calcUV(f.b);
 			f.uvC = calcUV(f.c);
@@ -223,8 +223,8 @@ public class MeshUtil {
 	}
 
 	public static void drawToxiMesh( PApplet p, ToxiclibsSupport toxi, WETriangleMesh mesh, PImage image ) {
-		p.textureMode(P.NORMAL);
-		toxi.texturedMesh( mesh.toWEMesh(), image, true );
+		p.textureMode(P.NORMAL);	// P.NORMAL ??
+		toxi.texturedMesh( mesh.toWEMesh(), image, false );
 	}
 
 }
