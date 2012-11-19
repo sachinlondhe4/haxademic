@@ -14,12 +14,13 @@ public class TColorBlendBetween {
 		_blendColor = _startColor.copy();
 	}
 	
-	public void setBaseColor( TColor color ) {
-		_startColor = color.copy();
+	public void setColors( TColor startColor, TColor endColor ) {
+		_startColor.setARGB( startColor.toARGB() );
+		_endColor.setARGB( endColor.toARGB() );
 	}
 	
 	public void lightenColor( float lighten ) {
-		_startColor.adjustRGB( lighten, lighten, lighten );
+		_endColor.adjustRGB( lighten, lighten, lighten );
 	}
 	
 	public int argbWithPercent( float percent ) {
