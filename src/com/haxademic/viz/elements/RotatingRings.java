@@ -5,13 +5,14 @@ import processing.core.PApplet;
 import toxi.color.TColor;
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.viz.ElementBase;
-import com.haxademic.viz.IVizElement;
+import com.haxademic.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.data.Point3D;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.util.ColorGroup;
 import com.haxademic.core.util.DrawUtil;
+import com.haxademic.viz.ElementBase;
+import com.haxademic.viz.IVizElement;
 
 public class RotatingRings
 extends ElementBase 
@@ -22,21 +23,6 @@ implements IVizElement {
 
 	protected int NUM_RINGS = 10;
 	
-	// draw mode props
-	protected int _mode = 0;
-	protected final int MODE_ALPHA = 0;
-	protected final int MODE_SOLID = 1;
-	protected final int MODE_WIREFRAME = 2;
-	protected final int NUM_MODES = 3;
-	
-	// spin modes
-	protected int _spinMode = 0;
-	protected final int SPINMODE_NONE = 0;
-	protected final int SPINMODE_Y = 1;
-	protected final int SPINMODE_XY = 2;
-	protected final int NUM_SPIN_MODES = 3;
-	
-	protected Point3D _rotSpeed = new Point3D( 0, 0, 0 );
 	protected Point3D _rotation = new Point3D( 0, 0, 0 );
 	protected Point3D _rotationTarget = new Point3D( 0, 0, 0 );
 
@@ -66,41 +52,43 @@ implements IVizElement {
 		DrawUtil.setCenter( p );
 		p.pushMatrix();
 		
-		// always rotate beginning draw position - rotates entire scene
+		// rotation for entire scene
 		updateRotation();
 		
-		// Object properties	
-		float scale = 2; // + p.sin( p.frameCount * 0.01f );
+		// disc properties	
 		int discPrecision = 40;
-
-		int outerDiscRadius = 29;
-		int outerDiscStartRadius = 89;
-		float discSpacing = 7000;// + 1000 * p.sin(p.frameCount * 0.01f);
-
-		for( int i = 0; i < NUM_RINGS; i++ )
-		{
-			int ringSpacingIndex = i+1;
-			
+		int discRadius = 14000;
+		float circleSegment = (float) P.PI / (float) NUM_RINGS;
+		
+		// wireframe modes
+		if( _isWireframe == true ) 
+			p.noFill();
+		else
+			p.noStroke();
+		p.strokeWeight( 5 );
+		
+		// draw rings
+		for( int i = 0; i < NUM_RINGS; i++ ) {
+			// get eq val for alpha
 			float ringEQVal = _audioData.getFFT().spectrum[i + 5];
 			float alphaMultiplier = 1.3f;
-			_baseColor.alpha = ( _isWireframe == true ) ? 0 : ringEQVal * alphaMultiplier;
-			_strokeColor.alpha = ( _isWireframe == true ) ? ringEQVal * alphaMultiplier : 0;
 
-			
-			_curColors.getColorFromIndex(i % 4).alpha = ( _isWireframe == true ) ? ringEQVal * alphaMultiplier : 0;
-			p.stroke( _curColors.getColorFromIndex(i % 4).toARGB() );
-			_curColors.getColorFromIndex(i % 4).alpha = ( _isWireframe == true ) ? 0 : ringEQVal * alphaMultiplier;
-			p.fill( _curColors.getColorFromIndex(i % 4).toARGB() );
-//			p.fill( _baseColor.toARGB() );
-//			p.stroke( _strokeColor.toARGB() );
-			p.strokeWeight( 2 );
+			// set colors
+			_curColors.getColorFromIndex(i % 4).alpha = ringEQVal * alphaMultiplier;
+			if( _isWireframe == false ) {
+				_baseColor.alpha = ringEQVal * alphaMultiplier;
+				p.fill( _curColors.getColorFromIndex(i % 4).toARGB() );
+			}
+			if( _isWireframe == true ) {
+				_strokeColor.alpha = ringEQVal * alphaMultiplier;
+				p.stroke( _curColors.getColorFromIndex(i % 4).toARGB() );
+			}
 			
 			// draw disc, with thickness based on eq 
-			float eqThickness = ( ringEQVal * 6 ) * ( 2000 + 1000 * i );	// (i/NUM_RINGS)
-			float innerRadius = outerDiscStartRadius + discSpacing * ringSpacingIndex;
+			float eqThickness = 100 + ( ringEQVal * 5000 );
 			p.pushMatrix();			
-			p.rotateY( (i * p.PI)/NUM_RINGS );
-			Shapes.drawDisc3D( p, innerRadius * scale, ( innerRadius + outerDiscRadius ) * scale, eqThickness, discPrecision, _baseColor.toARGB(), _baseColor.toARGB() );//_ringColors[i].colorIntWithAlpha(ringAlpha, 0), _ringColors[i].colorIntWithAlpha(ringAlpha, wallOffset) );
+			p.rotateY( i * circleSegment );
+			Shapes.drawDisc3D( p, discRadius, discRadius + 100, eqThickness, discPrecision, -1, -1 );
 			p.popMatrix();
 			
 			// draw orbiting star per ring
@@ -123,10 +111,6 @@ implements IVizElement {
 		p.rotateX( _rotation.x );
 		p.rotateY( _rotation.y );
 		p.rotateZ( _rotation.z );
-		
-		_rotationTarget.x += _rotSpeed.x;
-		_rotationTarget.y += _rotSpeed.y;
-		_rotationTarget.z += _rotSpeed.z;
 	}
 	
 	public void reset() {
@@ -139,14 +123,12 @@ implements IVizElement {
 	}
 	public void updateCamera() {
 		// rotate
-		float circleSegment = (float) ( Math.PI * 2f );
-		_rotationTarget.x = p.random( -circleSegment, circleSegment );
-		_rotationTarget.y = p.random( -circleSegment, circleSegment );
-		_rotationTarget.z = p.random( -circleSegment, circleSegment );
-
-		_rotSpeed.x = p.random( 0.001f, 0.001f );
-		_rotSpeed.y = p.random( 0.001f, 0.001f );
-		_rotSpeed.z = p.random( 0.001f, 0.001f );
+		float circleSegments = 4f;
+		float circleSegment = (float) ( Math.PI * 2f ) / circleSegments;
+		
+		_rotationTarget.x = circleSegment * P.round( p.random( 0, circleSegments ) );
+		_rotationTarget.y = circleSegment * P.round( p.random( 0, circleSegments ) );
+		_rotationTarget.z = circleSegment * P.round( p.random( 0, circleSegments ) );
 	}
 
 	public void dispose() {

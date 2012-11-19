@@ -5,8 +5,10 @@ import processing.core.PConstants;
 import toxi.color.TColor;
 import toxi.processing.ToxiclibsSupport;
 
+import com.haxademic.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.data.Point3D;
+import com.haxademic.core.draw.color.TColorBlendBetween;
 import com.haxademic.core.util.ColorGroup;
 import com.haxademic.core.util.DrawUtil;
 import com.haxademic.viz.ElementBase;
@@ -20,7 +22,7 @@ implements IVizElement {
 	protected float _height;
 	protected float _amp;
 	protected int _numLines;
-	protected TColor _baseColor;
+	protected TColorBlendBetween _color;
 	protected boolean _is3D = false;
 	
 	protected float _cols = 32;
@@ -39,6 +41,7 @@ implements IVizElement {
 		_width = p.width;
 		_height = p.height;
 		_amp = 20;
+		_color = new TColorBlendBetween( TColor.BLACK.copy(), TColor.BLACK.copy() );
 	}
 	
 	public void setDrawProps(float width, float height) {
@@ -47,20 +50,33 @@ implements IVizElement {
 	}
 
 	public void updateColorSet( ColorGroup colors ) {
-		_baseColor = colors.getRandomColor().copy();
-		float lighten = 0.5f;
-		_baseColor.adjustRGB( lighten, lighten, lighten );
+		_color.setColors( TColor.BLACK.copy(), colors.getRandomColor() );
 	}
 
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
 		DrawUtil.setCenter( p );
-		p.pushMatrix();
 		
 		int scaleMult = 3;
 		setDrawProps(p.width*scaleMult, p.height*scaleMult);
-		p.translate( 0f, p.height, -p.height * 1.8f );
 		
+		
+		p.pushMatrix();
+		p.translate( 0f, p.height * 1.1f, -p.height * 1.8f );
+		drawBars();
+		p.popMatrix();
+		
+		p.pushMatrix();
+		p.translate( 0f, - p.height * 1.1f, -p.height * 1.8f );
+		p.rotateX( P.PI );
+		p.rotateY( P.PI );
+		drawBars();
+		p.popMatrix();
+
+				
+	}
+	
+	protected void drawBars() {
 		p.rectMode(PConstants.CENTER);
 		p.noStroke();
 		
@@ -74,8 +90,6 @@ implements IVizElement {
 		float cellW = _width/_cols;
 		float cellH = _height/_rows;
 		float startX = -_width/2;
-		float startY = -_height/2;
-		int fillColor = _baseColor.toARGB();
 		float row = 0;
 		int col = 0;
 		
@@ -83,10 +97,10 @@ implements IVizElement {
 		for (int i = 0; i < _cols * 4; i++) {
 			float eqAmp = _audioData.getFFT().spectrum[i];
 			col = (int) ( i % _cols );
-			row = eqAmp * 2.0f * _rows;	// (int) ( Math.floor(
+			row = eqAmp * 2.0f * _rows;
 				
 			if( eqAmp > 0.01f ) {
-				p.fill( fillColor, 55f );
+				p.fill( _color.argbWithPercent( eqAmp * 0.85f ) );
 				p.pushMatrix();
 	
 				p.translate( startX + col*cellW, 0, 0 );
@@ -96,8 +110,7 @@ implements IVizElement {
 				p.popMatrix();					
 			}
 		}
-				
-		p.popMatrix();
+
 	}
 
 	public void reset() {

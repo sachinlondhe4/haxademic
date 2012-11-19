@@ -44,7 +44,7 @@ implements IVizElement {
 	}
 	
 	public void updateColorSet( ColorGroup colors ) {
-//		_baseColor = colors.getRandomColor().copy();
+		_baseColor = colors.getRandomColor().copy().toARGB();
 	}
 
 	public void update() {

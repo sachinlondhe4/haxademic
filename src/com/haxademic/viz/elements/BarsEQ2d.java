@@ -16,8 +16,6 @@ public class BarsEQ2d
 extends ElementBase 
 implements IVizElement {
 	
-	protected float _width;
-	protected float _barHeight;
 	protected float _amp;
 	
 	protected float _cols = 32;
@@ -32,13 +30,10 @@ implements IVizElement {
 
 	public void init() {
 		// set some defaults
-		_width = p.width;
-		_barHeight = p.height/8f;
 	}
 	
 	public void setDrawProps(float width, float height) {
-		_width = width;
-		_barHeight = height;
+
 	}
 
 	public void updateColorSet( ColorGroup colors ) {
@@ -63,7 +58,8 @@ implements IVizElement {
 		p.translate( 0, -p.height/2 );
 		drawBars();
 		p.translate( 0, p.height );
-		p.rotateX( (float)(Math.PI*2f) / 2f );
+		p.rotateX( (float) Math.PI );
+		p.rotateY( (float) Math.PI );
 		drawBars();
 		
 		p.popMatrix();
@@ -71,13 +67,20 @@ implements IVizElement {
 
 	public void drawBars() {
 		// draw bars
-		float cellW = _width/_cols;
-		float cellH = _barHeight * 2;
-		float startX = -_width/2;
-		int spectrumInterval = (int) ( 256 / _cols );	// 256 keeps it in the bottom half of the spectrum since the high ends is so overrun
+		float cellW = p.width/_cols;
+		float cellX = -p.width/2f;
+		float cellH = p.height/4f;
+		int spectrumInterval = (int) ( 128f / _cols );	// 128 keeps it in the bottom quarter of the spectrum since the high ends is so overrun
+		
+		p.beginShape();
+		p.vertex( cellX, -p.height );
 		for (int i = 0; i < _cols; i++) {
-			p.rect( startX + i * cellW, 0, cellW, _audioData.getFFT().spectrum[i*spectrumInterval] * cellH );
+			float eqAmp = _audioData.getFFT().spectrum[i*spectrumInterval] * cellH;
+			p.vertex( cellX, eqAmp );
+			cellX += cellW;
 		}		
+		p.vertex( cellX, -p.height );
+		p.endShape(P.CLOSE);
 	}
 
 	public void reset() {

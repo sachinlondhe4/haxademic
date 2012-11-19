@@ -66,18 +66,18 @@ implements IVizElement {
 		if( _drawMode == MODE_CIRCLES ) {
 			// draw circles
 			float curRadius = _baseWaveCircleRadius.value();
-			float _strokeWidth = 1;
+			float _strokeWidth = 3;
 			for(int i=0; i < 10; i++) {
 				p.stroke( _curColors.getColorFromIndex(i % 4).toARGB() );
 
 				_waveCircle.setDrawProps(_strokeWidth, curRadius, 25f);
 				curRadius += _baseWaveCircleRadius.value();
-				_strokeWidth += 0.5;
+				_strokeWidth -= 0.3;
 				_waveCircle.update();
 			}
 		} else if( _drawMode == MODE_LINES ) {
 			float curSpacing = _baseWaveLineSpacing.value();
-			float _strokeWidth = 1;
+			float _strokeWidth = 3;
 			for(int i=0; i < 10; i++) {
 				p.stroke( _curColors.getColorFromIndex(i % 4).toARGB() );
 
@@ -88,7 +88,7 @@ implements IVizElement {
 				p.translate(0, curSpacing * 2, 0);
 				_wave.setDrawProps(_strokeWidth, p.width + zDepth, 20);
 				_wave.update();
-				_strokeWidth += 0.5;
+				_strokeWidth -= 0.3;
 				curSpacing += _baseWaveLineSpacing.value();
 				p.popMatrix();
 			}

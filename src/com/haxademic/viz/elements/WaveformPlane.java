@@ -13,6 +13,7 @@ import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.audio.WaveformData;
 import com.haxademic.core.data.easing.EasingFloat;
 import com.haxademic.core.data.easing.EasingFloat3d;
+import com.haxademic.core.draw.color.TColorBlendBetween;
 import com.haxademic.core.util.ColorGroup;
 import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.MathUtil;
@@ -24,15 +25,15 @@ implements IVizElement {
 	protected WaveformLine _wave;
 	protected WaveformData _waveformData;
 	protected ArrayList<WaveformData> _waveformDataHistory;
-	protected TColor _baseColor;
 	protected ColorGroup _curColors;
+	protected TColorBlendBetween _color;
 	protected EasingFloat _baseWaveLineSpacing = new EasingFloat( 5f, 5f );
 	protected EasingFloat3d _rotation = new EasingFloat3d( 0, 0, 0, 5f );
 	
 	protected final int MODE_LINES = 1;
 	protected float _drawMode = MODE_LINES;
 	
-	protected final int NUM_LINES = 50;
+	protected final int NUM_LINES = 25;
 	protected final float _ninteyDeg = p.PI / 2f;
 
 
@@ -48,12 +49,12 @@ implements IVizElement {
 		for(int i = 0; i < NUM_LINES; i++) {
 			_waveformDataHistory.add( new WaveformData( p, _waveformData._waveform.length ) );
 		}
+		_color = new TColorBlendBetween( TColor.BLACK.copy(), TColor.BLACK.copy() );
 		reset();
 	}
 
 	public void updateColorSet( ColorGroup colors ) {
-		_baseColor = colors.getRandomColor().copy();
-		_baseColor.alpha = 0.85f;
+		_color.setColors( TColor.BLACK.copy(), colors.getRandomColor() );
 		_curColors = colors;
 	}
 
@@ -61,21 +62,15 @@ implements IVizElement {
 		DrawUtil.resetGlobalProps( p );
 		DrawUtil.setCenter( p );
 		
-		// update audio buffers
+		// update audio buffers and recycle arraylist spot
 		_waveformDataHistory.get( 0 ).copyFromOtherWaveformData( _waveformData, _waveformData._waveform.length );
 		_waveformDataHistory.add( _waveformDataHistory.remove( 0 ) );
 		
 		p.pushMatrix();
 
-		_baseWaveLineSpacing.update();
 		
 		float zDepth = 400;
 		p.translate(0, 0, -zDepth);
-		
-//		float ninteyDeg = p.PI / 2f;
-//		p.rotateY(ninteyDeg*p.mouseX/100);
-//		p.rotateX(ninteyDeg*p.mouseY/100);
-//		p.rotateZ(ninteyDeg*p.mouseY/100/4);
 		
 		// apply base easing rotation
 		_rotation.update();
@@ -84,30 +79,27 @@ implements IVizElement {
 		p.rotateZ( _rotation.valueZ() );
 		
 		// set initial darw color to fade out
-		p.stroke( _baseColor.toARGB() );
+		p.stroke( _color.argbWithPercent(1) );
 		p.noFill();
 		p.pushMatrix();
-//		p.rotateX(10);
 		
-		TColor lineColor = new TColor( TColor.WHITE );
-		
+		_baseWaveLineSpacing.update();
 		if( _drawMode == MODE_LINES ) {
 			float curSpacing = _baseWaveLineSpacing.value();
 			float _strokeWidth = 4;
 			for(int i=0; i < NUM_LINES; i++) {
 				// _curColors.getColorFromIndex(i % 1).toARGB()
-				p.stroke( lineColor.toARGB() );
+				// set color, decreasing to black
+				float alpha = ((float)NUM_LINES - (float)i)/(float)NUM_LINES;
+				alpha = ( alpha >= 0 ) ? alpha : 0;
+				p.stroke( _color.argbWithPercent( alpha ) );
 				
 				// set waveform history on drawing object
 				_wave.setWaveform( _waveformDataHistory.get(NUM_LINES - i - 1) );
 				
 				// set stroke width and color
-				float strokeWidth = 5f * ((float)NUM_LINES - (float)i)/(float)NUM_LINES;
+				float strokeWidth = 4f * ((float)NUM_LINES - (float)i)/(float)NUM_LINES;
 				_strokeWidth = strokeWidth;
-				
-				float alpha = ((float)NUM_LINES - (float)i)/(float)NUM_LINES;
-				lineColor.alpha = ( alpha >= 0 ) ? alpha : 0;
-
 				
 				p.pushMatrix();
 				
@@ -128,16 +120,8 @@ implements IVizElement {
 				
 				// increment distance from center
 				curSpacing += _baseWaveLineSpacing.value();
-				
-				
-				// draw mesh lines
-				
 			}
 		}
-		
-		// draw lines
-
-//		p.rotateZ((float)(Math.PI*2f)/4f);
 		
 		p.popMatrix();
 		p.popMatrix();
@@ -151,7 +135,7 @@ implements IVizElement {
 	}
 	
 	public void updateLineMode() {
-		_baseWaveLineSpacing.setTarget( p.random( p.height/300f, p.height/40f ) );
+		_baseWaveLineSpacing.setTarget( p.random( p.height/20f, p.height/6f ) );
 	}
 	
 	public void reset() {

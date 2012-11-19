@@ -8,12 +8,14 @@ import toxi.geom.Vec3D;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.viz.ElementBase;
-import com.haxademic.viz.IVizElement;
+import com.haxademic.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.color.ColorRGBA;
+import com.haxademic.core.data.easing.EasingFloat3d;
+import com.haxademic.core.draw.color.TColorBlendBetween;
 import com.haxademic.core.util.ColorGroup;
 import com.haxademic.core.util.MathUtil;
+import com.haxademic.viz.ElementBase;
+import com.haxademic.viz.IVizElement;
 
 public class RotatorShape 
 extends ElementBase 
@@ -27,11 +29,12 @@ implements IVizElement {
 	protected PointGroup _curPointGroup = null;
 	protected int _numRotations;
 	protected int _pointsPerGroup;
-	protected TColor _baseColor;
 	
 	protected float _baseRotZAdd = 0;
 	protected float _baseRotZTarget = 0;
 	protected float _rotDir = 0;
+	
+	protected TColorBlendBetween _color;
 	
 	protected WETriangleMesh _mesh;
 	
@@ -48,10 +51,15 @@ implements IVizElement {
 		reset();
 		_curPointGroup = new PointGroup( _pointsPerGroup );
 		_curPointGroup.reset();
+		_color = new TColorBlendBetween( TColor.BLACK.copy(), TColor.BLACK.copy() );
 	}
 
 	public void updateColorSet( ColorGroup colors ) {
-		_baseColor = colors.getRandomColor().copy();
+//		if( p.frameCount % 2 == 0 )
+		_color.setColors( TColor.BLACK.copy(), colors.getRandomColor() );
+//		else
+//			_color.setColors( colors.getRandomColor(), TColor.WHITE.copy() );
+		_color.lightenColor( 0.3f );
 	}
 
 	public void update() {
@@ -63,11 +71,11 @@ implements IVizElement {
 		float rotationIncrement = p.TWO_PI / _numRotations;
 		_curPointGroup.createPointsTrianglesSmoothed();
 		float spectrumData;
-		int fillColor = _baseColor.toARGB();
 		p.noStroke();
 		for( int i = 0; i < _numRotations; i++ ) {
 			spectrumData = _audioData.getFFT().spectrum[ 20 + (int) (i * (255f/_numRotations)) ];
-			p.fill( fillColor, spectrumData * 255 * 3 );
+			p.fill( _color.argbWithPercent( spectrumData ) );
+//			p.fill( _baseColor.lighten( spectrumData * 255 * 30 ).toARGB() );
 //			p.stroke( spectrumData * 255, spectrumData * 127 );
 			p.pushMatrix();
 			p.rotateZ( rotationIncrement * i );
@@ -78,12 +86,12 @@ implements IVizElement {
 	
 	public void reset() {
 		// come up with random numbers
-		_pointsPerGroup = p.round( p.random( POINTS_MIN, POINTS_MAX ) );
+		_pointsPerGroup = P.round( p.random( POINTS_MIN, POINTS_MAX ) );
 		if( _curPointGroup != null ) _curPointGroup.reset();
 	}
 	
 	public void updateLineMode() {
-		
+		reset();
 	}
 	
 	public void updateCamera() {
@@ -95,35 +103,29 @@ implements IVizElement {
 	
 	public void dispose() {
 		_curPointGroup.dispose();
-		_baseColor = null;
 	}
 	
 	public class Point {
 		
 		public Vec3D _pos;
-		public Vec3D _posBase;
+		public EasingFloat3d _posBase;
 		public Vec3D _speed;
-		public Vec3D _size;
 		protected float _inc;
 		protected float _incSpeed;
 		protected float _radius;
 
 		public Point(){
 			_pos = new Vec3D(0,0,0);
-			_posBase = new Vec3D(0,0,0);
+			_posBase = new EasingFloat3d( 0, 0, 0, 5f );
 			_speed = new Vec3D(0,0,0);
-			_size = new Vec3D(0,0,0);
 			reset();
 		}
 		
 		public void reset() {
 			// reset positions
-			_pos.x = _posBase.x = p.round( p.random( -COORD_MAX, COORD_MAX ) );
-			_pos.y = _posBase.y = p.round( p.random( -COORD_MAX, COORD_MAX ) );
-			_pos.z = _posBase.z = p.round( p.random( -COORD_MAX, COORD_MAX ) );
-			_size.y = p.random( 2, 5 );
-			_size.x = p.random( 2, 5 );
-			_size.z = p.random( 2, 5 );
+			_posBase.setTargetX( p.round( p.random( -COORD_MAX, COORD_MAX ) ) );
+			_posBase.setTargetY( p.round( p.random( -COORD_MAX, COORD_MAX ) ) );
+			_posBase.setTargetZ( p.round( p.random( -COORD_MAX, COORD_MAX ) ) );
 			_inc = p.random( 0, 1f );
 			_incSpeed = p.random( -0.005f, 0.005f );
 			_radius = p.random( 500f, 800f );
@@ -131,23 +133,23 @@ implements IVizElement {
 		
 		public void update() {
 			_inc += _incSpeed;
-			_pos.x = _posBase.x + p.sin( _inc ) * _radius;
-			_pos.y = _posBase.y + p.sin( _inc ) * _radius;
-			_pos.z = _posBase.y + p.cos( _inc ) * _radius;
+			
+			_posBase.update();
+			_pos.x = _posBase.valueX() + p.sin( _inc ) * _radius;
+			_pos.y = _posBase.valueY() + p.sin( _inc ) * _radius;
+			_pos.z = _posBase.valueZ() + p.cos( _inc ) * _radius;
 		}
 
 		public void dispose() {
 			_pos = null;
 			_posBase = null;
 			_speed = null;
-			_size = null;
 		}
 	}	
 	
 	public class PointGroup {
 		
 		public Point[] _points;
-//		protected AABB[] _boxes;
 		public int _numPoints;
 
 		public PointGroup( int numPoints ){
@@ -156,18 +158,14 @@ implements IVizElement {
 			for( int i = 0; i < _numPoints; i++ ) {
 				_points[ i ] = new Point();
 			}
+			_mesh = new WETriangleMesh();
 			reset();
 		}
 		
 		public void reset() {
+			createPointsTrianglesSmoothed()	;		
 			for( int i = 0; i < _numPoints; i++ ) {
 				_points[ i ].reset();
-			}
-			// procedurally place the points
-			for( int i = 1; i < _numPoints; i++ ) {
-				_points[ i ]._pos.x = _points[ i ]._posBase.x = _points[ i - 1 ]._pos.x += (p.random(1) < 0.5f) ? 100 : -100;
-				_points[ i ]._pos.y = _points[ i ]._posBase.y = _points[ i - 1 ]._pos.y += (p.random(1) < 0.5f) ? 100 : -100;
-				_points[ i ]._pos.z = _points[ i ]._posBase.z = _points[ i - 1 ]._pos.z += (p.random(1) < 0.5f) ? 100 : -100;
 			}
 		}
 
@@ -194,7 +192,7 @@ implements IVizElement {
 		}
 
 		protected void createPointsTrianglesSmoothed() {
-			_mesh = new WETriangleMesh();
+			_mesh.clear();
 			for( int i = 1; i < _numPoints; i++ ) {
 				// from 3rd point on, start connecting triangles
 				if( i >= 2 ) {
@@ -233,7 +231,7 @@ implements IVizElement {
 ////			_mesh.subdivide( subdiv );
 //			ThreeDeeUtil.SmoothToxiMesh( p, _mesh, 10 );
 		}
-
+		
 		protected void drawPointsTrianglesSmoothed() {
 			if( toxi != null && _mesh != null ) toxi.mesh( _mesh );
 		}

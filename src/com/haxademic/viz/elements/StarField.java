@@ -11,6 +11,7 @@ import com.haxademic.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.data.Point3D;
 import com.haxademic.core.data.easing.EasingFloat3d;
+import com.haxademic.core.draw.color.TColorBlendBetween;
 import com.haxademic.core.util.ColorGroup;
 import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.MathUtil;
@@ -25,9 +26,9 @@ implements IVizElement {
 	protected float _height;
 	protected int _numStars;
 	protected ArrayList<Star> _stars;
-	protected TColor _baseColor;
+	protected boolean _wireframe = false;
 	
-		public StarField( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
+	public StarField( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
 		super( p, toxi, audioData );
 		init();
 	}
@@ -50,9 +51,9 @@ implements IVizElement {
 	}
 
 	public void updateColorSet( ColorGroup colors ) {
-		_baseColor = colors.getRandomColor().copy();
-		float lighten = 0.3f;
-		_baseColor.adjustRGB( lighten, lighten, lighten );
+		for( int i = 0; i < _numStars; i++ ) {
+			_stars.get( i ).updateColorSet( colors );
+		}
 	}
 
 	public void update() {
@@ -75,13 +76,17 @@ implements IVizElement {
 		
 		p.popMatrix();
 	}
-
+	
 	public void reset() {
 		updateLineMode();
 		updateCamera();
+		for( int i = 0; i < _numStars; i++ ) {
+			_stars.get( i ).reset();
+		}
 	}
 
 	public void updateLineMode() {
+		_wireframe = MathUtil.randBoolean( p );
 //		_is3D = ( p.random(0f,2f) >= 1 ) ? false : true;
 	}
 	
@@ -100,11 +105,13 @@ implements IVizElement {
 		protected float _size, _speed;
 		protected EasingFloat3d _loc;
 		protected ArrayList<Point3D> _trailPoints;
-		protected int _trailIndex = 0;
+		protected int _trailIndex = 0;	// helps recycle the trails by constantly incrementing
 		protected int _numTrails = 20;
 		protected int _framesTillMove = 0;
 		protected Boolean _isStrafing = false;
 		protected int _zRange = 1000;
+		protected ColorGroup _colors = null;
+		protected TColorBlendBetween _curColor = null;
 		
 		public Star() {
 			_trailPoints = new ArrayList<Point3D>();
@@ -113,16 +120,34 @@ implements IVizElement {
 			}
 			
 			_loc = new EasingFloat3d( 0, 0, 0, 5 );
+			_curColor = new TColorBlendBetween( TColor.BLACK.copy(), TColor.WHITE.copy() );
 			reset();
 		}
 		
+		public void updateColorSet( ColorGroup colors ) {
+			_colors = colors;
+			_curColor.setColors( TColor.BLACK.copy(), _colors.getRandomColor().copy() );
+//			float lighten = 0.3f;
+//			_baseColor.adjustRGB( lighten, lighten, lighten );
+		}
+		
 		public void reset() {
-//			_loc.setCurrentX( randRangeDecimel( -_width, _width ) );
+			if( _colors != null ) updateColorSet( _colors );
+			_loc.setCurrentX( MathUtil.randRangeDecimel( -_width, _width ) );
 			_loc.setTargetX( MathUtil.randRangeDecimel( -_width, _width ) );
-//			_loc.setCurrentY( randRangeDecimel( -_height, _height ) );
+			_loc.setCurrentY( MathUtil.randRangeDecimel( -_height, _height ) );
 			_loc.setTargetY( MathUtil.randRangeDecimel( -_height, _height ) );
 			_loc.setCurrentZ( _zRange );
 			_loc.setTargetZ( _zRange );
+			
+			for( int i = _trailIndex + _numTrails; i > _trailIndex; i-- ) {
+				int indx = i % _numTrails;
+				_trailPoints.get(indx).x = _loc.valueX();
+				_trailPoints.get(indx).y = _loc.valueY();
+				_trailPoints.get(indx).z = _loc.valueZ();
+			}
+
+			
 			_size = 60 + (int) (Math.sin( p.frameCount / 100f ) * 50);
 			_speed = -_size + MathUtil.randRangeDecimel( -10, 10 );
 			_framesTillMove = MathUtil.randRange( 0, 30 );
@@ -162,6 +187,7 @@ implements IVizElement {
 			
 			_loc.update();
 			
+			// every increment references the newest point and loops backwards 
 			_trailPoints.get( _trailIndex ).x = _loc.valueX();
 			_trailPoints.get( _trailIndex ).y = _loc.valueY();
 			_trailPoints.get( _trailIndex ).z = _loc.valueZ();
@@ -169,28 +195,46 @@ implements IVizElement {
 			float baseSize = _size * amp;
 			int indx = _trailIndex;
 			int alpha = 255;
-			int fillColor = _baseColor.toARGB();
+			int fillColor = _curColor.argbWithPercent( amp );
 
 			
-//			p.fill( 255, 100 );
+//			p.fill( 255, 255 );
 //			p.pushMatrix();
 //			p.translate( _loc.valueX(), _loc.valueY(), _loc.valueZ() );
 //			p.box( baseSize );
 //			baseSize *= 0.9f;
 //			p.popMatrix();
 
-			// loop backwards through history of locations
-			for( int i = _numTrails + _trailIndex; i > _trailIndex; i-- ) {
-				indx = i % _numTrails;
+			if( _wireframe == false ) {
+				// loop backwards through history of locations
+				p.noStroke();
+				for( int i = _numTrails + _trailIndex; i > _trailIndex; i-- ) {
+					indx = i % _numTrails;
+					p.pushMatrix();
+					p.translate( _trailPoints.get(indx).x, _trailPoints.get(indx).y, _trailPoints.get(indx).z );
+					p.fill( fillColor, alpha );
+					p.box( baseSize );
+					baseSize *= 0.97f;
+					alpha -= 12.5;
+					p.popMatrix();
+				}
+			} else {
+				// draw lines between locations
+	//			p.noFill();
 				p.pushMatrix();
-				p.translate( _trailPoints.get(indx).x, _trailPoints.get(indx).y, _trailPoints.get(indx).z );
-				p.fill( fillColor, alpha );
-				p.box( baseSize );
-				baseSize *= 0.97f;
-				alpha -= 12.5;
+				p.stroke( fillColor, 255 );
+				p.noFill();
+				p.strokeWeight( 4f );
+				p.beginShape(P.TRIANGLES);
+				for( int i = _trailIndex + _numTrails; i > _trailIndex; i-- ) {
+					indx = i % _numTrails;
+					if( i == 0 ) p.translate( _trailPoints.get(indx).x, _trailPoints.get(indx).y, _trailPoints.get(indx).z );
+					p.vertex( _trailPoints.get(indx).x + _size, _trailPoints.get(indx).y, _trailPoints.get(indx).z );
+					alpha -= 12.5;
+				}
+				p.endShape();
 				p.popMatrix();
 			}
-
 			
 			
 			

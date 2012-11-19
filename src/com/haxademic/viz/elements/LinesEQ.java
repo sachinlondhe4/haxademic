@@ -53,6 +53,8 @@ implements IVizElement {
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
 		DrawUtil.setCenter( p );
+		DrawUtil.setBasicLights( p );
+
 		p.pushMatrix();
 		p.rectMode(PConstants.CORNER);
 		

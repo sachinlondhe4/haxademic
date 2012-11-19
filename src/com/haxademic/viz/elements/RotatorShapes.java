@@ -34,8 +34,9 @@ implements IVizElement {
 	}
 
 	public void update() {
-		DrawUtil.setCenter( p );
 		DrawUtil.resetGlobalProps( p );
+		DrawUtil.setCenter( p );
+		DrawUtil.setBasicLights( p );
 		p.strokeWeight(1);
 
 //		p.pushMatrix();

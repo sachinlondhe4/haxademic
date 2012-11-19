@@ -5,6 +5,7 @@ import processing.core.PImage;
 
 import com.haxademic.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.util.ColorGroup;
 import com.haxademic.viz.IAudioTexture;
 
 public class WindowShadeTexture
@@ -50,4 +51,28 @@ implements IAudioTexture
 		_graphics = null;
 	}
 		
+	public void init() {
+		// TODO Auto-generated method stub
+	}
+
+	public void update() {
+		// TODO Auto-generated method stub
+	}
+
+	public void reset() {
+		// TODO Auto-generated method stub
+	}
+
+	public void updateColorSet(ColorGroup colors) {
+		// TODO Auto-generated method stub
+	}
+
+	public void updateLineMode() {
+		// TODO Auto-generated method stub
+	}
+
+	public void updateCamera() {
+		// TODO Auto-generated method stub
+	}
+
 }

@@ -1,6 +1,7 @@
 package com.haxademic.viz.elements;
 
 import processing.core.PApplet;
+import toxi.color.TColor;
 import toxi.geom.AABB;
 import toxi.geom.Sphere;
 import toxi.geom.mesh.WETriangleMesh;
@@ -11,11 +12,15 @@ import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.data.easing.EasingFloat3d;
 import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.util.ColorGroup;
+import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.MathUtil;
 import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IAudioTexture;
 import com.haxademic.viz.IVizElement;
 import com.haxademic.viz.textures.ColumnAudioTexture;
+import com.haxademic.viz.textures.EQGridTexture;
+import com.haxademic.viz.textures.EQSquareTexture;
+import com.haxademic.viz.textures.TintedImageTexture;
 
 public class SphereTextureLines 
 extends ElementBase 
@@ -23,13 +28,18 @@ implements IVizElement {
 	
 	protected float _baseRadius;
 	
-	IAudioTexture _texture;
 
+	protected TColor _baseColor = null;
 	Sphere _sphere, _sphereOuter;
 	WETriangleMesh _sphereMesh;
 	protected final float _ninteyDeg = P.PI / 2f;
 	protected EasingFloat3d _rotation = new EasingFloat3d( 0, 0, 0, 5f );
-
+	
+	protected IAudioTexture _texture;
+	protected IAudioTexture _columns;
+	protected IAudioTexture _eqGrid;
+	protected IAudioTexture _eqSquare;
+	protected IAudioTexture _imageTexture;
 
 	public SphereTextureLines( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
 		super( p, toxi, audioData );
@@ -38,9 +48,11 @@ implements IVizElement {
 
 	public void init() {
 		setDrawProps( 200 );
-		_texture = new ColumnAudioTexture( 32 );
-//		 _texture = new EQGridTexture( 512, 512 );
-//		 _texture = new EQSquareTexture( 512, 512 );
+		_columns = new ColumnAudioTexture( 32 );
+		_eqGrid = new EQGridTexture( 32, 32 );
+		_eqSquare = new EQSquareTexture( 32, 32 );
+		_imageTexture = new TintedImageTexture();
+		pickRandomTexture();
 	}
 	
 	public void setDrawProps( float baseRadius ) {
@@ -50,7 +62,7 @@ implements IVizElement {
 	
 	protected void createNewSphere() {
 		_sphere = new Sphere( _baseRadius );
-		AABB box = new AABB( _baseRadius );
+//		AABB box = new AABB( _baseRadius );
 		_sphereMesh = new WETriangleMesh();
 		_sphereMesh.addMesh( _sphere.toMesh( 30 ) );
 		MeshUtil.calcTextureCoordinates( _sphereMesh );
@@ -58,19 +70,41 @@ implements IVizElement {
 	
 	public void updateCamera() {
 		// random 45 degree angles
-		_rotation.setTargetX( _ninteyDeg/2f * MathUtil.randRange( 0, 8 ) );
-		_rotation.setTargetY( _ninteyDeg/2f * MathUtil.randRange( 0, 8 ) );
-		_rotation.setTargetZ( _ninteyDeg/2f * MathUtil.randRange( 0, 8 ) );
+		_rotation.setTargetX( _ninteyDeg * MathUtil.randRange( 0, 8 ) );
+		_rotation.setTargetY( _ninteyDeg * MathUtil.randRange( 0, 8 ) );
+		_rotation.setTargetZ( _ninteyDeg * MathUtil.randRange( 0, 8 ) );
 	}
 	
 	public void updateColorSet( ColorGroup colors ) {
-//		_baseColor = colors.getRandomColor().copy();
+		_baseColor = colors.getRandomColor().copy();
+//		_texture.updateColorSet( colors );
+		_columns.updateColorSet( colors );
+		_eqGrid.updateColorSet( colors );
+		_eqSquare.updateColorSet( colors );
+		_imageTexture.updateColorSet( colors );
 	}
 
+	public void updateLineMode() {
+		pickRandomTexture();
+	}
+	
+	protected void pickRandomTexture() {
+		int rand = MathUtil.randRange( 0, 3 );
+		if( rand == 0 ) {
+			_texture = _columns;
+		} else if( rand == 1 ) {
+			_texture = _eqGrid;
+		} else if( rand == 2 ) {
+			_texture = _eqSquare;
+		} else if( rand == 3 ) {
+			_texture = _imageTexture;
+		} 
+	}
+	
 	public void update() {
 		p.pushMatrix();
 		
-		p.fill( 255 );
+		DrawUtil.setColorForPImage(p);
 		p.noStroke();
 		_texture.updateTexture( _audioData );
 
@@ -81,14 +115,17 @@ implements IVizElement {
 		p.rotateX( _rotation.valueY() );
 		p.rotateZ( _rotation.valueZ() );
 	
-		
-		MeshUtil.drawToxiMesh( p, toxi, _sphereMesh, _texture.getTexture() );
+		// draw texture. if tinting happened, reset after drawing
+		if( _texture.getTexture() != null ) MeshUtil.drawToxiMesh( p, toxi, _sphereMesh, _texture.getTexture() );
+		DrawUtil.setColorForPImage(p);
+		DrawUtil.resetPImageAlpha(p);
 		
 		p.popMatrix();
 	}
 
 	public void reset() {
-
+		pickRandomTexture();
+		updateCamera();
 	}
 
 	public void dispose() {
