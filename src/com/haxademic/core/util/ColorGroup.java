@@ -89,6 +89,25 @@ public class ColorGroup {
 		_colorSets.add( createGroupWithHexes( "02ffff", "00fa00", "fdfd04", "fd5002", "fe007c" ) );
 		_colorSets.add( createGroupWithHexes( "d865fe", "00fffe", "28fb00", "feff02", "ff00ff" ) );
 		_colorSets.add( createGroupWithHexes( "02b8ff", "fffa02", "ff0091", "858585", "c182f4" ) );
+		_colorSets.add( createGroupWithHexes( "e9b000", "d1ff36", "ff6409", "eb00aa", "4c00ff" ) );
+		_colorSets.add( createGroupWithHexes( "e2ea63", "ffdd51", "00ff00", "72e9b7", "83e4ff" ) );
+		_colorSets.add( createGroupWithHexes( "8eff0a", "00ff00", "3531ff", "00bfff", "350076" ) );
+		_colorSets.add( createGroupWithHexes( "ff006a", "fffa00", "0085ff", "c2b6ae", "ffffff" ) );
+		_colorSets.add( createGroupWithHexes( "ff61cd", "67009c", "cbff00", "656565", "cccccc" ) );
+		_colorSets.add( createGroupWithHexes( "fbfbf9", "00e800", "008d00", "005a00", "002800" ) );
+		_colorSets.add( createGroupWithHexes( "31cbff", "f6e098", "ff5734", "9a39eb", "58f74a" ) );
+		_colorSets.add( createGroupWithHexes( "a91ae5", "fff600", "81ff00", "ea27c1", "000000" ) );
+		_colorSets.add( createGroupWithHexes( "dc1a27", "f5328f", "008c7f", "def427", "ed8100" ) );
+//		_colorSets.add( createGroupWithHexes( "XXXXX", "XXXXX", "XXXXX", "XXXXX", "XXXXX" ) );
+		
+		// lighten...
+		float lighten = 0.4f;
+		for( int i=0; i < _colorSets.size() - 1; i++ ) {
+			for( int j=0; j < _colorSets.get(i).size() - 1; j++ ) {
+				_colorSets.get(i).get(j).adjustRGB( lighten, lighten, lighten );
+			}
+		}
+
 	}
 	
 }
