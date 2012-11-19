@@ -16,7 +16,7 @@ public class Shapes {
 
 		for( int i = 0; i < numSegments; i++ )
 		{
-			p.fill( color );
+			if( color > 0 ) p.fill( color );
 
 			// top disc
 			p.vertex( P.sin( i * segmentCircumference ) * innerRadius, P.cos( i * segmentCircumference ) * innerRadius, halfHeight );
@@ -36,7 +36,7 @@ public class Shapes {
 			p.vertex( P.sin( (i + 1) * segmentCircumference ) * innerRadius, P.cos( (i + 1) * segmentCircumference ) * innerRadius, -halfHeight );
 			p.vertex( P.sin( (i + 1) * segmentCircumference ) * radius, P.cos( (i + 1) * segmentCircumference ) * radius, -halfHeight );
 			
-			p.fill( wallcolor );
+			if( wallcolor > 0 ) p.fill( wallcolor );
 			// outer wall
 			p.vertex( P.sin( i * segmentCircumference ) * radius, P.cos( i * segmentCircumference ) * radius, halfHeight );
 			p.vertex( P.sin( i * segmentCircumference ) * radius, P.cos( i * segmentCircumference ) * radius, -halfHeight );
@@ -49,7 +49,7 @@ public class Shapes {
 			// only draw inner radius if needed
 			if( innerRadius > 0 )
 			{
-				p.fill(wallcolor);
+				if( wallcolor > 0 ) p.fill(wallcolor);
 				// inner wall
 				p.vertex( P.sin( i * segmentCircumference ) * innerRadius, P.cos( i * segmentCircumference ) * innerRadius, halfHeight );
 				p.vertex( P.sin( i * segmentCircumference ) * innerRadius, P.cos( i * segmentCircumference ) * innerRadius, -halfHeight );
