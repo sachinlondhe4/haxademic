@@ -291,7 +291,7 @@ extends PApplet
 	//			hint(DISABLE_OPENGL_2X_SMOOTH);
 				hint(ENABLE_OPENGL_2X_SMOOTH); 
 			} else {
-				OpenGLUtil.setQuality(p, OpenGLUtil.MEDIUM);
+				OpenGLUtil.setQuality(p, OpenGLUtil.HIGH);
 			}
 		}
 
