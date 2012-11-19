@@ -172,6 +172,7 @@ extends PAppletHax
 
 		} else if( _gameState == GAME_OVER ) {
 			_winRGBImage = p.kinectWrapper.getRgbImage();
+			FileUtil.createDir( FileUtil.getProjectAbsolutePath() + "/bin/output/" );
 			FileUtil.createDir( FileUtil.getProjectAbsolutePath() + "/bin/output/matchgame/" );
 			_winRGBImage.save( FileUtil.getProjectAbsolutePath() + "/bin/output/matchgame/matchgame-" + SystemUtil.getTimestampFine( p ) + "-rgb.png" );
 			_gameOverStartTime = p.millis();
