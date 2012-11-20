@@ -138,13 +138,18 @@ public class MatchGameControls {
 		if( users.length == 0 ) {
 			_curUserId = -1;
 		} else {
+			_curUserId = -1;
+			// use skeleton closest to center, who's in the min/mix distance boundaries
 			// find & track closest user that is still on-screen userHasHands()
-			float zDist = 999999f;
+			float xDist = 999999f;
+			boolean isInZBounds = false;
 			for(int i=0; i < users.length; i++) { 
-				_kinectContext.getCoM( users[i], _utilPVec );	// PVec comes back with `z` in millimeters
-				if( _utilPVec.z < zDist && userHasHands( users[i] ) ) {
+				_kinectContext.getCoM( users[i], _utilPVec );							// PVec comes back with real-world `z` in millimeters
+				isInZBounds = ( _utilPVec.z > MatchGame.KINECT_MIN_DIST && _utilPVec.z < MatchGame.KINECT_MAX_DIST );
+				// if in-z-bounds, user.x is legit, closer-to-center & has a good skeleton...
+				if( isInZBounds == true && _utilPVec.x != 0.0 && _utilPVec.x < xDist && userHasHands( users[i] ) ) {
 					_curUserId = users[i];
-					zDist = _utilPVec.z;
+					xDist = _utilPVec.x;
 					// P.println( "closest user: "+users[i]+" at "+zDist );
 				}
 			}
