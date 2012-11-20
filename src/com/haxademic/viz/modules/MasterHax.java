@@ -74,68 +74,13 @@ implements IVizModule {
 	
 	protected void pickNewColors() {
 
-		if( 1 == 2 ) {
-			float lighten = 0.4f;
-			// get a single strategy
-			TColor color = ColorRange.LIGHT.getColor();
-			ColorTheoryStrategy strategy = new CompoundTheoryStrategy ();
-//		TColor color = ColorRange.BRIGHT.getColor();
-//		ColorTheoryStrategy strategy = new RightSplitComplementaryStrategy();
-			_colorList = ColorList.createUsingStrategy(strategy, color);
-			
-			// store a few random colors
-//		TColor color1 = _colorList.getRandom();
-//		color1.lighten(0.3f);
-			_colorFG1 = _colorList.get( 0 );
-			_colorFG2 = _colorList.get( 1 );//_colorFG1.getAnalog(45,1);//_colorList.get( 1 );//.getRandom();	// color1.complement().toARGB()
-			_colorAmbient = _colorList.get( 2 );//_colorFG2.getAnalog(45,1);//_colorList.get( 2 );
-			_colorBG1 = _colorList.get( 3 );//_colorAmbient.getAnalog(45,1);//_colorList.get( 3 );
-			_colorBG2 = _colorList.get( 4 );//_colorBG1.getAnalog(45,1);//_colorList.get( 4 );
-			
-			_colorFG1.adjustRGB( lighten, lighten, lighten );
-			_colorFG2.adjustRGB( lighten, lighten, lighten );
-			_colorAmbient.adjustRGB( lighten, lighten, lighten );
-			_colorBG1.adjustRGB( lighten, lighten, lighten );
-			_colorBG2.adjustRGB( lighten, lighten, lighten );
-
-//			_colorFG1.lighten( lighten );
-//			_colorFG2.lighten( lighten );
-//			_colorAmbient.lighten( lighten );
-//			_colorBG1.lighten( lighten );
-//			_colorBG2.lighten( lighten );
-			
-//			if( _balletColors == null ) {
-				_balletColors = new ColorGroup( -1 );
-				_balletColors.createGroupWithTColors( _colorFG1, _colorFG2, _colorAmbient, _colorBG1, _colorBG2 );
-//			}
-		} else {
-			
-			float lighten = 0.1f;
-
-			if( _balletColors == null ) {
-			}
-			_balletColors = new ColorGroup( ColorGroup.NEON );
-			_balletColors.setRandomGroup();
-			_colorFG1 = _balletColors.getColorFromIndex( 0 );
-			_colorFG2 = _balletColors.getColorFromIndex( 1 );//_colorFG1.getAnalog(45,1);//_colorList.get( 1 );//.getRandom();	// color1.complement().toARGB()
-			_colorAmbient = _balletColors.getColorFromIndex( 2 );//_colorFG2.getAnalog(45,1);//_colorList.get( 2 );
-			_colorBG1 = _balletColors.getColorFromIndex( 3 );//_colorAmbient.getAnalog(45,1);//_colorList.get( 3 );
-			_colorBG2 = _balletColors.getColorFromIndex( 4 );//_colorBG1.getAnalog(45,1);//_colorList.get( 4 );
-			
-			P.println(_colorBG2.toString());
-//			_colorFG1.adjustRGB( lighten, lighten, lighten );
-//			_colorFG2.adjustRGB( lighten, lighten, lighten );
-//			_colorAmbient.adjustRGB( lighten, lighten, lighten );
-//			_colorBG1.adjustRGB( lighten, lighten, lighten );
-//			_colorBG2.adjustRGB( lighten, lighten, lighten );
-
-//		_colorFG1.setBrightness( lighten ).lighten( lighten );
-//		_colorFG2.setBrightness( lighten ).lighten( lighten );
-//		_colorBG1.setBrightness( lighten ).lighten( lighten );
-//		_colorBG2.setBrightness( lighten ).lighten( lighten );
-//		_colorAmbient.setBrightness( lighten ).lighten( lighten );
-			
-		}
+		if( _balletColors == null ) _balletColors = new ColorGroup( ColorGroup.NEON );
+		_balletColors.setRandomGroup();
+		_colorFG1 = _balletColors.getColorFromIndex( 0 );
+		_colorFG2 = _balletColors.getColorFromIndex( 1 );
+		_colorAmbient = _balletColors.getColorFromIndex( 2 );
+		_colorBG1 = _balletColors.getColorFromIndex( 3 );
+		_colorBG2 = _balletColors.getColorFromIndex( 4 );
 		
 		storeCurColors();
 	}
