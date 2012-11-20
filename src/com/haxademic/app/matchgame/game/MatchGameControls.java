@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 
 import processing.core.PImage;
 import processing.core.PVector;
+import toxi.geom.Vec3D;
 import SimpleOpenNI.SimpleOpenNI;
 
 import com.haxademic.app.P;
@@ -11,6 +12,7 @@ import com.haxademic.app.matchgame.MatchGame;
 import com.haxademic.core.data.easing.EasingFloat3d;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.util.MathUtil;
 
 public class MatchGameControls {
 
@@ -20,7 +22,7 @@ public class MatchGameControls {
 	protected int _userLeftPixel;
 	protected int _userRightPixel;
 	protected int _curUserId = -1;
-	protected float _controlsRatio = 1;
+	protected float _controlsMultiplier = 1;
 	protected EasingFloat3d _handLeft;
 	protected EasingFloat3d _handRight;
 	public Rectangle handLeftRect;
@@ -52,7 +54,6 @@ public class MatchGameControls {
 		_userRightPixel = P.round( halfKinectW + halfKinectW * MatchGame.KINECT_WIDTH_PERCENT );
 		
 		// set ratio of controls based on screen size vs kinect depth
-		_controlsRatio = (float)p.width / (float)_kinectContext.depthWidth();
 		_handLeft = new EasingFloat3d( p.width/2, p.height/2, 0, CURSOR_EASING_FACTOR );
 		_handRight = new EasingFloat3d( p.width/2, p.height/2, 0, CURSOR_EASING_FACTOR );
 		handLeftRect = new Rectangle( 0, 0, 1, 1 );
@@ -180,8 +181,7 @@ public class MatchGameControls {
 		confidence = _kinectContext.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_LEFT_HAND,_utilPVec);
 		if (confidence > 0.001f) {			
 			_kinectContext.convertRealWorldToProjective(_utilPVec,_utilPVec2);
-			_handLeft.setTargetX( _utilPVec2.x * _controlsRatio );
-			_handLeft.setTargetY( _utilPVec2.y * _controlsRatio );
+			mapHandCursorLocation( _handLeft, _utilPVec2 );
 		}
 		_handLeft.update();
 		
@@ -189,8 +189,7 @@ public class MatchGameControls {
 		confidence = _kinectContext.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_RIGHT_HAND,_utilPVec);
 		if (confidence > 0.001f) {			
 			_kinectContext.convertRealWorldToProjective(_utilPVec,_utilPVec2);
-			_handRight.setTargetX( _utilPVec2.x * _controlsRatio );
-			_handRight.setTargetY( _utilPVec2.y * _controlsRatio );
+			mapHandCursorLocation( _handRight, _utilPVec2 );
 		}
 		_handRight.update();
 		
@@ -198,6 +197,12 @@ public class MatchGameControls {
 		handLeftRect.y = (int) _handLeft.valueY();
 		handRightRect.x = (int) _handRight.valueX();
 		handRightRect.y = (int) _handRight.valueY();
+	}
+	
+	// map the kinect 2d location to the game's size w/additional movement factor
+	protected void mapHandCursorLocation( EasingFloat3d handEasingFloat, PVector handVec2d ) {
+		handEasingFloat.setTargetX( ( p.width * 0.5f ) + ( -0.5f + MathUtil.getPercentWithinRange( 0, KinectWrapper.KWIDTH, handVec2d.x ) ) * p.width * MatchGame.CURSOR_MULTIPLIER );
+		handEasingFloat.setTargetY( ( p.height * 0.5f ) + ( -0.5f + MathUtil.getPercentWithinRange( 0, KinectWrapper.KHEIGHT, handVec2d.y ) ) * p.height * MatchGame.CURSOR_MULTIPLIER );
 	}
 	
 	public void drawHands( float heldTimePercent, boolean controlsActive ) {
@@ -209,8 +214,13 @@ public class MatchGameControls {
 		// always draw outer cursor circle
 		DrawUtil.setColorForPImage( p );
 		if( controlsActive == false ) DrawUtil.setPImageAlpha( p, 0.3f );
-		p.image( MatchGameAssets.UI_CURSOR, _handLeft.valueX(), _handLeft.valueY() );
-		p.image( MatchGameAssets.UI_CURSOR, _handRight.valueX(), _handRight.valueY() );
+		if( _curUserId != -1 ) {
+			p.image( MatchGameAssets.UI_CURSOR, _handLeft.valueX(), _handLeft.valueY() );
+			p.image( MatchGameAssets.UI_CURSOR, _handRight.valueX(), _handRight.valueY() );
+		} else {
+			p.image( MatchGameAssets.UI_CURSOR_BAD, _handLeft.valueX(), _handLeft.valueY() );
+			p.image( MatchGameAssets.UI_CURSOR_BAD, _handRight.valueX(), _handRight.valueY() );
+		}
 		DrawUtil.resetPImageAlpha( p );
 	}
 	

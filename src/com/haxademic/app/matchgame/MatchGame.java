@@ -56,6 +56,7 @@ extends PAppletHax
 	// game state
 	protected int _curMode;
 	public static boolean KIDS_MODE;
+	public static float CURSOR_MULTIPLIER;
 	
 	// more game state - screen transition / detection
 	protected int _playerDetectStartTime = -1;
@@ -97,6 +98,7 @@ extends PAppletHax
 		
 		// external config
 		KIDS_MODE = _appConfig.getBoolean( "kids_mode", false );
+		CURSOR_MULTIPLIER = _appConfig.getFloat( "cursor_multiplier", 1f );
 		setGameMode( GAME_PLAYER_DETECT );
 	}
 	

@@ -27,6 +27,7 @@ public class MatchGameAssets {
 	
 	public static PImage UI_BACKGROUND;
 	public static PImage UI_CURSOR;
+	public static PImage UI_CURSOR_BAD;
 	public static PImage UI_BEST_TIME;
 	public static PImage UI_YOUR_TIME;
 	public static PImage UI_COUNTDOWN_1;
@@ -78,6 +79,7 @@ public class MatchGameAssets {
 		// ui images
 		UI_BACKGROUND		= p.loadImage( "../data/images/match-game/ui-background.png" );
 		UI_CURSOR			= p.loadImage( "../data/images/match-game/ui-controls-cursor.png" );
+		UI_CURSOR_BAD		= p.loadImage( "../data/images/match-game/ui-controls-cursor-bad.png" );
 		UI_BEST_TIME		= p.loadImage( "../data/images/match-game/ui-best-time.png" );
 		UI_YOUR_TIME		= p.loadImage( "../data/images/match-game/ui-your-time.png" );
 		UI_COUNTDOWN_1		= p.loadImage( "../data/images/match-game/ui-countdown-1.png" );
