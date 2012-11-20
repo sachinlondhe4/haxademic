@@ -45,10 +45,10 @@ implements IVizModule {
 		_fgElements.add( new SphericalHarmonicsOscillator( p, toxi, _audioData ) );
 //		_fgElements.add( new KinectMesh( p, toxi, _audioData, p._kinectWrapper ) );
 		
-		_bgElements.add( new BlobSheetElement( p, toxi, _audioData ) );
-		_bgElements.add( new RotatingRings( p, toxi, _audioData ) );
-//		_bgElements.add( new BarsEQ( p, toxi, _audioData ) );
 		_bgElements.add( new BarsModEQ( p, toxi, _audioData ) );
+		_bgElements.add( new RotatingRings( p, toxi, _audioData ) );
+		_bgElements.add( new BlobSheetElement( p, toxi, _audioData ) );
+//		_bgElements.add( new BarsEQ( p, toxi, _audioData ) );
 		_bgElements.add( new LinesEQ( p, toxi, _audioData ) );
 		_bgElements.add( new GridEQ( p, toxi, _audioData ) );
 		
