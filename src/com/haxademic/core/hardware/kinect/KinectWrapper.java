@@ -19,6 +19,9 @@ public class KinectWrapper {
 
 	public int[] _depthArray;
 	public PVector[] _realWorldMap;
+	
+	// The sensor has an angular field of view of 57¡ horizontally and 43¡ vertically, while the motorized pivot is capable of tilting the sensor up to 27¡ either up or down
+	// http://en.wikipedia.org/wiki/Field_of_view
 
 	public KinectWrapper( PApplet p, boolean initDepth, boolean initRGB, boolean initDepthImage ) {
 		this.p = p;
