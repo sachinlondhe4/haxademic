@@ -1,12 +1,5 @@
 package com.haxademic.viz.modules;
 
-import toxi.color.ColorList;
-import toxi.color.ColorRange;
-import toxi.color.TColor;
-import toxi.color.theory.ColorTheoryStrategy;
-import toxi.color.theory.CompoundTheoryStrategy;
-
-import com.haxademic.app.P;
 import com.haxademic.core.util.ColorGroup;
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.VizCollection;
