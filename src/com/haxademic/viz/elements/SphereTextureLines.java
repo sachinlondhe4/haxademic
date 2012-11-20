@@ -28,7 +28,7 @@ extends ElementBase
 implements IVizElement {
 	
 	protected float _baseRadius;
-	
+	protected float _deformFactor;
 
 	protected TColor _baseColor = null;
 	Sphere _sphere;
@@ -48,7 +48,7 @@ implements IVizElement {
 	}
 
 	public void init() {
-		setDrawProps( 200 );
+		setDrawProps( 200, 1f );
 		_columns = new ColumnAudioTexture( 32 );
 		_eqGrid = new EQGridTexture( 32, 32 );
 		_eqSquare = new EQSquareTexture( 32, 32 );
@@ -56,8 +56,9 @@ implements IVizElement {
 		pickRandomTexture();
 	}
 	
-	public void setDrawProps( float baseRadius ) {
+	public void setDrawProps( float baseRadius, float deformFactor ) {
 		_baseRadius = baseRadius;
+		_deformFactor = deformFactor;
 		createNewSphere();
 	}
 	
@@ -117,7 +118,7 @@ implements IVizElement {
 		p.rotateX( _rotation.valueY() );
 		p.rotateZ( _rotation.valueZ() );
 		
-		MeshUtil.deformMeshWithAudio( _sphereMesh, _deformMesh, _audioData, 0.2f );
+		MeshUtil.deformMeshWithAudio( _sphereMesh, _deformMesh, _audioData, _deformFactor );
 	
 		// draw texture. if tinting happened, reset after drawing
 		if( _texture.getTexture() != null ) MeshUtil.drawToxiMesh( p, toxi, _deformMesh, _texture.getTexture() );

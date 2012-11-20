@@ -28,7 +28,7 @@ implements IVizModule {
 		_fgElements.add( new WaveformSingle( p, toxi, _audioData ) );
 		_fgElements.add( new WaveformPlane( p, toxi, _audioData ) );
 		SphereTextureLines sphereLinesSmall = new SphereTextureLines( p, toxi, _audioData );
-		sphereLinesSmall.setDrawProps( 150 );
+		sphereLinesSmall.setDrawProps( 150, 0.2f );
 		_fgElements.add( sphereLinesSmall );
 
 		_bgElements.add( new LinesEQ( p, toxi, _audioData ) );
@@ -37,7 +37,7 @@ implements IVizModule {
 //		_ambientElements.add( new SphereClouds( p, toxi, _audioData ) );
 
 		SphereTextureLines sphereLines = new SphereTextureLines( p, toxi, _audioData );
-		sphereLines.setDrawProps( 2500 );
+		sphereLines.setDrawProps( 2500, 1f );
 		_outerElements.add( sphereLines );
 	}
 	

@@ -46,7 +46,7 @@ implements IVizModule {
 		_fgElements.add( new MeshDeform( p, toxi, _audioData ) );
 //		_fgElements.add( new ObjMesh( p, toxi, _audioData ) );
 		SphereTextureLines sphereLinesSmall = new SphereTextureLines( p, toxi, _audioData );
-		sphereLinesSmall.setDrawProps( 150 );
+		sphereLinesSmall.setDrawProps( 150, 0.2f );
 		_fgElements.add( sphereLinesSmall );
 //		_fgElements.add( new CacheLogo( p, toxi, _audioData ) );
 		_fgElements.add( new SphericalHarmonicsOscillator( p, toxi, _audioData ) );
@@ -67,7 +67,7 @@ implements IVizModule {
 
 		_outerElements.add( new OuterSphere( p, toxi, _audioData ) );
 		SphereTextureLines sphereLines = new SphereTextureLines( p, toxi, _audioData );
-		sphereLines.setDrawProps( 4000 );
+		sphereLines.setDrawProps( 4000, 5f );
 		_outerElements.add( sphereLines );
 
 	}

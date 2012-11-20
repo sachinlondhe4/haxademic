@@ -41,7 +41,7 @@ implements IVizModule {
 
 //		_outerElements.add( new OuterSphere( p, toxi, _audioData ) );
 		SphereTextureLines sphereLines = new SphereTextureLines( p, toxi, _audioData );
-		sphereLines.setDrawProps( 10000 );
+		sphereLines.setDrawProps( 10000, 1f );
 		_outerElements.add( sphereLines );
 
 	}
