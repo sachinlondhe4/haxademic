@@ -115,7 +115,7 @@ implements IVizElement {
 
 		// deform and draw mesh
 		if( _curMesh != null && _curMeshDeformed != null ) {
-			MeshUtil.deformMeshWithAudio( _curMesh, _curMeshDeformed, _audioData );
+			MeshUtil.deformMeshWithAudio( _curMesh, _curMeshDeformed, _audioData, 1f );
 			DrawMesh.drawMeshWithAudio( p, _curMeshDeformed, _audioData, _isWireframe, _baseColor, _strokeColor, 0.1f );
 		}
 		

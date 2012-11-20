@@ -186,13 +186,13 @@ public class MeshUtil {
 		mesh.addFace( pt3, pt4, pt1 );
 	}
 	
-	public static void deformMeshWithAudio( WETriangleMesh mesh, WETriangleMesh meshDeform, AudioInputWrapper audioInput ) {
+	public static void deformMeshWithAudio( WETriangleMesh mesh, WETriangleMesh meshDeform, AudioInputWrapper audioInput, float deformFactor ) {
 		int numVertices = mesh.getNumVertices();
 		int numDeformedVertices = mesh.getNumVertices();
 		int eqStep = Math.round( 512f / (float) numVertices );
 		if( numVertices == numDeformedVertices ) {
 			for( int i = 0; i < numVertices - 1; i++ ) {
-				float eq = 1 + audioInput.getFFT().spectrum[(i*eqStep)%512];
+				float eq = 1 + audioInput.getFFT().spectrum[(i*eqStep)%512] * deformFactor;
 				if( mesh.getVertexForID( i ) != null && meshDeform.getVertexForID( i ) != null ) {
 					meshDeform.getVertexForID( i ).x = mesh.getVertexForID( i ).x * eq;
 					meshDeform.getVertexForID( i ).y = mesh.getVertexForID( i ).y * eq;

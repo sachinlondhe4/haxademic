@@ -11,6 +11,7 @@ import com.haxademic.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.data.easing.EasingFloat3d;
 import com.haxademic.core.draw.mesh.MeshUtil;
+import com.haxademic.core.draw.util.DrawMesh;
 import com.haxademic.core.util.ColorGroup;
 import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.MathUtil;
@@ -30,8 +31,8 @@ implements IVizElement {
 	
 
 	protected TColor _baseColor = null;
-	Sphere _sphere, _sphereOuter;
-	WETriangleMesh _sphereMesh;
+	Sphere _sphere;
+	WETriangleMesh _sphereMesh, _deformMesh;
 	protected final float _ninteyDeg = P.PI / 2f;
 	protected EasingFloat3d _rotation = new EasingFloat3d( 0, 0, 0, 5f );
 	
@@ -66,6 +67,7 @@ implements IVizElement {
 		_sphereMesh = new WETriangleMesh();
 		_sphereMesh.addMesh( _sphere.toMesh( 30 ) );
 		MeshUtil.calcTextureCoordinates( _sphereMesh );
+		_deformMesh = _sphereMesh.copy();
 	}
 	
 	public void updateCamera() {
@@ -114,9 +116,11 @@ implements IVizElement {
 		p.rotateY( _rotation.valueX() );
 		p.rotateX( _rotation.valueY() );
 		p.rotateZ( _rotation.valueZ() );
+		
+		MeshUtil.deformMeshWithAudio( _sphereMesh, _deformMesh, _audioData, 0.2f );
 	
 		// draw texture. if tinting happened, reset after drawing
-		if( _texture.getTexture() != null ) MeshUtil.drawToxiMesh( p, toxi, _sphereMesh, _texture.getTexture() );
+		if( _texture.getTexture() != null ) MeshUtil.drawToxiMesh( p, toxi, _deformMesh, _texture.getTexture() );
 		DrawUtil.setColorForPImage(p);
 		DrawUtil.resetPImageAlpha(p);
 		
