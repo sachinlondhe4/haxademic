@@ -95,7 +95,7 @@ implements IVizElement {
 	
 	protected void drawLines( int fillColor, float lineH, int spectrumInterval ) {
 		for( int i = 0; i < _numLines; i++ ) {
-			float spectrumData = _audioData.getFFT().spectrum[i*spectrumInterval];
+			float spectrumData = _audioData.getFFT().spectrum[i*spectrumInterval % 512];
 			float alpha = spectrumData * .7f;	//  * 255
 			p.fill( fillColor, alpha * 255 );
 			p.rect( 0, i * lineH, _width, lineH );
