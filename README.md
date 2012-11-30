@@ -68,23 +68,23 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 ## Requirements / Compiling
 IDE:
 
-* Eclipse
+* [Eclipse](http://www.eclipse.org/)
 
 Java & Processing libraries:
 
-* Processing
-* Krister.ESS
-* OpenNI
-* Toxiclibs
-* p5sunflow
-* OBJLoader
-* themidibus
-* oscP5
-* fullscreen
-* launchpad
-* He_Mesh
-* minim
-* Geomerative
+* [Processing](http://processing.org/) (view the [Processing for Eclipse instructions](http://processing.org/learning/eclipse/))
+* [Krister.ESS](http://www.tree-axis.com/Ess/)
+* [simple-openni](http://code.google.com/p/simple-openni/)
+* [toxiclibs](http://toxiclibs.org/)
+* [p5sunflow](https://github.com/hryk/p5sunflow) original site is down :-/
+* [OBJLoader](http://code.google.com/p/saitoobjloader/)
+* [themidibus](https://github.com/sparks/themidibus)
+* [oscP5](http://www.sojamo.de/libraries/oscP5/)
+* [fullscreen](http://www.superduper.org/processing/fullscreen_api/)
+* [launchpad](http://rngtng.github.com/launchpad/)
+* [He_Mesh](http://hemesh.wblut.com/)
+* [minim](http://code.compartmental.net/tools/minim/)
+* [Geomerative](http://www.ricardmarxer.com/geomerative/)
 
 Use the following VM Arguments when running the Java Application
 
