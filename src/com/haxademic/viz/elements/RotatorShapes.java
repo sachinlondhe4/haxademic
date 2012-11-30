@@ -39,11 +39,6 @@ implements IVizElement {
 		DrawUtil.setBasicLights( p );
 		p.strokeWeight(1);
 
-//		p.pushMatrix();
-//		p.translate( 0, 0, -500 );
-//		_rotator.update();
-//		p.popMatrix();
-
 		p.pushMatrix();
 		p.translate( 0, 0, -2000 );
 		_rotatorBG.update();

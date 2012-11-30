@@ -13,6 +13,7 @@ import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.data.easing.EasingFloat3d;
 import com.haxademic.core.draw.color.TColorBlendBetween;
 import com.haxademic.core.util.ColorGroup;
+import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.MathUtil;
 import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
@@ -36,7 +37,6 @@ implements IVizElement {
 	
 	protected TColorBlendBetween _color;
 	
-	protected WETriangleMesh _mesh;
 	
 	public RotatorShape( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData, int numRotations ) {
 		super( p, toxi, audioData );
@@ -62,16 +62,20 @@ implements IVizElement {
 		_color.lightenColor( 0.3f );
 	}
 
-	public void update() {
+	public synchronized void update() {
 		// rotate beginning z
 		_baseRotZAdd = MathUtil.easeTo( _baseRotZAdd, _baseRotZTarget, 20 );
 		p.rotateZ( _rotDir * p.frameCount - _baseRotZAdd );
 
+		// update the single shape
 		_curPointGroup.update();
-		float rotationIncrement = p.TWO_PI / _numRotations;
 		_curPointGroup.createPointsTrianglesSmoothed();
+		
+		// draw repeated shape 
+		float rotationIncrement = p.TWO_PI / _numRotations;
 		float spectrumData;
 		p.noStroke();
+		DrawUtil.setColorForPImage(p);
 		for( int i = 0; i < _numRotations; i++ ) {
 			spectrumData = _audioData.getFFT().spectrum[ 20 + (int) (i * (255f/_numRotations)) ];
 			p.fill( _color.argbWithPercent( spectrumData ) );
@@ -79,14 +83,14 @@ implements IVizElement {
 //			p.stroke( spectrumData * 255, spectrumData * 127 );
 			p.pushMatrix();
 			p.rotateZ( rotationIncrement * i );
-			if( _mesh != null ) toxi.mesh( _mesh );
+			_curPointGroup.drawPointsTriangles();
 			p.popMatrix();
 		}
 	}
 	
 	public void reset() {
 		// come up with random numbers
-		_pointsPerGroup = P.round( p.random( POINTS_MIN, POINTS_MAX ) );
+		_pointsPerGroup = POINTS_MAX; //P.round( p.random( POINTS_MIN, POINTS_MAX ) );
 		if( _curPointGroup != null ) _curPointGroup.reset();
 	}
 	
@@ -151,6 +155,7 @@ implements IVizElement {
 		
 		public Point[] _points;
 		public int _numPoints;
+		protected WETriangleMesh _mesh;
 
 		public PointGroup( int numPoints ){
 			_numPoints = numPoints;
@@ -158,8 +163,8 @@ implements IVizElement {
 			for( int i = 0; i < _numPoints; i++ ) {
 				_points[ i ] = new Point();
 			}
-			_mesh = new WETriangleMesh();
 			reset();
+			createPointsTrianglesSmoothed();
 		}
 		
 		public void reset() {
@@ -175,7 +180,7 @@ implements IVizElement {
 			}
 		}
 
-		protected void drawPointsTriangles() {
+		public void drawPointsTriangles() {
 			Line3D line;
 			Triangle3D tri;
 			for( int i = 1; i < _numPoints; i++ ) {
@@ -191,51 +196,23 @@ implements IVizElement {
 			}
 		}
 
-		protected void createPointsTrianglesSmoothed() {
-			_mesh.clear();
+		public void createPointsTrianglesSmoothed() {
+			if( _mesh != null ) _mesh.clear();
+			if( _mesh == null ) _mesh = new WETriangleMesh();
 			for( int i = 1; i < _numPoints; i++ ) {
 				// from 3rd point on, start connecting triangles
 				if( i >= 2 ) {
 					_mesh.addFace( _points[ i - 2 ]._pos, _points[ i - 1 ]._pos, _points[ i ]._pos );
 				}
 			}
-			
-//			SubdivisionStrategy subdiv = new MidpointDisplacementSubdivision( _mesh.computeCentroid(), -0.22f );
-//			SubdivisionStrategy subdiv = new NormalDisplacementSubdivision(0.25f);
-//			SubdivisionStrategy subdiv = new NormalDisplacementSubdivision(0.3f);
-//			_mesh.subdivide( subdiv );
-//			SubdivisionStrategy subdiv = new NormalDisplacementSubdivision(0.2f);
-//			_mesh.subdivide( subdiv );
-//			subdiv = new NormalDisplacementSubdivision(0.17f);
-//			_mesh.subdivide( subdiv );
-//			subdiv = new NormalDisplacementSubdivision(0.13f);
-//			_mesh.subdivide( subdiv );
-//			subdiv = new NormalDisplacementSubdivision(0.1f);
-//			_mesh.subdivide( subdiv );
-//			subdiv = new NormalDisplacementSubdivision(0.075f);
-//			_mesh.subdivide( subdiv );
-//			subdiv = new NormalDisplacementSubdivision(0.05f);
-//			_mesh.subdivide( subdiv );
-////			subdiv = new NormalDisplacementSubdivision(0.03f);
-////			_mesh.subdivide( subdiv );
-//			subdiv = new NormalDisplacementSubdivision(0.01f);
-//			_mesh.subdivide( subdiv );
-//			_mesh.subdivide( subdiv, 10 );
-//			_mesh.subdivide( subdiv, 10 );
-//			_mesh.subdivide( subdiv, 10 );
-			
-//			SubdivisionStrategy subdiv = new TriSubdivision();
-//			_mesh.subdivide( subdiv );
-//			_mesh.subdivide( subdiv );
-////			_mesh.subdivide( subdiv );
-////			_mesh.subdivide( subdiv );
-//			ThreeDeeUtil.SmoothToxiMesh( p, _mesh, 10 );
 		}
 		
-		protected void drawPointsTrianglesSmoothed() {
-			if( toxi != null && _mesh != null ) toxi.mesh( _mesh );
-		}
-
+//		public void drawMesh() {
+////			if( toxi != null && _mesh != null && _mesh.faces.size() > 0 && _mesh.getNumVertices() > 0 ) 
+////				toxi.mesh( _mesh.copy() );
+//			for( int i=0; i < _mesh.vertices)
+//		}
+		
 		public void dispose() {
 			for( int i = 0; i < _numPoints; i++ ) {
 				_points[ i ].dispose();
@@ -244,3 +221,35 @@ implements IVizElement {
 		}
 	}	
 }
+
+//SubdivisionStrategy subdiv = new MidpointDisplacementSubdivision( _mesh.computeCentroid(), -0.22f );
+//SubdivisionStrategy subdiv = new NormalDisplacementSubdivision(0.25f);
+//SubdivisionStrategy subdiv = new NormalDisplacementSubdivision(0.3f);
+//_mesh.subdivide( subdiv );
+//SubdivisionStrategy subdiv = new NormalDisplacementSubdivision(0.2f);
+//_mesh.subdivide( subdiv );
+//subdiv = new NormalDisplacementSubdivision(0.17f);
+//_mesh.subdivide( subdiv );
+//subdiv = new NormalDisplacementSubdivision(0.13f);
+//_mesh.subdivide( subdiv );
+//subdiv = new NormalDisplacementSubdivision(0.1f);
+//_mesh.subdivide( subdiv );
+//subdiv = new NormalDisplacementSubdivision(0.075f);
+//_mesh.subdivide( subdiv );
+//subdiv = new NormalDisplacementSubdivision(0.05f);
+//_mesh.subdivide( subdiv );
+////subdiv = new NormalDisplacementSubdivision(0.03f);
+////_mesh.subdivide( subdiv );
+//subdiv = new NormalDisplacementSubdivision(0.01f);
+//_mesh.subdivide( subdiv );
+//_mesh.subdivide( subdiv, 10 );
+//_mesh.subdivide( subdiv, 10 );
+//_mesh.subdivide( subdiv, 10 );
+
+//SubdivisionStrategy subdiv = new TriSubdivision();
+//_mesh.subdivide( subdiv );
+//_mesh.subdivide( subdiv );
+////_mesh.subdivide( subdiv );
+////_mesh.subdivide( subdiv );
+//ThreeDeeUtil.SmoothToxiMesh( p, _mesh, 10 );
+
