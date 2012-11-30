@@ -46,7 +46,8 @@ implements IVizModule
 	protected ColorGroup _balletColors;
 	
 	protected int _numBigChanges = 0;
-	protected Boolean _isAutoPilot = false;
+	protected boolean _isAutoPilot = false;
+	protected boolean _isStressTesting = false;
 	
 	protected float _curCameraZ = 0;
 	
@@ -114,6 +115,7 @@ implements IVizModule
 //		if( p.keyPressed ) handleKeyboardInput();
 		
 		if( _isAutoPilot == true ) handleAutoPilot();
+		if( _isStressTesting == true ) handleStressTest();
 	}
 	
 	protected void getNewColorList() {
@@ -165,6 +167,16 @@ implements IVizModule
 		}
 	}
 	
+	protected void handleStressTest() {
+		if( p.frameCount % 10 == 0 ) pickElements();
+		for( int i=0; i < 100; i++ ) {
+//			pickMode();
+			pickNewColors();
+			newLineMode();
+			newCamera();
+		}
+	}
+	
 	protected void storeCurColors() {
 		if( _outerElement != null ) _outerElement.updateColorSet( _balletColors );
 		if( _bgElement != null ) _bgElement.updateColorSet( _balletColors );
@@ -177,6 +189,10 @@ implements IVizModule
 		if( p.key == 'a' || p.key == 'A' ){
 			_isAutoPilot = !_isAutoPilot;
 			P.println("_isAutoPilot = "+_isAutoPilot);
+		}
+		if( p.key == 'S' ){
+			_isStressTesting = !_isStressTesting;
+			P.println("_isStressTesting = "+_isStressTesting);
 		}
 		if ( p.key == 'm' || p.key == 'M' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
 			pickMode();
