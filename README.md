@@ -95,3 +95,8 @@ Use the following VM Arguments when running the Java Application
 General Use / Tips
 
 * If you want to wipe your bin/ directory, you'll have to do a Project -> Clean... afterwards.
+
+
+## Licensing
+
+The Haxademic codebase and apps are [MIT licensed](https://raw.github.com/cacheflowe/haxademic/master/LICENSE), so do what you want with these files. Feel free to let me know that you're using it for something cool.
