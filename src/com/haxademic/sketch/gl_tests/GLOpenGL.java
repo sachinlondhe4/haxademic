@@ -1,4 +1,4 @@
-package com.haxademic.sketch.shader_test;
+package com.haxademic.sketch.gl_tests;
 
 import javax.media.opengl.GL;
 
