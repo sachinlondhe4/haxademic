@@ -28,4 +28,10 @@ public class ImageUtil {
 		return reverse;
 	}
 
+	public static PImage getScaledImage( PImage image, int newWidth, int newHeight ) {
+		PImage scaled = new PImage( newWidth, newHeight );
+		scaled.copy( image, 0, 0, image.width, image.height, 0, 0, newWidth, newHeight );
+		return scaled;
+	}
+
 }
