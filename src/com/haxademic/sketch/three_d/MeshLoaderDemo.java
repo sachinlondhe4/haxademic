@@ -168,10 +168,10 @@ extends PApplet
 			p.stroke(255,249,0, 255);	// cacheflowe yellow
 			p.noFill();
 		} else {
-//			p.fill(255, 255);		// white
+			p.fill(255, 255);		// white
 //			p.fill(0,200,234, 255);	// mode set blue
 //			p.fill(255,249,0, 255);	// cacheflowe yellow
-			p.fill(237,30,121, 255);// guiceworks pink	#ed1e79
+//			p.fill(237,30,121, 255);// guiceworks pink	#ed1e79
 			p.noStroke();
 		}
 
