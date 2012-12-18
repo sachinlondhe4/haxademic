@@ -3,6 +3,10 @@ package com.haxademic.core.util;
 import processing.core.PImage;
 
 public class ImageUtil {
+	
+	public static final int BLACK_INT = -16777216;
+	public static final int CLEAR_INT = 48356;
+	
 	/**
 	 * Return the color int for a specific pixel of a PImage
 	 * @param image	Image to grab pixel color from
