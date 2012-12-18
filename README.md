@@ -88,7 +88,7 @@ Java & Processing libraries:
 
 Use the following VM Arguments when running the Java Application
 
-* -d32 (when rendering to Quicktime movie)
+* -d32 (when rendering to Quicktime movie or using a web cam)
 * -Xmx1024M
 * -Xms1024M
 
