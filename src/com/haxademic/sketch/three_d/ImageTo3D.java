@@ -29,6 +29,7 @@ extends PAppletHax {
 		_appConfig.setProperty( "sunflow", "false" );
 		_appConfig.setProperty( "width", "1000" );
 		_appConfig.setProperty( "height", "750" );
+		_appConfig.setProperty( "rendering", "false" );
 	}
 
 	public void drawApp() {
