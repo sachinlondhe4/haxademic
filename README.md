@@ -85,6 +85,7 @@ Java & Processing libraries:
 * [He_Mesh](http://hemesh.wblut.com/)
 * [minim](http://code.compartmental.net/tools/minim/)
 * [Geomerative](http://www.ricardmarxer.com/geomerative/)
+* [blobDetection](http://www.v3ga.net/processing/BlobDetection/)
 
 Use the following VM Arguments when running the Java Application
 
