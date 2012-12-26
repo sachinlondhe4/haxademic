@@ -9,6 +9,7 @@ import com.haxademic.app.P;
 public class WebCamWrapper {
 
 	public static Capture webCam;
+	public static PImage lastFrame;
 
 	public static boolean initWebCam( PApplet p, int width, int height ) {
 		if( webCam == null ) {
@@ -31,10 +32,11 @@ public class WebCamWrapper {
 	public static PImage getImage() {		
 		if( webCam.available() == true ) {
 			webCam.read();
+			lastFrame = webCam;
 			return webCam;
 		} else {
 			P.println("no webcam!!");
-			return new PImage();
+			return lastFrame;
 		}
 	}
 
