@@ -2,7 +2,6 @@ package com.haxademic.viz.filters;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
-import blobDetection.BlobDetection;
 
 import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
@@ -16,8 +15,6 @@ public class Cluster8BitRow {
 	protected int _rowSize;
 	protected boolean _isVertical;
 	protected PGraphics _pg;
-	BlobDetection theBlobDetection;
-	PImage blobBufferImg;
 
 	
 	public Cluster8BitRow( int width, int height, int rowSize, boolean isVertical ) {
