@@ -22,6 +22,7 @@ import com.haxademic.core.draw.text.DebugText;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.hardware.osc.OscWrapper;
+import com.haxademic.core.hardware.webcam.WebCamWrapper;
 import com.haxademic.core.render.MIDISequenceRenderer;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.util.OpenGLUtil;
@@ -440,6 +441,7 @@ extends PApplet
 		if( kinectWrapper != null ) kinectWrapper.stop();
 		if( _launchpadViz != null ) _launchpadViz.dispose();
 		if( _isRendering ) _renderer.stop();
+		WebCamWrapper.dispose();
 	}
 
 	// PApplet-level listeners ------------------------------------------------

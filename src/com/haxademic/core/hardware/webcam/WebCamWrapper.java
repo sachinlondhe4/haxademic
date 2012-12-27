@@ -44,4 +44,8 @@ public class WebCamWrapper {
 		p.image( webCam, x, y );
 	}
 
+	public static void dispose(){
+		if( webCam != null ) webCam.stop();
+	}
+
 }
