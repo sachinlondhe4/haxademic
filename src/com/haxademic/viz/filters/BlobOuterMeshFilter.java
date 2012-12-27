@@ -30,7 +30,7 @@ public class BlobOuterMeshFilter {
 	}
 	
 	protected void initBlobDetection() {
-		_pg = p.createGraphics( _width, _width, P.P3D );
+		_pg = p.createGraphics( _width, _height, P.P3D );
 		
 		// BlobDetection
 		// img which will be sent to detection (a smaller copy of the image frame);
@@ -59,6 +59,7 @@ public class BlobOuterMeshFilter {
 		ImageUtil.clearPGraphics( _pg );
 		_pg.noStroke();
 		_pg.fill(0,0);
+		_pg.image( source, 0, 0 );
 		
 		Blob b;
 		EdgeVertex eA,eB;

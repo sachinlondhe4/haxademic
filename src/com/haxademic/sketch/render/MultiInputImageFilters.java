@@ -1,14 +1,25 @@
 package com.haxademic.sketch.render;
 
+import java.awt.image.BufferedImage;
+
 import processing.core.PConstants;
 import processing.core.PImage;
 
+import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
 import com.haxademic.core.render.VideoFrameGrabber;
 import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.ImageUtil;
 import com.haxademic.viz.filters.BlobOuterMeshFilter;
+import com.haxademic.viz.filters.PixelFilter;
+import com.haxademic.viz.filters.PixelTriFilter;
+import com.haxademic.viz.filters.ReflectionFilter;
+import com.jhlabs.image.BumpFilter;
+import com.jhlabs.image.ContrastFilter;
+import com.jhlabs.image.GlowFilter;
+import com.jhlabs.image.HSBAdjustFilter;
+import com.jhlabs.image.RaysFilter;
 
 public class MultiInputImageFilters
 extends PAppletHax  
@@ -22,7 +33,9 @@ extends PAppletHax
 	protected PImage _curFrame;
 	protected VideoFrameGrabber _frameGrabber;
 	protected BlobOuterMeshFilter _blobFilter;
-	
+	protected ReflectionFilter _reflectionFilter;
+	protected PixelTriFilter _pixelTriFilter;
+	protected PixelFilter _pixelFilter;
 		
 	public void setup() {
 		super.setup();
@@ -32,31 +45,34 @@ extends PAppletHax
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "fps", "30" );
-		_appConfig.setProperty( "width", "1280" );
-		_appConfig.setProperty( "height", "720" );
+		_appConfig.setProperty( "width", "640" );
+		_appConfig.setProperty( "height", "480" );
 	}
 
 	// INITIALIZE OBJECTS ===================================================================================
 	public void initRender() {
 		inputType = WEBCAM;
+		int w = 320;
+		int h = 240;
+		
+		_blobFilter = new BlobOuterMeshFilter( w, h );
+		_reflectionFilter = new ReflectionFilter( w, h );
+		_pixelFilter = new PixelFilter( w, h, 10 );
+		_pixelTriFilter = new PixelTriFilter( w, h, 12 );
+		_blobFilter = new BlobOuterMeshFilter( w, h );
 		
 		switch( inputType ) {
 			case WEBCAM :
-				WebCamWrapper.initWebCam( p, 640, 480 );
-				_blobFilter = new BlobOuterMeshFilter( 640, 480 );
+				WebCamWrapper.initWebCam( p, w, h );
 				break;
 			case VIDEO :
 				_frameGrabber = new VideoFrameGrabber( p, "../data/video/CacheFlowe_at_Rhinoceropolis_June_2011.mov", 30 );
-				_blobFilter = new BlobOuterMeshFilter( _frameGrabber.curFrame().width, _frameGrabber.curFrame().height );
 				break;
 			case IMAGE :
 				_loadedImg = p.loadImage("../data/images/maya-04.png");
-				_blobFilter = new BlobOuterMeshFilter( _loadedImg.width, _loadedImg.height );
 				break;
 		}
 	}
-	
-
 		
 	// FRAME LOOP RENDERING ===================================================================================
 	public void drawApp() {
@@ -74,7 +90,6 @@ extends PAppletHax
 		switch( inputType ) {
 			case WEBCAM :
 				_curFrame = WebCamWrapper.getImage();
-				_curFrame = ImageUtil.getReversePImageFast( _curFrame );
 				break;
 			case VIDEO :
 				_frameGrabber.seekAndUpdateFrame( p.frameCount );
@@ -86,8 +101,75 @@ extends PAppletHax
 		}
 		
 		// draw source and processed/filtered images
-		drawSourceFrame();
-		p.image( _blobFilter.updateWithPImage( _curFrame ), 0, 0 );
+		applyImageFilters();
+		applyPostFilters();
+		p.image( _curFrame, 0, 0, 640, 480 );
+	}
+	
+	protected void applyImageFilters() {
+//		_curFrame = _pixelFilter.updateWithPImage( _curFrame );
+//		_curFrame = _blobFilter.updateWithPImage( _pixelFilter.updateWithPImage( _curFrame ) );
+		_curFrame = _pixelTriFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) );
+//		_curFrame = _blobFilter.updateWithPImage( _pixelFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) ) );
+	}
+	
+	protected void applyPostFilters() {
+		// create native java image
+		BufferedImage buff = ImageUtil.pImageToBuffered( _curFrame );
+		
+		// contrast
+		ContrastFilter filt = new ContrastFilter();
+		filt.setBrightness(0.8f);
+		filt.setContrast(1.5f);
+		filt.filter(buff, buff);
+		
+		// hsb adjust
+		HSBAdjustFilter hsb = new HSBAdjustFilter();
+		hsb.setHFactor(P.sin(p.frameCount/100f));
+		hsb.setSFactor(0.2f);
+		hsb.setBFactor(0.2f);
+		hsb.filter(buff, buff);
+		
+		// glow
+		GlowFilter glow = new GlowFilter();
+		glow.setRadius(20f);
+		glow.filter(buff, buff);
+		
+		// bump
+		BumpFilter bump = new BumpFilter();
+		bump.filter(buff, buff);
+		
+		// edge
+//		EdgeFilter edge = new EdgeFilter();
+//		edge.filter(buff, buff);
+		
+		// motion blur
+//		MotionBlurFilter blur = new MotionBlurFilter();
+//		blur.setAngle(P.TWO_PI/16f);
+//		blur.setDistance(30f);
+//		blur.filter(buff, buff);
+		
+		// ray
+		RaysFilter ray = new RaysFilter();
+		ray.setAngle(P.TWO_PI/8f);
+		ray.setDistance(60f);
+		ray.filter(buff, buff);
+		
+		// halftone
+//		MarbleFilter marble = new MarbleFilter();
+//		marble.filter(buff, buff);
+		
+		// kaleidoscope
+//		KaleidoscopeFilter kaleida = new KaleidoscopeFilter();
+//		kaleida.setSides(8);
+//		kaleida.filter(buff, buff);
+		
+		// contrast again
+		filt.filter(buff, buff);
+
+		
+		// save processed image back to _curFrame
+		_curFrame = ImageUtil.bufferedToPImage( buff );
 	}
 	
 	protected void drawSourceFrame() {
