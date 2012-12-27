@@ -1,6 +1,11 @@
 package com.haxademic.core.util;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
@@ -63,6 +68,29 @@ public class ImageUtil {
 		pg.background(0,0);
 		pg.beginDraw();
 		pg.endDraw();
+	}
+	
+	public static PImage bufferedToPImage( BufferedImage bimg ) {
+		try {
+			PImage img=new PImage(bimg.getWidth(),bimg.getHeight(),PConstants.ARGB);
+			bimg.getRGB(0, 0, img.width, img.height, img.pixels, 0, img.width);
+			img.updatePixels();
+			return img;
+		}
+		catch(Exception e) {
+			System.err.println("Can't create image from buffer");
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static BufferedImage pImageToBuffered( PImage pimg ) {
+		BufferedImage dest = new BufferedImage( pimg.width, pimg.height, BufferedImage.TYPE_INT_ARGB );
+		Graphics2D g2 = dest.createGraphics();
+		g2.drawImage( pimg.getImage(), 0, 0, null );
+		g2.finalize();
+		g2.dispose();
+		return dest;
 	}
 
 	// ==================================================

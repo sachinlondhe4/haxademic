@@ -32,7 +32,10 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 	* Draw 2D text with a custom .ttf font
 * Image processing
 	* PImage reversal
+	* PImage <-> BufferedImage conversion for native image processing
 	* Multiple screenshot methods
+	* Photoshop-like effects processing (via Java Image Filters)
+	* Custom image filters
 * Utility objects
 	* Math utilities
 	* Easing floats (with 3D containers)
@@ -86,6 +89,7 @@ Java & Processing libraries:
 * [minim](http://code.compartmental.net/tools/minim/)
 * [Geomerative](http://www.ricardmarxer.com/geomerative/)
 * [blobDetection](http://www.v3ga.net/processing/BlobDetection/)
+* [Java Image Filters](http://www.jhlabs.com/ip/filters/index.html)
 
 Use the following VM Arguments when running the Java Application
 
