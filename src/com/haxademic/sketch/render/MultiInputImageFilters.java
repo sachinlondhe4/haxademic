@@ -107,9 +107,9 @@ extends PAppletHax
 	}
 	
 	protected void applyImageFilters() {
-//		_curFrame = _pixelFilter.updateWithPImage( _curFrame );
+		_curFrame = _pixelFilter.updateWithPImage( _curFrame );
 //		_curFrame = _blobFilter.updateWithPImage( _pixelFilter.updateWithPImage( _curFrame ) );
-		_curFrame = _pixelTriFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) );
+//		_curFrame = _pixelTriFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) );
 //		_curFrame = _blobFilter.updateWithPImage( _pixelFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) ) );
 	}
 	
@@ -154,10 +154,6 @@ extends PAppletHax
 		ray.setAngle(P.TWO_PI/8f);
 		ray.setDistance(60f);
 		ray.filter(buff, buff);
-		
-		// halftone
-//		MarbleFilter marble = new MarbleFilter();
-//		marble.filter(buff, buff);
 		
 		// kaleidoscope
 //		KaleidoscopeFilter kaleida = new KaleidoscopeFilter();
