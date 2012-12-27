@@ -36,6 +36,14 @@ public class ImageUtil {
 		return p.brightness( image.pixels[ getPixelIndex( image, x, y ) ] ) * 0.1f;
 	}
 	
+	public static float colorDifference( PApplet p, int color1, int color2 ) {
+		return (Math.abs(p.red(color1) - p.red(color2)) + Math.abs(p.green(color1) - p.green(color2)) + Math.abs(p.blue(color1) - p.blue(color2)) ) / 765f;
+	}
+	
+	public static float brightnessDifference( PApplet p, int color1, int color2 ) {
+		return Math.abs((p.red(color1) + p.green(color1) + p.blue(color1)) - (p.red(color2) + p.green(color2) + p.blue(color2))) / 765f;
+	}
+	
 	public static PImage getReversePImage( PImage image ) {
 		PImage reverse = new PImage( image.width, image.height );
 		for( int i=0; i < image.width; i++ ){

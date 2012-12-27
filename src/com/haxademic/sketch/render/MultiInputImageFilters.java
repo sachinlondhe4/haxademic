@@ -12,6 +12,7 @@ import com.haxademic.core.render.VideoFrameGrabber;
 import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.ImageUtil;
 import com.haxademic.viz.filters.BlobOuterMeshFilter;
+import com.haxademic.viz.filters.Cluster8BitRow;
 import com.haxademic.viz.filters.PixelFilter;
 import com.haxademic.viz.filters.PixelTriFilter;
 import com.haxademic.viz.filters.ReflectionFilter;
@@ -36,6 +37,7 @@ extends PAppletHax
 	protected ReflectionFilter _reflectionFilter;
 	protected PixelTriFilter _pixelTriFilter;
 	protected PixelFilter _pixelFilter;
+	protected Cluster8BitRow _clusterRowFilter;
 		
 	public void setup() {
 		super.setup();
@@ -52,12 +54,13 @@ extends PAppletHax
 	// INITIALIZE OBJECTS ===================================================================================
 	public void initRender() {
 		inputType = WEBCAM;
-		int w = 320;
-		int h = 240;
+		int w = 640;
+		int h = 480;
 		
 		_blobFilter = new BlobOuterMeshFilter( w, h );
 		_reflectionFilter = new ReflectionFilter( w, h );
 		_pixelFilter = new PixelFilter( w, h, 10 );
+		_clusterRowFilter = new Cluster8BitRow( w, h, 4, true );
 		_pixelTriFilter = new PixelTriFilter( w, h, 12 );
 		_blobFilter = new BlobOuterMeshFilter( w, h );
 		
@@ -90,6 +93,7 @@ extends PAppletHax
 		switch( inputType ) {
 			case WEBCAM :
 				_curFrame = WebCamWrapper.getImage();
+				_curFrame = ImageUtil.getReversePImageFast( _curFrame );	// mirror mode
 				break;
 			case VIDEO :
 				_frameGrabber.seekAndUpdateFrame( p.frameCount );
@@ -100,6 +104,7 @@ extends PAppletHax
 				break;
 		}
 		
+		
 		// draw source and processed/filtered images
 		applyImageFilters();
 		applyPostFilters();
@@ -107,7 +112,9 @@ extends PAppletHax
 	}
 	
 	protected void applyImageFilters() {
-		_curFrame = _pixelFilter.updateWithPImage( _curFrame );
+//		_curFrame = _clusterRowFilter.updateWithPImage( _curFrame );
+		_curFrame = _pixelTriFilter.updateWithPImage( _clusterRowFilter.updateWithPImage( _curFrame ) );
+//		_curFrame = _pixelFilter.updateWithPImage( _curFrame );
 //		_curFrame = _blobFilter.updateWithPImage( _pixelFilter.updateWithPImage( _curFrame ) );
 //		_curFrame = _pixelTriFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) );
 //		_curFrame = _blobFilter.updateWithPImage( _pixelFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) ) );
@@ -131,9 +138,9 @@ extends PAppletHax
 		hsb.filter(buff, buff);
 		
 		// glow
-		GlowFilter glow = new GlowFilter();
-		glow.setRadius(20f);
-		glow.filter(buff, buff);
+//		GlowFilter glow = new GlowFilter();
+//		glow.setRadius(20f);
+//		glow.filter(buff, buff);
 		
 		// bump
 		BumpFilter bump = new BumpFilter();
