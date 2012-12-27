@@ -13,12 +13,12 @@ import com.haxademic.core.util.DrawUtil;
 import com.haxademic.core.util.ImageUtil;
 import com.haxademic.viz.filters.BlobOuterMeshFilter;
 import com.haxademic.viz.filters.Cluster8BitRow;
+import com.haxademic.viz.filters.ImageHistogramFilter;
 import com.haxademic.viz.filters.PixelFilter;
 import com.haxademic.viz.filters.PixelTriFilter;
 import com.haxademic.viz.filters.ReflectionFilter;
 import com.jhlabs.image.BumpFilter;
 import com.jhlabs.image.ContrastFilter;
-import com.jhlabs.image.GlowFilter;
 import com.jhlabs.image.HSBAdjustFilter;
 import com.jhlabs.image.RaysFilter;
 
@@ -38,6 +38,7 @@ extends PAppletHax
 	protected PixelTriFilter _pixelTriFilter;
 	protected PixelFilter _pixelFilter;
 	protected Cluster8BitRow _clusterRowFilter;
+	protected ImageHistogramFilter _histogramFilter;
 		
 	public void setup() {
 		super.setup();
@@ -61,6 +62,7 @@ extends PAppletHax
 		_reflectionFilter = new ReflectionFilter( w, h );
 		_pixelFilter = new PixelFilter( w, h, 10 );
 		_clusterRowFilter = new Cluster8BitRow( w, h, 4, true );
+		_histogramFilter = new ImageHistogramFilter( w, h, 4 );
 		_pixelTriFilter = new PixelTriFilter( w, h, 12 );
 		_blobFilter = new BlobOuterMeshFilter( w, h );
 		
@@ -107,13 +109,14 @@ extends PAppletHax
 		
 		// draw source and processed/filtered images
 		applyImageFilters();
-		applyPostFilters();
+//		applyPostFilters();
 		p.image( _curFrame, 0, 0, 640, 480 );
 	}
 	
 	protected void applyImageFilters() {
+		_curFrame = _histogramFilter.updateWithPImage( _curFrame );
+//		_curFrame = _pixelTriFilter.updateWithPImage( _clusterRowFilter.updateWithPImage( _curFrame ) );
 //		_curFrame = _clusterRowFilter.updateWithPImage( _curFrame );
-		_curFrame = _pixelTriFilter.updateWithPImage( _clusterRowFilter.updateWithPImage( _curFrame ) );
 //		_curFrame = _pixelFilter.updateWithPImage( _curFrame );
 //		_curFrame = _blobFilter.updateWithPImage( _pixelFilter.updateWithPImage( _curFrame ) );
 //		_curFrame = _pixelTriFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) );
@@ -132,7 +135,7 @@ extends PAppletHax
 		
 		// hsb adjust
 		HSBAdjustFilter hsb = new HSBAdjustFilter();
-		hsb.setHFactor(P.sin(p.frameCount/100f));
+		hsb.setHFactor(P.sin(p.frameCount/400f));
 		hsb.setSFactor(0.2f);
 		hsb.setBFactor(0.2f);
 		hsb.filter(buff, buff);
