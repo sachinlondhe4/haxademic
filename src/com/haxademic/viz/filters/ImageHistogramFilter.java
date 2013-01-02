@@ -20,7 +20,7 @@ public class ImageHistogramFilter {
 	protected PGraphics _pg;
 	protected ArrayList<ColorAndCount> _colors;
 	
-	protected float RGB_DIFF_THRESH = 0.06f;
+	protected float RGB_DIFF_THRESH = 0.04f;
 
 	
 	public ImageHistogramFilter( int width, int height, int rowSize ) {

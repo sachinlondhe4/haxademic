@@ -49,7 +49,7 @@ public class Cluster8BitRow {
 			int color = ImageUtil.getPixelColor( source, 0, y );
 			for( int x=0; x < source.width; x += _rowSize ) {
 				int checkColor = ImageUtil.getPixelColor( source, x, y );
-				if( ImageUtil.brightnessDifference( p, color, checkColor ) > 0.01f ){
+				if( ImageUtil.brightnessDifference( p, color, checkColor ) > 0.05f ){
 					_pg.fill(color);
 					_pg.rect( lastDrawnX, y, x - lastDrawnX, _rowSize );
 					color = checkColor;

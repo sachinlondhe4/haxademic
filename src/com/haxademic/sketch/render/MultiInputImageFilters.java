@@ -60,10 +60,10 @@ extends PAppletHax
 		
 		_blobFilter = new BlobOuterMeshFilter( w, h );
 		_reflectionFilter = new ReflectionFilter( w, h );
-		_pixelFilter = new PixelFilter( w, h, 10 );
-		_clusterRowFilter = new Cluster8BitRow( w, h, 4, true );
-		_histogramFilter = new ImageHistogramFilter( w, h, 4 );
-		_pixelTriFilter = new PixelTriFilter( w, h, 12 );
+		_pixelFilter = new PixelFilter( w, h, 2 );
+		_clusterRowFilter = new Cluster8BitRow( w, h, 8, false );
+		_histogramFilter = new ImageHistogramFilter( w, h, 6 );
+		_pixelTriFilter = new PixelTriFilter( w, h, 6 );
 		_blobFilter = new BlobOuterMeshFilter( w, h );
 		
 		switch( inputType ) {
@@ -74,7 +74,7 @@ extends PAppletHax
 				_frameGrabber = new VideoFrameGrabber( p, "../data/video/CacheFlowe_at_Rhinoceropolis_June_2011.mov", 30 );
 				break;
 			case IMAGE :
-				_loadedImg = p.loadImage("../data/images/maya-04.png");
+				_loadedImg = p.loadImage("http://blogs.smithsonianmag.com/artscience/files/2012/09/caffeine-crystals-big.jpg");
 				break;
 		}
 	}
@@ -109,17 +109,17 @@ extends PAppletHax
 		
 		// draw source and processed/filtered images
 		applyImageFilters();
-//		applyPostFilters();
+		applyPostFilters();
 		p.image( _curFrame, 0, 0, 640, 480 );
 	}
 	
 	protected void applyImageFilters() {
-		_curFrame = _histogramFilter.updateWithPImage( _curFrame );
-//		_curFrame = _pixelTriFilter.updateWithPImage( _clusterRowFilter.updateWithPImage( _curFrame ) );
+//		_curFrame = _histogramFilter.updateWithPImage( _curFrame );
+		_curFrame = _pixelTriFilter.updateWithPImage( _curFrame );	// _clusterRowFilter.updateWithPImage( 
 //		_curFrame = _clusterRowFilter.updateWithPImage( _curFrame );
 //		_curFrame = _pixelFilter.updateWithPImage( _curFrame );
 //		_curFrame = _blobFilter.updateWithPImage( _pixelFilter.updateWithPImage( _curFrame ) );
-//		_curFrame = _pixelTriFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) );
+//		_curFrame = _pixelTriFilter.updateWithPImage( _histogramFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) ) );
 //		_curFrame = _blobFilter.updateWithPImage( _pixelFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) ) );
 	}
 	
