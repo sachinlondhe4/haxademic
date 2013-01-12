@@ -1,4 +1,4 @@
-package com.haxademic.sketch.hardware;
+package com.haxademic.sketch.hardware.webcam;
 
 
 import processing.core.PGraphics;

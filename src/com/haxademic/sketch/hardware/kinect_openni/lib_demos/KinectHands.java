@@ -1,4 +1,4 @@
-package com.haxademic.sketch.hardware.kinect_openni;
+package com.haxademic.sketch.hardware.kinect_openni.lib_demos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
