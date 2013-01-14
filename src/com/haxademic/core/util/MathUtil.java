@@ -194,4 +194,20 @@ public class MathUtil {
 	};
 
 
+	public static float saw( float rads ) {
+		rads += P.PI / 2;									// add to sync up with sin(0)
+		float percent = ( rads % P.PI ) / P.PI;				
+		int dir = ( rads % P.TWO_PI > P.PI ) ? -1 : 1;
+		percent *= 2 * dir;
+		percent -= dir;
+		return percent;
+	}
+
+	public static float sawTan( float rads ) {
+		rads += P.PI;
+		float percent = ( rads % P.TWO_PI ) / P.TWO_PI;
+		percent *= 2;
+		percent -= 1;
+		return percent;
+	}
 }
