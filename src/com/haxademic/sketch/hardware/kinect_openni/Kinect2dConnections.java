@@ -1,48 +1,40 @@
 
 package com.haxademic.sketch.hardware.kinect_openni;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import toxi.geom.Line3D;
+import processing.core.PGraphics;
+import processing.core.PImage;
 import toxi.geom.Triangle3D;
 import toxi.geom.Vec3D;
-import toxi.geom.mesh.WETriangleMesh;
-import toxi.geom.mesh.subdiv.SubdivisionStrategy;
-import toxi.geom.mesh.subdiv.TriSubdivision;
 import SimpleOpenNI.SimpleOpenNI;
 
+import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.core.data.VectorFlyer;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
 import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.util.ImageUtil;
+import com.jhlabs.image.ContrastFilter;
+import com.jhlabs.image.GlowFilter;
 
 public class Kinect2dConnections
 extends PAppletHax {
 	
 	protected SkeletonsTracker _skeletonTracker;
-	protected ArrayList<VectorFlyer> particles;
+	protected PGraphics _texture;
 	
 	public void setup() {
 		super.setup();
 		
 		// do something
 		_skeletonTracker = new SkeletonsTracker();
-		initBoxes();
-	}
-	
-	protected void initBoxes() {
-//		attractors = new ArrayList<Attractor>();
-//		for( int i=0; i < 5; i++ ) {
-//			attractors.add( new Attractor() );
-//		}
-
-		particles = new ArrayList<VectorFlyer>();
-		for( int i=0; i < 1000; i++ ) {
-			particles.add( new VectorFlyer() );
-		}
+		_texture = P.p.createGraphics( p.width, p.height, P.P3D );
 	}
 	
 	protected void overridePropsFile() {
+		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "kinect_active", "true" );
 		_appConfig.setProperty( "width", "640" );
 		_appConfig.setProperty( "height", "480" );
@@ -55,23 +47,61 @@ extends PAppletHax {
 		p.lights();
 		p.background(0);
 
-		// draw webcam
-		p.pushMatrix();
-		p.translate( 0, 0, -2000 );
-		
 		_skeletonTracker.update();
 		DrawUtil.setDrawCenter(p);
-		DrawUtil.setColorForPImage(p);
-		p.image( p.kinectWrapper.getRgbImage(), p.width/2, 0, 640*7, 480*7 );
-		p.popMatrix();
 		
 		// draw skeleton(s)
-		_skeletonTracker.drawSkeletons();
+//		_skeletonTracker.drawSkeletons();
 		
-		// draw particles
-		p.fill(255);
-		if( _skeletonTracker.hasASkeleton() ) drawTriangles();
+		// draw kaleidoscopes
+		p.pushMatrix();
+		float rotations = 8f;
+		
+		p.pushMatrix();
+		p.translate(p.width/2, p.height/2);
+//		drawWebCam(rotations);
+		p.popMatrix();
+		
+		if( _skeletonTracker.hasASkeleton() ) {
+			// set up draw colors
+			p.fill(0, 255, 0, 40);
+			p.stroke(127, 255, 127, 255);
+			p.strokeWeight(2f);
+			_texture.noFill();
+			_texture.stroke(255);
+			_texture.strokeWeight(3f);
+			
+			// generate kinect skeleton lines / texture, then draw to screen
+			ImageUtil.clearPGraphics(_texture);
+			drawTriangles();	
+			
+			p.translate(p.width/2, p.height/2);
+			drawSkeletonLines(rotations);
+		}
 
+		p.popMatrix();
+	}
+	
+	protected void drawWebCam( float rotations ) {
+		// draw cam
+		DrawUtil.setColorForPImage(p);
+		DrawUtil.setPImageAlpha(p, 0.25f);
+		PImage drawCamImg = p.kinectWrapper.getRgbImage();
+//		PImage drawCamImg = getFilteredCam();
+		for( int i=0; i < rotations; i++ ) {
+			p.rotate((float)P.TWO_PI/rotations * (float)i);
+			p.image( drawCamImg, 0, 0 );
+		}
+	}
+	
+	protected void drawSkeletonLines( float rotations ) {
+		// draw kinect skeleton lines
+		DrawUtil.setColorForPImage(p);
+		DrawUtil.setPImageAlpha(p, 0.4f);
+		for( int i=0; i < rotations; i++ ) {
+			p.rotate((float)P.TWO_PI/rotations * (float)i);
+			p.image( _texture, 0, 0 );
+		}
 	}
 	
 	protected void drawTriangles() {
@@ -80,9 +110,82 @@ extends PAppletHax {
 		for(int i=0; i < users.length; i++) { 
 			draw3PointsTriangle(
 					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_HEAD),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_HAND),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_HAND)
+					);
+
+			draw3PointsTriangle(
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_ELBOW),
 					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_HAND),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_SHOULDER)
+					);
+			draw3PointsTriangle(
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_ELBOW),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_HAND),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_SHOULDER)
+					);
+			
+			draw3PointsTriangle(
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_ELBOW),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_HEAD),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_NECK)
+					);
+			draw3PointsTriangle(
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_ELBOW),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_HEAD),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_NECK)
+					);
+			
+			draw3PointsTriangle(
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_SHOULDER),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_HIP),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_HAND)
+					);
+			draw3PointsTriangle(
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_SHOULDER),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_HIP),
 					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_HAND)
 					);
+			
+			draw3PointsTriangle(
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_HIP),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_NECK),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_SHOULDER)
+					);
+			draw3PointsTriangle(
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_HIP),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_NECK),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_SHOULDER)
+					);
+
+			draw3PointsTriangle(
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_KNEE),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_HIP),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_HAND)
+					);
+			draw3PointsTriangle(
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_KNEE),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_HIP),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_HAND)
+					);
+
+			draw3PointsTriangle(
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_KNEE),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_HIP),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_FOOT)
+					);
+			draw3PointsTriangle(
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_KNEE),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_HIP),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_FOOT)
+					);
+
+			draw3PointsTriangle(
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_HIP),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_WAIST),
+					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_HIP)
+					);
+			
 		}
 	}
 	
@@ -101,23 +204,55 @@ extends PAppletHax {
 		// draw a line - currently disabled from noStroke()
 		if( point1 == null || point2 == null || point3 == null ) return; 
 		
-//		Triangle3D tri = new Triangle3D(point1, point2, point3); 
-//		toxi.triangle( tri );
+		// draw triangles
+		Triangle3D tri = new Triangle3D(point1, point2, point3); 
+		toxi.triangle( tri );
 
-		WETriangleMesh mesh = new WETriangleMesh();
-		mesh.addFace( point1, point2, point3 );
+		// draw mesh
+//		WETriangleMesh mesh = new WETriangleMesh();
+//		mesh.addFace( point1, point2, point3 );
+//		
+//		SubdivisionStrategy subdiv = new TriSubdivision();
+//		mesh.subdivide( subdiv );
+//		mesh.subdivide( subdiv );
+//		toxi.mesh( mesh );
 		
-		SubdivisionStrategy subdiv = new TriSubdivision();
-		mesh.subdivide( subdiv );
-		mesh.subdivide( subdiv );
+		// draw lines
+//		toxi.line( new Line3D( point1, point2 ) );
+//		toxi.line( new Line3D( point2, point3 ) );
+//		toxi.line( new Line3D( point3, point1 ) );		
 		
-		toxi.line( new Line3D( point1, point2 ) );
-		toxi.line( new Line3D( point2, point3 ) );
-		toxi.line( new Line3D( point3, point1 ) );
-		
-		toxi.mesh( mesh );
+		// draw lines into texture
+//		_texture.beginDraw();
+//		_texture.beginShape(P.TRIANGLES);
+//		_texture.vertex( point1.x, point1.y, point1.z );
+//		_texture.vertex( point2.x, point2.y, point2.z );
+//		_texture.vertex( point3.x, point3.y, point3.z );
+//		_texture.endShape();
+//		_texture.endDraw();
 	}
-
+	
+	protected PImage getFilteredCam() {
+		// create native java image
+		BufferedImage buff = ImageUtil.pImageToBuffered( p.kinectWrapper.getRgbImage() );
+		
+		// contrast
+		ContrastFilter filt = new ContrastFilter();
+		filt.setBrightness(1.2f);
+		filt.setContrast(1.5f);
+		filt.filter(buff, buff);
+		
+		// glow
+		GlowFilter glow = new GlowFilter();
+		glow.setRadius(20f);
+		glow.filter(buff, buff);
+		
+		// contrast again
+		filt.filter(buff, buff);
+		
+		// save processed image back to _curFrame
+		return ImageUtil.bufferedToPImage( buff );
+	}
 
 	
 }

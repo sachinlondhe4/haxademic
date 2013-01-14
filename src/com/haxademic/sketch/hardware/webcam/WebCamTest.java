@@ -152,7 +152,6 @@ public class WebCamTest extends PApplet {
 				_mesh.addFace( new Vec3D( x, y, 0 ), new Vec3D( x+1, y+1, 0 ), new Vec3D( x, y+1, 0 ), new Vec2D( i, j ), new Vec2D( i+1, j+1 ), new Vec2D( i, j+1 )  );
 			}
 		}
-
 	}
 
 	/**
