@@ -27,7 +27,6 @@ import com.haxademic.core.render.MIDISequenceRenderer;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.util.OpenGLUtil;
 import com.haxademic.core.util.SystemUtil;
-import com.haxademic.viz.launchpad.LaunchpadViz;
 
 import ddf.minim.Minim;
 import fullscreen.FullScreen;
@@ -156,7 +155,7 @@ extends PApplet
 	/**
 	 * A secondary system of running the visuals on the Launchpad. This should probably be integrated into Modules?
 	 */
-	public LaunchpadViz _launchpadViz = null;
+//	public LaunchpadViz _launchpadViz = null;
 	
 	/**
 	 * Wraps up incoming OSC commands with the oscP5 library.
@@ -439,7 +438,7 @@ extends PApplet
 	 */
 	public void stop() {
 		if( kinectWrapper != null ) kinectWrapper.stop();
-		if( _launchpadViz != null ) _launchpadViz.dispose();
+//		if( _launchpadViz != null ) _launchpadViz.dispose();
 		if( _isRendering ) _renderer.stop();
 		WebCamWrapper.dispose();
 	}
@@ -477,7 +476,7 @@ extends PApplet
 	 */
 	public void audioInputData(AudioInput theInput) {
 		_audioInput.getFFT().getSpectrum(theInput);
-		if( _launchpadViz != null ) _launchpadViz.getAudio().getFFT().getSpectrum(theInput);
+//		if( _launchpadViz != null ) _launchpadViz.getAudio().getFFT().getSpectrum(theInput);
 		_audioInput.detector.detect(theInput);
 		_waveformData.updateWaveformData( theInput, _audioInput._bufferSize );
 	}
