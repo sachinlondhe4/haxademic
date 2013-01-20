@@ -2,7 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="data"/>
-	<classpathentry kind="lib" path="lib/core.jar"/>
+	<classpathentry kind="lib" path="lib/processing-1.5.1/core.jar"/>
+	<classpathentry kind="lib" path="lib/processing-1.5.1/video.jar"/>
 	<classpathentry kind="lib" path="lib/Ess/library/Ess.jar"/>
 	<classpathentry kind="lib" path="lib/p5sunflow/janino.jar"/>
 	<classpathentry kind="lib" path="lib/p5sunflow/p5sunflow.jar"/>
@@ -26,7 +27,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/opengl"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/video.jar"/>
 	<classpathentry kind="lib" path="lib/OBJLoader/library/OBJLoader.jar"/>
 	<classpathentry kind="lib" path="lib/GLGraphics/library/GLGraphics.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/minim.jar"/>
