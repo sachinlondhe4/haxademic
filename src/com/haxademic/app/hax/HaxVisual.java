@@ -192,7 +192,7 @@ extends PAppletHax
 		catch( ArrayIndexOutOfBoundsException e ){println("draw() broke: ArrayIndexOutOfBoundsException");}
 		
 		// update launchpad hardware if it's around
-		if( _launchpadViz != null ) _launchpadViz.update();
+//		if( _launchpadViz != null ) _launchpadViz.update();
 
 	}
 
