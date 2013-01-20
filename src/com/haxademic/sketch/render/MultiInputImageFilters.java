@@ -71,7 +71,7 @@ extends PAppletHax
 				WebCamWrapper.initWebCam( p, w, h );
 				break;
 			case VIDEO :
-				_frameGrabber = new VideoFrameGrabber( p, "../data/video/CacheFlowe_at_Rhinoceropolis_June_2011.mov", 30 );
+				_frameGrabber = new VideoFrameGrabber( p, "/Volumes/Eddie/ASIAPS Video/Video from Andi/01 VIDEO BEST/!Golden Purple2.MOV", 30, 0 );
 				break;
 			case IMAGE :
 				_loadedImg = p.loadImage("http://blogs.smithsonianmag.com/artscience/files/2012/09/caffeine-crystals-big.jpg");

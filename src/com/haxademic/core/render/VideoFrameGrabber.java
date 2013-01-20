@@ -5,7 +5,6 @@ import processing.core.PImage;
 import processing.video.Movie;
 
 import com.haxademic.app.P;
-import com.haxademic.core.util.ImageUtil;
 import com.haxademic.core.util.MathUtil;
 
 public class VideoFrameGrabber {
@@ -14,10 +13,12 @@ public class VideoFrameGrabber {
 	protected Movie _video = null;
 	protected PImage _curFrame = null;
 	protected int _fps = 30;
+	protected int _startFrame = 0;
 	
-	public VideoFrameGrabber( PApplet p, String videoFile, int frameRate ) {
+	public VideoFrameGrabber( PApplet p, String videoFile, int frameRate, int startFrame ) {
 		_videoFile = videoFile;
 		_fps = frameRate;
+		_startFrame = startFrame;
 		
 		_video = new Movie( p, _videoFile );
 		_video.play();
@@ -41,6 +42,7 @@ public class VideoFrameGrabber {
 	}
 	
 	public void seekAndUpdateFrame( int frameIndex ) {
+		frameIndex += _startFrame;
 		seekTo( (float) frameIndex / _fps );
 		_video.read();
 		_video.pause();
