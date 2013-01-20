@@ -27,7 +27,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/OBJLoader/library/OBJLoader.jar"/>
-	<classpathentry kind="lib" path="lib/GLGraphics/library/GLGraphics.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/minim.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/minim-spi.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/jsminim.jar"/>
