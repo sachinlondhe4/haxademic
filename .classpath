@@ -9,7 +9,6 @@
 	<classpathentry kind="lib" path="lib/p5sunflow/sunflow_trunk.jar"/>
 	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/toxiclibs_p5/library/toxiclibs_p5.jar"/>
 	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/toxiclibscore/library/toxiclibscore.jar"/>
-	<classpathentry kind="lib" path="lib/colorLib/library/colorLib.jar"/>
 	<classpathentry kind="lib" path="lib/fullscreen/library/fullscreen.jar"/>
 	<classpathentry kind="lib" path="lib/oscP5/library/oscP5.jar"/>
 	<classpathentry kind="lib" path="lib/launchpad/library/launchpad.jar"/>
