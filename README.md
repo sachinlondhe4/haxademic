@@ -59,25 +59,23 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 * Apps
 	* HaxVisual - A modular VJ system
 	* KacheOut - A 2-player Kinect-based video game 
+	* MatchGame - A Kinect-based matching game, using skeleton detection 
 	* TimeLapse - Renders a .mov video from an image sequence in a directory
 
-## Todo
-* Comment the codebase and generate docs
-* Create a unified keyboard/MIDI/OSC input system with improved midi/osc data handling
-* Make the Eclipse project easily installable for anyone else
-* Support Windows - mostly will require a different Kinect library & abstraction
-* Clean up legacy code that's no longer used
-* Lots more noted in the PAppletHax class comments
+## Installing / Compiling
+* Download the standard Eclipse IDE for Java development, and the Java Development Kit itself:
+	* [Eclipse](http://www.eclipse.org/)
+	* [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+* [Download](http://code.google.com/p/simple-openni/downloads/list) and install the latest SimpleOpenNI (Kinect) drivers with the [instructions](http://code.google.com/p/simple-openni/wiki/Installation) for your particular platform
+* Clone or [download](https://github.com/cacheflowe/haxademic/archive/master.zip) the Haxademic project
+* Open Eclipse and: **File -> Import -> General / Existing Projects into Workspace**
+	* Choose the `haxademic` directory that you cloned/downloaded, press **Finish**, and the project should be ready to use
+* Right-click on a PApplet or PAppletHax subclass within `src` and choose **Run As -> Java Applet** from the menu. Hopefully you're seeing something awesome at this point.
 
-## Requirements / Compiling
-IDE:
-
-* [Eclipse](http://www.eclipse.org/)
-
-Java & Processing libraries:
+Haxademic uses the following Java & Processing libraries, which I've included in this repository so you don't have to find them yourself (more on that below):
 
 * [Processing](http://processing.org/) (view the [Processing for Eclipse instructions](http://processing.org/learning/eclipse/))
-* [Krister.ESS](http://www.tree-axis.com/Ess/)
+* [ESS](http://www.tree-axis.com/Ess/)
 * [simple-openni](http://code.google.com/p/simple-openni/)
 * [toxiclibs](http://toxiclibs.org/)
 * [p5sunflow](https://github.com/hryk/p5sunflow) original site is down :-/
@@ -85,7 +83,6 @@ Java & Processing libraries:
 * [themidibus](https://github.com/sparks/themidibus)
 * [oscP5](http://www.sojamo.de/libraries/oscP5/)
 * [fullscreen](http://www.superduper.org/processing/fullscreen_api/)
-* [launchpad](http://rngtng.github.com/launchpad/)
 * [He_Mesh](http://hemesh.wblut.com/)
 * [minim](http://code.compartmental.net/tools/minim/)
 * [Geomerative](http://www.ricardmarxer.com/geomerative/)
@@ -94,15 +91,21 @@ Java & Processing libraries:
 
 Use the following VM Arguments when running the Java Application
 
-* -d32 (when rendering to Quicktime movie or using a web cam)
-* -Xmx1024M
-* -Xms1024M
+* `-d32` (when rendering to Quicktime movie or using a web cam)
+* `-Xmx1024M`
+* `-Xms1024M`
 
 General Use / Tips
 
-* If you want to wipe your bin/ directory, you'll have to do a Project -> Clean... afterwards.
+* If you get a Quicktime error, try adding `-d32` to your VM arguments when compiling. 
+* If you want to wipe your `bin/` directory, you'll have to do a **Project -> Clean…** in Eclipse afterwards.
 
+## Todo
+* Comment the codebase and generate docs
+* Create a unified keyboard/MIDI/OSC input system with improved midi/osc data handling
+* Clean up legacy code that's no longer used
+* Lots more noted in the PAppletHax class comments
 
 ## Licensing
 
-The Haxademic codebase and apps are [MIT licensed](https://raw.github.com/cacheflowe/haxademic/master/LICENSE), so do what you want with these files. Feel free to let me know that you're using it for something cool.
+The Haxademic codebase and apps are [MIT licensed](https://raw.github.com/cacheflowe/haxademic/master/LICENSE), so do what you want with these files. Feel free to let me know that you're using it for something cool. I've added 3rd-party .jar files and compiled Java libraries that I'm probably not actually allowed to redistribute here, so if you're the owner of one of those libraries and would like the files removed, let me know. I've included them to aid those who would like a quick start and not have to search for the many dependencies of this project. Some of these libraries have disappeared from the web entirely, so searching for them may be futile anyway. I just want people to make cool things with this library, and hope you understand.
