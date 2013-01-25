@@ -34,16 +34,17 @@ extends PAppletHax {
 		_appConfig.setProperty( "kinect_active", "true" );
 		_appConfig.setProperty( "width", "640" );
 		_appConfig.setProperty( "height", "480" );
+		_appConfig.setProperty( "fps", "60" );
 	}
 	
 	protected void loadSounds() {
 		_beats = new ArrayList<BeatSquare>();
-		_beats.add( new BeatSquare(20, 20, 50, 100, "audio/kacheout/sfx/fail-low.mp3") );
-		_beats.add( new BeatSquare(100, 20, 50, 100, "audio/kacheout/sfx/8bit-blast.mp3") );
-		_beats.add( new BeatSquare(180, 20, 50, 100, "audio/kacheout/sfx/crunch-kick-verb.mp3") );
-		_beats.add( new BeatSquare(20, 300, 50, 100, "audio/kacheout/sfx/porta-note.mp3") );
-		_beats.add( new BeatSquare(100, 300, 50, 100, "audio/kacheout/sfx/ball_hit_wall_v02.mp3") );
-		_beats.add( new BeatSquare(180, 300, 50, 100, "audio/kacheout/sfx/bad-saw.mp3") );
+		_beats.add( new BeatSquare(40, 300, 50, 100, "audio/kit808/kick.wav") );
+		_beats.add( new BeatSquare(120, 300, 50, 100, "audio/kit808/hi-hat.wav") );
+		_beats.add( new BeatSquare(200, 300, 50, 100, "audio/kit808/snare.wav") );
+		_beats.add( new BeatSquare(40, 150, 50, 100, "audio/kit808/clap.wav") );
+		_beats.add( new BeatSquare(120, 150, 50, 100, "audio/kit808/hi-hat-open.wav") );
+		_beats.add( new BeatSquare(200, 150, 50, 100, "audio/kit808/tom.wav") );
 	}
 	
 	public void drawApp() {
@@ -157,7 +158,7 @@ extends PAppletHax {
 		public SynthHand() {
 			_audioOut = _minim.getLineOut(Minim.STEREO, 512);
 			_oscillator = new SineWave(200, 1, _audioOut.sampleRate());
-			_oscillator.setAmp(0.3f);
+			_oscillator.setAmp(0);
 			_audioOut.addSignal(_oscillator);
 		}
 		
@@ -184,7 +185,10 @@ extends PAppletHax {
 			if( p.mouseX > p.width / 2 && p.mouseX < p.width / 2 + 100 ) {
 				_oscillator.setFreq( 150 + ( p.height - p.mouseY ) );
 				drawControlAtY( p.mouseY );
+				_oscillator.setAmp(0.3f);
+				return;
 			}
+			_oscillator.setAmp(0);
 		}
 
 		protected void updateWithKinect() {
@@ -194,11 +198,13 @@ extends PAppletHax {
 					pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
 					if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 						_oscillator.setFreq( 150 + ( p.height - y ) );
+						_oscillator.setAmp(0.3f);
 						drawControlAtY(y);
 						return;
 					}
 				}
 			}
+			_oscillator.setAmp(0);
 		}
 
 	}
