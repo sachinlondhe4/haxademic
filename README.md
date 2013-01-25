@@ -70,6 +70,11 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 * Clone or [download](https://github.com/cacheflowe/haxademic/archive/master.zip) the Haxademic project
 * Open Eclipse and: **File -> Import -> General / Existing Projects into Workspace**
 	* Choose the `haxademic` directory that you cloned/downloaded, press **Finish**, and the project should be ready to use
+* Make sure you're compiling with Java 1.6 instead of the new default of 1.7:
+	* Right-click the `haxademic` project in the **Package Explorer** or **Navigator** window and click **Properties**
+	* Click the **Java Compiler** section and check the **Enable project specific settings** box on the right
+	* Select **1.6** as your **Compiler compliance level**, if possible
+	* If "Configure the **Installed JREs**" is shown at the bottom of this window, click that, make sure the **1.6** item is checked, then click OK.
 * Right-click on a PApplet or PAppletHax subclass within `src` and choose **Run As -> Java Applet** from the menu. Hopefully you're seeing something awesome at this point.
 
 Haxademic uses the following Java & Processing libraries, which I've included in this repository so you don't have to find them yourself (more on that below):
