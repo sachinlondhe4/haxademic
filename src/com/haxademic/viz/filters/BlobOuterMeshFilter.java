@@ -36,8 +36,8 @@ public class BlobOuterMeshFilter {
 		// img which will be sent to detection (a smaller copy of the image frame);
 		blobBufferImg = new PImage(80,60); 
 		theBlobDetection = new BlobDetection( blobBufferImg.width, blobBufferImg.height );
-		theBlobDetection.setPosDiscrimination(false);	// true if looking for dark objects
-		theBlobDetection.setThreshold(0.3f); // will detect bright areas whose luminosity > 0.2f;
+		theBlobDetection.setPosDiscrimination(true);	// true if looking for dark objects
+		theBlobDetection.setThreshold(0.4f); // will detect bright areas whose luminosity > 0.2f;
 	}
 	
 	public PImage updateWithPImage( PImage source ) {

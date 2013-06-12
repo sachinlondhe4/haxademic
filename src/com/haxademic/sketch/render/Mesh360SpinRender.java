@@ -46,7 +46,7 @@ extends PApplet
 		
 		p.frameRate( 30 );
 		p.colorMode( PConstants.RGB, 255, 255, 255, 255 );
-		p.background( 0 );
+		p.background( 255 );
 		p.smooth();
 		p.rectMode(PConstants.CENTER);
 		p.noStroke();
@@ -63,7 +63,9 @@ extends PApplet
 //		_objPool.loadObj( "MODE_SET", 150, "../data/models/mode-set.obj" );
 		
 		_objPool = new MeshPool( p );
-		_objPool.addMesh( "CACHEFLOWE", MeshUtil.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 100 );
+//		_objPool.addMesh( "CACHEFLOWE", MeshUtil.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 100 );
+		_objPool.addMesh( "DIAMOND_2D", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/Ello.Black.svg", 10, -1, 0.5f ), 5 ), 1 );
+
 		
 		_model = new OBJModel( p, "../data/models/cacheflowe-3d.obj", OBJModel.RELATIVE );
 		_model.scale( 100 );
@@ -85,8 +87,13 @@ extends PApplet
 		DrawUtil.setCenter( p );
 		DrawUtil.setBasicLights( p );
 		
+//		p.pointLight(0, 255, 0, 0, 100, -400);
+//		p.spotLight(51, 102, 126, 50, 50, 400, 0, 0, -1, PI/16, 1);
+		p.directionalLight(51, 255, 126, 0, 1, 0);
+		p.directionalLight(51, 100, 255, 0, 1, 0);
+		
 		// draw background and set to center
-		if( _isSunflow == false ) p.background(0,0,0,255);
+		if( _isSunflow == false ) p.background(255,255);
 		
 		if(_isSunflow) p.translate(0,0,-150);
 		else p.translate(0,0,-500);
@@ -94,11 +101,12 @@ extends PApplet
 		// rotate with time, in a full circle
 		_rot -= p.TWO_PI / 360f;
 		p.rotateY( _rot );
-		p.rotateX( p.TWO_PI / 16f );
+//		p.rotateX( p.TWO_PI / 16f );
 		
 		// draw OBJModel
 		p.fill(0,200,234, 255);	// mode set blue
 		p.fill(255,249,0, 255);	// cacheflowe yellow
+		p.fill(40, 255);	// ello black
 		p.noStroke();
 //		p.rect( 0, 0, 2500, 1500 );
 //		DrawMesh.drawObjModel( p, toxi, _model );

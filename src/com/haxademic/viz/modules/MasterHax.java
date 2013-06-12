@@ -43,7 +43,7 @@ implements IVizModule {
 		_fgElements.add( sphereLinesSmall );
 //		_fgElements.add( new CacheLogo( p, toxi, _audioData ) );
 		_fgElements.add( new SphericalHarmonicsOscillator( p, toxi, _audioData ) );
-//		_fgElements.add( new KinectMesh( p, toxi, _audioData, p._kinectWrapper ) );
+//		_fgElements.add( new KinectMesh( p, toxi, _audioData, p.kinectWrapper ) );
 		
 		_bgElements.add( new BarsModEQ( p, toxi, _audioData ) );
 		_bgElements.add( new RotatingRings( p, toxi, _audioData ) );

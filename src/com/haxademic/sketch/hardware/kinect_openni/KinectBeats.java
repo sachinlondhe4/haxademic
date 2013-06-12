@@ -197,7 +197,7 @@ extends PAppletHax {
 				for ( int y = 0; y < p.height; y += PIXEL_SIZE ) {
 					pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
 					if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
-						_oscillator.setFreq( 150 + ( p.height - y ) );
+						_oscillator.setFreq( 30 + ( p.height - y ) );
 						_oscillator.setAmp(0.3f);
 						drawControlAtY(y);
 						return;

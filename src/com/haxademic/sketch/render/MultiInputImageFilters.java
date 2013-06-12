@@ -17,10 +17,8 @@ import com.haxademic.viz.filters.ImageHistogramFilter;
 import com.haxademic.viz.filters.PixelFilter;
 import com.haxademic.viz.filters.PixelTriFilter;
 import com.haxademic.viz.filters.ReflectionFilter;
-import com.jhlabs.image.BumpFilter;
 import com.jhlabs.image.ContrastFilter;
 import com.jhlabs.image.HSBAdjustFilter;
-import com.jhlabs.image.RaysFilter;
 
 public class MultiInputImageFilters
 extends PAppletHax  
@@ -46,24 +44,24 @@ extends PAppletHax
 	}
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
+		_appConfig.setProperty( "rendering", "true" );
 		_appConfig.setProperty( "fps", "30" );
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "480" );
+		_appConfig.setProperty( "width", "1280" );
+		_appConfig.setProperty( "height", "720" );
 	}
 
 	// INITIALIZE OBJECTS ===================================================================================
 	public void initRender() {
 		inputType = WEBCAM;
-		int w = 640;
-		int h = 480;
+		int w = 1280;
+		int h = 720;
 		
 		_blobFilter = new BlobOuterMeshFilter( w, h );
 		_reflectionFilter = new ReflectionFilter( w, h );
 		_pixelFilter = new PixelFilter( w, h, 2 );
 		_clusterRowFilter = new Cluster8BitRow( w, h, 8, false );
 		_histogramFilter = new ImageHistogramFilter( w, h, 6 );
-		_pixelTriFilter = new PixelTriFilter( w, h, 6 );
+		_pixelTriFilter = new PixelTriFilter( w, h, 12 );
 		_blobFilter = new BlobOuterMeshFilter( w, h );
 		
 		switch( inputType ) {
@@ -108,19 +106,20 @@ extends PAppletHax
 		
 		
 		// draw source and processed/filtered images
+//		applyPostFilters();
 		applyImageFilters();
 		applyPostFilters();
-		p.image( _curFrame, 0, 0, 640, 480 );
+		p.image( _curFrame, 0, 0, width, height );
 	}
 	
 	protected void applyImageFilters() {
 //		_curFrame = _histogramFilter.updateWithPImage( _curFrame );
-		_curFrame = _pixelTriFilter.updateWithPImage( _curFrame );	// _clusterRowFilter.updateWithPImage( 
+//		_curFrame = _pixelTriFilter.updateWithPImage( _curFrame );	// _clusterRowFilter.updateWithPImage( 
 //		_curFrame = _clusterRowFilter.updateWithPImage( _curFrame );
-//		_curFrame = _pixelFilter.updateWithPImage( _curFrame );
+//		_curFrame = _pixelTriFilter.updateWithPImage( _histogramFilter.updateWithPImage( _curFrame ) );
+//		_curFrame = _blobFilter.updateWithPImage( _curFrame );	// _pixelFilter.updateWithPImage( 
+		_curFrame = _pixelTriFilter.updateWithPImage( _histogramFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) ) );
 //		_curFrame = _blobFilter.updateWithPImage( _pixelFilter.updateWithPImage( _curFrame ) );
-//		_curFrame = _pixelTriFilter.updateWithPImage( _histogramFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) ) );
-//		_curFrame = _blobFilter.updateWithPImage( _pixelFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) ) );
 	}
 	
 	protected void applyPostFilters() {
@@ -129,7 +128,7 @@ extends PAppletHax
 		
 		// contrast
 		ContrastFilter filt = new ContrastFilter();
-		filt.setBrightness(0.8f);
+		filt.setBrightness(1.2f);
 		filt.setContrast(1.5f);
 		filt.filter(buff, buff);
 		
@@ -146,8 +145,8 @@ extends PAppletHax
 //		glow.filter(buff, buff);
 		
 		// bump
-		BumpFilter bump = new BumpFilter();
-		bump.filter(buff, buff);
+//		BumpFilter bump = new BumpFilter();
+//		bump.filter(buff, buff);
 		
 		// edge
 //		EdgeFilter edge = new EdgeFilter();
@@ -160,10 +159,10 @@ extends PAppletHax
 //		blur.filter(buff, buff);
 		
 		// ray
-		RaysFilter ray = new RaysFilter();
-		ray.setAngle(P.TWO_PI/8f);
-		ray.setDistance(60f);
-		ray.filter(buff, buff);
+//		RaysFilter ray = new RaysFilter();
+//		ray.setAngle(P.TWO_PI/8f);
+//		ray.setDistance(60f);
+//		ray.filter(buff, buff);
 		
 		// kaleidoscope
 //		KaleidoscopeFilter kaleida = new KaleidoscopeFilter();
