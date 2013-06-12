@@ -44,9 +44,9 @@ public class MidiRealTime {
         double currentTempo = 500000;
         int tickOfTempoChange = 0;
         double msb4 = 0;
-        double division = seq.getResolution();
-        int lastTick = 0;
-        int count = 0;
+//        double division = seq.getResolution();
+//        int lastTick = 0;
+//        int count = 0;
         for (int track = 0; track < seq.getTracks().length; track ++) nextMessageOf.add(0);
         System.out.println();
         
