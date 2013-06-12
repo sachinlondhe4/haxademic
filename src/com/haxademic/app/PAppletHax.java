@@ -296,7 +296,7 @@ extends PApplet
 
 		_fps = _appConfig.getInt("fps", 30);
 		p.frameRate(_fps);
-		p.noCursor();
+		if( _appConfig.getBoolean("hide_cursor", false) == true ) p.noCursor();
 	}
 	
 	public void init() {
