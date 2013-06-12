@@ -148,7 +148,7 @@ public class MatchGameControls {
 				_kinectContext.getCoM( users[i], _utilPVec );							// PVec comes back with real-world `z` in millimeters
 				isInZBounds = ( _utilPVec.z > MatchGame.KINECT_MIN_DIST && _utilPVec.z < MatchGame.KINECT_MAX_DIST );
 				// if in-z-bounds, user.x is legit, closer-to-center & has a good skeleton...
-				if( isInZBounds == true && _utilPVec.x != 0.0 && _utilPVec.x < xDist && userHasHands( users[i] ) ) {
+				if( isInZBounds == true && _utilPVec.x != 0.0 && P.abs(_utilPVec.x) < xDist && userHasHands( users[i] ) ) {
 					_curUserId = users[i];
 					xDist = _utilPVec.x;
 					// P.println( "closest user: "+users[i]+" at "+zDist );
