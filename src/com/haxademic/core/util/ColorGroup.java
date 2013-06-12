@@ -51,6 +51,10 @@ public class ColorGroup {
 		return _colorSets.get( _curSet ).get( index );
 	}
 
+	public TColor getColorFromGroup( int group, int color ) {
+		return _colorSets.get( group ).get( color );
+	}
+
 	public Vector<TColor> getGroupFromIndex( int index ) {
 		return _colorSets.get( index );
 	}
