@@ -14,6 +14,7 @@ public class OpenGLUtil {
 		return pgl.gl;
 	}
 	
+	public static final int LOW = 0;
 	public static final int MEDIUM = 1;
 	public static final int HIGH = 2;
 
@@ -21,6 +22,11 @@ public class OpenGLUtil {
 		//		p.hint(p.DISABLE_DEPTH_SORT);
 		GL gl = ( P.p != null ) ? getGlFromP( P.p ) : getGlFromP( p );
 		switch ( quality ) {
+			case LOW :
+				p.hint(P.DISABLE_OPENGL_2X_SMOOTH);
+				gl.glHint (GL.GL_LINE_SMOOTH_HINT, GL.GL_FASTEST);
+				gl.glHint (GL.GL_POINT_SMOOTH_HINT, GL.GL_FASTEST);
+				gl.glHint (GL.GL_POLYGON_SMOOTH_HINT, GL.GL_FASTEST);
 			case MEDIUM :
 				p.hint(P.ENABLE_OPENGL_2X_SMOOTH);
 				gl.glHint (GL.GL_LINE_SMOOTH_HINT, GL.GL_FASTEST);
