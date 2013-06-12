@@ -287,8 +287,7 @@ extends PApplet
 		if(_graphicsMode == P.OPENGL) {
 			if( _isRendering == true ) {
 				// prevents an error
-	//			hint(DISABLE_OPENGL_2X_SMOOTH);
-				hint(ENABLE_OPENGL_2X_SMOOTH); 
+				hint(DISABLE_OPENGL_2X_SMOOTH);
 			} else {
 				OpenGLUtil.setQuality(p, OpenGLUtil.HIGH);
 			}
@@ -317,7 +316,6 @@ extends PApplet
 		toxi = new ToxiclibsSupport(p);
 		_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
 		_waveformData = new WaveformData( p, _audioInput._bufferSize );
-//		_objPool = new ObjPool( p );
 		_renderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE, _appConfig.getString( "render_output_dir", "bin/output/" ) );
 		if( _appConfig.getBoolean( "kinect_active", false ) == true ) kinectWrapper = new KinectWrapper( p, _appConfig.getBoolean( "kinect_depth", true ), _appConfig.getBoolean( "kinect_rgb", true ), _appConfig.getBoolean( "kinect_depth_image", true ) );
 //		_launchpadViz = new LaunchpadViz( p5 );
