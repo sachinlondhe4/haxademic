@@ -28,7 +28,9 @@ public class AudioPool {
 	}
 
 	public void playSound( String id ) {
-		_audioPlayers.get( id )._sound.play(0);
+		if( _audioPlayers.containsKey( id ) == true ) {
+			_audioPlayers.get( id )._sound.play(0);
+		}
 	}
 	
 	public void mute( boolean mute ) {
