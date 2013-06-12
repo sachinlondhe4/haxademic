@@ -236,8 +236,7 @@ extends PApplet
 			_appConfig = new P5Properties(p);
 			if( _customPropsFile != null ) 
 				_appConfig.loadPropertiesFile( _customPropsFile );
-			else 
-				overridePropsFile();
+			overridePropsFile();
 			_is_setup = true;
 			// set screen size and renderer
 			String renderer = ( _appConfig.getBoolean("sunflow", true ) == true ) ? "hipstersinc.P5Sunflow" : P.OPENGL;
@@ -255,7 +254,7 @@ extends PApplet
 	}
 	
 	protected void overridePropsFile() {
-		P.println("YOU SHOULD OVERRIDE overridePropsFile()");
+		if( _customPropsFile == null ) P.println("YOU SHOULD OVERRIDE overridePropsFile()");
 	}
 	
 	protected void drawApp() {
