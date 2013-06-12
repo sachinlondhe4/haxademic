@@ -28,6 +28,10 @@ public class DrawUtil {
 		p.translate( 0, 0, 0 );
 	}
 
+	public static void setCenterScreen(PApplet p) {
+		p.translate( p.width/2, p.height/2, 0 );
+	}
+
 	public static void setTopLeft( PApplet p ) {
 		p.resetMatrix();
 		p.translate( -p.width/2, -p.height/2, 0 );
