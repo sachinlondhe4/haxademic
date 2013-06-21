@@ -4,6 +4,9 @@ import processing.core.PApplet;
 
 import com.haxademic.app.P;
 
+/**
+ * A series of common, static math helper methods
+ */
 public class MathUtil {
 	
 	/**
