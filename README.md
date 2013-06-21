@@ -59,8 +59,9 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 * Apps
 	* HaxVisual - A modular VJ system
 	* KacheOut - A 2-player Kinect-based video game 
-	* MatchGame - A Kinect-based matching game, using skeleton detection 
+	* AirDrums - A Kinect-based air drum machine
 	* TimeLapse - Renders a .mov video from an image sequence in a directory
+	* MusicVideos - A collection of Applets that render music videos, audio-reactive and otherwise
 
 ## Installing / Compiling
 * Download the standard Eclipse IDE for Java development, and the Java Development Kit itself:
