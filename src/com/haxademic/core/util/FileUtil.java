@@ -9,10 +9,46 @@ import com.haxademic.app.P;
 import com.haxademic.core.debug.DebugUtil;
 
 public class FileUtil {
+	
+	public static String DATA_PATH = null;
+	public static String OUTPUT_PATH = null;
+	public static String BIN_PATH = null;
+	public static String HAX_PATH = null;
+	
+	// system & haxademic paths -------------------------------------------
 	public static String getProjectAbsolutePath() {
 		return new java.io.File("").getAbsolutePath();
 	}
 	
+	public static String getHaxademicPath() {
+		if( HAX_PATH != null ) return HAX_PATH;
+		String binPath = getProjectAbsolutePath();
+		HAX_PATH = binPath.substring(0, binPath.lastIndexOf("/bin") );
+		return HAX_PATH;
+	}
+	
+	public static String getHaxademicBinPath() {
+		if( BIN_PATH != null ) return BIN_PATH;
+		BIN_PATH = getHaxademicPath().concat("/bin/");
+		return BIN_PATH;
+	}
+	
+	public static String getHaxademicDataPath() {
+		if( DATA_PATH != null ) return DATA_PATH;
+		DATA_PATH = getHaxademicPath().concat("/data/");
+		return DATA_PATH;
+	}
+	
+	public static String getHaxademicOutputPath() {
+		if( OUTPUT_PATH != null ) return OUTPUT_PATH;
+		OUTPUT_PATH = getHaxademicPath().concat("/output/");
+		return OUTPUT_PATH;
+	}
+	
+	/**
+	 * Creates a new directory on the machine's filesystem
+	 * @param path Directory to create
+	 */
 	public static void createDir( String path ) {
 		File f = new File( path );
 		try {
@@ -24,10 +60,15 @@ public class FileUtil {
 		} catch(Exception e){
 		    e.printStackTrace();
 		} 
-
 	}
 	
+	/**
+	 * Finds files of a specific type within a directory
+	 * @param path Directory to search
+	 * @param type File extension to search for
+	 */
 	public static ArrayList<String> getFilesInDirOfType( String directory, String type ) {
+		type = "."+type;
 		File dir = new File( directory );
 		String[] children = dir.list();
 		ArrayList<String> filesOfType = new ArrayList<String>();
