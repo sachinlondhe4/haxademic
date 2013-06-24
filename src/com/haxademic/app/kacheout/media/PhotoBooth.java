@@ -13,7 +13,7 @@ public class PhotoBooth {
 		String projectPath = FileUtil.getProjectAbsolutePath();
 		
 		// save screenshot and open it back up
-		String screenshotFile = ScreenUtil.saveScreenshot( p, projectPath + "/bin/output/kacheout/kacheout-" );
+		String screenshotFile = ScreenUtil.screenshotToJPG( p, projectPath + "/bin/output/kacheout/kacheout-" );
 		PImage screenshot = p.loadImage( screenshotFile );
 
 		if( p.kinectWrapper != null && p.kinectWrapper.isActive() ) {

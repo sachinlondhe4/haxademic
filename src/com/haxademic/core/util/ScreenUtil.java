@@ -8,7 +8,7 @@ import com.haxademic.app.P;
 
 public class ScreenUtil {
 	
-	public static String saveScreenshot( PApplet p, String outputDir ) {
+	public static String screenshotToJPG( PApplet p, String outputDir ) {
 		String filename = outputDir + SystemUtil.getTimestampFine( p ) + ".png";
 		p.saveFrame( filename );
 		return filename;
