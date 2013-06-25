@@ -68,4 +68,11 @@ public class DrawUtil {
 		p.tint( 255 );
 	}
 	
+	public static void setDrawFlat2d( PApplet p, Boolean is2d ) {
+		if( is2d ) {
+			p.hint( P.DISABLE_DEPTH_TEST );
+		} else {
+			p.hint( P.ENABLE_DEPTH_TEST );
+		}
+	}
 }
