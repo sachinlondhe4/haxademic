@@ -6,6 +6,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 
 import com.haxademic.app.P;
+import com.haxademic.core.util.ImageUtil;
 
 public class CustomFontText2D {
 	
@@ -31,6 +32,14 @@ public class CustomFontText2D {
 		_textColor = color;
 	}
 	
+	public void setTextAlign( int textAlign ) {
+		_textAlign = textAlign;
+	}
+	
+	public int textAlign() {
+		return _textAlign;
+	}
+	
 	public void updateText( String txt ) {
 		_textCanvas.beginDraw();
 		_textCanvas.background( 0, 0 );		// clear background with alpha = 0 (only works in PGraphics)
@@ -43,6 +52,28 @@ public class CustomFontText2D {
 	
 	public PImage getTextPImage() {
 		return _textCanvas;
+	}
+	
+	public int getRightmostPixel() {
+		int y = Math.round( _textCanvas.height / 2f );
+		int rightmost = 0;
+		// check pixels across horizontal center to get a rough idea
+		for( int i=0; i < _textCanvas.width; i++ ) {
+			if( ImageUtil.getPixelColor( _textCanvas, i, y ) != ImageUtil.EMPTY_INT ) rightmost = i;
+		}
+		// then go down columns to find the real last pixel
+		for( int i = rightmost; i < _textCanvas.width; i++ ) {
+			Boolean columnClear = true;
+			for( int j=0; j < _textCanvas.height; j++ ) {
+				if( ImageUtil.getPixelColor( _textCanvas, i, j ) != ImageUtil.EMPTY_INT ) {
+					rightmost = i;
+					columnClear = false;
+					break;
+				}
+			}
+			if( columnClear == true ) break;
+		}		
+		return rightmost;
 	}
 
 }
