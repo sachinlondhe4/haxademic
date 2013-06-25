@@ -1,4 +1,4 @@
-package com.haxademic.sketch.brim_liski_repetitions;
+package com.haxademic.app.musicvideos;
 
 import java.util.ArrayList;
 

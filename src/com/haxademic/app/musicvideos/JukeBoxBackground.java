@@ -1,4 +1,4 @@
-package com.haxademic.sketch.render;
+package com.haxademic.app.musicvideos;
 
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
