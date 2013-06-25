@@ -58,7 +58,6 @@ import fullscreen.FullScreen;
  * @TODO: Handle MIDI CC / Allow more than just note_on messages from PAppletHax base. should be able to respond to any midi data
  * @TODO: Implement new viz ideas from sketchbook
  * @TODO: Add SVG animation class
- * @TODO: Build in a better pathing configuration for sketches & apps. .properties?
  * @TODO: Create PGraphics & PImage audio-reactive textures to apply to meshes across sketches/apps. See SphereTextureMap and abstracts some of the goodness. !!! - add current texture and iVizTextureDraw classes to VizCollection Module
  * 
  * @TODO: Use a static Haxademic.support( PApplet ) type static instance to let us gain access to the applet without passing it everywhere. Look at Geomerative & Toxiclibs to see how they did it.
