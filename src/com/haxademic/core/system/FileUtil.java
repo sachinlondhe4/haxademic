@@ -23,7 +23,8 @@ public class FileUtil {
 	public static String getHaxademicPath() {
 		if( HAX_PATH != null ) return HAX_PATH;
 		String binPath = getProjectAbsolutePath();
-		HAX_PATH = binPath.substring(0, binPath.lastIndexOf("/bin") );
+		Boolean hasBin = ( binPath.lastIndexOf("/bin") != -1 ) ? true : false;
+		HAX_PATH = ( hasBin == true ) ? binPath.substring(0, binPath.lastIndexOf("/bin") ) : binPath;
 		return HAX_PATH;
 	}
 	
