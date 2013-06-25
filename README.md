@@ -31,36 +31,40 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 * Text tools
 	* Create a 2D or extruded 3D mesh from text with a custom .ttf font
 	* Draw 2D text with a custom .ttf font
+* Input controls
+	* Button
+	* TextInput
 * Image processing
 	* PImage reversal & other image utilities/helpers
 	* PImage <-> BufferedImage conversion for native image processing
 	* Multiple screenshot methods
 	* Photoshop-like effects processing (via Java Image Filters)
 	* Custom image filters
-* Utility objects
-	* Math utilities
-	* Easing floats (with 3D containers)
-	* Elastic floats (with 3D containers)
+* Math objects
+	* Math utility methods
+	* Easing 3d floats
+	* Elastic 3d floats
+* Drawing utilities
 	* Utilities to (re)set Applet properties like lighting, current matrix, drawing colors
 	* OpenGL utility to set GL-specific properties
-	* Debug utilities to report current actual frame rate, memory usage 
-	* Timestamp generators
 	* Eased color interpolation
 * Output
 	* Render to Quicktime or image sequence with minimal effort
 	* High-quality rendering with the Sunflow renderer, for beautiful globally-illuminated, antialiased scenes 
 	* Audio playback with cached audio clip pool
-* General Environment
+* General Environment / System utilities
 	* .properties file loader with overridable defaults
 	* Directory searching for specific filetypes
 	* Automatic system screensaver disabling while running
-	* True full-screen mode on OS X
+	* ~~True full-screen mode on OS X~~
 	* Toggles the window chrome on a non-fullscreen applet
+	* Debug utilities to report current actual frame rate, memory usage 
+	* Timestamp generators
 * Apps
-	* HaxVisual - A modular VJ system
-	* KacheOut - A 2-player Kinect-based video game 
+	* HaxVisual - A modular VJ system ([video](http://www.youtube.com/watch?v=6G1jLZrN1Ig))
+	* KacheOut - A 2-player Kinect-based video game ([video](https://vimeo.com/43230920))
 	* AirDrums - A Kinect-based air drum machine
-	* TimeLapse - Renders a .mov video from an image sequence in a directory
+	* TimeLapse - Renders a .mov video from an image sequence in a directory ([video](https://vimeo.com/42046179))
 	* MusicVideos - A collection of Applets that render music videos, audio-reactive and otherwise
 
 ## Installing / Compiling
