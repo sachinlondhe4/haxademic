@@ -7,9 +7,9 @@ import toxi.geom.Vec3D;
 import SimpleOpenNI.SimpleOpenNI;
 
 import com.haxademic.app.PAppletHax;
-import com.haxademic.core.data.VectorFlyer;
+import com.haxademic.core.draw.mesh.VectorFlyer;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
-import com.haxademic.core.util.DrawUtil;
 
 public class KinectBodyParticles
 extends PAppletHax {

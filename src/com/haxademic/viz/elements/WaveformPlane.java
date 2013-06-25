@@ -11,12 +11,12 @@ import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.audio.WaveformData;
-import com.haxademic.core.data.easing.EasingFloat;
-import com.haxademic.core.data.easing.EasingFloat3d;
+import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.TColorBlendBetween;
-import com.haxademic.core.util.ColorGroup;
-import com.haxademic.core.util.DrawUtil;
-import com.haxademic.core.util.MathUtil;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.math.easing.EasingFloat3d;
 
 public class WaveformPlane 
 extends ElementBase 

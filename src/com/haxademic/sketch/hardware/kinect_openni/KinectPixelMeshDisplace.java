@@ -7,8 +7,8 @@ import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
-import com.haxademic.core.util.DrawUtil;
 import com.haxademic.viz.filters.PixelFilter;
 
 public class KinectPixelMeshDisplace 

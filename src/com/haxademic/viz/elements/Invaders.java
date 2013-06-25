@@ -8,13 +8,13 @@ import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.data.easing.EasingFloat3d;
+import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.shapes.Meshes;
 import com.haxademic.core.draw.util.DrawMesh;
-import com.haxademic.core.util.ColorGroup;
-import com.haxademic.core.util.DrawUtil;
-import com.haxademic.core.util.MathUtil;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.EasingFloat3d;
 import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
 

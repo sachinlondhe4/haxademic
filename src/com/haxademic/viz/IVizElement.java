@@ -1,6 +1,6 @@
 package com.haxademic.viz;
 
-import com.haxademic.core.util.ColorGroup;
+import com.haxademic.core.draw.color.ColorGroup;
 
 public interface IVizElement {
 	public void init();

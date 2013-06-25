@@ -7,11 +7,11 @@ import toxi.color.TColor;
 import com.haxademic.app.P;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.data.FloatRange;
-import com.haxademic.core.data.easing.EasingFloat;
-import com.haxademic.core.data.easing.ElasticFloat;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
-import com.haxademic.core.util.DrawUtil;
-import com.haxademic.core.util.MathUtil;
+import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.math.easing.ElasticFloat;
 import com.haxademic.viz.elements.GridEQ;
 
 public class GamePlay {

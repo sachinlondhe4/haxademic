@@ -6,7 +6,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 import com.haxademic.app.PAppletHax;
-import com.haxademic.core.util.FileUtil;
+import com.haxademic.core.system.FileUtil;
 
 public class TimeLapse
 extends PAppletHax  

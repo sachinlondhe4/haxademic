@@ -1,10 +1,11 @@
-package com.haxademic.core.util;
+package com.haxademic.core.image;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
 import com.haxademic.app.P;
+import com.haxademic.core.system.SystemUtil;
 
 public class ScreenUtil {
 	

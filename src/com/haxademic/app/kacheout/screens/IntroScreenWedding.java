@@ -6,10 +6,10 @@ import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.app.P;
 import com.haxademic.app.kacheout.KacheOut;
-import com.haxademic.core.data.easing.EasingFloat3d;
-import com.haxademic.core.data.easing.ElasticFloat;
-import com.haxademic.core.util.DrawUtil;
-import com.haxademic.core.util.ScreenUtil;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.image.ScreenUtil;
+import com.haxademic.core.math.easing.EasingFloat3d;
+import com.haxademic.core.math.easing.ElasticFloat;
 
 public class IntroScreenWedding {
 	protected KacheOut p;

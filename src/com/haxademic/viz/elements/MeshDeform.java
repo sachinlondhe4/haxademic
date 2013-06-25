@@ -10,12 +10,12 @@ import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.data.Point3D;
+import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.util.DrawMesh;
-import com.haxademic.core.util.ColorGroup;
-import com.haxademic.core.util.DrawUtil;
-import com.haxademic.core.util.MathUtil;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
 

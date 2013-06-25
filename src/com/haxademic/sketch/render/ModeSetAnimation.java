@@ -11,13 +11,13 @@ import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
-import com.haxademic.core.data.easing.EasingFloat;
-import com.haxademic.core.data.easing.ElasticFloat;
 import com.haxademic.core.draw.color.EasingTColor;
 import com.haxademic.core.draw.color.TColorInit;
 import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.util.DrawUtil;
-import com.haxademic.core.util.MathUtil;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.math.easing.ElasticFloat;
 
 public class ModeSetAnimation
 extends PAppletHax  

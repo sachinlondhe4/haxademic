@@ -1,9 +1,10 @@
-package com.haxademic.core.draw.text;
+package com.haxademic.core.debug;
 
 import processing.core.PApplet;
 import processing.core.PFont;
 
 import com.haxademic.app.P;
+import com.haxademic.core.draw.util.DrawUtil;
 
 public class DebugText {
 	
@@ -25,8 +26,10 @@ public class DebugText {
 	}
 	
 	public void draw( String message ) {
+		DrawUtil.setDrawFlat2d(p, true);
 		p.textFont( _debugFont );
 		p.fill(255);
-		p.text( message, 10, 40 );
+		p.text( message, 10, 10 );
+		DrawUtil.setDrawFlat2d(p, false);
 	}
 }

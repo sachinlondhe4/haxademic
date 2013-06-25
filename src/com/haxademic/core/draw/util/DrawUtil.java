@@ -1,4 +1,4 @@
-package com.haxademic.core.util;
+package com.haxademic.core.draw.util;
 
 import processing.core.PApplet;
 import processing.core.PConstants;

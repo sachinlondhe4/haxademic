@@ -1,4 +1,5 @@
-package com.haxademic.core.data.easing;
+package com.haxademic.core.math.easing;
+
 
 
 public class EasingFloat

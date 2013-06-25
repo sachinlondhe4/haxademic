@@ -9,8 +9,8 @@ import blobDetection.EdgeVertex;
 
 import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
-import com.haxademic.core.util.ImageUtil;
-import com.haxademic.core.util.MathUtil;
+import com.haxademic.core.image.ImageUtil;
+import com.haxademic.core.math.MathUtil;
 
 public class BlobOuterMeshFilter {
 	

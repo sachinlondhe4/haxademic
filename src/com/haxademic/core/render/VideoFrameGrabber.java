@@ -5,7 +5,7 @@ import processing.core.PImage;
 import processing.video.Movie;
 
 import com.haxademic.app.P;
-import com.haxademic.core.util.MathUtil;
+import com.haxademic.core.math.MathUtil;
 
 public class VideoFrameGrabber {
 

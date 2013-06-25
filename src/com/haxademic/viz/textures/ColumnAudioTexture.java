@@ -5,8 +5,8 @@ import toxi.color.TColor;
 
 import com.haxademic.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.TColorBlendBetween;
-import com.haxademic.core.util.ColorGroup;
 import com.haxademic.viz.IAudioTexture;
 
 public class ColumnAudioTexture

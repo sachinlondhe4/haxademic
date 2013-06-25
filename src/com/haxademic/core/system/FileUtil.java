@@ -1,4 +1,4 @@
-package com.haxademic.core.util;
+package com.haxademic.core.system;
 
 import java.io.File;
 import java.io.FileFilter;

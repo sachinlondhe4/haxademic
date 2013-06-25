@@ -1,4 +1,4 @@
-package com.haxademic.core.util;
+package com.haxademic.core.image;
 
 import java.awt.Graphics2D;
 import java.awt.Image;

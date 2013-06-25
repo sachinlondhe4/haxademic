@@ -10,10 +10,10 @@ import toxi.geom.mesh.TriangleMesh;
 
 import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
-import com.haxademic.core.data.easing.EasingFloat3d;
 import com.haxademic.core.draw.color.TColorBlendBetween;
 import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.math.easing.EasingFloat3d;
 
 public class Flocking3DAttractors 
 extends PAppletHax {

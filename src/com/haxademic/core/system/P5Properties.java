@@ -1,4 +1,4 @@
-package com.haxademic.core.data;
+package com.haxademic.core.system;
 
 import java.io.IOException;
 import java.util.Properties;

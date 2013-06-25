@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import com.haxademic.app.P;
 import com.haxademic.app.kacheout.KacheOut;
-import com.haxademic.core.util.FileUtil;
-import com.haxademic.core.util.MathUtil;
+import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.system.FileUtil;
 
 import ddf.minim.AudioPlayer;
 

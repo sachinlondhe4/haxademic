@@ -10,10 +10,10 @@ import com.haxademic.app.matchgame.game.MatchGameConfetti;
 import com.haxademic.app.matchgame.game.MatchGameControls;
 import com.haxademic.app.matchgame.game.MatchGamePlay;
 import com.haxademic.core.cameras.common.ICamera;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
-import com.haxademic.core.util.DrawUtil;
-import com.haxademic.core.util.FileUtil;
-import com.haxademic.core.util.SystemUtil;
+import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.system.SystemUtil;
 
 public class MatchGame
 extends PAppletHax  

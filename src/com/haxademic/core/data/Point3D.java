@@ -1,6 +1,6 @@
 package com.haxademic.core.data;
 
-import com.haxademic.core.util.MathUtil;
+import com.haxademic.core.math.MathUtil;
 
 public class Point3D {
 	public float x, y, z;

@@ -9,9 +9,9 @@ import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.data.easing.EasingFloat;
-import com.haxademic.core.util.ColorGroup;
-import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.draw.color.ColorGroup;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
 

@@ -7,10 +7,10 @@ import processing.core.PImage;
 
 import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
+import com.haxademic.core.image.ImageUtil;
 import com.haxademic.core.render.VideoFrameGrabber;
-import com.haxademic.core.util.DrawUtil;
-import com.haxademic.core.util.ImageUtil;
 import com.haxademic.viz.filters.BlobOuterMeshFilter;
 import com.haxademic.viz.filters.Cluster8BitRow;
 import com.haxademic.viz.filters.ImageHistogramFilter;

@@ -4,9 +4,9 @@ import processing.core.PImage;
 
 import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
-import com.haxademic.core.util.FileUtil;
-import com.haxademic.core.util.ScreenUtil;
-import com.haxademic.core.util.SystemUtil;
+import com.haxademic.core.image.ScreenUtil;
+import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.system.SystemUtil;
 
 public class PhotoBooth {
 	public static void snapGamePhoto( PAppletHax p, int stageWidth, int stageHeight ) {

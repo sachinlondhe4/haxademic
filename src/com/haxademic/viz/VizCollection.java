@@ -12,10 +12,10 @@ import toxi.color.theory.ColorTheoryStrategy;
 
 import com.haxademic.app.P;
 import com.haxademic.core.cameras.CameraBasic;
+import com.haxademic.core.draw.color.ColorGroup;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.midi.MidiWrapper;
-import com.haxademic.core.util.ColorGroup;
-import com.haxademic.core.util.DrawUtil;
-import com.haxademic.core.util.MathUtil;
+import com.haxademic.core.math.MathUtil;
 
 public class VizCollection 
 extends ModuleBase

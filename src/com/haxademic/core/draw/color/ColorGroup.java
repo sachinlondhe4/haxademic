@@ -1,6 +1,8 @@
-package com.haxademic.core.util;
+package com.haxademic.core.draw.color;
 
 import java.util.Vector;
+
+import com.haxademic.core.math.MathUtil;
 
 import toxi.color.TColor;
 

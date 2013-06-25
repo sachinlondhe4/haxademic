@@ -15,7 +15,7 @@ import wblut.hemesh.creators.HEC_Box;
 import wblut.hemesh.creators.HEC_Geodesic;
 import wblut.hemesh.creators.HEMC_VoronoiCells;
 
-import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.draw.util.DrawUtil;
 
 public class CubeShatter
 extends PApplet

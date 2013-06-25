@@ -11,13 +11,13 @@ import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.app.P;
-import com.haxademic.core.data.easing.EasingFloat3d;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.math.easing.EasingFloat3d;
 import com.haxademic.core.render.Renderer;
-import com.haxademic.core.util.DrawUtil;
-import com.haxademic.core.util.OpenGLUtil;
 
 @SuppressWarnings("serial")
 public class MeshLoaderDemo 

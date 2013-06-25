@@ -5,9 +5,9 @@ import processing.core.PConstants;
 import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.viz.elements.RotatorShape;
+import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.ColorRGBA;
 import com.haxademic.core.render.Renderer;
-import com.haxademic.core.util.ColorGroup;
 
 public class RotationObjects 
 extends PApplet

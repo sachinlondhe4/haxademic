@@ -5,7 +5,7 @@ import processing.core.PConstants;
 import toxi.color.TColor;
 import toxi.math.noise.PerlinNoise;
 
-import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.draw.util.DrawUtil;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package com.haxademic.core.util;
+package com.haxademic.core.text;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

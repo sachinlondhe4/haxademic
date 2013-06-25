@@ -10,7 +10,7 @@ import toxi.geom.mesh.WETriangleMesh;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
-import com.haxademic.core.util.ImageUtil;
+import com.haxademic.core.image.ImageUtil;
 
 public class ImageTo3D 
 extends PAppletHax {

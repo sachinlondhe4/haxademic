@@ -9,9 +9,9 @@ import toxi.geom.Vec3D;
 import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
 
-import com.haxademic.core.util.DrawUtil;
-import com.haxademic.core.util.ImageUtil;
-import com.haxademic.core.util.OpenGLUtil;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.image.ImageUtil;
 
 public class WebCamTest extends PApplet {
 	

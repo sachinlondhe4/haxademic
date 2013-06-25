@@ -14,19 +14,19 @@ import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.audio.WaveformData;
-import com.haxademic.core.data.P5Properties;
+import com.haxademic.core.debug.DebugText;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.debug.Stats;
 import com.haxademic.core.draw.mesh.MeshPool;
-import com.haxademic.core.draw.text.DebugText;
+import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
 import com.haxademic.core.render.MIDISequenceRenderer;
 import com.haxademic.core.render.Renderer;
-import com.haxademic.core.util.OpenGLUtil;
-import com.haxademic.core.util.SystemUtil;
+import com.haxademic.core.system.P5Properties;
+import com.haxademic.core.system.SystemUtil;
 
 import ddf.minim.Minim;
 import fullscreen.FullScreen;

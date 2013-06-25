@@ -1,4 +1,4 @@
-package com.haxademic.core.data;
+package com.haxademic.core.math;
 
 import processing.core.PApplet;
 

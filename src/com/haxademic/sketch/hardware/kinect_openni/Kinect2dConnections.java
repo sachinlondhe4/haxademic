@@ -12,10 +12,10 @@ import SimpleOpenNI.SimpleOpenNI;
 
 import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
-import com.haxademic.core.data.VectorFlyer;
+import com.haxademic.core.draw.mesh.VectorFlyer;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
-import com.haxademic.core.util.DrawUtil;
-import com.haxademic.core.util.ImageUtil;
+import com.haxademic.core.image.ImageUtil;
 import com.jhlabs.image.ContrastFilter;
 import com.jhlabs.image.GlowFilter;
 

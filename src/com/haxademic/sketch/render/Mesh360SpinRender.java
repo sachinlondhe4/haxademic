@@ -11,9 +11,9 @@ import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.render.Renderer;
-import com.haxademic.core.util.DrawUtil;
-import com.haxademic.core.util.OpenGLUtil;
 
 public class Mesh360SpinRender 
 extends PApplet

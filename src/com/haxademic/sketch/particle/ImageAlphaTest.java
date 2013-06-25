@@ -7,7 +7,7 @@ import processing.core.PShape;
 import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.core.draw.mesh.MeshPool;
-import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.draw.util.DrawUtil;
 
 public class ImageAlphaTest
 extends PAppletHax  

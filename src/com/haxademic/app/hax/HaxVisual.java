@@ -6,9 +6,9 @@ import processing.core.PApplet;
 
 import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
-import com.haxademic.core.draw.text.DebugText;
+import com.haxademic.core.debug.DebugText;
 import com.haxademic.core.hardware.midi.MidiWrapper;
-import com.haxademic.core.util.ScreenUtil;
+import com.haxademic.core.image.ScreenUtil;
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.modules.AmbientViz;
 import com.haxademic.viz.modules.AudioTubes;

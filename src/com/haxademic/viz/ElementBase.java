@@ -4,7 +4,7 @@ import processing.core.PApplet;
 import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.util.ColorGroup;
+import com.haxademic.core.draw.color.ColorGroup;
 
 public class ElementBase {
 

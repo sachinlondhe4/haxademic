@@ -6,7 +6,7 @@ import toxi.color.TColor;
 import toxi.color.theory.ColorTheoryStrategy;
 import toxi.color.theory.CompoundTheoryStrategy;
 
-import com.haxademic.core.util.ColorGroup;
+import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.VizCollection;
 import com.haxademic.viz.elements.LinesEQ;

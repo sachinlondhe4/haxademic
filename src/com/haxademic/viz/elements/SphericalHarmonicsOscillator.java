@@ -11,11 +11,11 @@ import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.data.Point3D;
+import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.util.DrawMesh;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.ThreeDeeUtil;
-import com.haxademic.core.util.ColorGroup;
-import com.haxademic.core.util.DrawUtil;
-import com.haxademic.core.util.MathUtil;
+import com.haxademic.core.math.MathUtil;
 
 public class SphericalHarmonicsOscillator
 extends ElementBase 

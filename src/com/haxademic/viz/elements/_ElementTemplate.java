@@ -7,7 +7,7 @@ import toxi.processing.ToxiclibsSupport;
 import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
 import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.util.ColorGroup;
+import com.haxademic.core.draw.color.ColorGroup;
 
 public class _ElementTemplate
 extends ElementBase 

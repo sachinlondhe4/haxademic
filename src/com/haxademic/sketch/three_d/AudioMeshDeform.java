@@ -8,7 +8,7 @@ import toxi.geom.mesh.WETriangleMesh;
 import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawMesh;
-import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.draw.util.DrawUtil;
 
 public class AudioMeshDeform
 extends PAppletHax {

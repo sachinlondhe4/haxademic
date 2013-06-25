@@ -15,9 +15,9 @@ import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.cameras.CameraDefault;
 import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.data.FloatRange;
+import com.haxademic.core.draw.color.ColorGroup;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
-import com.haxademic.core.util.ColorGroup;
-import com.haxademic.core.util.DrawUtil;
 
 public class KacheOut
 extends PAppletHax  

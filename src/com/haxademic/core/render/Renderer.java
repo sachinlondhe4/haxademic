@@ -6,7 +6,7 @@ import processing.video.MovieMaker;
 
 import com.haxademic.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.util.SystemUtil;
+import com.haxademic.core.system.SystemUtil;
 
 public class Renderer 
 {

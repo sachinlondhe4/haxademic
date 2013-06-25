@@ -5,7 +5,7 @@ import toxi.math.noise.PerlinNoise;
 
 import com.haxademic.app.P;
 import com.haxademic.app.matchgame.MatchGame;
-import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.draw.util.DrawUtil;
 
 public class MatchGameConfetti {
 	protected MatchGame p;

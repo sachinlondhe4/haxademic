@@ -9,7 +9,7 @@ import toxi.geom.Vec3D;
 import com.haxademic.app.P;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.draw.color.EasingTColor;
-import com.haxademic.core.util.MathUtil;
+import com.haxademic.core.math.MathUtil;
 
 public class Block {
 	protected KacheOut p;

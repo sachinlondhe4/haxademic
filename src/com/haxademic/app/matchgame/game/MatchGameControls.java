@@ -9,10 +9,10 @@ import SimpleOpenNI.SimpleOpenNI;
 
 import com.haxademic.app.P;
 import com.haxademic.app.matchgame.MatchGame;
-import com.haxademic.core.data.easing.EasingFloat3d;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
-import com.haxademic.core.util.DrawUtil;
-import com.haxademic.core.util.MathUtil;
+import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.EasingFloat3d;
 
 public class MatchGameControls {
 

@@ -5,7 +5,7 @@ import processing.core.PImage;
 
 import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
-import com.haxademic.core.util.ImageUtil;
+import com.haxademic.core.image.ImageUtil;
 
 public class Cluster8BitRow {
 	

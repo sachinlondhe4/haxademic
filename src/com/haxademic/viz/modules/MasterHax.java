@@ -1,6 +1,6 @@
 package com.haxademic.viz.modules;
 
-import com.haxademic.core.util.ColorGroup;
+import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.VizCollection;
 import com.haxademic.viz.elements.AppFrame2d;

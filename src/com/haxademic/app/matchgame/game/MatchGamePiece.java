@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 
 import com.haxademic.app.P;
 import com.haxademic.app.matchgame.MatchGame;
-import com.haxademic.core.util.DrawUtil;
+import com.haxademic.core.draw.util.DrawUtil;
 
 public class MatchGamePiece {
 

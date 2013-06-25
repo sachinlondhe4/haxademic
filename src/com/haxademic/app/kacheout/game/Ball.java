@@ -7,10 +7,10 @@ import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.app.P;
 import com.haxademic.app.kacheout.KacheOut;
-import com.haxademic.core.data.easing.EasingFloat;
-import com.haxademic.core.data.easing.ElasticFloat;
 import com.haxademic.core.draw.color.EasingTColor;
-import com.haxademic.core.util.MathUtil;
+import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.math.easing.ElasticFloat;
 
 public class Ball {
 	

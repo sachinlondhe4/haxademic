@@ -1,4 +1,4 @@
-package com.haxademic.core.data;
+package com.haxademic.core.draw.mesh;
 
 import toxi.color.TColor;
 import toxi.geom.AABB;

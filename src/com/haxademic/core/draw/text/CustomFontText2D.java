@@ -6,7 +6,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 
 import com.haxademic.app.P;
-import com.haxademic.core.util.ImageUtil;
+import com.haxademic.core.image.ImageUtil;
 
 public class CustomFontText2D {
 	

@@ -6,8 +6,8 @@ import toxi.processing.ToxiclibsSupport;
 import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
 import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.shapes.Shapes;
-import com.haxademic.core.util.ColorGroup;
 
 public class SphereDraw
 extends ElementBase 

@@ -5,7 +5,7 @@ import processing.core.PImage;
 
 import com.haxademic.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.util.ColorGroup;
+import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.viz.IAudioTexture;
 
 public class WindowShadeTexture
