@@ -1,7 +1,6 @@
 package com.haxademic.core.image;
 
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import processing.core.PApplet;
@@ -137,8 +136,8 @@ public class ImageUtil {
 			for(i=-radius;i<=radius;i++){
 				p=pix[yi+P.min(wm,P.max(i,0))];
 				rsum+=(p & 0xff0000)>>16;
-			gsum+=(p & 0x00ff00)>>8;
-		bsum+= p & 0x0000ff;
+				gsum+=(p & 0x00ff00)>>8;
+				bsum+= p & 0x0000ff;
 			}
 			for (x=0;x<w;x++){
 
@@ -154,9 +153,9 @@ public class ImageUtil {
 				p2=pix[yw+vmax[x]];
 
 				rsum+=((p1 & 0xff0000)-(p2 & 0xff0000))>>16;
-			gsum+=((p1 & 0x00ff00)-(p2 & 0x00ff00))>>8;
-		bsum+= (p1 & 0x0000ff)-(p2 & 0x0000ff);
-		yi++;
+				gsum+=((p1 & 0x00ff00)-(p2 & 0x00ff00))>>8;
+				bsum+= (p1 & 0x0000ff)-(p2 & 0x0000ff);
+				yi++;
 			}
 			yw+=w;
 		}
