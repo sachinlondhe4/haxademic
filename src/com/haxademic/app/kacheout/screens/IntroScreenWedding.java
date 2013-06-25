@@ -88,8 +88,8 @@ public class IntroScreenWedding {
 		p.translate( 0, 0, p.gameBaseZ() );
 		
 		// draw slides
-		drawImageAtLoc( _logoImg, _logo.valueX(), _logo.valueY(), _logo.valueZ() );
-		drawImageAtLoc( _creditsImg, _credits.valueX(), _credits.valueY(), _credits.valueZ() );
+		drawImageAtLoc( _logoImg, _logo.x(), _logo.y(), _logo.z() );
+		drawImageAtLoc( _creditsImg, _credits.x(), _credits.y(), _credits.z() );
 		
 		// reset
 		p.popMatrix();

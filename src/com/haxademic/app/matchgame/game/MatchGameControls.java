@@ -193,10 +193,10 @@ public class MatchGameControls {
 		}
 		_handRight.update();
 		
-		handLeftRect.x = (int) _handLeft.valueX();
-		handLeftRect.y = (int) _handLeft.valueY();
-		handRightRect.x = (int) _handRight.valueX();
-		handRightRect.y = (int) _handRight.valueY();
+		handLeftRect.x = (int) _handLeft.x();
+		handLeftRect.y = (int) _handLeft.y();
+		handRightRect.x = (int) _handRight.x();
+		handRightRect.y = (int) _handRight.y();
 	}
 	
 	// map the kinect 2d location to the game's size w/additional movement factor
@@ -208,18 +208,18 @@ public class MatchGameControls {
 	public void drawHands( float heldTimePercent, boolean controlsActive ) {
 		if( heldTimePercent > 0 ) {
 			p.fill( MatchGameAssets.DARK_BLUE.toARGB() );
-			p.arc( _handLeft.valueX(), _handLeft.valueY(), CURSOR_DIAMETER, CURSOR_DIAMETER, 0, heldTimePercent * (float) P.TWO_PI );
-			p.arc( _handRight.valueX(), _handRight.valueY(), CURSOR_DIAMETER, CURSOR_DIAMETER, 0, heldTimePercent * (float) P.TWO_PI );
+			p.arc( _handLeft.x(), _handLeft.y(), CURSOR_DIAMETER, CURSOR_DIAMETER, 0, heldTimePercent * (float) P.TWO_PI );
+			p.arc( _handRight.x(), _handRight.y(), CURSOR_DIAMETER, CURSOR_DIAMETER, 0, heldTimePercent * (float) P.TWO_PI );
 		}
 		// always draw outer cursor circle
 		DrawUtil.setColorForPImage( p );
 		if( controlsActive == false ) DrawUtil.setPImageAlpha( p, 0.3f );
 		if( _curUserId != -1 ) {
-			p.image( MatchGameAssets.UI_CURSOR, _handLeft.valueX(), _handLeft.valueY() );
-			p.image( MatchGameAssets.UI_CURSOR, _handRight.valueX(), _handRight.valueY() );
+			p.image( MatchGameAssets.UI_CURSOR, _handLeft.x(), _handLeft.y() );
+			p.image( MatchGameAssets.UI_CURSOR, _handRight.x(), _handRight.y() );
 		} else {
-			p.image( MatchGameAssets.UI_CURSOR_BAD, _handLeft.valueX(), _handLeft.valueY() );
-			p.image( MatchGameAssets.UI_CURSOR_BAD, _handRight.valueX(), _handRight.valueY() );
+			p.image( MatchGameAssets.UI_CURSOR_BAD, _handLeft.x(), _handLeft.y() );
+			p.image( MatchGameAssets.UI_CURSOR_BAD, _handRight.x(), _handRight.y() );
 		}
 		DrawUtil.resetPImageAlpha( p );
 	}

@@ -13,15 +13,15 @@ implements IEasingValue {
 		_z = new EasingFloat( z, easeFactor );
 	}
 	
-	public float valueX() {
+	public float x() {
 		return _x.value();
 	}
 	
-	public float valueY() {
+	public float y() {
 		return _y.value();
 	}
 	
-	public float valueZ() {
+	public float z() {
 		return _z.value();
 	}
 	

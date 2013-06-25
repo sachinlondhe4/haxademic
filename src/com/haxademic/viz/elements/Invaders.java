@@ -76,9 +76,9 @@ implements IVizElement {
 		
 		// ease rotation of the view
 		_rotation.update();
-		p.rotateX( _rotation.valueX() );
-		p.rotateY( _rotation.valueY() );
-		p.rotateZ( _rotation.valueZ() );
+		p.rotateX( _rotation.x() );
+		p.rotateY( _rotation.y() );
+		p.rotateZ( _rotation.z() );
 		
 		// scroll left
 		p.translate( -TOTAL_LINE_WIDTH + (-p.frameCount*SCROLL_SPEED) % TOTAL_LINE_WIDTH, 0, 0 );

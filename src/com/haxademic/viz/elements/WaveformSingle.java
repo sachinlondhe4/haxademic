@@ -67,9 +67,9 @@ implements IVizElement {
 		
 		// apply base easing rotation
 		_rotation.update();
-		p.rotateY( _rotation.valueX() );
-		p.rotateX( _rotation.valueY() );
-		p.rotateZ( _rotation.valueZ() );
+		p.rotateY( _rotation.x() );
+		p.rotateX( _rotation.y() );
+		p.rotateZ( _rotation.z() );
 		
 		// set initial darw color to fade out
 		p.stroke( _baseColor.toARGB() );

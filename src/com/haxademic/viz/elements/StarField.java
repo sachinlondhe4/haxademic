@@ -142,9 +142,9 @@ implements IVizElement {
 			
 			for( int i = _trailIndex + _numTrails; i > _trailIndex; i-- ) {
 				int indx = i % _numTrails;
-				_trailPoints.get(indx).x = _loc.valueX();
-				_trailPoints.get(indx).y = _loc.valueY();
-				_trailPoints.get(indx).z = _loc.valueZ();
+				_trailPoints.get(indx).x = _loc.x();
+				_trailPoints.get(indx).y = _loc.y();
+				_trailPoints.get(indx).z = _loc.z();
 			}
 
 			
@@ -163,13 +163,13 @@ implements IVizElement {
 					float strafeDist = _speed * _framesTillMove / 10f;
 					int randDir = MathUtil.randRange( 0, 3 );
 					if( randDir == 0 ) {
-						_loc.setTargetY( _loc.valueY() + strafeDist );
+						_loc.setTargetY( _loc.y() + strafeDist );
 					} else if( randDir == 1 ) {
-						_loc.setTargetY( _loc.valueY() - strafeDist );
+						_loc.setTargetY( _loc.y() - strafeDist );
 					} else if( randDir == 2 ) {
-						_loc.setTargetX( _loc.valueX() + strafeDist );
+						_loc.setTargetX( _loc.x() + strafeDist );
 					} else if( randDir == 3 ) {
-						_loc.setTargetX( _loc.valueX() - strafeDist );
+						_loc.setTargetX( _loc.x() - strafeDist );
 					}
 				} else {
 //					_loc.setTargetX( _loc.valueX() );
@@ -181,16 +181,16 @@ implements IVizElement {
 				
 			} else {
 				// keep moving forward
-				_loc.setTargetZ( _loc.valueZ() + _speed );
+				_loc.setTargetZ( _loc.z() + _speed );
 			}
 			
 			
 			_loc.update();
 			
 			// every increment references the newest point and loops backwards 
-			_trailPoints.get( _trailIndex ).x = _loc.valueX();
-			_trailPoints.get( _trailIndex ).y = _loc.valueY();
-			_trailPoints.get( _trailIndex ).z = _loc.valueZ();
+			_trailPoints.get( _trailIndex ).x = _loc.x();
+			_trailPoints.get( _trailIndex ).y = _loc.y();
+			_trailPoints.get( _trailIndex ).z = _loc.z();
 			
 			float baseSize = _size * amp;
 			int indx = _trailIndex;
@@ -238,7 +238,7 @@ implements IVizElement {
 			
 			
 			
-			if( _loc.valueZ() < -_zRange ) {
+			if( _loc.z() < -_zRange ) {
 				reset();
 			}
 			

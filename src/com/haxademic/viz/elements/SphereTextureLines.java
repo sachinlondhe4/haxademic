@@ -114,9 +114,9 @@ implements IVizElement {
 		
 		p.translate( 0, 0, -400 );
 		_rotation.update();
-		p.rotateY( _rotation.valueX() );
-		p.rotateX( _rotation.valueY() );
-		p.rotateZ( _rotation.valueZ() );
+		p.rotateY( _rotation.x() );
+		p.rotateX( _rotation.y() );
+		p.rotateZ( _rotation.z() );
 		
 		MeshUtil.deformMeshWithAudio( _sphereMesh, _deformMesh, _audioData, _deformFactor );
 	

@@ -160,8 +160,8 @@ extends PApplet
 		_rot.setTargetX( p.mouseX/100f );
 		_rot.setTargetY( p.mouseY/100f );
 		_rot.update();
-		p.rotateZ( _rot.valueX() );
-		p.rotateY( _rot.valueY() );
+		p.rotateZ( _rot.x() );
+		p.rotateY( _rot.y() );
 		
 		// draw WETriangleMesh
 		if( _wireFrame ) {

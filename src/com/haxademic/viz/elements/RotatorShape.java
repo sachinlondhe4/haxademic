@@ -139,9 +139,9 @@ implements IVizElement {
 			_inc += _incSpeed;
 			
 			_posBase.update();
-			_pos.x = _posBase.valueX() + p.sin( _inc ) * _radius;
-			_pos.y = _posBase.valueY() + p.sin( _inc ) * _radius;
-			_pos.z = _posBase.valueZ() + p.cos( _inc ) * _radius;
+			_pos.x = _posBase.x() + p.sin( _inc ) * _radius;
+			_pos.y = _posBase.y() + p.sin( _inc ) * _radius;
+			_pos.z = _posBase.z() + p.cos( _inc ) * _radius;
 		}
 
 		public void dispose() {
