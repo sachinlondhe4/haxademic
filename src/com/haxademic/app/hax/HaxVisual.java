@@ -9,6 +9,7 @@ import com.haxademic.app.PAppletHax;
 import com.haxademic.core.debug.DebugText;
 import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.image.ScreenUtil;
+import com.haxademic.core.system.FileUtil;
 import com.haxademic.viz.IVizModule;
 import com.haxademic.viz.modules.AmbientViz;
 import com.haxademic.viz.modules.AudioTubes;
@@ -102,7 +103,7 @@ extends PAppletHax
 	}
 	
 	public void setup () {
-		_customPropsFile = "../data/properties/haxvisual.properties";
+		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/haxvisual.properties";
 		super.setup();
 		initVizModules();
 	}

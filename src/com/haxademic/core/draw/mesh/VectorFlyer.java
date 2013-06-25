@@ -9,6 +9,7 @@ import toxi.geom.mesh.TriangleMesh;
 import com.haxademic.app.P;
 import com.haxademic.app.PAppletHax;
 import com.haxademic.core.draw.color.TColorBlendBetween;
+import com.haxademic.core.system.FileUtil;
 
 public class VectorFlyer {
 	protected PAppletHax p;
@@ -35,7 +36,7 @@ public class VectorFlyer {
 //		mesh = (TriangleMesh)cylinder.toMesh();
 		mesh = (TriangleMesh)(new AABB(size)).toMesh();
 		mesh.scale(new Vec3D(0.25f, 0.25f, 1));
-//		mesh = MeshUtil.meshFromOBJ( p, "../data/models/pointer_cursor_2_hollow.obj", 0.005f * size );
+//		mesh = MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/pointer_cursor_2_hollow.obj", 0.005f * size );
 //		mesh.rotateX(P.PI/2f);
 	}
 

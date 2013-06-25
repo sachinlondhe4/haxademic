@@ -10,6 +10,7 @@ import com.haxademic.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.system.FileUtil;
 
 import ddf.minim.AudioPlayer;
 
@@ -36,7 +37,7 @@ extends PAppletHax
 	}
 
 	public void setup() {
-		_customPropsFile = "../data/properties/airdrums.properties";
+		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/airdrums.properties";
 		super.setup();
 		initDrums();
 	}

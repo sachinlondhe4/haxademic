@@ -21,7 +21,7 @@ extends Properties
 	public P5Properties(PApplet p) {
 		super();
 		this.p = p;
-		loadPropertiesFile( "../data/properties/run.properties" );
+		loadPropertiesFile( FileUtil.getHaxademicDataPath() + "properties/run.properties" );
 	}
 	
 	public void loadPropertiesFile( String file ) {
