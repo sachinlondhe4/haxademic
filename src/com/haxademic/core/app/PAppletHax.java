@@ -73,11 +73,10 @@ import fullscreen.FullScreen;
  * @TODO: Finish converting old modules into new Elements: AudioTubes, Blobsheet, cacheRings outer rings, GridEQ w/lines, MaxCache outer rings, PlusRing, more spheres
  * @TODO: Create more abstract user/hardware input system that routes different inputs into certain types of commands.
  * @TODO: Fix stepping through audio for WaveformData - this was hacked for BNC video rendering but shouldn't have to play & cue() the audio to capture the data
- * @TODO: Figure out why publish/output directory weirdness is happening, and why generated .class files need to be there...
  * @TODO: Don't initialize MIDI object if not defined in run.properties. Will need to prevent attempting to detect MIDI input on handleKeyboardInput() methods
  * @TODO: Figure out camera perspective stretching issues in MasterHax
  * @TODO: Improve launchpad visuals
- * @TODO: Add launchpad back in without a secondary AUdioInputWrapper
+ * @TODO: Add launchpad back in without a secondary AudioInputWrapper
  * @TODO: Improve color selecting - use test sketch to figure out how to deal with color-traversing
  * @TODO: New elements: trails, supershapes, GEARS, particles
  * @TODO: add foreground/background modes to elements that could use them. 
