@@ -1,4 +1,4 @@
-package com.haxademic.viz.filters;
+package com.haxademic.core.image.filters;
 
 
 import java.util.ArrayList;

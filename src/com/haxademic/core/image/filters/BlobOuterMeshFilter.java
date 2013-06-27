@@ -1,4 +1,4 @@
-package com.haxademic.viz.filters;
+package com.haxademic.core.image.filters;
 
 import processing.core.PGraphics;
 import processing.core.PImage;

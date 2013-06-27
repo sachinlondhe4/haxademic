@@ -9,7 +9,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
-import com.haxademic.viz.filters.PixelFilter;
+import com.haxademic.core.image.filters.PixelFilter;
 
 public class KinectPixelMeshDisplace 
 extends PAppletHax {

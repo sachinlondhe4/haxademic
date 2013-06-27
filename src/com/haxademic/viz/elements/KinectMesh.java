@@ -10,9 +10,9 @@ import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.image.filters.PixelFilter;
 import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
-import com.haxademic.viz.filters.PixelFilter;
 
 public class KinectMesh
 extends ElementBase 

@@ -1,4 +1,4 @@
-package com.haxademic.viz.filters;
+package com.haxademic.core.image.filters;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -8,7 +8,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.image.ImageUtil;
 
-public class PixelFilter {
+public class PixelTriFilter {
 	
 	protected PAppletHax p;
 	protected int _width;
@@ -19,7 +19,7 @@ public class PixelFilter {
 	PImage blobBufferImg;
 
 	
-	public PixelFilter( int width, int height, int pixelSize ) {
+	public PixelTriFilter( int width, int height, int pixelSize ) {
 		p = (PAppletHax) P.p;
 		_width = width;
 		_height = height;
@@ -35,13 +35,30 @@ public class PixelFilter {
 	protected void drawPixels( PImage source ) {
 		ImageUtil.clearPGraphics( _pg );
 		_pg.noStroke();
-		_pg.fill(0,0);
+		// _pg.smooth();
+		
+		int pixelSizeHalf = _pixelSize / 2;
 		
 		for( int x=0; x < source.width; x += _pixelSize ) {
 			for( int y=0; y < source.height; y += _pixelSize ) {
-				int color = ImageUtil.getPixelColor( source, x, y );
-				_pg.fill(color);
-				_pg.rect( x, y, _pixelSize, _pixelSize );
+				// get center color of triangle
+				_pg.beginDraw();
+				
+				_pg.fill( ImageUtil.getPixelColor( source, x, y + pixelSizeHalf ) );
+				_pg.beginShape(P.TRIANGLES);
+				_pg.vertex( x, y, 0 );
+				_pg.vertex( x + pixelSizeHalf, y + _pixelSize, 0 );
+				_pg.vertex( x - pixelSizeHalf, y + _pixelSize, 0 );
+				_pg.endShape();
+
+				_pg.fill( ImageUtil.getPixelColor( source, x + pixelSizeHalf, y + pixelSizeHalf ) );
+				_pg.beginShape(P.TRIANGLES);
+				_pg.vertex( x, y, 0 );
+				_pg.vertex( x + _pixelSize, y, 0 );
+				_pg.vertex( x + pixelSizeHalf, y + _pixelSize, 0 );
+				_pg.endShape();
+
+				_pg.endDraw();
 			}
 		}
 	}
