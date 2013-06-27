@@ -27,7 +27,7 @@ public class AppRestart {
 	}
 
 	/**
-	 * Restart the current Java application
+	 * Restart the current Java application - currently this only seems to work once and fails after that...
 	 * @param runBeforeRestart some custom code to be run before restarting
 	 * @throws IOException
 	 */
@@ -64,15 +64,18 @@ public class AppRestart {
 				cmd.append(" ");
 				cmd.append(mainCommand[i]);
 			}
+			
+
 			// execute the command in a shutdown hook, to be sure that all the
 			// resources have been disposed before restarting the application
 			Runtime.getRuntime().addShutdownHook(new Thread() {
 				@Override
 				public void run() {
 					try {
-						DebugUtil.alert(cmd.toString()); // TODO: Figure out what the diff is between 1st and 2nd restarts that makes it fail
+						// FileUtil.writeTextToFile( FileUtil.getHaxademicOutputPath() + "" + SystemUtil.getTimestamp(P.p)+"-restart-file.txt", cmd.toString());
 						Runtime.getRuntime().exec(cmd.toString());
 					} catch (IOException e) {
+						// FileUtil.writeTextToFile( FileUtil.getHaxademicOutputPath() + "" + SystemUtil.getTimestamp(P.p)+"-error-file.txt", e.toString());
 						e.printStackTrace();
 					}
 				}
@@ -85,6 +88,7 @@ public class AppRestart {
 			System.exit(0);
 		} catch (Exception e) {
 			// something went wrong
+			// FileUtil.writeTextToFile( FileUtil.getHaxademicOutputPath() + "" + SystemUtil.getTimestamp(P.p)+"-error-file.txt", e.toString());
 			throw new IOException("Error while trying to restart the application", e);
 		}
 	}

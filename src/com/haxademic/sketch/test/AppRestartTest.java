@@ -13,7 +13,6 @@ extends PAppletHax
 	
 	public void setup() {
 		super.setup();		
-		buff = new FloatBuffer(10);
 	}
 
 	public void drawApp() {
