@@ -1,4 +1,4 @@
-package com.haxademic.app.hax;
+package com.haxademic.app.haxvisual;
 
 import java.util.ArrayList;
 
@@ -47,7 +47,7 @@ extends PAppletHax
 	public static void main(String args[]) {
 		// "--present", 
 		_hasChrome = false;
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.hax.HaxVisual" });
+		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.haxvisual.HaxVisual" });
 	}
 
 	/**
