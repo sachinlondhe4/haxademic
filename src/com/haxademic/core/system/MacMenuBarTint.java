@@ -12,9 +12,12 @@ public class MacMenuBarTint {
 		// open Menu Bar Tint app if it exists
 		if( FileUtil.fileOrPathExists( "/Applications/Menu Bar Tint.app/" ) ) {
 			try {
-				LAUNCHED = true;
+				MacMenuBarTint.LAUNCHED = true;
 				Runtime.getRuntime().exec( new String[] { "/bin/sh", "-c", "open /Applications/Menu\\ Bar\\ Tint.app/" } );
-			} catch (IOException e) { e.printStackTrace(); }
+			} catch (IOException e) { 
+				MacMenuBarTint.LAUNCHED = false;
+				e.printStackTrace(); 
+			}
 		} else {
 			P.println("## Download the free Menu Bar Tint app from: http://manytricks.com/menubartint/");
 			P.println("## This will launch automatically once installed.");
@@ -22,7 +25,7 @@ public class MacMenuBarTint {
 	}
 
 	public static void shutDownTint() {
-		if( LAUNCHED == true ) { 
+		if( MacMenuBarTint.LAUNCHED == true ) { 
 			try {
 				Runtime.getRuntime().exec( new String[] { "/bin/sh", "-c", "kill $(ps aux | grep Menu\\ Bar\\ Tint | awk '{print $2}')" } );
 			} catch (IOException e) { e.printStackTrace(); }

@@ -2,9 +2,7 @@ package com.haxademic.core.app;
 
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
 
 import javax.sound.midi.InvalidMidiDataException;
 
@@ -27,7 +25,6 @@ import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
 import com.haxademic.core.render.MIDISequenceRenderer;
 import com.haxademic.core.render.Renderer;
-import com.haxademic.core.system.AppRestart;
 import com.haxademic.core.system.MacMenuBarTint;
 import com.haxademic.core.system.P5Properties;
 import com.haxademic.core.system.SystemUtil;
@@ -229,7 +226,6 @@ extends PApplet
 			// set screen size and renderer
 			String renderer = ( _appConfig.getBoolean("sunflow", true ) == true ) ? "hipstersinc.P5Sunflow" : P.OPENGL;
 			if( _appConfig.getBoolean("fills_screen", false) == true || _appConfig.getBoolean("fullscreen", false) == true ) {
-				MacMenuBarTint.launchTint();
 				p.size(screen.width,screen.height,renderer);
 			} else {
 				p.size(_appConfig.getInt("width", 800),_appConfig.getInt("height", 600),renderer);
@@ -285,6 +281,7 @@ extends PApplet
 		_fps = _appConfig.getInt("fps", 30);
 		frameRate(_fps);
 		if( _appConfig.getBoolean("hide_cursor", false) == true ) p.noCursor();
+		if( _appConfig.getBoolean("menu_bar_tint", false) == true ) MacMenuBarTint.launchTint();
 	}
 	
 	public void init() {
@@ -427,11 +424,11 @@ extends PApplet
 	 * We stop rendering if applicable, and clean up hardware connections that might barf if left open.
 	 */
 	public void stop() {
-		if( kinectWrapper != null ) kinectWrapper.stop();
-//		if( _launchpadViz != null ) _launchpadViz.dispose();
 		if( _isRendering ) _renderer.stop();
-		WebCamWrapper.dispose();
 		MacMenuBarTint.shutDownTint();
+		WebCamWrapper.dispose();
+//		if( _launchpadViz != null ) _launchpadViz.dispose();
+		if( kinectWrapper != null ) kinectWrapper.stop();
 		super.stop();
 	}
 
