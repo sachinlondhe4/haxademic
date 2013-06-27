@@ -60,6 +60,7 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 	* Toggles the window chrome on a non-fullscreen applet
 	* Debug utilities to report current actual frame rate, memory usage 
 	* Timestamp generators
+	* CSV loading & saving
 * Apps
 	* HaxVisual - A modular VJ system ([video](http://www.youtube.com/watch?v=6G1jLZrN1Ig))
 	* KacheOut - A 2-player Kinect-based video game ([video](https://vimeo.com/43230920))
@@ -98,6 +99,7 @@ Haxademic uses the following Java & Processing libraries, which I've included in
 * [Geomerative](http://www.ricardmarxer.com/geomerative/)
 * [blobDetection](http://www.v3ga.net/processing/BlobDetection/)
 * [Java Image Filters](http://www.jhlabs.com/ip/filters/index.html)
+* [Super CSV](http://supercsv.sourceforge.net/)
 
 Use the following VM Arguments when running the Java Application
 
