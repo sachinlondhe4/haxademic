@@ -27,6 +27,7 @@ import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
 import com.haxademic.core.render.MIDISequenceRenderer;
 import com.haxademic.core.render.Renderer;
+import com.haxademic.core.system.AppRestart;
 import com.haxademic.core.system.MacMenuBarTint;
 import com.haxademic.core.system.P5Properties;
 import com.haxademic.core.system.SystemUtil;
@@ -38,21 +39,7 @@ import fullscreen.FullScreen;
  * PAppletHax is a starting point for interactive visuals, giving you a unified
  * environment for both realtime and rendering modes. It loads several Java
  * libraries and wraps them up to play nicely with each other, all within the
- * context of Haxademic. For now, you need the following libraries:
- * 
- * Processing
- * Krister.ESS
- * OpenNI
- * Toxiclibs
- * p5sunflow
- * OBJLoader
- * themidibus
- * oscP5
- * fullscreen
- * launchpad
- * He_Mesh
- * minim 
- * Geomerative 
+ * context of Haxademic.
  * 
  * @TODO: Add better Processing lights() situation
  * @TODO: Refactor MIDI input for easier switching between ableton & akai pad control
@@ -250,7 +237,7 @@ extends PApplet
 		}
 		_graphicsMode = p.g.getClass().getName();
 		if(_graphicsMode == P.OPENGL) P.gl=((PGraphicsOpenGL)g).gl;
-		if( frame != null ) frame.setBackground(new java.awt.Color(0,0,0));
+		if( p.frame != null ) p.frame.setBackground(new java.awt.Color(0,0,0));
 		setAppletProps();
 		initHaxademicObjects();
 	}
@@ -302,10 +289,10 @@ extends PApplet
 	
 	public void init() {
 		// frame only exists on Java Applications, not Applets
-		if( frame != null && _hasChrome == false ) {
-			frame.removeNotify(); 
-			frame.setUndecorated(true); 
-			frame.addNotify(); 
+		if( p.frame != null && _hasChrome == false ) {
+			p.frame.removeNotify(); 
+			p.frame.setUndecorated(true); 
+			p.frame.addNotify(); 
 		}
 		super.init();
 	}
@@ -351,14 +338,6 @@ extends PApplet
 		
 		if( _isRendering == true ) _renderer.renderFrame(); 	// render frame if rendering
 		if( _showStats == true ) showStats();
-//		P.println(p.frameCount);
-//		if(p.frameCount == 90) 
-//			try {
-//				P.println("Attempting to restart...");
-//				restartApplication(null);
-//			} catch (IOException e) {
-//				P.println("Error: couldn't restart. crap.");
-//			}
 	}
 	
 	protected void showStats() {
@@ -531,74 +510,5 @@ extends PApplet
 	public float getFpsFactor() { return 30f / _fps; }
 	// get autopilot boolean -------------------------------------------------
 //	public Boolean getIsAutopilot() { return _isAutoPilot; }
-	
-	
-	
-	/** 
-	 * Sun property pointing the main class and its arguments. 
-	 * Might not be defined on non Hotspot VM implementations.
-	 */
-	public static final String SUN_JAVA_COMMAND = "sun.java.command";
 
-	/**
-	 * Restart the current Java application
-	 * @param runBeforeRestart some custom code to be run before restarting
-	 * @throws IOException
-	 */
-	public static void restartApplication(Runnable runBeforeRestart) throws IOException {
-		try {
-			// java binary
-			String java = System.getProperty("java.home") + "/bin/java";
-			// vm arguments
-//			List<String> vmArguments = ManagementFactory.getRuntimeMXBean().getInputArguments();
-			StringBuffer vmArgsOneLine = new StringBuffer();
-			for (String arg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
-				// if it's the agent argument : we ignore it otherwise the
-				// address of the old application and the new one will be in conflict
-				if (!arg.contains("-agentlib")) {
-					vmArgsOneLine.append(arg);
-					vmArgsOneLine.append(" ");
-				}
-			}
-			// init the command to execute, add the vm args
-			final StringBuffer cmd = new StringBuffer("" + java + " " + vmArgsOneLine);
-
-			// program main and program arguments
-			String[] mainCommand = System.getProperty(SUN_JAVA_COMMAND).split(" ");
-			// program main is a jar
-			if (mainCommand[0].endsWith(".jar")) {
-				// if it's a jar, add -jar mainJar
-				cmd.append("-jar " + new File(mainCommand[0]).getPath());
-			} else {
-				// else it's a .class, add the classpath and mainClass
-				cmd.append("-cp " + System.getProperty("java.class.path") + " " + mainCommand[0]);
-			}
-			// finally add program arguments
-			for (int i = 1; i < mainCommand.length; i++) {
-				cmd.append(" ");
-				cmd.append(mainCommand[i]);
-			}
-			// execute the command in a shutdown hook, to be sure that all the
-			// resources have been disposed before restarting the application
-			Runtime.getRuntime().addShutdownHook(new Thread() {
-				@Override
-				public void run() {
-					try {
-						Runtime.getRuntime().exec(cmd.toString());
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-			// execute some custom code before restarting
-			if (runBeforeRestart!= null) {
-				runBeforeRestart.run();
-			}
-			// exit
-			System.exit(0);
-		} catch (Exception e) {
-			// something went wrong
-			throw new IOException("Error while trying to restart the application", e);
-		}
-	}
 }
