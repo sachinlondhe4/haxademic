@@ -1,5 +1,9 @@
 package com.haxademic.core.debug;
 
+import javax.swing.JOptionPane;
+
+import com.haxademic.core.app.P;
+
 public class DebugUtil {
 	
 	public static void showMemoryUsage() {
@@ -21,4 +25,8 @@ public class DebugUtil {
 		System.out.println( str );  
 	}
 
+	public static void alert( String message ) {
+		JOptionPane.showMessageDialog( P.p.frame, message );
+	}
+	
 }
