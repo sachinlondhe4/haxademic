@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-import com.haxademic.app.PAppletHax;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.system.FileUtil;
 
 public class TimeLapse

@@ -11,8 +11,8 @@ import blobDetection.Blob;
 import blobDetection.BlobDetection;
 import blobDetection.EdgeVertex;
 
-import com.haxademic.app.P;
-import com.haxademic.app.PAppletHax;
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
 import com.haxademic.core.image.ImageUtil;

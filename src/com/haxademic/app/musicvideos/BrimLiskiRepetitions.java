@@ -13,8 +13,8 @@ import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.math.noise.PerlinNoise;
 
-import com.haxademic.app.P;
-import com.haxademic.app.PAppletHax;
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.EasingTColor;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.image.ImageUtil;

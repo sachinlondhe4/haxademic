@@ -5,8 +5,8 @@ import toxi.geom.AABB;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.WETriangleMesh;
 
-import com.haxademic.app.P;
 import com.haxademic.app.kacheout.KacheOut;
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.EasingTColor;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;

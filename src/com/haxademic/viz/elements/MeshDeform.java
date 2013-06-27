@@ -5,9 +5,9 @@ import toxi.geom.Sphere;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.app.P;
-import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.KacheOut;
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.data.Point3D;
 import com.haxademic.core.draw.color.ColorGroup;

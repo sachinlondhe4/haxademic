@@ -5,7 +5,7 @@ import javax.media.opengl.GL;
 import processing.core.PApplet;
 import processing.opengl.PGraphicsOpenGL;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 
 public class OpenGLUtil {
 

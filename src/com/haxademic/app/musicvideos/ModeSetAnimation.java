@@ -9,8 +9,8 @@ import toxi.geom.Vec3D;
 import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
 
-import com.haxademic.app.P;
-import com.haxademic.app.PAppletHax;
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.EasingTColor;
 import com.haxademic.core.draw.color.TColorInit;
 import com.haxademic.core.draw.mesh.MeshUtil;

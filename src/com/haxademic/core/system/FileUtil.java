@@ -5,7 +5,7 @@ import java.io.FileFilter;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
 
 public class FileUtil {
@@ -44,6 +44,16 @@ public class FileUtil {
 		if( OUTPUT_PATH != null ) return OUTPUT_PATH;
 		OUTPUT_PATH = getHaxademicPath().concat("/output/");
 		return OUTPUT_PATH;
+	}
+	
+	// existance methods ----------------------------------------
+	public static Boolean fileOrPathExists( String path ) {
+		File f = new File( path );
+		return f.exists();
+	}
+	
+	public static Boolean fileExists( String path ) {
+		return new File( path ).isFile();
 	}
 	
 	/**

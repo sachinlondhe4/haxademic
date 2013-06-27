@@ -2,8 +2,8 @@ package com.haxademic.app.matchgame.game;
 
 import java.awt.Rectangle;
 
-import com.haxademic.app.P;
 import com.haxademic.app.matchgame.MatchGame;
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
 
 public class MatchGamePiece {

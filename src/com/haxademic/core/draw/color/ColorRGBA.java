@@ -1,6 +1,6 @@
 package com.haxademic.core.draw.color;
 
-import com.haxademic.app.PAppletHax;
+import com.haxademic.core.app.PAppletHax;
 
 public class ColorRGBA {
 	public float r;

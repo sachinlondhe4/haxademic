@@ -5,7 +5,7 @@ import toxi.geom.Matrix4x4;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.TriangleMesh;
 
-import com.haxademic.app.PAppletHax;
+import com.haxademic.core.app.PAppletHax;
 
 public class AlignObjectsToSphere
 extends PAppletHax {

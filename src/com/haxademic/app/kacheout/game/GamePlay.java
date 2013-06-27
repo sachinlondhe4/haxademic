@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import toxi.color.TColor;
 
-import com.haxademic.app.P;
 import com.haxademic.app.kacheout.KacheOut;
+import com.haxademic.core.app.P;
 import com.haxademic.core.data.FloatRange;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectWrapper;

@@ -2,7 +2,7 @@ package com.haxademic.core.debug;
 
 import processing.core.PApplet;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 
 public class Stats {
 	

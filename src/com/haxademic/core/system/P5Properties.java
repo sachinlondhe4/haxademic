@@ -5,7 +5,7 @@ import java.util.Properties;
 
 import processing.core.PApplet;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 
 /**
  * simple convenience wrapper object for the standard

@@ -3,7 +3,7 @@ package com.haxademic.core.draw.util;
 import processing.core.PApplet;
 import processing.core.PConstants;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 
 public class DrawUtil {
 	/**

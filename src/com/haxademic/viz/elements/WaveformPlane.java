@@ -6,9 +6,9 @@ import processing.core.PApplet;
 import toxi.color.TColor;
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.app.PAppletHax;
 import com.haxademic.viz.ElementBase;
 import com.haxademic.viz.IVizElement;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.audio.WaveformData;
 import com.haxademic.core.draw.color.ColorGroup;

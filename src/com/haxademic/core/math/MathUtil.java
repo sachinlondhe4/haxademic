@@ -2,7 +2,7 @@ package com.haxademic.core.math;
 
 import processing.core.PApplet;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 
 /**
  * A series of common, static math helper methods

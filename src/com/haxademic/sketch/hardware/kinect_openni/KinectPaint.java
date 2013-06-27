@@ -5,8 +5,8 @@ import processing.core.PGraphics;
 import toxi.geom.Vec3D;
 import SimpleOpenNI.SimpleOpenNI;
 
-import com.haxademic.app.P;
-import com.haxademic.app.PAppletHax;
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
 

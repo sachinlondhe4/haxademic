@@ -3,7 +3,7 @@ package com.haxademic.core.text;
 import processing.core.PApplet;
 import processing.core.PFont;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 
 public class FontUtil {
 	

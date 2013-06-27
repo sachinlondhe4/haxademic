@@ -7,8 +7,8 @@ import blobDetection.Blob;
 import blobDetection.BlobDetection;
 import blobDetection.EdgeVertex;
 
-import com.haxademic.app.P;
-import com.haxademic.app.PAppletHax;
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
 

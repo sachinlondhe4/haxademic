@@ -4,8 +4,8 @@ import toxi.color.TColor;
 import toxi.geom.AABB;
 import toxi.geom.Vec3D;
 
-import com.haxademic.app.P;
 import com.haxademic.app.kacheout.KacheOut;
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.EasingTColor;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.ElasticFloat;

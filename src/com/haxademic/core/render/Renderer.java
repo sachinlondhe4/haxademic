@@ -4,7 +4,7 @@ import krister.Ess.AudioChannel;
 import processing.core.PApplet;
 import processing.video.MovieMaker;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.system.SystemUtil;
 

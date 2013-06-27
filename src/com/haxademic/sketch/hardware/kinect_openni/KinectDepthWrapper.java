@@ -4,7 +4,7 @@ import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PVector;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 
 public class KinectDepthWrapper extends PApplet {

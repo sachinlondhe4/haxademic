@@ -2,7 +2,7 @@ package com.haxademic.viz;
 
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.app.PAppletHax;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.cameras.common.ICamera;
 

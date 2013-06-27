@@ -1,7 +1,7 @@
 package com.haxademic.app.musicvideos;
 
-import com.haxademic.app.P;
-import com.haxademic.app.PAppletHax;
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
 
 public class TenTracerSnake
 extends PAppletHax  

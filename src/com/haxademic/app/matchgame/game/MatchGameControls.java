@@ -7,8 +7,8 @@ import processing.core.PVector;
 import toxi.geom.Vec3D;
 import SimpleOpenNI.SimpleOpenNI;
 
-import com.haxademic.app.P;
 import com.haxademic.app.matchgame.MatchGame;
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.math.MathUtil;

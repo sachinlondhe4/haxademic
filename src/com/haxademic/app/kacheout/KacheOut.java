@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import processing.core.PApplet;
 
-import com.haxademic.app.P;
-import com.haxademic.app.PAppletHax;
 import com.haxademic.app.kacheout.game.GamePlay;
 import com.haxademic.app.kacheout.game.Soundtrack;
 import com.haxademic.app.kacheout.media.AssetLoader;
 import com.haxademic.app.kacheout.media.PhotoBooth;
 import com.haxademic.app.kacheout.screens.IntroScreen;
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.cameras.CameraDefault;
 import com.haxademic.core.cameras.common.ICamera;

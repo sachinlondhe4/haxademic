@@ -3,8 +3,8 @@ package com.haxademic.app.kacheout.media;
 import geomerative.RFont;
 import geomerative.RG;
 
-import com.haxademic.app.P;
 import com.haxademic.app.kacheout.KacheOut;
+import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
 

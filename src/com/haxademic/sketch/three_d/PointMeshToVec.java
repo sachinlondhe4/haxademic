@@ -8,7 +8,7 @@ import toxi.geom.Vec3D;
 import toxi.geom.ZAxisCylinder;
 import toxi.geom.mesh.TriangleMesh;
 
-import com.haxademic.app.PAppletHax;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 
 public class PointMeshToVec 

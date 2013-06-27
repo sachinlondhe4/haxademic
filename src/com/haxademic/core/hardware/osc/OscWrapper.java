@@ -6,7 +6,7 @@ import netP5.NetAddress;
 import oscP5.OscP5;
 import processing.core.PApplet;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 
 public class OscWrapper {
 	

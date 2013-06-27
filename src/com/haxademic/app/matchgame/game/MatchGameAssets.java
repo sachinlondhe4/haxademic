@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import processing.core.PImage;
 import toxi.color.TColor;
 
-import com.haxademic.app.P;
 import com.haxademic.app.matchgame.MatchGame;
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.text.CustomFontText2D;
 
 public class MatchGameAssets {

@@ -6,7 +6,7 @@ import toxi.geom.Cone;
 import toxi.geom.Matrix4x4;
 import toxi.geom.Vec3D;
 
-import com.haxademic.app.PAppletHax;
+import com.haxademic.core.app.PAppletHax;
 
 public class FlockingBoidsShiffmanToxi
 extends PAppletHax {

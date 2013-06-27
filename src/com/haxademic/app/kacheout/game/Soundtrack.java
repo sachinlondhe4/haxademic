@@ -2,8 +2,8 @@ package com.haxademic.app.kacheout.game;
 
 import java.util.ArrayList;
 
-import com.haxademic.app.P;
 import com.haxademic.app.kacheout.KacheOut;
+import com.haxademic.core.app.P;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 

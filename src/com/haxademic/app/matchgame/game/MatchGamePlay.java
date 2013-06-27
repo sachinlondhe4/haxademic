@@ -2,8 +2,8 @@ package com.haxademic.app.matchgame.game;
 
 import java.util.ArrayList;
 
-import com.haxademic.app.P;
 import com.haxademic.app.matchgame.MatchGame;
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 

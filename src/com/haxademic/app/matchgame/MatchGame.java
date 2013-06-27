@@ -3,12 +3,12 @@ package com.haxademic.app.matchgame;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-import com.haxademic.app.P;
-import com.haxademic.app.PAppletHax;
 import com.haxademic.app.matchgame.game.MatchGameAssets;
 import com.haxademic.app.matchgame.game.MatchGameConfetti;
 import com.haxademic.app.matchgame.game.MatchGameControls;
 import com.haxademic.app.matchgame.game.MatchGamePlay;
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectWrapper;

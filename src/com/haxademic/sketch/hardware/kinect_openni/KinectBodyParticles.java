@@ -6,7 +6,7 @@ import toxi.color.TColor;
 import toxi.geom.Vec3D;
 import SimpleOpenNI.SimpleOpenNI;
 
-import com.haxademic.app.PAppletHax;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.mesh.VectorFlyer;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;

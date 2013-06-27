@@ -2,8 +2,8 @@ package com.haxademic.app.kacheout.media;
 
 import processing.core.PImage;
 
-import com.haxademic.app.P;
-import com.haxademic.app.PAppletHax;
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.image.ScreenUtil;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.SystemUtil;

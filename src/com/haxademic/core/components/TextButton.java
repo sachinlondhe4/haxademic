@@ -2,7 +2,7 @@ package com.haxademic.core.components;
 
 import processing.core.PApplet;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.system.FileUtil;
 

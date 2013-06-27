@@ -3,7 +3,7 @@ package com.haxademic.core.debug;
 import processing.core.PApplet;
 import processing.core.PFont;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
 
 public class DebugText {

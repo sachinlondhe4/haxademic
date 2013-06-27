@@ -4,7 +4,7 @@ import krister.Ess.AudioChannel;
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 import com.haxademic.core.render.Renderer;
 
 public class WaveformData {

@@ -3,8 +3,8 @@ package com.haxademic.sketch.three_d;
 
 import processing.core.PApplet;
 
-import com.haxademic.app.P;
-import com.haxademic.app.PAppletHax;
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.TColorInit;
 
 public class SunflowColorTest

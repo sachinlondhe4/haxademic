@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 
 import processing.core.PApplet;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 
 public class Button
 implements IMouseable {

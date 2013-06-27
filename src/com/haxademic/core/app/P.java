@@ -1,4 +1,4 @@
-package com.haxademic.app;
+package com.haxademic.core.app;
 
 import javax.media.opengl.GL;
 

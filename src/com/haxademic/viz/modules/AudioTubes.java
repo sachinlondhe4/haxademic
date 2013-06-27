@@ -3,7 +3,7 @@ package com.haxademic.viz.modules;
 import processing.core.PApplet;
 import processing.core.PConstants;
 
-import com.haxademic.app.PAppletHax;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.cameras.CameraDefault;
 import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.viz.IVizModule;

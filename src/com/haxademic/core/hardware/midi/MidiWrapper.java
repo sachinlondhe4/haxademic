@@ -5,7 +5,7 @@ import java.util.Hashtable;
 import processing.core.PApplet;
 import themidibus.MidiBus;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 
 public class MidiWrapper
 {

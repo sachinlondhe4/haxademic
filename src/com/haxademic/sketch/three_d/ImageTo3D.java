@@ -7,7 +7,7 @@ import toxi.geom.Vec3D;
 import toxi.geom.mesh.TriangleMesh;
 import toxi.geom.mesh.WETriangleMesh;
 
-import com.haxademic.app.PAppletHax;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
 import com.haxademic.core.image.ImageUtil;

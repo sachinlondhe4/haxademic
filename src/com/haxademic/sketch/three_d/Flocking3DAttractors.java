@@ -8,8 +8,8 @@ import toxi.geom.Vec3D;
 import toxi.geom.ZAxisCylinder;
 import toxi.geom.mesh.TriangleMesh;
 
-import com.haxademic.app.P;
-import com.haxademic.app.PAppletHax;
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.TColorBlendBetween;
 import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.util.DrawUtil;

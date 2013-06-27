@@ -5,7 +5,7 @@ import processing.core.PImage;
 import processing.core.PVector;
 import SimpleOpenNI.SimpleOpenNI;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 
 public class KinectWrapper {
 	

@@ -4,7 +4,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import toxi.color.TColor;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.TColorBlendBetween;

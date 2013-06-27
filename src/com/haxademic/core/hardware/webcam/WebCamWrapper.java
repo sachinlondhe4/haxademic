@@ -4,7 +4,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import processing.video.Capture;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 
 public class WebCamWrapper {
 

@@ -6,7 +6,7 @@ import processing.core.PConstants;
 import toxi.color.TColor;
 import toxi.geom.mesh.WETriangleMesh;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.shapes.Meshes;
 import com.haxademic.core.draw.util.DrawMesh;

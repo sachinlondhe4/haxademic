@@ -10,7 +10,7 @@ import toxi.color.TColor;
 import toxi.color.theory.ColorTheoryRegistry;
 import toxi.color.theory.ColorTheoryStrategy;
 
-import com.haxademic.app.P;
+import com.haxademic.core.app.P;
 import com.haxademic.core.cameras.CameraBasic;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.util.DrawUtil;
