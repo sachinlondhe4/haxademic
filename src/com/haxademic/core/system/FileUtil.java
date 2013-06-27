@@ -1,8 +1,11 @@
 package com.haxademic.core.system;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileWriter;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
@@ -132,5 +135,17 @@ public class FileUtil {
 		};
 		File[] files = dir.listFiles(fileFilter);
 		P.println( files.length );
+	}
+	
+	/**
+	 * Simple method to write text to a file
+	 * @param file The filename (with full path) to write to
+	 * @param text Text to write to the file
+	 */
+	public static final void writeTextToFile( String file, String text ) {
+		try {
+			new BufferedWriter( new FileWriter( file )).write( text );
+		} catch (IOException e) { e.printStackTrace(); }
+		
 	}
 }
