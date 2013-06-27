@@ -5,11 +5,14 @@ import java.io.IOException;
 import com.haxademic.core.app.P;
 
 public class MacMenuBarTint {
-	
+
+	public static Boolean LAUNCHED = false;
+
 	public static void launchTint() {
 		// open Menu Bar Tint app if it exists
 		if( FileUtil.fileOrPathExists( "/Applications/Menu Bar Tint.app/" ) ) {
 			try {
+				LAUNCHED = true;
 				Runtime.getRuntime().exec( new String[] { "/bin/sh", "-c", "open /Applications/Menu\\ Bar\\ Tint.app/" } );
 			} catch (IOException e) { e.printStackTrace(); }
 		} else {
@@ -17,10 +20,12 @@ public class MacMenuBarTint {
 			P.println("## This will launch automatically once installed.");
 		}
 	}
-	
+
 	public static void shutDownTint() {
-		try {
-			Runtime.getRuntime().exec( new String[] { "/bin/sh", "-c", "kill $(ps aux | grep Menu\\ Bar\\ Tint | awk '{print $2}')" } );
-		} catch (IOException e) { e.printStackTrace(); }
+		if( LAUNCHED == true ) { 
+			try {
+				Runtime.getRuntime().exec( new String[] { "/bin/sh", "-c", "kill $(ps aux | grep Menu\\ Bar\\ Tint | awk '{print $2}')" } );
+			} catch (IOException e) { e.printStackTrace(); }
+		}
 	}
 }

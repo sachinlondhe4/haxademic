@@ -27,6 +27,7 @@ import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
 import com.haxademic.core.render.MIDISequenceRenderer;
 import com.haxademic.core.render.Renderer;
+import com.haxademic.core.system.MacMenuBarTint;
 import com.haxademic.core.system.P5Properties;
 import com.haxademic.core.system.SystemUtil;
 
@@ -241,6 +242,7 @@ extends PApplet
 			// set screen size and renderer
 			String renderer = ( _appConfig.getBoolean("sunflow", true ) == true ) ? "hipstersinc.P5Sunflow" : P.OPENGL;
 			if( _appConfig.getBoolean("fills_screen", false) == true || _appConfig.getBoolean("fullscreen", false) == true ) {
+				MacMenuBarTint.launchTint();
 				p.size(screen.width,screen.height,renderer);
 			} else {
 				p.size(_appConfig.getInt("width", 800),_appConfig.getInt("height", 600),renderer);
@@ -446,6 +448,7 @@ extends PApplet
 //		if( _launchpadViz != null ) _launchpadViz.dispose();
 		if( _isRendering ) _renderer.stop();
 		WebCamWrapper.dispose();
+		MacMenuBarTint.shutDownTint();
 	}
 
 	// PApplet-level listeners ------------------------------------------------
