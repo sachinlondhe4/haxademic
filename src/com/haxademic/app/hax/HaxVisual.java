@@ -4,27 +4,27 @@ import java.util.ArrayList;
 
 import processing.core.PApplet;
 
+import com.haxademic.app.hax.viz.IVizModule;
+import com.haxademic.app.hax.viz.modules.AmbientViz;
+import com.haxademic.app.hax.viz.modules.AudioTubes;
+import com.haxademic.app.hax.viz.modules.BlobSheet;
+import com.haxademic.app.hax.viz.modules.Boxen3D;
+import com.haxademic.app.hax.viz.modules.BrimLiski;
+import com.haxademic.app.hax.viz.modules.CacheRings;
+import com.haxademic.app.hax.viz.modules.GridAndLinesEQ;
+import com.haxademic.app.hax.viz.modules.HorizLines;
+import com.haxademic.app.hax.viz.modules.KaraokeViz;
+import com.haxademic.app.hax.viz.modules.MasterHax;
+import com.haxademic.app.hax.viz.modules.MaxCache;
+import com.haxademic.app.hax.viz.modules.PlusRing;
+import com.haxademic.app.hax.viz.modules.Spheres;
+import com.haxademic.app.hax.viz.modules.Toxi;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugText;
 import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.image.ScreenUtil;
 import com.haxademic.core.system.FileUtil;
-import com.haxademic.viz.IVizModule;
-import com.haxademic.viz.modules.AmbientViz;
-import com.haxademic.viz.modules.AudioTubes;
-import com.haxademic.viz.modules.BlobSheet;
-import com.haxademic.viz.modules.Boxen3D;
-import com.haxademic.viz.modules.BrimLiski;
-import com.haxademic.viz.modules.CacheRings;
-import com.haxademic.viz.modules.GridAndLinesEQ;
-import com.haxademic.viz.modules.HorizLines;
-import com.haxademic.viz.modules.KaraokeViz;
-import com.haxademic.viz.modules.MasterHax;
-import com.haxademic.viz.modules.MaxCache;
-import com.haxademic.viz.modules.PlusRing;
-import com.haxademic.viz.modules.Spheres;
-import com.haxademic.viz.modules.Toxi;
 
 public class HaxVisual
 extends PAppletHax 

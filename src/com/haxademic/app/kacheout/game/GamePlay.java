@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import toxi.color.TColor;
 
+import com.haxademic.app.hax.viz.elements.GridEQ;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.FloatRange;
@@ -12,7 +13,6 @@ import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.ElasticFloat;
-import com.haxademic.viz.elements.GridEQ;
 
 public class GamePlay {
 	protected KacheOut p;
