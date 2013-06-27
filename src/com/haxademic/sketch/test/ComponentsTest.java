@@ -34,6 +34,8 @@ extends PAppletHax{
 		_appConfig.setProperty( "images_dir", FileUtil.getHaxademicDataPath() + "images/kacheout/" );
 		_appConfig.setProperty( "width", "640" );
 		_appConfig.setProperty( "height", "480" );
+		_appConfig.setProperty( "disable_esc", "false" );
+		_appConfig.setProperty( "fills_screen", "false" );
 	}
 	
 	public void setup() {
@@ -55,13 +57,6 @@ extends PAppletHax{
 		_initialsInput = new TextInput( p, "initials", 40, fontFile, p.color( 255, 255, 255 ), 10, CustomFontText2D.ALIGN_CENTER, 20, 300, 120, 60 );
 		_mouseables.add( _emailInput );
 		_mouseables.add( _initialsInput );
-		
-		MacMenuBarTint.launchTint();
-	}
-	
-	public void stop() {
-		MacMenuBarTint.shutDownTint();
-//		super.stop();
 	}
 	
 	protected void loadAndSaveImagesFromDir() {
@@ -109,6 +104,7 @@ extends PAppletHax{
 	}
 
 	public void keyPressed() {
+		super.keyPressed();
 		if( p.keyCode == P.BACKSPACE ) {
 			if( _activeTextInput != null ) {
 				_activeTextInput.backspace();
