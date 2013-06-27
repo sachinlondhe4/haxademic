@@ -448,12 +448,12 @@ extends PApplet
 	 * We stop rendering if applicable, and clean up hardware connections that might barf if left open.
 	 */
 	public void stop() {
-//		super.stop(); // needed?
 		if( kinectWrapper != null ) kinectWrapper.stop();
 //		if( _launchpadViz != null ) _launchpadViz.dispose();
 		if( _isRendering ) _renderer.stop();
 		WebCamWrapper.dispose();
 		MacMenuBarTint.shutDownTint();
+		super.stop();
 	}
 
 	// PApplet-level listeners ------------------------------------------------
