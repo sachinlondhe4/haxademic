@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import toxi.color.TColor;
 
-import com.haxademic.app.hax.viz.elements.GridEQ;
+import com.haxademic.app.haxvisual.viz.elements.GridEQ;
 import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.FloatRange;

@@ -12,11 +12,11 @@ import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.app.hax.viz.IAudioTexture;
-import com.haxademic.app.hax.viz.textures.ColumnAudioTexture;
-import com.haxademic.app.hax.viz.textures.EQGridTexture;
-import com.haxademic.app.hax.viz.textures.EQSquareTexture;
-import com.haxademic.app.hax.viz.textures.WindowShadeTexture;
+import com.haxademic.app.haxvisual.viz.IAudioTexture;
+import com.haxademic.app.haxvisual.viz.textures.ColumnAudioTexture;
+import com.haxademic.app.haxvisual.viz.textures.EQGridTexture;
+import com.haxademic.app.haxvisual.viz.textures.EQSquareTexture;
+import com.haxademic.app.haxvisual.viz.textures.WindowShadeTexture;
 import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.mesh.MeshUtil;

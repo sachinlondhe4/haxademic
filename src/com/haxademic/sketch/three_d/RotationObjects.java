@@ -4,7 +4,7 @@ import processing.core.PApplet;
 import processing.core.PConstants;
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.app.hax.viz.elements.RotatorShape;
+import com.haxademic.app.haxvisual.viz.elements.RotatorShape;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.ColorRGBA;
 import com.haxademic.core.render.Renderer;
