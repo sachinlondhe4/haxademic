@@ -141,7 +141,7 @@ public class KinectWrapper {
 	public void stop() {
 		if( _kinectActive ) {
 			_kinect.close();
-			_kinect.delete();
+			_kinect.dispose();
 		}
 	}
 	
