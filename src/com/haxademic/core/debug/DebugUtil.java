@@ -26,6 +26,7 @@ public class DebugUtil {
 	}
 
 	public static void alert( String message ) {
+		// more info: http://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
 		JOptionPane.showMessageDialog( P.p.frame, message );
 	}
 	
