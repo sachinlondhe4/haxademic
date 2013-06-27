@@ -12,7 +12,7 @@ import com.haxademic.core.components.TextButton;
 import com.haxademic.core.components.TextInput;
 import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.system.FileUtil;
-import com.haxademic.core.system.SystemUtil;
+import com.haxademic.core.system.MacMenuBarTint;
 import com.haxademic.core.text.ValidateUtil;
 
 public class ComponentsTest
@@ -55,6 +55,13 @@ extends PAppletHax{
 		_initialsInput = new TextInput( p, "initials", 40, fontFile, p.color( 255, 255, 255 ), 10, CustomFontText2D.ALIGN_CENTER, 20, 300, 120, 60 );
 		_mouseables.add( _emailInput );
 		_mouseables.add( _initialsInput );
+		
+		MacMenuBarTint.launchTint();
+	}
+	
+	public void stop() {
+		MacMenuBarTint.shutDownTint();
+//		super.stop();
 	}
 	
 	protected void loadAndSaveImagesFromDir() {
@@ -65,7 +72,7 @@ extends PAppletHax{
 		// save the first image to the output path
 		// make sure the output directory is there first.
 		FileUtil.createDir( FileUtil.getHaxademicOutputPath() );
-		_imageLoader.images.get(0).save( FileUtil.getHaxademicOutputPath() + "image-" + SystemUtil.getTimestampFine( p ) + ".png" );
+		//		_imageLoader.images.get(0).save( FileUtil.getHaxademicOutputPath() + "image-" + SystemUtil.getTimestampFine( p ) + ".png" );
 	}
 
 	public void drawApp() {
