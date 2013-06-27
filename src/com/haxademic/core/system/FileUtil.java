@@ -144,8 +144,9 @@ public class FileUtil {
 	 */
 	public static final void writeTextToFile( String file, String text ) {
 		try {
-			new BufferedWriter( new FileWriter( file )).write( text );
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write( text );
+            writer.close();
 		} catch (IOException e) { e.printStackTrace(); }
-		
 	}
 }
