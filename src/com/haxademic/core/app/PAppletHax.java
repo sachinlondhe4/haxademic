@@ -435,6 +435,11 @@ extends PApplet
 	 * Called by PApplet as the keyboard input listener.
 	 */
 	public void keyPressed() {
+		// disable esc key - subclass must call super.keyPressed()
+		if( p.key == P.ESC && _appConfig.getBoolean("disable_esc", false) == true ) {
+			key = 0;
+		}
+
 		handleInput( false );
 	}
 
