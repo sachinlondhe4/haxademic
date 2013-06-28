@@ -18,13 +18,14 @@ public class RandomStringUtil {
 	}
 
 	//----------------------------------------------------------------------------
-	static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	public static final String ALPHANUMERIC = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	public static final String ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	public static final String NUMERIC = "0123456789";
 	static Random rnd = new Random();
 
-	public static String randomStringOfLength( int len )  {
+	public static String randomStringOfLength( int len, String charString )  {
 		StringBuilder sb = new StringBuilder( len );
-		for( int i = 0; i < len; i++ ) 
-			sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+		for( int i = 0; i < len; i++ ) sb.append( charString.charAt( rnd.nextInt(charString.length()) ) );
 		return sb.toString();
 	}
 
