@@ -3,9 +3,12 @@ package com.haxademic.core.system;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
@@ -148,5 +151,38 @@ public class FileUtil {
             writer.write( text );
             writer.close();
 		} catch (IOException e) { e.printStackTrace(); }
+	}
+	
+	/**
+	 * Copies one file to another.
+	 * From: http://stackoverflow.com/a/115086/352456
+	 * @param sourceFile
+	 * @param destFile
+	 * @throws IOException
+	 */
+	public static void copyFile( String sourcePath, String destPath ) throws IOException {
+		File sourceFile = new File( sourcePath );
+		File destFile = new File( destPath );
+		
+	    if(!destFile.exists()) {
+	        destFile.createNewFile();
+	    }
+
+	    FileChannel source = null;
+	    FileChannel destination = null;
+
+	    try {
+	        source = new FileInputStream(sourceFile).getChannel();
+	        destination = new FileOutputStream(destFile).getChannel();
+	        destination.transferFrom(source, 0, source.size());
+	    }
+	    finally {
+	        if(source != null) {
+	            source.close();
+	        }
+	        if(destination != null) {
+	            destination.close();
+	        }
+	    }
 	}
 }
