@@ -12,6 +12,7 @@ import com.haxademic.core.draw.util.DrawUtil;
  * @author justin
  *
  */
+@SuppressWarnings("serial")
 public class ConfettiExplosion
 	extends PApplet
 {

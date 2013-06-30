@@ -12,6 +12,7 @@ import com.haxademic.core.render.Renderer;
  * @author justin
  *
  */
+@SuppressWarnings("serial")
 public class PlusGridWave
 	extends PApplet
 {
@@ -26,7 +27,7 @@ public class PlusGridWave
 	public void setup ()
 	{
 		// set up stage and drawing properties
-		//size( 800, 600, "hipstersinc.P5Sunflow" );			
+		//size( 800, 600, P.SUNFLOW );			
 		size(screen.width,screen.height,P3D);
 		frameRate( _fps );
 		colorMode( PConstants.RGB, 1, 1, 1 );

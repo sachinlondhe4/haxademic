@@ -43,7 +43,7 @@ extends PApplet
 		p = this;
 		// set up stage and drawing properties
 		if( isSunflow == true ) {
-			p.size( 1200, 800, "hipstersinc.P5Sunflow" );				//size(screen.width,screen.height,P3D);
+			p.size( 1200, 800, P.SUNFLOW );				//size(screen.width,screen.height,P3D);
 		} else {
 			p.size( 1200, 800, PConstants.OPENGL );				//size(screen.width,screen.height,P3D);
 			OpenGLUtil.setQuality( p, OpenGLUtil.MEDIUM );

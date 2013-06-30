@@ -1,16 +1,14 @@
 package com.haxademic.app.musicvideos;
 
+import hipstersinc.P5Sunflow;
+import hipstersinc.sunflow.SunflowCamera;
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
 
-import hipstersinc.P5Sunflow;
-import hipstersinc.sunflow.SunflowCamera;
-
-
+import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.cameras.CameraOscillate;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.render.Renderer;
 
@@ -59,7 +57,7 @@ public class JukeBoxBackground
 			//noLoop();
 			// set up stage
 			if( SUNFLOW == 1 ) {
-				size( 1200,1200, "hipstersinc.P5Sunflow" );
+				size( 1200,1200, P.SUNFLOW );
 			} else {
 				size( 720,720, OPENGL );
 				if( RENDERING == true ) hint(DISABLE_OPENGL_2X_SMOOTH); 

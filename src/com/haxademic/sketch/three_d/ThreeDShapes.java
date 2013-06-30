@@ -2,19 +2,18 @@ package com.haxademic.sketch.three_d;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
-import processing.core.*;
-import processing.opengl.*;
-import javax.media.opengl.*;
+import toxi.geom.Sphere;
+import toxi.geom.Vec3D;
+import toxi.processing.ToxiclibsSupport;
+
+import com.haxademic.core.app.P;
 /*
 -d32
 -Xmx1024M
 -Xms1024M
 */
-import com.haxademic.core.render.Renderer;
-import toxi.geom.*;
-import toxi.geom.mesh.*;
-import toxi.processing.*;
 
+@SuppressWarnings("serial")
 public class ThreeDShapes
 	extends PApplet
 {
@@ -34,7 +33,7 @@ public class ThreeDShapes
 	public void setup ()
 	{
 		// set up stage and drawing properties
-		size( screen.width,screen.height, "hipstersinc.P5Sunflow" );				//size(screen.width,screen.height,P3D);
+		size( screen.width,screen.height, P.SUNFLOW );				//size(screen.width,screen.height,P3D);
 		//size( 800, 600, PConstants.OPENGL );				//size(screen.width,screen.height,P3D);
 		frameRate( _fps );
 		colorMode( PConstants.RGB, 255, 255, 255, 255 );
@@ -80,7 +79,7 @@ public class ThreeDShapes
 		translate( 1000, 0, -6000 );
 		
 		Sphere ball;
-		AABB cube;
+		// AABB cube;
 		
 		lights();
 		noStroke();
@@ -127,7 +126,7 @@ public class ThreeDShapes
 			
 			rot += 1;
 		}
-		
+		rot = rot + 0;
 		popMatrix();
 		
 		
@@ -732,7 +731,7 @@ public class ThreeDShapes
 	
 	void star(float spikes, float outerrad, float innerradpercent, float h, float rot)
 	{
-		int pi, pj;
+		int pi;
 		float futil;
 		beginShape(TRIANGLE_STRIP);
 		for(pi=0;pi<spikes+1;pi++)

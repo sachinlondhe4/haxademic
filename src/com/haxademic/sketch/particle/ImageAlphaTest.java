@@ -9,6 +9,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.util.DrawUtil;
 
+@SuppressWarnings("serial")
 public class ImageAlphaTest
 extends PAppletHax  
 {	

@@ -21,7 +21,7 @@ public class InvadersTest
 
 	public void setup () {
 		// set up stage and drawing properties
-//		size( 800, 800, "hipstersinc.P5Sunflow" );
+//		size( 800, 800, P.SUNFLOW );
 		size( 800, 800, PConstants.OPENGL );				//size(screen.width,screen.height,P3D);
 		frameRate( 30 );
 		colorMode( PConstants.RGB, 255, 255, 255, 255 );

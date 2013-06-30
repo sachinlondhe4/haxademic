@@ -5,10 +5,12 @@ import processing.core.PConstants;
 import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.app.haxvisual.viz.elements.RotatorShape;
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.ColorRGBA;
 import com.haxademic.core.render.Renderer;
 
+@SuppressWarnings("serial")
 public class RotationObjects 
 extends PApplet
 {
@@ -29,7 +31,7 @@ extends PApplet
 	{
 		p = this;
 		// set up stage and drawing properties
-//		p.size( 800, 600, "hipstersinc.P5Sunflow" );				//size(screen.width,screen.height,P3D);
+//		p.size( 800, 600, P.SUNFLOW );				//size(screen.width,screen.height,P3D);
 		p.size( 800, 600, PConstants.OPENGL );				//size(screen.width,screen.height,P3D);
 		p.frameRate( 30 );
 		p.colorMode( PConstants.RGB, 255, 255, 255, 255 );
@@ -95,11 +97,11 @@ extends PApplet
 		if( _render != null ) {
 			_render.renderFrame();
 			if( p.frameCount == 300 ) {
-				p.println( "done!" );
+				P.println( "done!" );
 				_render.stop();
 				exit();
 			} else {
-				for( int i = 0; i < 100; i++ ) p.println( "rendering frame: " + p.frameCount );
+				for( int i = 0; i < 100; i++ ) P.println( "rendering frame: " + p.frameCount );
 			}
 		}
 	}

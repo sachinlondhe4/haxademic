@@ -41,7 +41,7 @@
 //
 //	public void setup() {
 //		size(1200, 860, PConstants.P3D); // size(screen.width,screen.height,P3D);
-////		size( 1200, 860, "hipstersinc.P5Sunflow" );				//size(screen.width,screen.height,P3D);
+////		size( 1200, 860, P.SUNFLOW );				//size(screen.width,screen.height,P3D);
 //		
 //		textureMode(this.NORMALIZED);
 //		

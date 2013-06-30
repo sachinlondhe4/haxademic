@@ -38,7 +38,7 @@ extends PApplet
 	public void setup () {
 		p = this;
 		// set up stage and drawing properties
-		//size( 800, 800, "hipstersinc.P5Sunflow" );
+		//size( 800, 800, P.SUNFLOW );
 		p.size( 800, 800, PConstants.OPENGL );				//size(screen.width,screen.height,P3D);
 		p.frameRate( 30 );
 

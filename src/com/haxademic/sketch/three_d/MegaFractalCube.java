@@ -5,6 +5,7 @@ import hipstersinc.sunflow.SunflowCamera;
 import processing.core.PApplet;
 import processing.core.PConstants;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.cameras.CameraOscillate;
 import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.render.Renderer;
@@ -34,7 +35,7 @@ public class MegaFractalCube
 		//noLoop();
 		// set up stage
 		if( SUNFLOW == 1 ) {
-			size( 800, 600, "hipstersinc.P5Sunflow" );
+			size( 800, 600, P.SUNFLOW );
 			BASE_CUBE_SIZE *= 1 + 1/3;
 //			noLoop();
 		} else {

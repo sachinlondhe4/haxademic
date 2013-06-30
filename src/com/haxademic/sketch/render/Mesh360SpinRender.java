@@ -40,7 +40,7 @@ extends PApplet
 		
 		// set up stage and drawing properties
 		if( _isSunflow == true ) {
-			p.size( 1280, 720, "hipstersinc.P5Sunflow" );
+			p.size( 1280, 720, P.SUNFLOW );
 		} else {
 			p.size( 1280, 720, PConstants.OPENGL );
 			OpenGLUtil.setQuality( p, OpenGLUtil.HIGH );

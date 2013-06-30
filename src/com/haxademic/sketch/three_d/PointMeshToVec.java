@@ -11,6 +11,7 @@ import toxi.geom.mesh.TriangleMesh;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 
+@SuppressWarnings("serial")
 public class PointMeshToVec 
 extends PAppletHax {
 	

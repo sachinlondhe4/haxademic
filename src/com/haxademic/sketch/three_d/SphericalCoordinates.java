@@ -3,6 +3,7 @@ package com.haxademic.sketch.three_d;
 import processing.core.PApplet;
 import processing.core.PConstants;
 
+@SuppressWarnings("serial")
 public class SphericalCoordinates
 	extends PApplet
 {
@@ -12,7 +13,7 @@ public class SphericalCoordinates
 	
 	public void setup () {
 		// set up stage and drawing properties
-//		size( 800, 800, "hipstersinc.P5Sunflow" );
+//		size( 800, 800, P.SUNFLOW );
 		size( 800, 800, PConstants.OPENGL );				//size(screen.width,screen.height,P3D);
 		frameRate( 30 );
 		colorMode( PConstants.RGB, 255, 255, 255, 255 );

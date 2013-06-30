@@ -22,7 +22,7 @@ extends PApplet{
 
 	public void setup() {
 		size(1200,800,OPENGL);
-//		size(1200,800, "hipstersinc.P5Sunflow" );
+//		size(1200,800, P.SUNFLOW );
 
 		frameRate( 30 );
 		smooth();

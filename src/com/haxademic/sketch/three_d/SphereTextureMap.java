@@ -4,10 +4,7 @@ import krister.Ess.AudioInput;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
-import toxi.geom.AABB;
 import toxi.geom.Sphere;
-import toxi.geom.Vec2D;
-import toxi.geom.Vec3D;
 import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
@@ -61,7 +58,7 @@ extends PApplet
 		}
 		
 		_sphere = new Sphere( 200 );
-		AABB box = new AABB( 200 );
+		// AABB box = new AABB( 200 );
 		_sphereMesh = new WETriangleMesh();
 		_sphereMesh.addMesh( _sphere.toMesh( 30 ) );
 //		_sphereMesh.computeVertexNormals();
