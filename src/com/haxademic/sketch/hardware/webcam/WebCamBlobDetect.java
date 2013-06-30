@@ -16,6 +16,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
 import com.haxademic.core.image.ImageUtil;
+import com.haxademic.core.image.filters.FastBlurFilter;
 import com.haxademic.core.math.MathUtil;
 
 public class WebCamBlobDetect 
@@ -67,7 +68,7 @@ extends PAppletHax {
 		p.popMatrix();
 
 		img.copy(curFrame, 0, 0, curFrame.width, curFrame.height, 0, 0, img.width, img.height);
-		ImageUtil.fastblur(img, 2);
+		FastBlurFilter.blur(img, 2);
 		theBlobDetection.setPosDiscrimination(true);
 		theBlobDetection.computeBlobs(img.pixels);
 		drawEdges2(false,true);

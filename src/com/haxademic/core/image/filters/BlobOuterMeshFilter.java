@@ -49,7 +49,7 @@ public class BlobOuterMeshFilter {
 	// IMAGE PROCESSING METHODS ===================================================================================
 	protected void runBlobDetection( PImage source ) {
 		blobBufferImg.copy(source, 0, 0, source.width, source.height, 0, 0, blobBufferImg.width, blobBufferImg.height);
-		ImageUtil.fastblur(blobBufferImg, 2);
+		FastBlurFilter.blur(blobBufferImg, 2);
 		theBlobDetection.computeBlobs(blobBufferImg.pixels);
 	}
 	
