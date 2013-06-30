@@ -1,7 +1,5 @@
 package com.haxademic.app.haxvisual.viz.elements;
 
-import java.util.Vector;
-
 import processing.core.PApplet;
 import processing.core.PConstants;
 import toxi.color.TColor;

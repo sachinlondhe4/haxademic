@@ -20,6 +20,7 @@ import com.haxademic.core.render.VideoFrameGrabber;
 import com.jhlabs.image.ContrastFilter;
 import com.jhlabs.image.HSBAdjustFilter;
 
+@SuppressWarnings("serial")
 public class MultiInputImageFilters
 extends PAppletHax  
 {	

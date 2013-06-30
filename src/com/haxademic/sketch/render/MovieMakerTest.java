@@ -1,9 +1,9 @@
 package com.haxademic.sketch.render;
 
 import processing.core.PApplet;
-import processing.core.PConstants;
 import processing.video.MovieMaker;
 
+@SuppressWarnings("serial")
 public class MovieMakerTest
 	extends PApplet
 {

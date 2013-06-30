@@ -99,7 +99,7 @@ public class MegaFractalCube
 	}
 
 	void setupScene() {
-		P5Sunflow sunflow = (P5Sunflow) g;
+		// P5Sunflow sunflow = (P5Sunflow) g;
 	}
 	
 	/**

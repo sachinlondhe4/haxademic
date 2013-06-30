@@ -8,8 +8,6 @@ import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-import com.haxademic.core.app.P;
-
 public class ImageUtil {
 	
 	public static final int BLACK_INT = -16777216;

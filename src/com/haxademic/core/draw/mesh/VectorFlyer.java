@@ -3,13 +3,11 @@ package com.haxademic.core.draw.mesh;
 import toxi.color.TColor;
 import toxi.geom.AABB;
 import toxi.geom.Vec3D;
-import toxi.geom.ZAxisCylinder;
 import toxi.geom.mesh.TriangleMesh;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.TColorBlendBetween;
-import com.haxademic.core.system.FileUtil;
 
 public class VectorFlyer {
 	protected PAppletHax p;

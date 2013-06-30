@@ -2,7 +2,6 @@
 package com.haxademic.sketch.hardware.kinect_openni;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -19,6 +18,7 @@ import com.haxademic.core.image.ImageUtil;
 import com.jhlabs.image.ContrastFilter;
 import com.jhlabs.image.GlowFilter;
 
+@SuppressWarnings("serial")
 public class Kinect2dConnections
 extends PAppletHax {
 	

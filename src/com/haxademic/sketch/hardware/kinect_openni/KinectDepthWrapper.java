@@ -7,7 +7,9 @@ import processing.core.PVector;
 import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 
-public class KinectDepthWrapper extends PApplet {
+@SuppressWarnings("serial")
+public class KinectDepthWrapper 
+extends PApplet {
 
 	KinectWrapper _kinectWrapper;
 	float        zoomF =0.5f;

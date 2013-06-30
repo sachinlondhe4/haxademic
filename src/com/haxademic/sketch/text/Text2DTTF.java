@@ -3,9 +3,9 @@ package com.haxademic.sketch.text;
 
 import processing.core.PApplet;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.draw.text.CustomFontText2D;
 
+@SuppressWarnings("serial")
 public class Text2DTTF
 extends PApplet {
 	CustomFontText2D _fontRenderer;

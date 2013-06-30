@@ -12,6 +12,7 @@ import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 //import toxi.volume.MeshVoxelizer;
 
+@SuppressWarnings("serial")
 public class TextGeomExtrude
 extends PApplet{
 
@@ -38,7 +39,7 @@ extends PApplet{
 		RCommand.setSegmentator(RCommand.UNIFORMLENGTH);
 
 		RGroup grp = font.toGroup("HAI THERE");
-		RPoint[] pnts = grp.getPoints();
+		// RPoint[] pnts = grp.getPoints();
 
 		RMesh rMesh = grp.toMesh();
 		weMesh = new WETriangleMesh();
@@ -61,7 +62,7 @@ extends PApplet{
 		RCommand.setSegmentator(RCommand.UNIFORMLENGTH);
 
 		RGroup grp = font.toGroup("MODE SET");
-		RPoint[] pnts = grp.getPoints();
+		// RPoint[] pnts = grp.getPoints();
 
 		RMesh rMesh = grp.toMesh();
 		weMesh = new WETriangleMesh();

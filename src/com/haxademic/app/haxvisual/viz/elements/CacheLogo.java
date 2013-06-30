@@ -6,6 +6,7 @@ import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
+import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.ColorRGBA;
@@ -74,7 +75,7 @@ implements IVizElement {
 		
 		_targetThickness = ( _audioData.getFFT().spectrum[100] ) * 400;
 		_thickness = MathUtil.easeTo( _thickness, _targetThickness, 4 );
-		float logoAlpha = ( p.constrain( _audioData.getFFT().averages[2] * 1.7f, 0f, 1f ) );	//  * 255 + 127
+		float logoAlpha = ( P.constrain( _audioData.getFFT().averages[2] * 1.7f, 0f, 1f ) );	//  * 255 + 127
 		
 		TColor fillColor = null;
 		

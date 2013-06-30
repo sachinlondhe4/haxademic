@@ -9,12 +9,14 @@ import saito.objloader.OBJModel;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.render.Renderer;
 
+@SuppressWarnings("serial")
 public class Mesh360SpinRender 
 extends PApplet
 {
@@ -99,7 +101,7 @@ extends PApplet
 		else p.translate(0,0,-500);
 		
 		// rotate with time, in a full circle
-		_rot -= p.TWO_PI / 360f;
+		_rot -= P.TWO_PI / 360f;
 		p.rotateY( _rot );
 //		p.rotateX( p.TWO_PI / 16f );
 		
@@ -116,12 +118,12 @@ extends PApplet
 		// render movie
 		if( _isRendering == true && _render != null ) {
 			_render.renderFrame();
-			if( _rot <= -p.TWO_PI ) {
-				p.println( "done!" );
+			if( _rot <= -P.TWO_PI ) {
+				P.println( "done!" );
 				_render.stop();
 				exit();
 			} else {
-				for( int i = 0; i < 100; i++ ) p.println( "rendering frame: " + p.frameCount );
+				for( int i = 0; i < 100; i++ ) P.println( "rendering frame: " + p.frameCount );
 			}
 		}
 	}

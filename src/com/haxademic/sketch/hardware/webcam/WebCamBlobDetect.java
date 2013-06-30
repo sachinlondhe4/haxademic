@@ -19,6 +19,7 @@ import com.haxademic.core.image.ImageUtil;
 import com.haxademic.core.image.filters.FastBlurFilter;
 import com.haxademic.core.math.MathUtil;
 
+@SuppressWarnings("serial")
 public class WebCamBlobDetect 
 extends PAppletHax {
 
@@ -217,7 +218,7 @@ extends PAppletHax {
 							
 							int color = ImageUtil.getPixelColor( curFrame, P.round(eA.x*curFrame.width-1), P.round(eA.y*curFrame.height-1) );
 							fill(color, 200);
-							float bright = brightness(color);
+							// float bright = brightness(color);
 							noStroke();
 							
 							draw4PointsTriangles(
@@ -256,31 +257,31 @@ extends PAppletHax {
 		toxi.triangle( new Triangle3D( point1, point2, point3 ) );
 		toxi.triangle( new Triangle3D( point1, point3, point4 ) );
 		
-		if(1 == 2) {
-		// add to shadow graphics
-	//		shadow.tint( 255 );
-	//		shadow.fill(127,255);
-			shadow.fill(0,255);
-			shadow.noStroke();
-	
-	//		shadow.hint( P.DISABLE_DEPTH_TEST );
-			shadow.beginDraw();
-	
-			shadow.beginShape(P.TRIANGLES);
-			shadow.vertex( point1.x, point1.y, point1.z );
-			shadow.vertex( point2.x, point2.y, point2.z );
-			shadow.vertex( point3.x, point3.y, point3.z );
-			shadow.endShape();
-			
-			shadow.beginShape(P.TRIANGLES);
-			shadow.vertex( point1.x, point1.y, point1.z );
-			shadow.vertex( point3.x, point3.y, point3.z );
-			shadow.vertex( point4.x, point4.y, point4.z );
-			shadow.endShape();
-			
-			shadow.endDraw();
-	//		shadow.hint( P.ENABLE_DEPTH_TEST );
-		}
+//		if(1 == 2) {
+//		// add to shadow graphics
+//	//		shadow.tint( 255 );
+//	//		shadow.fill(127,255);
+//			shadow.fill(0,255);
+//			shadow.noStroke();
+//	
+//	//		shadow.hint( P.DISABLE_DEPTH_TEST );
+//			shadow.beginDraw();
+//	
+//			shadow.beginShape(P.TRIANGLES);
+//			shadow.vertex( point1.x, point1.y, point1.z );
+//			shadow.vertex( point2.x, point2.y, point2.z );
+//			shadow.vertex( point3.x, point3.y, point3.z );
+//			shadow.endShape();
+//			
+//			shadow.beginShape(P.TRIANGLES);
+//			shadow.vertex( point1.x, point1.y, point1.z );
+//			shadow.vertex( point3.x, point3.y, point3.z );
+//			shadow.vertex( point4.x, point4.y, point4.z );
+//			shadow.endShape();
+//			
+//			shadow.endDraw();
+//	//		shadow.hint( P.ENABLE_DEPTH_TEST );
+//		}
 	}
 
 }

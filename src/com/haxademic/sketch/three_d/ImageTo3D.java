@@ -12,6 +12,7 @@ import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
 import com.haxademic.core.image.ImageUtil;
 
+@SuppressWarnings("serial")
 public class ImageTo3D 
 extends PAppletHax {
 
@@ -82,7 +83,7 @@ extends PAppletHax {
 	}
 	
 	public void drawImgWebCam() {
-		float size = 24f;
+		// float size = 24f;
 		WebCamWrapper.initWebCam( this, 640, 480 );
 		image = ImageUtil.getScaledImage( WebCamWrapper.getImage(), 64, 48 );
 		drawImgPyra();

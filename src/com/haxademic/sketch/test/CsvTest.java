@@ -4,8 +4,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.supercsv.cellprocessor.ParseInt;
@@ -23,6 +21,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.system.FileUtil;
 
+@SuppressWarnings("serial")
 public class CsvTest
 extends PAppletHax{
 

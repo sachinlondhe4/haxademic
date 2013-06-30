@@ -17,6 +17,7 @@ import wblut.hemesh.creators.HEMC_VoronoiCells;
 
 import com.haxademic.core.draw.util.DrawUtil;
 
+@SuppressWarnings("serial")
 public class CubeShatter
 extends PApplet
 {

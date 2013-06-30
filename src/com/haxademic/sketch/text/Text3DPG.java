@@ -8,12 +8,13 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
 
+@SuppressWarnings("serial")
 public class Text3DPG
 extends PApplet {
 
 	PFont ff;
 	PImage ww;
-	ArrayList positions = new ArrayList();
+	ArrayList<PVector> positions = new ArrayList<PVector>();
 	String sentence;
 	int fontSize = 12;
 
@@ -31,7 +32,7 @@ extends PApplet {
 		lights();
 		translate(mouseX, height/2, mouseY); 
 		for(int i = 0; i < positions.size()-1; i++) {
-			PVector ps = (PVector) positions.get(i);
+			PVector ps = positions.get(i);
 			pushMatrix();
 			translate(ps.x, ps.y, 0);
 			noStroke();

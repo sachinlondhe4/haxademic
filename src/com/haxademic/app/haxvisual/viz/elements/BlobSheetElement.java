@@ -7,6 +7,7 @@ import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
+import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.util.DrawUtil;
@@ -40,13 +41,13 @@ implements IVizElement {
 	// Number of columns and rows in the grid
 	int cols = 40;
 	int rows = 30;
-	float startR = p.random(0,2*p.PI);
+	float startR = p.random(0,2*P.PI);
 	float startIncR = p.random(.001f,.05f);
 	float incR = p.random(.0001f,.001f);
-	float startG = p.random(0,2* p.PI);
+	float startG = p.random(0,2* P.PI);
 	float startIncG = p.random(.001f,.05f);
 	float incG = p.random(.0001f,.001f);
-	float startB = p.random(0,2* p.PI);
+	float startB = p.random(0,2* P.PI);
 	float startIncB = p.random(.001f,.05f);
 	float incB = p.random(.0001f,.001f);
 	float sizeMult;
@@ -123,13 +124,13 @@ implements IVizElement {
 			cntrls[i].update( _audioData.getFFT().averages[i], _audioData.getFFT().averages[i] );
 		}
 		
-		p.beginShape(p.TRIANGLES);
+		p.beginShape(P.TRIANGLES);
 		for (int i = 0; i < cols; i++) {
 			for (int j = 0; j < rows; j++) {
 				// Oscillate and display each object
 				grid[i][j].oscillate( curR, curG, curB );
 
-				Boolean follow = false;
+				// Boolean follow = false;
 				if( i == followCol && j == followRow ) 
 				{
 //					_curCamera.setTarget( (int)grid[i][j].x, (int)grid[i][j].y, 0 );
@@ -172,13 +173,13 @@ implements IVizElement {
 	void newFollowObject()
 	{
 		// pick indexes to focus on from the center region of the grid
-		followRow = (int) ( rows/2 + 1 +  p.round( p.random( -rows/9, rows/9 ) ) );
-		followCol = (int) ( cols/2 + 1 +  p.round( p.random( -cols/9, cols/9 ) ) );
+		followRow = (int) ( rows/2 + 1 +  P.round( p.random( -rows/9, rows/9 ) ) );
+		followCol = (int) ( cols/2 + 1 +  P.round( p.random( -cols/9, cols/9 ) ) );
 	}
 
 	void newMode()
 	{
-		_curMode = p.round( p.random( 0, NUM_MODES - 1 ) );
+		_curMode = P.round( p.random( 0, NUM_MODES - 1 ) );
 	}
 
 	
@@ -225,15 +226,15 @@ implements IVizElement {
 		void display() {
 			
 			// get color
-			float centerDist = p.dist(x, y, gridW/2, gridH/2);
+			// float centerDist = P.dist(x, y, gridW/2, gridH/2);
 			float ctrlFactor = 0.002f;
-			float ctrlPt1 = p.dist(x, y, cntrls[0].x, cntrls[0].y) * ctrlFactor;
-			float ctrlPt2 = p.dist(x, y, cntrls[1].x, cntrls[1].y) * ctrlFactor;
-			float ctrlPt3 = p.dist(x, y, cntrls[2].x, cntrls[2].y) * ctrlFactor;
+			float ctrlPt1 = P.dist(x, y, cntrls[0].x, cntrls[0].y) * ctrlFactor;
+			float ctrlPt2 = P.dist(x, y, cntrls[1].x, cntrls[1].y) * ctrlFactor;
+			float ctrlPt3 = P.dist(x, y, cntrls[2].x, cntrls[2].y) * ctrlFactor;
 			int cellColor = p.color(
-					255f * ( _r+.5f*p.sin(r) * p.cos(ctrlPt1) * p.cos(ctrlPt2) * p.sin(ctrlPt3) ), 
-					255f * ( _g+.5f*p.sin(g) * p.sin(ctrlPt1) * p.sin(ctrlPt2) * p.sin(ctrlPt3) ), 
-					255f * ( _b+.5f*p.cos(b) * p.sin(ctrlPt1) * p.cos(ctrlPt2) * p.sin(ctrlPt3) ) 
+					255f * ( _r+.5f*P.sin(r) * P.cos(ctrlPt1) * P.cos(ctrlPt2) * P.sin(ctrlPt3) ), 
+					255f * ( _g+.5f*P.sin(g) * P.sin(ctrlPt1) * P.sin(ctrlPt2) * P.sin(ctrlPt3) ), 
+					255f * ( _b+.5f*P.cos(b) * P.sin(ctrlPt1) * P.cos(ctrlPt2) * P.sin(ctrlPt3) ) 
 			);
 			// Color calculated using sine wave
 
@@ -319,8 +320,8 @@ implements IVizElement {
 
 		// Cell Constructor
 		ControlPoint() {
-			incX = p.random(0,2* p.PI);
-			incY = p.random(0,2* p.PI);
+			incX = p.random(0,2* P.PI);
+			incY = p.random(0,2* P.PI);
 			incXSpeed = p.random(.01f,.1f);
 			incYSpeed = p.random(.01f,.1f);
 			update(0,0);
@@ -330,8 +331,8 @@ implements IVizElement {
 		void update(float xspeed, float yspeed) {
 			incX += xspeed * .1;
 			incY += yspeed * .2;
-			x = gridW/2 + ( gridW/2 * 1.2f * p.sin(incX) );
-			y = gridH/2 + ( gridH/2 * 1.2f * p.sin(incY) );
+			x = gridW/2 + ( gridW/2 * 1.2f * P.sin(incX) );
+			y = gridH/2 + ( gridH/2 * 1.2f * P.sin(incY) );
 		}
 
 

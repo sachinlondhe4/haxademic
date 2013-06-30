@@ -3,6 +3,7 @@ package com.haxademic.core.cameras;
 import processing.core.PApplet;
 import processing.core.PConstants;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.cameras.common.CameraBase;
 import com.haxademic.core.cameras.common.ICamera;
 
@@ -53,10 +54,10 @@ implements ICamera
 		_incY += _incYSpeed * .25;
 		_incZ += _incZSpeed * .25;
 		// move camera
-		if( p.abs( _offsetZ ) < 100 ) _offsetZ = 100;
-		_curX = p.width/2 + p.sin( _incX ) * _amplitude * (_offsetZ/100);
-		_curY = p.height/2 + p.cos( _incY ) * _amplitude * (_offsetZ/100);
-		_curZ = 500 + p.cos( _incZ ) * _amplitude;
+		if( P.abs( _offsetZ ) < 100 ) _offsetZ = 100;
+		_curX = p.width/2 + P.sin( _incX ) * _amplitude * (_offsetZ/100);
+		_curY = p.height/2 + P.cos( _incY ) * _amplitude * (_offsetZ/100);
+		_curZ = 500 + P.cos( _incZ ) * _amplitude;
 
 		// apply camera properties
 		super.update();

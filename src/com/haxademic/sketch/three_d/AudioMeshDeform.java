@@ -1,13 +1,10 @@
 package com.haxademic.sketch.three_d;
 
-import processing.core.PApplet;
 import toxi.color.TColor;
 import toxi.geom.Sphere;
 import toxi.geom.mesh.WETriangleMesh;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.util.DrawMesh;
 import com.haxademic.core.draw.util.DrawUtil;
 
 public class AudioMeshDeform
@@ -55,7 +52,7 @@ extends PAppletHax {
 		
 		
 		TColor fill = new TColor( TColor.WHITE ).setAlpha( 1.0f );
-		TColor stroke = TColor.newRGB( 200, 200, 200 ).setAlpha( 0.3f );
+		// TColor stroke = TColor.newRGB( 200, 200, 200 ).setAlpha( 0.3f );
 		
 		p.fill( fill.copy().darken(0.75f).toARGB() );
 		p.noStroke();

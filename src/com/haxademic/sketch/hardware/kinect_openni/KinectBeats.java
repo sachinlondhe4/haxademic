@@ -13,6 +13,7 @@ import ddf.minim.Minim;
 import ddf.minim.signals.SineWave;
 
 
+@SuppressWarnings("serial")
 public class KinectBeats 
 extends PAppletHax {
 

@@ -3,6 +3,7 @@ package com.haxademic.core.cameras;
 import processing.core.PApplet;
 import processing.core.PConstants;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.cameras.common.CameraBase;
 import com.haxademic.core.cameras.common.ICamera;
 
@@ -43,7 +44,7 @@ implements ICamera
 		// move camera
 		_curX = p.width/2.0f + cameraXSpeed * curFrameCount;
 		_curY = p.height/2.0f + cameraYSpeed * curFrameCount;
-		_curZ = ( p.height/2.0f ) / p.tan( PConstants.PI * 60.0f / 360.0f ) + cameraZSpeed * curFrameCount;
+		_curZ = ( p.height/2.0f ) / P.tan( PConstants.PI * 60.0f / 360.0f ) + cameraZSpeed * curFrameCount;
 		// aim camera
 		super.update();
 		//curFrameCount++;

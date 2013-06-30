@@ -11,6 +11,7 @@ import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
 import com.haxademic.core.math.MathUtil;
 
+@SuppressWarnings("serial")
 public class KinectHandsGame
 extends PAppletHax {
 	

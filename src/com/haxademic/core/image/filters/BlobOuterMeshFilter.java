@@ -84,7 +84,7 @@ public class BlobOuterMeshFilter {
 						
 						int color = ImageUtil.getPixelColor( source, P.round(eA.x*source.width-1), P.round(eA.y*source.height-1) );
 						_pg.fill(color);
-						float bright = p.brightness(color);
+						// float bright = p.brightness(color);
 						
 						draw4PointsTriangles(
 							new Vec3D(eA.x*_width, eA.y*_height, 0),
@@ -137,31 +137,31 @@ public class BlobOuterMeshFilter {
 
 		
 		
-		if(1 == 2) {
-		// add to shadow graphics
-	//		shadow.tint( 255 );
-	//		shadow.fill(127,255);
-			shadow.fill(0,255);
-			shadow.noStroke();
-	
-	//		shadow.hint( P.DISABLE_DEPTH_TEST );
-			shadow.beginDraw();
-	
-			shadow.beginShape(P.TRIANGLES);
-			shadow.vertex( point1.x, point1.y, point1.z );
-			shadow.vertex( point2.x, point2.y, point2.z );
-			shadow.vertex( point3.x, point3.y, point3.z );
-			shadow.endShape();
-			
-			shadow.beginShape(P.TRIANGLES);
-			shadow.vertex( point1.x, point1.y, point1.z );
-			shadow.vertex( point3.x, point3.y, point3.z );
-			shadow.vertex( point4.x, point4.y, point4.z );
-			shadow.endShape();
-			
-			shadow.endDraw();
-	//		shadow.hint( P.ENABLE_DEPTH_TEST );
-		}
+//		if(1 == 2) {
+//		// add to shadow graphics
+//	//		shadow.tint( 255 );
+//	//		shadow.fill(127,255);
+//			shadow.fill(0,255);
+//			shadow.noStroke();
+//	
+//	//		shadow.hint( P.DISABLE_DEPTH_TEST );
+//			shadow.beginDraw();
+//	
+//			shadow.beginShape(P.TRIANGLES);
+//			shadow.vertex( point1.x, point1.y, point1.z );
+//			shadow.vertex( point2.x, point2.y, point2.z );
+//			shadow.vertex( point3.x, point3.y, point3.z );
+//			shadow.endShape();
+//			
+//			shadow.beginShape(P.TRIANGLES);
+//			shadow.vertex( point1.x, point1.y, point1.z );
+//			shadow.vertex( point3.x, point3.y, point3.z );
+//			shadow.vertex( point4.x, point4.y, point4.z );
+//			shadow.endShape();
+//			
+//			shadow.endDraw();
+//	//		shadow.hint( P.ENABLE_DEPTH_TEST );
+//		}
 	}
 
 

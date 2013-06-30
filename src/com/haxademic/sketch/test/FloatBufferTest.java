@@ -3,7 +3,6 @@ package com.haxademic.sketch.test;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.FloatBuffer;
-import com.haxademic.core.system.AppRestart;
 
 @SuppressWarnings("serial")
 public class FloatBufferTest

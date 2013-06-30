@@ -9,11 +9,14 @@ import toxi.geom.Vec3D;
 import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.image.ImageUtil;
 
-public class WebCamTest extends PApplet {
+@SuppressWarnings("serial")
+public class WebCamTest 
+extends PApplet {
 	
 	PApplet p;
 	
@@ -115,7 +118,7 @@ public class WebCamTest extends PApplet {
 		
 		// iterate over all mesh triangles
 		// and add their vertices
-		p.beginShape(p.TRIANGLES);
+		p.beginShape(P.TRIANGLES);
 		p.texture(img);
 		float brightA, brightB, brightC = 0;
 		for( Face f : _mesh.getFaces() ) {
@@ -160,7 +163,7 @@ public class WebCamTest extends PApplet {
 	void drawNativeMesh() {
 		PImage img = _webCam.get();
 		int x, y, color;
-		p.beginShape(p.TRIANGLES);
+		p.beginShape(P.TRIANGLES);
 		for ( int i = 0; i < _camW - 1; i++) {
 			for ( int j = 0; j < _camH - 1; j++) {
 				x = i;  // x position

@@ -13,6 +13,7 @@ import wblut.hemesh.core.HE_Mesh;
 import com.haxademic.core.draw.shapes.Voronoi3D;
 import com.haxademic.core.draw.util.DrawUtil;
 
+@SuppressWarnings("serial")
 public class CubeShatterStatic 
 extends PApplet
 {

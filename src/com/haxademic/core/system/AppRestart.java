@@ -7,7 +7,6 @@ import java.lang.management.ManagementFactory;
 import processing.core.PApplet;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.debug.DebugUtil;
 
 public class AppRestart {
 

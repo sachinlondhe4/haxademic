@@ -12,9 +12,9 @@ import com.haxademic.core.components.TextButton;
 import com.haxademic.core.components.TextInput;
 import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.system.FileUtil;
-import com.haxademic.core.system.MacMenuBarTint;
 import com.haxademic.core.text.ValidateUtil;
 
+@SuppressWarnings("serial")
 public class ComponentsTest
 extends PAppletHax{
 	

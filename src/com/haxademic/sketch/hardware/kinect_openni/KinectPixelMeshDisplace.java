@@ -11,6 +11,7 @@ import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.image.filters.PixelFilter;
 
+@SuppressWarnings("serial")
 public class KinectPixelMeshDisplace 
 extends PAppletHax {
 
@@ -64,7 +65,7 @@ extends PAppletHax {
 		
 		// iterate over all mesh triangles
 		// and deform/draw their vertices
-		p.beginShape(p.TRIANGLES);
+		p.beginShape(P.TRIANGLES);
 		DrawUtil.setColorForPImage(p);
 		p.noStroke();
 		p.texture(_pixelFilter.updateWithPImage(p.kinectWrapper.getRgbImage()));

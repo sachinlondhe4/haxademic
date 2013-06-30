@@ -6,6 +6,7 @@ import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.image.filters.PixelFilter;
 
 
+@SuppressWarnings("serial")
 public class KinectPixelated 
 extends PAppletHax {
 

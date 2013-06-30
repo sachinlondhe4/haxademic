@@ -11,6 +11,7 @@ import com.haxademic.core.draw.mesh.VectorFlyer;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
 
+@SuppressWarnings("serial")
 public class KinectBodyParticles
 extends PAppletHax {
 	

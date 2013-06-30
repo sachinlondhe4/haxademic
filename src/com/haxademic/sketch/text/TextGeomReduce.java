@@ -6,6 +6,7 @@ import geomerative.RGroup;
 import geomerative.RPoint;
 import processing.core.PApplet;
 
+@SuppressWarnings("serial")
 public class TextGeomReduce
 extends PApplet{
 
